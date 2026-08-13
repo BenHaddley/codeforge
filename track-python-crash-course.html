@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Crash Course Track — Codeforge</title>
+<meta name="description" content="An original quest track paired to Python Crash Course by Eric Matthes — 14 hands-on challenges with XP and progress tracking.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap navbar">
+    <a href="index.html" class="brand"><span class="dot"></span> Codeforge</a>
+    <div class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="library.html">Library</a>
+      <a href="quests.html" aria-current="page">Quests</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero compact">
+  <h1>Python Crash <span class="glow">Course</span></h1>
+  <p class="tagline">
+    A companion quest track for <em>Python Crash Course</em> by Eric Matthes
+    (No Starch Press). 11 fundamentals quests, one per chapter of Part I,
+    plus 3 boss quests for the project arcs in Part II. Every prompt below is
+    my own — read the actual chapter first, then use these to prove you've
+    got it.
+  </p>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="xp-bar-wrap">
+      <div class="xp-level" id="xp-level">Level 1</div>
+      <div class="xp-track">
+        <div class="xp-track-bar"><div class="xp-track-fill" id="xp-fill"></div></div>
+        <div class="xp-track-label" id="xp-label">0 / 0 XP</div>
+      </div>
+      <button class="reset-progress" id="reset-btn">Reset progress</button>
+    </div>
+
+    <div class="chapter-group">
+      <h2>Part I — Fundamentals</h2>
+      <div class="quest-grid">
+
+        <div class="card quest-card" data-quest="ch1" data-xp="20">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 1 · Getting Started</span>
+            <span class="quest-xp">20 XP</span>
+          </div>
+          <h3>Hello, Forge</h3>
+          <p class="quest-brief">Get Python running and write a script that prints three lines about yourself, each using a different string on its own <code>print()</code> call.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch2" data-xp="30">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 2 · Variables &amp; Data Types</span>
+            <span class="quest-xp">30 XP</span>
+          </div>
+          <h3>Name Tag Generator</h3>
+          <p class="quest-brief">Store a first and last name in variables, then build three differently-formatted greetings (upper, title, and a custom f-string) without retyping the names.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch3" data-xp="30">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 3 · Introducing Lists</span>
+            <span class="quest-xp">30 XP</span>
+          </div>
+          <h3>Inventory Roll Call</h3>
+          <p class="quest-brief">Build a list of five items. Print the first and last using indexing, add a new item, remove one by value, and reorder the rest alphabetically.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch4" data-xp="40">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 4 · Working with Lists</span>
+            <span class="quest-xp">40 XP</span>
+          </div>
+          <h3>Loot Sorter</h3>
+          <p class="quest-brief">Generate a list of 20 random numbers with <code>range()</code>. Print the min, max, and sum, then produce a sorted copy without disturbing the original list.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch5" data-xp="40">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 5 · if Statements</span>
+            <span class="quest-xp">40 XP</span>
+          </div>
+          <h3>Class Selector</h3>
+          <p class="quest-brief">Given three stat values (strength, agility, intellect), write branching logic that picks a character class, handling ties and out-of-range values gracefully.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch6" data-xp="50">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 6 · Dictionaries</span>
+            <span class="quest-xp">50 XP</span>
+          </div>
+          <h3>Character Sheet</h3>
+          <p class="quest-brief">Model a game character as a dictionary with nested stats and a list of inventory items. Write a function that prints a formatted summary from it.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch7" data-xp="50">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 7 · Input &amp; while Loops</span>
+            <span class="quest-xp">50 XP</span>
+          </div>
+          <h3>Dungeon Prompt</h3>
+          <p class="quest-brief">Write an interactive loop that keeps asking for a command until the user types "quit", validating input and rejecting empty entries along the way.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch8" data-xp="60">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 8 · Functions</span>
+            <span class="quest-xp">60 XP</span>
+          </div>
+          <h3>Spellbook</h3>
+          <p class="quest-brief">Turn three repeated snippets from earlier quests into functions with sensible default arguments, then write one function that accepts a variable number of arguments.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch9" data-xp="70">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 9 · Classes</span>
+            <span class="quest-xp">70 XP</span>
+          </div>
+          <h3>Forge a Hero</h3>
+          <p class="quest-brief">Define a <code>Character</code> class with attributes and a <code>take_damage()</code> method, then a subclass that overrides one method to add unique behavior.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch10" data-xp="70">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 10 · Files &amp; Exceptions</span>
+            <span class="quest-xp">70 XP</span>
+          </div>
+          <h3>Save File</h3>
+          <p class="quest-brief">Save your character sheet to a JSON file and load it back on the next run. Handle a missing or corrupted save file without crashing.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card" data-quest="ch11" data-xp="60">
+          <div class="quest-head">
+            <span class="quest-num">Ch. 11 · Testing Your Code</span>
+            <span class="quest-xp">60 XP</span>
+          </div>
+          <h3>Prove It Works</h3>
+          <p class="quest-brief">Write unit tests for your <code>take_damage()</code> method and Class Selector logic, covering at least one edge case for each.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="chapter-group">
+      <h2>Part II — Boss Quests</h2>
+      <div class="quest-grid">
+
+        <div class="card quest-card is-boss" data-quest="boss1" data-xp="150">
+          <div class="quest-head">
+            <span class="quest-num">Boss · Arcade Game</span>
+            <span class="quest-xp">150 XP</span>
+          </div>
+          <h3>Something That Moves</h3>
+          <p class="quest-brief">Build a small 2D game with a library like pygame: a player object that responds to keypresses, at least one hazard or enemy, and a visible score.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card is-boss" data-quest="boss2" data-xp="150">
+          <div class="quest-head">
+            <span class="quest-num">Boss · Data Visualization</span>
+            <span class="quest-xp">150 XP</span>
+          </div>
+          <h3>Make the Numbers Talk</h3>
+          <p class="quest-brief">Pull or generate a dataset and produce at least two different chart types (e.g. matplotlib or plotly) with labeled axes, plus a short written takeaway.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+        <div class="card quest-card is-boss" data-quest="boss3" data-xp="150">
+          <div class="quest-head">
+            <span class="quest-num">Boss · Web App</span>
+            <span class="quest-xp">150 XP</span>
+          </div>
+          <h3>Ship It Online</h3>
+          <p class="quest-brief">Build and deploy a minimal web app with one form, one dynamic page, and basic login/logout, using a framework of your choice.</p>
+          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Codeforge is an independent, self-hosted project — not affiliated with boot.dev, No Starch Press, or Eric Matthes.
+    All quest prompts are original and written for this site.
+    <br>
+    <a href="https://github.com/BenHaddley/codeforge">View on GitHub</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var STORAGE_KEY = 'cf_quest_pycc';
+    var cards = document.querySelectorAll('.quest-card');
+    var totalXP = 0;
+    cards.forEach(function (c) { totalXP += parseInt(c.dataset.xp, 10); });
+
+    function loadState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveState(state) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function levelForXP(xp) {
+      return Math.floor(xp / 100) + 1;
+    }
+
+    function render() {
+      var state = loadState();
+      var earned = 0;
+      cards.forEach(function (card) {
+        var id = card.dataset.quest;
+        var xp = parseInt(card.dataset.xp, 10);
+        var checkbox = card.querySelector('input[type="checkbox"]');
+        var done = !!state[id];
+        checkbox.checked = done;
+        card.classList.toggle('is-done', done);
+        if (done) earned += xp;
+      });
+      document.getElementById('xp-level').textContent = 'Level ' + levelForXP(earned);
+      document.getElementById('xp-label').textContent = earned + ' / ' + totalXP + ' XP';
+      var pct = totalXP === 0 ? 0 : Math.round((earned / totalXP) * 100);
+      document.getElementById('xp-fill').style.width = pct + '%';
+    }
+
+    cards.forEach(function (card) {
+      var checkbox = card.querySelector('input[type="checkbox"]');
+      checkbox.addEventListener('change', function () {
+        var state = loadState();
+        state[card.dataset.quest] = checkbox.checked;
+        saveState(state);
+        render();
+      });
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', function () {
+      if (confirm('Reset all progress on this track?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        render();
+      }
+    });
+
+    render();
+  })();
+</script>
+
+</body>
+</html>

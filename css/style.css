@@ -512,6 +512,187 @@ footer a:hover { color: var(--spark); }
   100% { transform: rotateY(90deg); }
 }
 
+/* Quest tracks */
+
+.track-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.track-card .card {
+  border-top: 3px solid var(--xp);
+}
+
+.track-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.track-card .track-meta {
+  margin: 0 0 10px;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+
+.track-card .track-desc {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.xp-bar-wrap {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.xp-level {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--xp);
+  white-space: nowrap;
+}
+
+.xp-track {
+  flex: 1 1 200px;
+  min-width: 160px;
+}
+
+.xp-track-bar {
+  height: 10px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.xp-track-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ember), var(--xp));
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.xp-track-label {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.reset-progress {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.reset-progress:hover {
+  border-color: var(--ember);
+  color: var(--ember-glow);
+}
+
+.chapter-group {
+  margin-bottom: 44px;
+}
+
+.chapter-group h2 {
+  font-size: 1.15rem;
+  margin: 0 0 6px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.quest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.quest-card {
+  border-top: 3px solid var(--spark);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.quest-card.is-boss {
+  border-top-color: var(--ember);
+  background: linear-gradient(180deg, rgba(255,122,61,0.08), transparent 60%);
+}
+
+.quest-card.is-done {
+  opacity: 0.55;
+}
+
+.quest-card .quest-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.quest-card .quest-num {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.quest-card .quest-xp {
+  font-size: 0.72rem;
+  color: var(--xp);
+  border: 1px solid var(--xp);
+  border-radius: 999px;
+  padding: 2px 9px;
+  white-space: nowrap;
+}
+
+.quest-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.quest-card .quest-brief {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.quest-card label.quest-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.quest-card input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--spark);
+  cursor: pointer;
+}
+
 .library-note {
   background: var(--bg-alt);
   border: 1px solid var(--border);
