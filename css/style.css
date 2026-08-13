@@ -693,6 +693,195 @@ footer a:hover { color: var(--spark); }
   cursor: pointer;
 }
 
+/* Quest workspace (list + instructions + IDE) */
+
+.wrap-wide {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.quest-workspace {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.quest-list-col {
+  flex: 0 0 300px;
+  position: sticky;
+  top: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.quest-list-col h3 {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin: 18px 0 8px;
+}
+
+.quest-list-col h3:first-child { margin-top: 0; }
+
+.quest-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.quest-row:hover { border-color: var(--spark); }
+
+.quest-row.is-active {
+  border-color: var(--ember);
+  background: linear-gradient(180deg, rgba(255,122,61,0.1), transparent 70%);
+}
+
+.quest-row .row-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quest-row.is-done .row-title::before {
+  content: "✓ ";
+  color: var(--spark);
+}
+
+.quest-row .row-xp {
+  font-size: 0.68rem;
+  color: var(--xp);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.quest-main-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.quest-detail-panel .quest-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.quest-detail-panel h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.quest-detail-panel .quest-brief {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 10px 0 14px;
+}
+
+.ide-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ide-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.ide-status {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.ide-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ide-btn {
+  font-family: inherit;
+  font-size: 0.78rem;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text);
+}
+
+.ide-btn:hover { border-color: var(--spark); color: var(--spark); }
+
+.ide-btn.run {
+  background: var(--ember);
+  border-color: var(--ember);
+  color: #14100b;
+  font-weight: 700;
+}
+
+.ide-btn.run:hover { background: var(--ember-glow); border-color: var(--ember-glow); color: #14100b; }
+
+.ide-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ide-panel .CodeMirror {
+  height: 320px;
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.ide-output {
+  background: #05070c;
+  color: var(--text-dim);
+  padding: 14px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  border-top: 1px solid var(--border);
+}
+
+.ide-output.has-error { color: var(--ember-glow); }
+.ide-output.is-empty::before { content: "Output will appear here after you run your code."; opacity: 0.6; }
+
+@media (max-width: 860px) {
+  .quest-workspace { flex-direction: column; }
+  .quest-list-col {
+    position: static;
+    width: 100%;
+    max-height: 260px;
+    flex-basis: auto;
+  }
+}
+
 .library-note {
   background: var(--bg-alt);
   border: 1px solid var(--border);

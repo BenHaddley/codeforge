@@ -4,8 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Python Crash Course Track — Codeforge</title>
-<meta name="description" content="An original quest track paired to Python Crash Course by Eric Matthes — 14 hands-on challenges with XP and progress tracking.">
+<meta name="description" content="An original quest track paired to Python Crash Course by Eric Matthes — 14 hands-on challenges with a built-in Python editor, XP, and progress tracking.">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
 </head>
 <body>
 
@@ -26,13 +28,13 @@
     A companion quest track for <em>Python Crash Course</em> by Eric Matthes
     (No Starch Press). 11 fundamentals quests, one per chapter of Part I,
     plus 3 boss quests for the project arcs in Part II. Every prompt below is
-    my own — read the actual chapter first, then use these to prove you've
-    got it.
+    my own — read the actual chapter first, then use the editor here to prove
+    you've got it. Code runs for real, right in your browser.
   </p>
 </header>
 
 <section>
-  <div class="wrap">
+  <div class="wrap-wide">
     <div class="xp-bar-wrap">
       <div class="xp-level" id="xp-level">Level 1</div>
       <div class="xp-track">
@@ -42,157 +44,33 @@
       <button class="reset-progress" id="reset-btn">Reset progress</button>
     </div>
 
-    <div class="chapter-group">
-      <h2>Part I — Fundamentals</h2>
-      <div class="quest-grid">
+    <div class="quest-workspace">
+      <div class="quest-list-col" id="quest-list"></div>
 
-        <div class="card quest-card" data-quest="ch1" data-xp="20">
+      <div class="quest-main-col">
+        <div class="card quest-detail-panel">
           <div class="quest-head">
-            <span class="quest-num">Ch. 1 · Getting Started</span>
-            <span class="quest-xp">20 XP</span>
+            <div>
+              <span class="quest-num" id="detail-num"></span>
+              <h2 id="detail-title"></h2>
+            </div>
+            <span class="quest-xp" id="detail-xp"></span>
           </div>
-          <h3>Hello, Forge</h3>
-          <p class="quest-brief">Get Python running and write a script that prints three lines about yourself, each using a different string on its own <code>print()</code> call.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+          <p class="quest-brief" id="detail-brief"></p>
+          <label class="quest-check"><input type="checkbox" id="detail-check"> Mark complete</label>
         </div>
 
-        <div class="card quest-card" data-quest="ch2" data-xp="30">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 2 · Variables &amp; Data Types</span>
-            <span class="quest-xp">30 XP</span>
+        <div class="ide-panel">
+          <div class="ide-toolbar">
+            <span class="ide-status" id="ide-status">Loading Python runtime…</span>
+            <div class="ide-actions">
+              <button class="ide-btn" id="reset-code-btn">Reset code</button>
+              <button class="ide-btn run" id="run-btn" disabled>Run ▶</button>
+            </div>
           </div>
-          <h3>Name Tag Generator</h3>
-          <p class="quest-brief">Store a first and last name in variables, then build three differently-formatted greetings (upper, title, and a custom f-string) without retyping the names.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
+          <textarea id="editor"></textarea>
+          <div class="ide-output is-empty" id="ide-output"></div>
         </div>
-
-        <div class="card quest-card" data-quest="ch3" data-xp="30">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 3 · Introducing Lists</span>
-            <span class="quest-xp">30 XP</span>
-          </div>
-          <h3>Inventory Roll Call</h3>
-          <p class="quest-brief">Build a list of five items. Print the first and last using indexing, add a new item, remove one by value, and reorder the rest alphabetically.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card" data-quest="ch4" data-xp="40">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 4 · Working with Lists</span>
-            <span class="quest-xp">40 XP</span>
-          </div>
-          <h3>Loot Sorter</h3>
-          <p class="quest-brief">Generate a list of 20 random numbers with <code>range()</code>. Print the min, max, and sum, then produce a sorted copy without disturbing the original list.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card" data-quest="ch5" data-xp="40">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 5 · if Statements</span>
-            <span class="quest-xp">40 XP</span>
-          </div>
-          <h3>Class Selector</h3>
-          <p class="quest-brief">Given three stat values (strength, agility, intellect), write branching logic that picks a character class, handling ties and out-of-range values gracefully.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card" data-quest="ch6" data-xp="50">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 6 · Dictionaries</span>
-            <span class="quest-xp">50 XP</span>
-          </div>
-          <h3>Character Sheet</h3>
-          <p class="quest-brief">Model a game character as a dictionary with nested stats and a list of inventory items. Write a function that prints a formatted summary from it.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card" data-quest="ch7" data-xp="50">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 7 · Input &amp; while Loops</span>
-            <span class="quest-xp">50 XP</span>
-          </div>
-          <h3>Dungeon Prompt</h3>
-          <p class="quest-brief">Write an interactive loop that keeps asking for a command until the user types "quit", validating input and rejecting empty entries along the way.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card" data-quest="ch8" data-xp="60">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 8 · Functions</span>
-            <span class="quest-xp">60 XP</span>
-          </div>
-          <h3>Spellbook</h3>
-          <p class="quest-brief">Turn three repeated snippets from earlier quests into functions with sensible default arguments, then write one function that accepts a variable number of arguments.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card" data-quest="ch9" data-xp="70">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 9 · Classes</span>
-            <span class="quest-xp">70 XP</span>
-          </div>
-          <h3>Forge a Hero</h3>
-          <p class="quest-brief">Define a <code>Character</code> class with attributes and a <code>take_damage()</code> method, then a subclass that overrides one method to add unique behavior.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card" data-quest="ch10" data-xp="70">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 10 · Files &amp; Exceptions</span>
-            <span class="quest-xp">70 XP</span>
-          </div>
-          <h3>Save File</h3>
-          <p class="quest-brief">Save your character sheet to a JSON file and load it back on the next run. Handle a missing or corrupted save file without crashing.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card" data-quest="ch11" data-xp="60">
-          <div class="quest-head">
-            <span class="quest-num">Ch. 11 · Testing Your Code</span>
-            <span class="quest-xp">60 XP</span>
-          </div>
-          <h3>Prove It Works</h3>
-          <p class="quest-brief">Write unit tests for your <code>take_damage()</code> method and Class Selector logic, covering at least one edge case for each.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="chapter-group">
-      <h2>Part II — Boss Quests</h2>
-      <div class="quest-grid">
-
-        <div class="card quest-card is-boss" data-quest="boss1" data-xp="150">
-          <div class="quest-head">
-            <span class="quest-num">Boss · Arcade Game</span>
-            <span class="quest-xp">150 XP</span>
-          </div>
-          <h3>Something That Moves</h3>
-          <p class="quest-brief">Build a small 2D game with a library like pygame: a player object that responds to keypresses, at least one hazard or enemy, and a visible score.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card is-boss" data-quest="boss2" data-xp="150">
-          <div class="quest-head">
-            <span class="quest-num">Boss · Data Visualization</span>
-            <span class="quest-xp">150 XP</span>
-          </div>
-          <h3>Make the Numbers Talk</h3>
-          <p class="quest-brief">Pull or generate a dataset and produce at least two different chart types (e.g. matplotlib or plotly) with labeled axes, plus a short written takeaway.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
-        <div class="card quest-card is-boss" data-quest="boss3" data-xp="150">
-          <div class="quest-head">
-            <span class="quest-num">Boss · Web App</span>
-            <span class="quest-xp">150 XP</span>
-          </div>
-          <h3>Ship It Online</h3>
-          <p class="quest-brief">Build and deploy a minimal web app with one form, one dynamic page, and basic login/logout, using a framework of your choice.</p>
-          <label class="quest-check"><input type="checkbox"> Mark complete</label>
-        </div>
-
       </div>
     </div>
   </div>
@@ -201,72 +79,269 @@
 <footer>
   <div class="wrap">
     Codeforge is an independent, self-hosted project — not affiliated with boot.dev, No Starch Press, or Eric Matthes.
-    All quest prompts are original and written for this site.
+    All quest prompts are original and written for this site. Python runs
+    client-side via <a href="https://pyodide.org/" target="_blank" rel="noopener">Pyodide</a>.
     <br>
     <a href="https://github.com/BenHaddley/codeforge">View on GitHub</a>
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
 <script>
-  (function () {
-    var STORAGE_KEY = 'cf_quest_pycc';
-    var cards = document.querySelectorAll('.quest-card');
-    var totalXP = 0;
-    cards.forEach(function (c) { totalXP += parseInt(c.dataset.xp, 10); });
-
-    function loadState() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-      } catch (e) {
-        return {};
-      }
+  var QUESTS = [
+    {
+      id: "ch1", part: "Part I", num: "Ch. 1 · Getting Started", xp: 20,
+      title: "Hello, Forge",
+      brief: "Get Python running and write a script that prints three lines about yourself, each using a different string on its own print() call.",
+      starter: "# Write three print() calls below, each on its own line.\n"
+    },
+    {
+      id: "ch2", part: "Part I", num: "Ch. 2 · Variables & Data Types", xp: 30,
+      title: "Name Tag Generator",
+      brief: "Store a first and last name in variables, then build three differently-formatted greetings (upper, title, and a custom f-string) without retyping the names.",
+      starter: "first_name = \"\"\nlast_name = \"\"\n\n# Build three greetings from the variables above.\n"
+    },
+    {
+      id: "ch3", part: "Part I", num: "Ch. 3 · Introducing Lists", xp: 30,
+      title: "Inventory Roll Call",
+      brief: "Build a list of five items. Print the first and last using indexing, add a new item, remove one by value, and reorder the rest alphabetically.",
+      starter: "inventory = []\n\n# Add five items, then index, add, remove, and sort.\n"
+    },
+    {
+      id: "ch4", part: "Part I", num: "Ch. 4 · Working with Lists", xp: 40,
+      title: "Loot Sorter",
+      brief: "Generate a list of 20 random numbers with range(). Print the min, max, and sum, then produce a sorted copy without disturbing the original list.",
+      starter: "numbers = list(range(20))\n\n# Print min, max, and sum, then make a sorted copy.\n"
+    },
+    {
+      id: "ch5", part: "Part I", num: "Ch. 5 · if Statements", xp: 40,
+      title: "Class Selector",
+      brief: "Given three stat values (strength, agility, intellect), write branching logic that picks a character class, handling ties and out-of-range values gracefully.",
+      starter: "strength = 5\nagility = 5\nintellect = 5\n\n# Pick a class based on the highest stat.\n"
+    },
+    {
+      id: "ch6", part: "Part I", num: "Ch. 6 · Dictionaries", xp: 50,
+      title: "Character Sheet",
+      brief: "Model a game character as a dictionary with nested stats and a list of inventory items. Write a function that prints a formatted summary from it.",
+      starter: "character = {\n    \"name\": \"\",\n    \"stats\": {},\n    \"inventory\": [],\n}\n\ndef print_summary(char):\n    pass\n"
+    },
+    {
+      id: "ch7", part: "Part I", num: "Ch. 7 · Input & while Loops", xp: 50,
+      title: "Dungeon Prompt",
+      brief: "Write an interactive loop that keeps asking for a command until the user types \"quit\", validating input and rejecting empty entries along the way.",
+      starter: "# input() doesn't work well in this in-browser runtime,\n# so simulate commands with a list instead of real input().\ncommands = [\"look\", \"\", \"go north\", \"quit\"]\n\nfor command in commands:\n    pass\n"
+    },
+    {
+      id: "ch8", part: "Part I", num: "Ch. 8 · Functions", xp: 60,
+      title: "Spellbook",
+      brief: "Turn three repeated snippets from earlier quests into functions with sensible default arguments, then write one function that accepts a variable number of arguments.",
+      starter: "def cast(*spells):\n    pass\n"
+    },
+    {
+      id: "ch9", part: "Part I", num: "Ch. 9 · Classes", xp: 70,
+      title: "Forge a Hero",
+      brief: "Define a Character class with attributes and a take_damage() method, then a subclass that overrides one method to add unique behavior.",
+      starter: "class Character:\n    def __init__(self, name, hp):\n        self.name = name\n        self.hp = hp\n\n    def take_damage(self, amount):\n        pass\n\n\nclass Warrior(Character):\n    pass\n"
+    },
+    {
+      id: "ch10", part: "Part I", num: "Ch. 10 · Files & Exceptions", xp: 70,
+      title: "Save File",
+      brief: "Save your character sheet to a JSON file and load it back on the next run. Handle a missing or corrupted save file without crashing.",
+      starter: "import json\n\n# This sandbox has an in-memory filesystem, so writes\n# and reads here won't touch your real disk.\ndef save(character, path=\"save.json\"):\n    pass\n\ndef load(path=\"save.json\"):\n    pass\n"
+    },
+    {
+      id: "ch11", part: "Part I", num: "Ch. 11 · Testing Your Code", xp: 60,
+      title: "Prove It Works",
+      brief: "Write unit tests for your take_damage() method and Class Selector logic, covering at least one edge case for each.",
+      starter: "import unittest\n\nclass TestCharacter(unittest.TestCase):\n    def test_take_damage(self):\n        pass\n\nunittest.main(argv=[\"ignored\"], exit=False)\n"
+    },
+    {
+      id: "boss1", part: "Boss", num: "Boss · Arcade Game", xp: 150,
+      title: "Something That Moves",
+      brief: "Build a small 2D game with a library like pygame: a player object that responds to keypresses, at least one hazard or enemy, and a visible score.",
+      starter: "# pygame needs a real display, so this sandbox can't run it —\n# sketch your game loop's structure here in pseudocode-ish Python,\n# then build and test it for real on your own machine.\n"
+    },
+    {
+      id: "boss2", part: "Boss", num: "Boss · Data Visualization", xp: 150,
+      title: "Make the Numbers Talk",
+      brief: "Pull or generate a dataset and produce at least two different chart types (e.g. matplotlib or plotly) with labeled axes, plus a short written takeaway.",
+      starter: "data = [1, 4, 9, 16, 25]\n\n# This sandbox has no matplotlib, so process/shape your\n# data here, then plot it for real in a local notebook.\n"
+    },
+    {
+      id: "boss3", part: "Boss", num: "Boss · Web App", xp: 150,
+      title: "Ship It Online",
+      brief: "Build and deploy a minimal web app with one form, one dynamic page, and basic login/logout, using a framework of your choice.",
+      starter: "# No web framework here — sketch your route/view functions\n# and data model as plain Python, then build the real app locally.\n"
     }
+  ];
 
-    function saveState(state) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+  var PROGRESS_KEY = "cf_quest_pycc";
+  var CODE_KEY_PREFIX = "cf_code_pycc_";
+  var ACTIVE_KEY = "cf_active_pycc";
+  var totalXP = QUESTS.reduce(function (sum, q) { return sum + q.xp; }, 0);
+  var activeId = localStorage.getItem(ACTIVE_KEY) || QUESTS[0].id;
+  var editor;
+  var pyodideReady = false;
+  var pyodide;
 
-    function levelForXP(xp) {
-      return Math.floor(xp / 100) + 1;
-    }
+  function loadProgress() {
+    try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
 
-    function render() {
-      var state = loadState();
-      var earned = 0;
-      cards.forEach(function (card) {
-        var id = card.dataset.quest;
-        var xp = parseInt(card.dataset.xp, 10);
-        var checkbox = card.querySelector('input[type="checkbox"]');
-        var done = !!state[id];
-        checkbox.checked = done;
-        card.classList.toggle('is-done', done);
-        if (done) earned += xp;
-      });
-      document.getElementById('xp-level').textContent = 'Level ' + levelForXP(earned);
-      document.getElementById('xp-label').textContent = earned + ' / ' + totalXP + ' XP';
-      var pct = totalXP === 0 ? 0 : Math.round((earned / totalXP) * 100);
-      document.getElementById('xp-fill').style.width = pct + '%';
-    }
+  function saveProgress(state) {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(state));
+  }
 
-    cards.forEach(function (card) {
-      var checkbox = card.querySelector('input[type="checkbox"]');
-      checkbox.addEventListener('change', function () {
-        var state = loadState();
-        state[card.dataset.quest] = checkbox.checked;
-        saveState(state);
-        render();
+  function levelForXP(xp) {
+    return Math.floor(xp / 100) + 1;
+  }
+
+  function findQuest(id) {
+    return QUESTS.filter(function (q) { return q.id === id; })[0];
+  }
+
+  function renderXPBar() {
+    var state = loadProgress();
+    var earned = 0;
+    QUESTS.forEach(function (q) { if (state[q.id]) earned += q.xp; });
+    document.getElementById("xp-level").textContent = "Level " + levelForXP(earned);
+    document.getElementById("xp-label").textContent = earned + " / " + totalXP + " XP";
+    var pct = totalXP === 0 ? 0 : Math.round((earned / totalXP) * 100);
+    document.getElementById("xp-fill").style.width = pct + "%";
+  }
+
+  function renderList() {
+    var state = loadProgress();
+    var container = document.getElementById("quest-list");
+    container.innerHTML = "";
+    ["Part I", "Boss"].forEach(function (part) {
+      var heading = document.createElement("h3");
+      heading.textContent = part === "Part I" ? "Part I — Fundamentals" : "Part II — Boss Quests";
+      container.appendChild(heading);
+      QUESTS.filter(function (q) { return q.part === part; }).forEach(function (q) {
+        var row = document.createElement("button");
+        row.className = "quest-row" + (q.id === activeId ? " is-active" : "") + (state[q.id] ? " is-done" : "");
+        row.innerHTML = '<span class="row-title">' + q.title + '</span><span class="row-xp">' + q.xp + ' XP</span>';
+        row.addEventListener("click", function () { selectQuest(q.id); });
+        container.appendChild(row);
       });
     });
+  }
 
-    document.getElementById('reset-btn').addEventListener('click', function () {
-      if (confirm('Reset all progress on this track?')) {
-        localStorage.removeItem(STORAGE_KEY);
-        render();
-      }
-    });
+  function renderDetail() {
+    var q = findQuest(activeId);
+    var state = loadProgress();
+    document.getElementById("detail-num").textContent = q.num;
+    document.getElementById("detail-title").textContent = q.title;
+    document.getElementById("detail-xp").textContent = q.xp + " XP";
+    document.getElementById("detail-brief").textContent = q.brief;
+    document.getElementById("detail-check").checked = !!state[q.id];
+  }
 
-    render();
-  })();
+  function loadEditorForQuest(q) {
+    var saved = localStorage.getItem(CODE_KEY_PREFIX + q.id);
+    editor.setValue(saved !== null ? saved : q.starter);
+    clearOutput();
+  }
+
+  function saveEditorForQuest(id) {
+    localStorage.setItem(CODE_KEY_PREFIX + id, editor.getValue());
+  }
+
+  function selectQuest(id) {
+    if (id === activeId && editor) return;
+    if (editor) saveEditorForQuest(activeId);
+    activeId = id;
+    localStorage.setItem(ACTIVE_KEY, activeId);
+    renderList();
+    renderDetail();
+    if (editor) loadEditorForQuest(findQuest(activeId));
+  }
+
+  function clearOutput() {
+    var out = document.getElementById("ide-output");
+    out.textContent = "";
+    out.classList.remove("has-error");
+    out.classList.add("is-empty");
+  }
+
+  function writeOutput(text, isError) {
+    var out = document.getElementById("ide-output");
+    out.classList.remove("is-empty");
+    if (isError) out.classList.add("has-error");
+    out.textContent += text;
+  }
+
+  document.getElementById("detail-check").addEventListener("change", function (e) {
+    var state = loadProgress();
+    state[activeId] = e.target.checked;
+    saveProgress(state);
+    renderXPBar();
+    renderList();
+  });
+
+  document.getElementById("reset-btn").addEventListener("click", function () {
+    if (confirm("Reset all progress on this track?")) {
+      localStorage.removeItem(PROGRESS_KEY);
+      renderXPBar();
+      renderList();
+      renderDetail();
+    }
+  });
+
+  document.getElementById("reset-code-btn").addEventListener("click", function () {
+    var q = findQuest(activeId);
+    if (confirm("Reset your code for \"" + q.title + "\" back to the starter?")) {
+      localStorage.removeItem(CODE_KEY_PREFIX + q.id);
+      editor.setValue(q.starter);
+      clearOutput();
+    }
+  });
+
+  document.getElementById("run-btn").addEventListener("click", function () {
+    if (!pyodideReady) return;
+    clearOutput();
+    var code = editor.getValue();
+    saveEditorForQuest(activeId);
+    try {
+      pyodide.setStdout({ batched: function (msg) { writeOutput(msg + "\n", false); } });
+      pyodide.setStderr({ batched: function (msg) { writeOutput(msg + "\n", true); } });
+      pyodide.runPython(code);
+    } catch (err) {
+      writeOutput(String(err), true);
+    }
+  });
+
+  editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+    mode: "python",
+    theme: "material-darker",
+    lineNumbers: true,
+    indentUnit: 4,
+    tabSize: 4,
+    indentWithTabs: false,
+    viewportMargin: Infinity
+  });
+  editor.on("change", function () { saveEditorForQuest(activeId); });
+
+  renderXPBar();
+  renderList();
+  renderDetail();
+  loadEditorForQuest(findQuest(activeId));
+
+  async function initPyodide() {
+    try {
+      pyodide = await loadPyodide();
+      pyodideReady = true;
+      document.getElementById("ide-status").textContent = "Ready";
+      document.getElementById("run-btn").disabled = false;
+    } catch (e) {
+      document.getElementById("ide-status").textContent = "Python runtime failed to load — check your connection and reload.";
+    }
+  }
+  initPyodide();
 </script>
 
 </body>
