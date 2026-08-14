@@ -1,0 +1,101 @@
+{
+  "id": "py-ch08-changing-a-list",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.2",
+  "title": "Changing, Adding, and Removing Elements",
+  "xp": 50,
+  "objective": "Update a list in place by assigning to an index, adding items with append() and insert(), and removing items with del, pop(), and remove().",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "3 & 4",
+    "chapterTitle": "Introducing Lists; Working with Lists",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Lists are mutable, meaning you can change their contents after creating them. To replace an item, assign a new value to its index: supplies[0] = \"reinforced tent\" swaps out whatever used to be at position 0.",
+      "To grow a list, use .append(item) to add something to the end, or .insert(index, item) to slide something into a specific position, pushing every later item back by one.",
+      "To shrink a list, you have three tools. del list_name[index] removes whatever is at that position and forgets its value entirely. .pop() removes and returns the last item (or .pop(index) for a specific position), so you can still use the value after removing it. .remove(value) searches for the first item that matches value and deletes it — use this when you know what the item is but not where it lives."
+    ],
+    "rule": "Assign to an index to replace an item, append()/insert() to add one, and del/pop()/remove() to take one away — pop() is the only one that hands the removed value back to you."
+  },
+  "examples": [
+    {
+      "title": "Editing a Loadout",
+      "code": "loadout = [\"sword\", \"shield\", \"potion\"]\nloadout[1] = \"tower shield\"\nloadout.append(\"map\")\nloadout.insert(0, \"torch\")\nprint(loadout)",
+      "note": "The index assignment swaps 'shield' out, append() adds to the end, and insert(0, ...) pushes everything else one spot to the right."
+    },
+    {
+      "title": "Three Ways to Remove",
+      "code": "crates = [\"rope\", \"nails\", \"canteen\", \"nails\"]\ndel crates[0]\nlast = crates.pop()\ncrates.remove(\"nails\")\nprint(crates)\nprint(last)",
+      "note": "del crates[0] discards the first item outright. pop() removes the last item and returns it into 'last'. remove('nails') deletes only the first matching 'nails' it finds."
+    }
+  ],
+  "checks": [
+    {
+      "id": "pop-vs-remove",
+      "question": "You know an item's exact value but not its index. Which method should you use to delete it?",
+      "options": [".pop()", ".remove(value)", "del list_name[value]", ".append(value)"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — .remove(value) searches the list for a matching value and deletes the first one it finds.",
+        "incorrect": "Think about which method searches by value instead of by position."
+      }
+    },
+    {
+      "id": "pop-returns",
+      "question": "What makes .pop() different from del?",
+      "options": [
+        "pop() only works on the first item",
+        "pop() returns the removed value so you can use it",
+        "pop() removes every matching item",
+        "There is no difference"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — pop() hands back the value it removed; del just deletes it.",
+        "incorrect": "Not quite. One of these gives you the removed value back."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Camp Supply List",
+    "brief": "Write update_supplies(supplies) that edits a supply list step by step: upgrade the first item, add a new item, insert an urgent item, remove one item by value, and remove the last item.",
+    "requirements": [
+      "Define update_supplies(supplies).",
+      "Replace the first item (index 0) with \"reinforced tent\".",
+      "Use .append() to add \"extra rations\".",
+      "Use .insert() to place \"torch\" at index 1.",
+      "Use .remove() to delete the item \"rope\".",
+      "Use .pop() to remove the last item.",
+      "Print the final list."
+    ],
+    "starterCode": "def update_supplies(supplies):\n    # Modify supplies step by step, then print the result.\n    pass\n\nupdate_supplies([\"tent\", \"rope\", \"canteen\"])\n",
+    "solutionCode": "def update_supplies(supplies):\n    supplies[0] = \"reinforced tent\"\n    supplies.append(\"extra rations\")\n    supplies.insert(1, \"torch\")\n    supplies.remove(\"rope\")\n    supplies.pop()\n    print(supplies)\n\nupdate_supplies([\"tent\", \"rope\", \"canteen\"])\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "index-assign", "label": "Replaces index 0", "pattern": "supplies\\[0\\]\\s*=", "mustMatch": true },
+      { "id": "uses-append", "label": "Uses .append()", "pattern": "\\.append\\(", "mustMatch": true },
+      { "id": "uses-insert", "label": "Uses .insert()", "pattern": "\\.insert\\(", "mustMatch": true },
+      { "id": "uses-remove", "label": "Uses .remove()", "pattern": "\\.remove\\(", "mustMatch": true },
+      { "id": "uses-pop", "label": "Uses .pop()", "pattern": "\\.pop\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    update_supplies([\"tent\", \"rope\", \"canteen\"])\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "['reinforced tent', 'torch', 'canteen']\n",
+    "outputCheckLabel": "update_supplies([\"tent\", \"rope\", \"canteen\"]) prints the final supply list"
+  },
+  "hints": [
+    "Start by assigning directly to supplies[0] to replace the first item.",
+    "supplies.append(...) always adds to the end; supplies.insert(1, ...) squeezes an item in at position 1.",
+    "supplies.remove(\"rope\") searches for the value \"rope\" and deletes it — you don't need to know its index.",
+    "supplies.pop() with no argument removes whatever is currently last, which by that point is the item you appended.",
+    "Do the steps in order: replace, append, insert, remove, pop, then print."
+  ],
+  "nextLessonId": "py-ch08-organizing-a-list"
+}

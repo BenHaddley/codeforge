@@ -1,0 +1,98 @@
+{
+  "id": "py-ch12-failing-silently",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch12",
+  "number": "12.3",
+  "title": "Failing Silently vs. Reporting Errors",
+  "xp": 50,
+  "objective": "Decide when an except block should fail silently with pass and when it should report the error instead.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "10",
+    "chapterTitle": "Files and Exceptions (Exceptions)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only; the file-handling part of this book chapter is covered separately in Code Forge's Files chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Catching an exception doesn't force you to print anything about it. The pass statement is a no-op \u2014 it does nothing at all \u2014 so except SomeError: pass catches the error and lets the program continue as if that one case simply didn't happen. This is called failing silently.",
+      "Failing silently is useful when an error is expected and harmless to ignore, such as skipping a file in a batch that happens to be missing an optional field. But overusing it hides real bugs: if something breaks and no message ever appears, you can spend a long time guessing why the program behaves oddly.",
+      "The alternative is to report the error \u2014 print a message, log it, or show the user something went wrong \u2014 even while keeping the program running. As a default, prefer reporting: it costs little, and it turns silent, mysterious failures into visible ones you can actually fix."
+    ],
+    "rule": "Default to reporting an error you catch; reach for pass only when the failure is expected and truly doesn't need anyone's attention."
+  },
+  "examples": [
+    {
+      "title": "Silent vs. Reported Lookups",
+      "code": "scores = {\"alice\": 90, \"bob\": 85}\n\ndef silent_lookup(name):\n    try:\n        return scores[name]\n    except KeyError:\n        pass\n\ndef reported_lookup(name):\n    try:\n        return scores[name]\n    except KeyError:\n        print(f\"No score found for {name}.\")\n        return None\n\nprint(silent_lookup(\"carol\"))\nprint(reported_lookup(\"carol\"))",
+      "note": "silent_lookup gives no clue that \"carol\" was missing \u2014 it just returns None. reported_lookup prints a message first, so the cause is visible before the None appears."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "when-pass-is-appropriate",
+      "question": "Which situation is the best fit for using pass in an except block?",
+      "options": [
+        "An expected, harmless case where ignoring the error is genuinely fine.",
+        "A bug in your own code that you haven't investigated yet.",
+        "Any exception, since pass keeps the program running no matter what.",
+        "An error the user needs to know about before continuing."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct \u2014 pass fits expected, harmless cases; unexplained bugs should be reported, not hidden.",
+        "incorrect": "Not quite. pass is appropriate for errors you've deliberately decided are fine to ignore, not for bugs or errors the user needs to see."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Count Valid Ages",
+    "brief": "Write count_valid_ages(entries) that takes a list of text values, tries to convert each to an int, and returns how many converted successfully. For values that fail to convert, print a warning message and skip them instead of failing silently.",
+    "requirements": [
+      "Define count_valid_ages(entries).",
+      "Loop over entries.",
+      "Use try/except ValueError around int(entry) for each one.",
+      "On failure, print a message naming the bad entry (don't use pass) and continue to the next entry.",
+      "Return the count of entries that converted successfully."
+    ],
+    "starterCode": "def count_valid_ages(entries):\n    # Return how many entries in the list convert to a valid int.\n    # Print a message for any entry that fails to convert.\n    pass\n",
+    "solutionCode": "def count_valid_ages(entries):\n    count = 0\n    for entry in entries:\n        try:\n            int(entry)\n        except ValueError:\n            print(f\"Skipping invalid age: {entry}\")\n        else:\n            count += 1\n    return count\n\nprint(count_valid_ages([\"25\", \"thirty\", \"41\", \"\"]))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "has-try",
+        "label": "Uses a try block",
+        "pattern": "try\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "catches-valueerror",
+        "label": "Catches ValueError",
+        "pattern": "except\\s+ValueError",
+        "mustMatch": true
+      },
+      {
+        "id": "no-bare-pass-in-except",
+        "label": "Does not fail silently with pass",
+        "pattern": "except\\s+ValueError\\s*:\\s*\\n\\s*pass",
+        "mustMatch": false
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(count_valid_ages([\"25\", \"thirty\", \"41\", \"\"]))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Skipping invalid age: thirty\nSkipping invalid age: \n2\n",
+    "outputCheckLabel": "Prints a skip message for \"thirty\" and for the empty string, then prints 2 as the final count"
+  },
+  "hints": [
+    "Loop over entries with a for loop, and put the try/except inside the loop body.",
+    "int(entry) belongs inside try \u2014 that's the line that can raise ValueError.",
+    "Instead of pass in the except block, print a message that includes the bad entry.",
+    "Use an else block (or a line after the try/except) to increment your counter only when the conversion succeeded.",
+    "An empty string \"\" also fails int() conversion and should be reported just like \"thirty\"."
+  ],
+  "nextLessonId": "py-ch13-reading-from-a-file"
+}

@@ -1,0 +1,107 @@
+{
+  "id": "py-ch13-storing-data-with-json",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch13",
+  "number": "13.3",
+  "title": "Storing Data with JSON",
+  "xp": 50,
+  "objective": "Save Python data to a file as JSON, and load it back later.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "10",
+    "chapterTitle": "Files and Exceptions (file-handling and Storing Data sections)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only; exception-handling is covered in Code Forge's Errors & Exceptions chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A running program's data disappears the moment it stops, unless you save it somewhere. JSON is a simple text format for storing values like numbers, strings, lists, and dictionaries so they survive between runs.",
+      "The json module does the translation for you. json.dump(data, file) writes a Python value into an open file as JSON text, and json.load(file) reads that JSON text back into a Python value.",
+      "This round trip works because JSON's building blocks — objects, arrays, strings, numbers, true/false, null — map cleanly onto Python's dictionaries, lists, strings, numbers, and booleans.",
+      "Normally that survival is the whole point: you dump() data in one run of a program and load() it again the next time it starts. Code Forge's browser-based Python runtime, Pyodide, complicates that slightly — it gives your code an in-memory virtual filesystem that resets on every run, so there is no earlier run's file waiting around. The examples below dump() a file and then load() it back within the same run, just to show the round trip working; on a normal desktop install, the load() step is what you'd actually run days or weeks after the dump()."
+    ],
+    "rule": "Use json.dump() to save a Python value to a file, and json.load() to read it back exactly as it was."
+  },
+  "examples": [
+    {
+      "title": "Saving data",
+      "code": "import json\n\nscores = [12, 45, 7]\nwith open('scores.json', 'w') as f:\n    json.dump(scores, f)",
+      "note": "scores.json now contains the text [12, 45, 7]."
+    },
+    {
+      "title": "Loading it back",
+      "code": "import json\n\nscores = [12, 45, 7]\nwith open('scores.json', 'w') as f:\n    json.dump(scores, f)\n\nwith open('scores.json') as f:\n    scores = json.load(f)\n\nprint(scores)",
+      "note": "The dump() here only exists to give this run a scores.json to load — in a real program that file would already exist from an earlier run. json.load() reconstructs the exact same list of numbers that was written."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — JSON files",
+      "startSeconds": 30962,
+      "endSeconds": 31293,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=30962&end=31293&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "dump-vs-load",
+      "question": "Which function reads JSON text from a file back into a Python value?",
+      "options": [
+        "json.dump()",
+        "json.load()",
+        "json.read()",
+        "json.open()"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — json.load() reconstructs the Python value from the file's JSON text.",
+        "incorrect": "Not quite. dump() is for saving; the other function name reads it back."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Save and Reload",
+    "brief": "Write save_and_reload(data, path) that saves data to path as JSON, immediately reads it back, and prints the reloaded value.",
+    "requirements": [
+      "Define save_and_reload(data, path).",
+      "Use json.dump() to write data to the file at path.",
+      "Use json.load() to read the same file back into a new variable.",
+      "Print the reloaded value."
+    ],
+    "starterCode": "import json\n\ndef save_and_reload(data, path):\n    # Save `data` to `path` as JSON, then load it back and print it.\n    pass\n",
+    "solutionCode": "import json\n\ndef save_and_reload(data, path):\n    with open(path, 'w') as f:\n        json.dump(data, f)\n    with open(path) as f:\n        reloaded = json.load(f)\n    print(reloaded)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "uses-json-dump",
+        "label": "Uses json.dump()",
+        "pattern": "json\\.dump\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-json-load",
+        "label": "Uses json.load()",
+        "pattern": "json\\.load\\(",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    save_and_reload({'name': 'Forge', 'level': 3}, 'save.json')\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "{'name': 'Forge', 'level': 3}\n",
+    "outputCheckLabel": "save_and_reload prints the reloaded dictionary"
+  },
+  "hints": [
+    "json.dump(data, f) needs the file open in write mode.",
+    "json.load(f) needs the file open for reading — open it a second time after the write block closes.",
+    "Store what json.load() returns in a new variable before printing it.",
+    "Both open() calls can use their own with block, one after the other."
+  ],
+  "nextLessonId": "py-ch14-testing-a-function"
+}

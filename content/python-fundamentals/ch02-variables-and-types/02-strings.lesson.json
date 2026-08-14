@@ -1,0 +1,86 @@
+{
+  "id": "py-ch02-strings",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.2",
+  "title": "Strings",
+  "xp": 50,
+  "objective": "Build and transform text with string methods and concatenation.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "2",
+    "chapterTitle": "Variables and Simple Data Types",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A string is any text wrapped in quotes. Strings come with built-in methods you call with a dot: name.upper() returns an all-caps copy, name.lower() returns a lowercase copy, and name.title() capitalizes the first letter of each word. None of these change the original string — they return a new one.",
+      "You can join strings together with the + operator, called concatenation. Python does not add spaces automatically, so you usually need to include them yourself inside the quotes, and every value you join in must already be a string.",
+      "Building a longer message out of several pieces with + gets tedious fast. An f-string solves this: write f\"...\" and drop any variable — or even a number — directly inside curly braces, like f\"Hello, {name}!\". Python fills in each {expression} with its value automatically, converting numbers to text for you, so you rarely need + once you're using f-strings.",
+      "Text typed by a person often has extra spaces at the start or end. .strip() removes whitespace from both ends of a string, .lstrip() removes it only from the left, and .rstrip() removes it only from the right."
+    ],
+    "rule": "String methods like .upper(), .lower(), .title(), and .strip() return a new string — they never change the original."
+  },
+  "examples": [
+    {
+      "title": "Combining and Cleaning Strings",
+      "code": "first = \"  ember\"\nlast = \"forge  \"\n\nfull = first.strip().title() + \" \" + last.strip().title()\nprint(full)",
+      "note": "Each piece is cleaned and capitalized before being joined with a space in between."
+    },
+    {
+      "title": "Building a Message with an f-string",
+      "code": "name = \"Ada\"\nswords = 3\nprint(f\"{name} forged {swords} swords today.\")",
+      "note": "f\"...\" fills in {name} and {swords} automatically — no + and no str() needed, even though swords is a number."
+    }
+  ],
+  "checks": [
+    {
+      "id": "method-returns-copy",
+      "question": "What does name.upper() do to the variable name?",
+      "options": [
+        "Permanently changes name to uppercase.",
+        "Returns a new uppercase string; name itself is unchanged unless reassigned.",
+        "Deletes name.",
+        "Raises an error unless name is already uppercase."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — string methods return new strings instead of modifying the original.",
+        "incorrect": "String methods don't modify the string in place — they hand back a new one."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Banner",
+    "brief": "Write forge_banner(smith_name) that prints the smith's name in uppercase, followed by the exact text ' FORGE'.",
+    "requirements": [
+      "Define forge_banner(smith_name).",
+      "Convert smith_name to uppercase using a string method.",
+      "Use an f-string to build the final message, ending in the exact text ' FORGE'.",
+      "Print the result."
+    ],
+    "starterCode": "def forge_banner(smith_name):\n    # Uppercase smith_name, then build ' FORGE' onto it with an f-string and print it.\n    pass\n\nforge_banner(\"ada\")\n",
+    "solutionCode": "def forge_banner(smith_name):\n    banner = f\"{smith_name.upper()} FORGE\"\n    print(banner)\n\nforge_banner(\"ada\")\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines forge_banner()", "pattern": "def\\s+forge_banner\\s*\\(", "mustMatch": true },
+      { "id": "uses-upper", "label": "Uses .upper()", "pattern": "\\.upper\\s*\\(\\s*\\)", "mustMatch": true },
+      { "id": "uses-fstring", "label": "Uses an f-string", "pattern": "f[\"']", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    forge_banner(\"ada\")\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "ADA FORGE\n",
+    "outputCheckLabel": "forge_banner('ada') prints exactly: ADA FORGE"
+  },
+  "hints": [
+    "smith_name.upper() gives you an uppercase copy of the name.",
+    "An f-string looks like f\"{smith_name.upper()} FORGE\" — the expression inside {} runs first, then gets dropped into the text.",
+    "Store the combined string in a variable, then print that variable.",
+    "The final output for 'ada' should read exactly: ADA FORGE"
+  ],
+  "nextLessonId": "py-ch02-string-indexing-and-slicing"
+}

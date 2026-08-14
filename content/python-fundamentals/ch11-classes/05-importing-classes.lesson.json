@@ -1,0 +1,94 @@
+{
+  "id": "py-ch11-importing-classes",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch11",
+  "number": "11.5",
+  "title": "Importing Classes",
+  "xp": 50,
+  "objective": "Understand how a class is imported from its own module, and practice grouping related classes together.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "9",
+    "chapterTitle": "Classes",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose, examples, and exercises are original Code Forge material using an original theme, not the book's example classes."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "As a program's classes grow, keeping every one of them in a single file gets crowded. Python lets you move a class into its own file, called a module, and then bring it into another file with an import statement.",
+      "The pattern looks like from module_name import ClassName, where module_name matches the file's name without the .py ending. Once imported, the class works exactly as if it had been defined in that file all along.",
+      "A single module doesn't have to hold only one class. Related classes — ones that work together or represent similar ideas — are often grouped in the same module and imported from that one shared location.",
+      "Code Forge grades each assignment as a single file, so it can't literally run an import across two files. The examples below show what the split files would contain; in a real project outside Code Forge, you would save these as separate .py files, but the assignment itself defines its classes directly in one file."
+    ],
+    "rule": "Use from module_name import ClassName to bring a class in from its own file, and group related classes together in one module when it makes sense."
+  },
+  "examples": [
+    {
+      "title": "Inside vehicles.py (a module)",
+      "code": "# vehicles.py\n# In a real project, this file would sit next to the file that uses it.\n\nclass Wagon:\n    def __init__(self, capacity):\n        self.capacity = capacity\n\n    def load(self):\n        print(f\"The wagon is loaded to its {self.capacity}-crate capacity.\")\n\n\nclass Cart:\n    def __init__(self, wheels):\n        self.wheels = wheels\n\n    def creak(self):\n        print(f\"The {self.wheels}-wheeled cart creaks down the road.\")\n",
+      "note": "Wagon and Cart are related enough to live in one module together. Grouping them means anything that needs either class can import both from the same place."
+    },
+    {
+      "title": "Inside main.py (the importing file)",
+      "code": "# main.py\nfrom vehicles import Wagon, Cart\n\nsupply_wagon = Wagon(6)\nsupply_wagon.load()\n\nmarket_cart = Cart(2)\nmarket_cart.creak()\n",
+      "note": "from vehicles import Wagon, Cart pulls both classes out of vehicles.py into this file. Code Forge's grader runs a single file at a time, so this example is for reference only — the assignment below defines its classes directly in one file instead."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "import-syntax",
+      "question": "Which import statement pulls the Wagon class out of a file named vehicles.py?",
+      "options": [
+        "from vehicles import Wagon",
+        "import Wagon from vehicles",
+        "from vehicles.py import Wagon",
+        "class Wagon(vehicles):"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — from module_name import ClassName, using the file name without .py.",
+        "incorrect": "Not quite. The module name comes right after from, and it drops the .py ending."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Storeroom and Vault",
+    "brief": "Combine everything from this chapter into one submission: a Storeroom parent class and a VaultStoreroom child class that inherits from it, defined and used together in a single file — the same pairing you would eventually split into its own module.",
+    "requirements": [
+      "Define a class named Storeroom with __init__(self, label) that stores self.label and gives self.items a default value of an empty list.",
+      "Storeroom has a method add_item(self, item) that appends item to self.items and prints f\"Added {item} to {self.label}.\"",
+      "Storeroom has a method report(self) that prints f\"{self.label} holds {len(self.items)} item(s).\"",
+      "Define a class named VaultStoreroom that inherits from Storeroom.",
+      "VaultStoreroom's __init__(self, label, clearance) calls super().__init__(label) and then stores self.clearance.",
+      "VaultStoreroom overrides add_item(self, item) to print f\"Storing {item} under clearance {self.clearance}.\" and then append item to self.items.",
+      "VaultStoreroom overrides report(self) to print f\"{self.label} holds {len(self.items)} item(s). Clearance required: {self.clearance}.\"",
+      "Create a VaultStoreroom instance, call report(), add an item, then call report() again."
+    ],
+    "starterCode": "class Storeroom:\n    def __init__(self, label):\n        # Store label, and give items a default value of an empty list.\n        pass\n\n    def add_item(self, item):\n        # Append item to self.items, then print a message.\n        pass\n\n    def report(self):\n        # Print how many items are held.\n        pass\n\n\nclass VaultStoreroom(Storeroom):\n    def __init__(self, label, clearance):\n        # Call super().__init__(), then store clearance.\n        pass\n\n    def add_item(self, item):\n        # Print the clearance check, then append item to self.items.\n        pass\n\n    def report(self):\n        # Print the overridden report, including clearance.\n        pass\n\n\nvault = VaultStoreroom(\"North Vault\", \"gamma\")\nvault.report()\nvault.add_item(\"iron bar\")\nvault.report()\n",
+    "solutionCode": "class Storeroom:\n    def __init__(self, label):\n        self.label = label\n        self.items = []\n\n    def add_item(self, item):\n        self.items.append(item)\n        print(f\"Added {item} to {self.label}.\")\n\n    def report(self):\n        print(f\"{self.label} holds {len(self.items)} item(s).\")\n\n\nclass VaultStoreroom(Storeroom):\n    def __init__(self, label, clearance):\n        super().__init__(label)\n        self.clearance = clearance\n\n    def add_item(self, item):\n        print(f\"Storing {item} under clearance {self.clearance}.\")\n        self.items.append(item)\n\n    def report(self):\n        print(f\"{self.label} holds {len(self.items)} item(s). Clearance required: {self.clearance}.\")\n\n\nvault = VaultStoreroom(\"North Vault\", \"gamma\")\nvault.report()\nvault.add_item(\"iron bar\")\nvault.report()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "class-storeroom", "label": "Defines class Storeroom", "pattern": "class\\s+Storeroom\\b", "mustMatch": true },
+      { "id": "default-items-list", "label": "Gives items a default empty list", "pattern": "self\\.items\\s*=\\s*\\[\\s*\\]", "mustMatch": true },
+      { "id": "child-inherits", "label": "VaultStoreroom inherits from Storeroom", "pattern": "class\\s+VaultStoreroom\\s*\\(\\s*Storeroom\\s*\\)", "mustMatch": true },
+      { "id": "calls-super", "label": "Calls super().__init__(...)", "pattern": "super\\(\\)\\.__init__\\(", "mustMatch": true },
+      { "id": "overrides-report", "label": "Defines report() on both classes", "pattern": "def\\s+report\\s*\\(self\\)", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    tester = VaultStoreroom(\"Relic Hold\", \"omega\")\n    tester.report()\n    tester.add_item(\"shield\")\n    tester.add_item(\"cloak\")\n    tester.report()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Relic Hold holds 0 item(s). Clearance required: omega.\nStoring shield under clearance omega.\nStoring cloak under clearance omega.\nRelic Hold holds 2 item(s). Clearance required: omega.\n",
+    "outputCheckLabel": "VaultStoreroom(\"Relic Hold\", \"omega\") reports its count, then updates after two add_item() calls"
+  },
+  "hints": [
+    "VaultStoreroom(Storeroom) in the class line is what makes VaultStoreroom inherit from Storeroom, the same way Sentinel inherited from Guard in the last lesson.",
+    "super().__init__(label) must run before you set self.clearance — it's what gives the instance self.label and self.items.",
+    "VaultStoreroom's add_item still needs to end with self.items.append(item), just like Storeroom's version, but it prints a different message first.",
+    "Defining report() again inside VaultStoreroom overrides Storeroom's version — use len(self.items) and self.clearance in the message.",
+    "In a real project, Storeroom and VaultStoreroom might live together in one module, like storeroom.py, and get imported elsewhere with from storeroom import Storeroom, VaultStoreroom. Here, just define and use both classes directly in this file."
+  ],
+  "nextLessonId": "py-ch12-try-except"
+}

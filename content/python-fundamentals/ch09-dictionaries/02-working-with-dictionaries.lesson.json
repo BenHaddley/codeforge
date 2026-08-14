@@ -1,0 +1,77 @@
+{
+  "id": "py-ch09-working-with-dictionaries",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch09",
+  "number": "9.2",
+  "title": "Working with Dictionaries",
+  "xp": 50,
+  "objective": "Add, change, and remove key-value pairs after a dictionary already exists.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "6",
+    "chapterTitle": "Dictionaries",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A dictionary isn't fixed once you create it. You can add a brand new key at any time just by assigning to it, even starting from an empty dictionary {}.",
+      "Assigning to a key that already exists doesn't add a duplicate — it overwrites the value that was there, which is how you update a dictionary as things change.",
+      "The del keyword removes a key-value pair permanently. Once it's deleted, looking up that key again raises a KeyError."
+    ],
+    "rule": "dictionary[key] = value adds or overwrites a pair; del dictionary[key] removes one."
+  },
+  "examples": [
+    {
+      "title": "Leveling Up",
+      "code": "smith = {}\nsmith[\"name\"] = \"Ada\"\nsmith[\"level\"] = 1\n\nsmith[\"level\"] = 2\nprint(smith)\n\ndel smith[\"level\"]\nprint(smith)",
+      "note": "Assigning to an existing key updates it in place; del removes the pair entirely."
+    }
+  ],
+  "checks": [
+    {
+      "id": "overwrite-key",
+      "question": "Starting from forge = {\"hp\": 10}, what does forge[\"hp\"] = 15 do?",
+      "options": [
+        "Replaces 10 with 15 for the \"hp\" key.",
+        "Adds a second \"hp\" key holding 15.",
+        "Raises an error because \"hp\" already exists.",
+        "Deletes the \"hp\" key."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — assigning to an existing key overwrites its value.",
+        "incorrect": "Not quite — a dictionary can only hold one value per key, so this overwrites it."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Durability Tracker",
+    "brief": "Write repair(amount) that starts with item = {\"durability\": 50}, adds amount to item[\"durability\"], then prints the dictionary.",
+    "requirements": [
+      "Define repair(amount).",
+      "Start with a dictionary item = {\"durability\": 50}.",
+      "Update item[\"durability\"] by adding amount to it.",
+      "Print item after updating it."
+    ],
+    "starterCode": "def repair(amount):\n    item = {\"durability\": 50}\n    # Update item[\"durability\"] here, then print item.\n    pass\n\nrepair(10)\n",
+    "solutionCode": "def repair(amount):\n    item = {\"durability\": 50}\n    item[\"durability\"] += amount\n    print(item)\n\nrepair(10)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "updates-key", "label": "Updates the durability key", "pattern": "item\\[[\"']durability[\"']\\]", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    repair(25)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "{'durability': 75}\n",
+    "outputCheckLabel": "repair(25) prints {'durability': 75}"
+  },
+  "hints": [
+    "You can update a dictionary value the same way you'd update a variable: item[\"durability\"] += amount.",
+    "+= adds to the existing value and stores the result back.",
+    "Print item itself, not just the number — a dict prints as {'durability': 75}."
+  ],
+  "nextLessonId": "py-ch09-looping-through-a-dictionary"
+}

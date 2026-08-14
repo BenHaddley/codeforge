@@ -1,0 +1,94 @@
+{
+  "id": "py-ch10-storing-functions-in-modules",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch10",
+  "number": "10.1",
+  "title": "Storing Functions in Modules",
+  "xp": 50,
+  "objective": "Reuse code across files by organizing functions into importable modules.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8 & 9",
+    "chapterTitle": "Functions (Storing Functions in Modules); Classes (The Python Standard Library)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A module is just a Python file whose functions and variables another file can borrow with import. Once a function proves useful in more than one place, moving it into its own module keeps your programs from repeating themselves.",
+      "import module_name loads the whole module; you reach its contents with module_name.function_name(). from module_name import function_name pulls a single name in directly, so you can call function_name() without the prefix.",
+      "You can rename what you import with as — either the whole module, written import module_name as alias, or a single name pulled from it, written from module_name import function_name as alias. Renaming is handy for long names or for avoiding a clash with something you already defined. from module_name import * pulls in everything at once instead — avoid it, because it hides where each name came from and can silently overwrite names you already have."
+    ],
+    "rule": "Import only the names you need, and use as when a shorter name makes your code clearer."
+  },
+  "examples": [
+    {
+      "title": "How a Module Import Would Look",
+      "code": "# --- geometry_helpers.py ---\ndef square_area(side):\n    return side ** 2\n\n\n# --- main.py ---\n# import geometry_helpers\n# from geometry_helpers import square_area as area_of_square\n#\n# print(geometry_helpers.square_area(4))\n# print(area_of_square(4))\n\nprint(square_area(4))",
+      "note": "geometry_helpers.py would hold just the function. The commented lines in main.py show two real ways to reach it: import the whole module and use the dotted name, or import the function directly under a shorter alias. Code Forge runs everything as one file, so square_area is already defined above and the final line calls it directly."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — modules",
+      "startSeconds": 18134,
+      "endSeconds": 18531,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=18134&end=18531&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "avoid-star-import",
+      "question": "Why is `from module import *` usually avoided?",
+      "options": [
+        "It runs slower than a normal import.",
+        "It pulls in every name from the module at once, hiding where each one came from and risking accidental overwrites.",
+        "It only works with the math module.",
+        "Python does not actually allow it."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — star imports make it hard to trace where a name came from and can quietly replace names you already defined.",
+        "incorrect": "Not quite. Think about what happens when every name in a module suddenly appears in your file at once."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Distance Calculator",
+    "brief": "Write calculate_distance(x1, y1, x2, y2) that returns the straight-line distance between two points, using the square root function from the math module.",
+    "requirements": [
+      "Import sqrt from the math module.",
+      "Define calculate_distance(x1, y1, x2, y2).",
+      "Return the distance using the distance formula: the square root of (x2 - x1) squared plus (y2 - y1) squared."
+    ],
+    "starterCode": "from math import sqrt\n\ndef calculate_distance(x1, y1, x2, y2):\n    # Use sqrt() to return the distance between the two points.\n    pass\n",
+    "solutionCode": "from math import sqrt\n\ndef calculate_distance(x1, y1, x2, y2):\n    return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)\n\nprint(calculate_distance(0, 0, 3, 4))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "imports-sqrt",
+        "label": "Imports sqrt from math",
+        "pattern": "from\\s+math\\s+import\\s+sqrt",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(calculate_distance(0, 0, 3, 4))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "5.0\n",
+    "outputCheckLabel": "calculate_distance(0, 0, 3, 4) prints 5.0"
+  },
+  "hints": [
+    "Distance uses the Pythagorean theorem: the square root of (x2 - x1) squared plus (y2 - y1) squared.",
+    "You already imported sqrt directly, so call it as sqrt(...), not math.sqrt(...).",
+    "** is the exponent operator in Python — (x2 - x1) ** 2 squares the difference.",
+    "Return the result; the harness takes care of printing it."
+  ],
+  "nextLessonId": "py-ch10-main-guard"
+}

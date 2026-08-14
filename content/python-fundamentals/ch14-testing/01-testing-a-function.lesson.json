@@ -1,0 +1,104 @@
+{
+  "id": "py-ch14-testing-a-function",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch14",
+  "number": "14.1",
+  "title": "Testing a Function",
+  "xp": 50,
+  "objective": "Write an automated unittest.TestCase to verify a function behaves as expected.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "11",
+    "chapterTitle": "Testing Your Code",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "So far you have checked your code by eyeballing its output. That works for a few print statements, but it does not scale, and it is easy to miss a case you forgot to try by hand. Python's built-in unittest module lets the computer check your code for you, every time, automatically.",
+      "To test a function, you write a class that inherits from unittest.TestCase. Inside that class, each check you want to run lives in its own method, and that method's name must start with test_. unittest scans the class for methods named that way and runs each one as an independent test.",
+      "Inside a test method you call the function you are testing and compare what it returned to what you expected, usually with self.assertEqual(actual, expected). If the two values match, the test passes silently. If they do not match, unittest records a failure and reports exactly which value it received and which value it wanted, so you can see the mismatch at a glance.",
+      "A run with no failures is often summarized as OK. A run with problems lists each failing test along with an AssertionError showing the two values that did not agree. That report is far more precise than scrolling back through printed output looking for a mistake."
+    ],
+    "rule": "Give a test method a name starting with test_, call the function under test inside it, and compare the result to what you expect with self.assertEqual."
+  },
+  "examples": [
+    {
+      "title": "A Passing Test",
+      "code": "def square(n):\n    return n * n\n\n\nimport unittest\n\n\nclass TestSquare(unittest.TestCase):\n    def test_square_of_three(self):\n        self.assertEqual(square(3), 9)\n\n\nunittest.main(argv=[\"\"], exit=False)",
+      "note": "test_square_of_three calls square(3) and checks the result against 9 with assertEqual. Because they match, unittest reports the run as OK."
+    },
+    {
+      "title": "What a Failing Test Reports",
+      "code": "def square(n):\n    return n * n\n\n\nimport unittest\n\n\nclass TestSquare(unittest.TestCase):\n    def test_square_of_three(self):\n        self.assertEqual(square(3), 10)\n\n\nunittest.main(argv=[\"\"], exit=False)",
+      "note": "Here the expected value 10 is wrong on purpose. assertEqual sees that square(3) returned 9, not 10, so unittest reports a failure and prints both values instead of moving on quietly."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "test-method-naming",
+      "question": "Why does a test method's name need to start with test_?",
+      "options": [
+        "It is just a style convention with no effect on the program.",
+        "unittest's test loader looks for that prefix to find which methods to run.",
+        "Python only allows lowercase method names that start with a letter.",
+        "It tells assertEqual which values to compare."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — unittest scans a TestCase class for methods whose names start with test_ and runs each one.",
+        "incorrect": "Not quite. Think about how unittest decides which methods in the class are actual tests."
+      }
+    },
+    {
+      "id": "assert-equal-purpose",
+      "question": "What does self.assertEqual(actual, expected) do inside a test method?",
+      "options": [
+        "It prints actual and expected to the console for comparison.",
+        "It sets actual to the value of expected.",
+        "It fails the test if actual and expected are not equal.",
+        "It only works on numbers, not strings."
+      ],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — assertEqual records a failure when the two values it is given do not match.",
+        "incorrect": "Not quite. assertEqual is a check, not a print statement or an assignment."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Test clean_display_name",
+    "brief": "clean_display_name(name) below is already correct: it removes extra whitespace and capitalizes each word. Write a TestCase named TestCleanDisplayName with at least two test methods that verify its behavior.",
+    "requirements": [
+      "Import the unittest module.",
+      "Define a class named TestCleanDisplayName that inherits from unittest.TestCase.",
+      "Write at least two test methods, each with a name starting with test_.",
+      "Use self.assertEqual in at least one test method to check clean_display_name's return value.",
+      "Do not change clean_display_name itself."
+    ],
+    "starterCode": "def clean_display_name(name):\n    \"\"\"Return name with extra whitespace removed and each word capitalized.\"\"\"\n    words = name.split()\n    return \" \".join(word.capitalize() for word in words)\n\n\nimport unittest\n\n\nclass TestCleanDisplayName(unittest.TestCase):\n    # Write at least two test methods below, each starting with test_.\n    pass\n",
+    "solutionCode": "def clean_display_name(name):\n    \"\"\"Return name with extra whitespace removed and each word capitalized.\"\"\"\n    words = name.split()\n    return \" \".join(word.capitalize() for word in words)\n\n\nimport unittest\n\n\nclass TestCleanDisplayName(unittest.TestCase):\n    def test_capitalizes_each_word(self):\n        self.assertEqual(clean_display_name(\"ada lovelace\"), \"Ada Lovelace\")\n\n    def test_collapses_extra_whitespace(self):\n        self.assertEqual(clean_display_name(\"  ada   lovelace  \"), \"Ada Lovelace\")\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "imports-unittest", "label": "Imports unittest", "pattern": "import\\s+unittest", "mustMatch": true },
+      { "id": "defines-testcase", "label": "Defines class TestCleanDisplayName(unittest.TestCase)", "pattern": "class\\s+TestCleanDisplayName\\s*\\(\\s*unittest\\.TestCase\\s*\\)", "mustMatch": true },
+      { "id": "two-test-methods", "label": "Has at least two test_ methods", "pattern": "def\\s+test_\\w+\\s*\\(self\\)[\\s\\S]*def\\s+test_\\w+\\s*\\(self\\)", "mustMatch": true },
+      { "id": "uses-assert-equal", "label": "Uses self.assertEqual", "pattern": "self\\.assertEqual\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport unittest, io\n_cf_stream = io.StringIO()\n_cf_suite = unittest.TestLoader().loadTestsFromTestCase(TestCleanDisplayName)\n_cf_result = unittest.TextTestRunner(stream=_cf_stream, verbosity=2).run(_cf_suite)\n_cf_summary = f\"ran={_cf_result.testsRun} failures={len(_cf_result.failures)} errors={len(_cf_result.errors)}\"\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_summary))\n",
+    "expectedOutput": "ran=2 failures=0 errors=0",
+    "outputCheckLabel": "Both test methods in TestCleanDisplayName pass with no errors."
+  },
+  "hints": [
+    "Start with import unittest and class TestCleanDisplayName(unittest.TestCase):.",
+    "Each test method name must start with test_ so unittest's loader can find it, for example def test_capitalizes_each_word(self):.",
+    "Inside a test method, call clean_display_name(...) and compare the result to what you expect with self.assertEqual(actual, expected).",
+    "You need at least two separate test_ methods — try one for capitalizing words and one for collapsing extra whitespace."
+  ],
+  "nextLessonId": "py-ch14-testing-a-class"
+}

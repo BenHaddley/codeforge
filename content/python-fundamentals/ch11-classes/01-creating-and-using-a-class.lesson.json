@@ -1,0 +1,108 @@
+{
+  "id": "py-ch11-creating-and-using-a-class",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch11",
+  "number": "11.1",
+  "title": "Creating and Using a Class",
+  "xp": 50,
+  "objective": "Define a class, initialize it with __init__(), and call a method on an instance you create from it.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "9",
+    "chapterTitle": "Classes",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose, examples, and exercises are original Code Forge material using an original theme, not the book's example classes."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A class is a blueprint for creating objects that bundle data and behavior together. Once you define a class, you can create as many independent instances from it as you need, and each instance keeps its own copy of the data described by the blueprint.",
+      "Every class that stores data on its instances defines a special method named __init__(). Python calls __init__() automatically whenever you create a new instance, so it is the natural place to set up whatever information that instance needs to start out with.",
+      "Inside a class, the first parameter of every method is conventionally named self. self is how an instance refers to itself, and Python supplies it automatically — you never pass it in yourself when calling a method on an instance."
+    ],
+    "rule": "Define a class with class ClassName:, set up instance data in __init__(), then create an instance and call its methods with dot notation."
+  },
+  "examples": [
+    {
+      "title": "Defining and Using a Class",
+      "code": "class Apprentice:\n    \"\"\"Represents a blacksmith's apprentice in training.\"\"\"\n\n    def __init__(self, name, specialty):\n        self.name = name\n        self.specialty = specialty\n\n    def introduce(self):\n        print(f\"{self.name} is training in {self.specialty}.\")\n\n\nfirst_apprentice = Apprentice(\"Mira\", \"swordsmithing\")\nfirst_apprentice.introduce()\n",
+      "note": "Apprentice(\"Mira\", \"swordsmithing\") triggers __init__() automatically, storing both arguments on self. Calling first_apprentice.introduce() then runs that method for this one instance."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "self-meaning",
+      "question": "What does self refer to inside a class's method?",
+      "options": [
+        "The specific instance the method is being called on.",
+        "The class itself, not any particular instance.",
+        "A built-in Python keyword that means nothing.",
+        "The last object created from any class."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — self always refers to the instance the method was called on.",
+        "incorrect": "Not quite. self stands in for whichever instance called the method."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Badge",
+    "brief": "Write a Badge class that stores a rank and can display it.",
+    "requirements": [
+      "Define a class named Badge.",
+      "Implement __init__(self, rank) that stores rank as self.rank.",
+      "Implement a method display() that prints f\"Badge rank: {self.rank}\".",
+      "Create an instance of Badge and call display() on it."
+    ],
+    "starterCode": "class Badge:\n    def __init__(self, rank):\n        # Store rank on self.\n        pass\n\n    def display(self):\n        # Print the badge rank using an f-string.\n        pass\n\n\n# Create a Badge instance and call display() on it.\n",
+    "solutionCode": "class Badge:\n    def __init__(self, rank):\n        self.rank = rank\n\n    def display(self):\n        print(f\"Badge rank: {self.rank}\")\n\n\nmy_badge = Badge(\"Novice\")\nmy_badge.display()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "class-badge",
+        "label": "Defines class Badge",
+        "pattern": "class\\s+Badge",
+        "mustMatch": true
+      },
+      {
+        "id": "has-init",
+        "label": "Implements __init__",
+        "pattern": "def\\s+__init__",
+        "mustMatch": true
+      },
+      {
+        "id": "stores-rank",
+        "label": "Stores rank on self.rank",
+        "pattern": "self\\.rank\\s*=",
+        "mustMatch": true
+      },
+      {
+        "id": "has-display",
+        "label": "Implements display()",
+        "pattern": "def\\s+display",
+        "mustMatch": true
+      },
+      {
+        "id": "calls-display",
+        "label": "Calls .display() on an instance",
+        "pattern": "\\.display\\(\\)",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    _cf_badge = Badge(\"Journeyman\")\n    _cf_badge.display()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Badge rank: Journeyman\n",
+    "outputCheckLabel": "Badge(\"Journeyman\").display() prints Badge rank: Journeyman"
+  },
+  "hints": [
+    "Start with class Badge: to define the class itself.",
+    "__init__(self, rank) runs automatically when you create a new Badge — use it to store rank on self.rank.",
+    "display() only needs self as a parameter; use an f-string to print self.rank.",
+    "After the class is defined, create an instance with Badge(\"Novice\") and then call .display() on that instance."
+  ],
+  "nextLessonId": "py-ch11-working-with-instances"
+}

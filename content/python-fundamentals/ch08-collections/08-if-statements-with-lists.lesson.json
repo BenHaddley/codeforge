@@ -1,0 +1,93 @@
+{
+  "id": "py-ch08-if-statements-with-lists",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.8",
+  "title": "Using if Statements with Lists",
+  "xp": 50,
+  "objective": "Combine if statements with lists by checking membership with in/not in, testing whether a list is empty, and filtering items inside a loop.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "if Statements",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Now that you know how to build and loop through lists, you can combine them with the if statements you already learned. The in keyword checks whether a value exists anywhere in a list: if \"Nyx\" in allowed: reads almost like English, and it's True whenever a matching item is found. not in flips that check, asking whether a value is missing instead.",
+      "A list itself can be used directly as a condition. An empty list, [], is treated as falsy, while any list with at least one item is treated as truthy. That means if my_list: is a quick way to ask \"does this list have anything in it?\" without calling len() at all.",
+      "These checks are especially useful inside a for loop, where you can test each item against a condition as you go — for example, printing a different message depending on whether the current item is in another list."
+    ],
+    "rule": "value in list_name checks for a match, not in checks for its absence, and if list_name: is True exactly when the list is non-empty."
+  },
+  "examples": [
+    {
+      "title": "Membership Checks",
+      "code": "allowed = [\"Nyx\", \"Bram\"]\nprint(\"Nyx\" in allowed)\nprint(\"Ghost\" not in allowed)",
+      "note": "in looks for a match anywhere in the list; not in confirms a value is absent."
+    },
+    {
+      "title": "Empty List Check",
+      "code": "queue = []\nif queue:\n    print(\"Someone is waiting.\")\nelse:\n    print(\"The queue is empty.\")",
+      "note": "An empty list is falsy, so the else branch runs without needing len(queue) == 0."
+    }
+  ],
+  "checks": [
+    {
+      "id": "empty-list-truthiness",
+      "question": "What does if my_list: evaluate to when my_list is []?",
+      "options": ["True", "False", "It raises an error", "It depends on the items' types"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — an empty list is falsy, so the condition is False.",
+        "incorrect": "An empty list, [], is treated as falsy in a condition."
+      }
+    },
+    {
+      "id": "in-operator",
+      "question": "What does \"Ghost\" in allowed evaluate to when allowed = [\"Nyx\", \"Bram\"]?",
+      "options": ["True", "False", "\"Ghost\"", "An IndexError"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — \"Ghost\" is not one of the items in allowed, so this is False.",
+        "incorrect": "in returns True only if the value is actually found among the list's items."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Gatekeeper",
+    "brief": "Write gatekeeper(allowed, visitors) that turns visitors away when the allowed list is empty, otherwise checks each visitor against the allowed list, and finally confirms that \"Ghost\" is not on the list.",
+    "requirements": [
+      "Define gatekeeper(allowed, visitors).",
+      "If allowed is empty, print \"No one is allowed in yet.\" and return.",
+      "Otherwise, loop through visitors and use in to check membership in allowed.",
+      "Print \"{visitor}: welcome in.\" when the visitor is in allowed.",
+      "Print \"{visitor}: not on the list.\" when the visitor is not in allowed.",
+      "After the loop, use not in to check whether \"Ghost\" is missing from allowed, and if so print \"Ghost is not an approved name.\""
+    ],
+    "starterCode": "def gatekeeper(allowed, visitors):\n    # Handle an empty allowed list, then check each visitor.\n    pass\n\ngatekeeper([\"Nyx\", \"Bram\"], [\"Nyx\", \"Fen\", \"Bram\"])\n",
+    "solutionCode": "def gatekeeper(allowed, visitors):\n    if not allowed:\n        print(\"No one is allowed in yet.\")\n        return\n    for visitor in visitors:\n        if visitor in allowed:\n            print(f\"{visitor}: welcome in.\")\n        else:\n            print(f\"{visitor}: not on the list.\")\n    if \"Ghost\" not in allowed:\n        print(\"Ghost is not an approved name.\")\n\ngatekeeper([\"Nyx\", \"Bram\"], [\"Nyx\", \"Fen\", \"Bram\"])\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "checks-empty", "label": "Checks whether allowed is empty", "pattern": "if\\s+not\\s+allowed", "mustMatch": true },
+      { "id": "uses-in", "label": "Uses in for membership", "pattern": "in\\s+allowed", "mustMatch": true },
+      { "id": "uses-not-in", "label": "Uses not in", "pattern": "not\\s+in\\s+allowed", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    gatekeeper([\"Nyx\", \"Bram\"], [\"Nyx\", \"Fen\", \"Bram\"])\n    gatekeeper([], [\"Anyone\"])\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Nyx: welcome in.\nFen: not on the list.\nBram: welcome in.\nGhost is not an approved name.\nNo one is allowed in yet.\n",
+    "outputCheckLabel": "gatekeeper(...) handles a filled list and then an empty list"
+  },
+  "hints": [
+    "Start with if not allowed: — an empty list is falsy, so this catches the no-one-allowed case first.",
+    "Don't forget return right after that message, so the rest of the function doesn't run for an empty list.",
+    "Inside the loop, if visitor in allowed: chooses the welcome message; the else covers everyone else.",
+    "The Ghost check happens once, after the loop finishes, not for every visitor.",
+    "\"Ghost\" not in allowed reads naturally: True when \"Ghost\" is missing from allowed."
+  ],
+  "nextLessonId": "py-ch08-passing-lists-to-functions"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "py-ch12-else-and-multiple-exceptions",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch12",
+  "number": "12.2",
+  "title": "The else Block & Multiple Exceptions",
+  "xp": 50,
+  "objective": "Use an else block for code that should only run when no exception occurred, and catch more than one exception type.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "10",
+    "chapterTitle": "Files and Exceptions (Exceptions)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only; the file-handling part of this book chapter is covered separately in Code Forge's Files chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A try block can be followed by an optional else block. Code inside else only runs if the try block finished with no exception at all. This keeps the \"what happens when it works\" logic separate from the risky line itself, which makes it clearer which statement could actually fail.",
+      "Sometimes more than one kind of exception is possible from the same block. Converting user input to a number can raise ValueError for text like \"abc\", while looking something up in a dictionary can raise KeyError for a missing entry. You can stack multiple except blocks, one per exception type, and Python runs whichever one matches the error that actually occurred.",
+      "When two or more exception types should be handled the exact same way, you don't need to repeat the handling code. List the types together in a tuple after except, like except (ValueError, KeyError):, and that single block catches any of them."
+    ],
+    "rule": "Put success-only code in else, and group exception types in one except block only when they should be handled identically."
+  },
+  "examples": [
+    {
+      "title": "Looking Up a Price Safely",
+      "code": "prices = {\"apple\": 1, \"pear\": 2}\n\ndef price_of(item):\n    try:\n        value = prices[item]\n    except KeyError:\n        print(f\"{item} is not on the menu.\")\n    else:\n        print(f\"{item} costs {value}.\")\n\nprice_of(\"apple\")\nprice_of(\"kiwi\")",
+      "note": "The else block only runs for \"apple\", where the lookup succeeds. \"kiwi\" raises KeyError, so else is skipped and the except block runs instead."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "else-block-timing",
+      "question": "When does the code inside a try block's else clause run?",
+      "options": [
+        "Only when the try block completes with no exception raised.",
+        "Every time, right after the except block finishes.",
+        "Only when an exception is raised and caught.",
+        "Before the try block, to set things up."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct \u2014 else only runs when the try block succeeds with no exception.",
+        "incorrect": "Not quite. else is skipped whenever an exception was raised in try, even if it was caught."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Parse a Score",
+    "brief": "Write parse_score(text) that converts text to an integer and returns it. If text can't be converted, or converts to a negative number, return None instead of crashing.",
+    "requirements": [
+      "Define parse_score(text).",
+      "Use try to call int(text).",
+      "Catch ValueError for text that can't be converted to a number.",
+      "Use an else block: if the number is negative, return None; otherwise return the number.",
+      "The except block returns None."
+    ],
+    "starterCode": "def parse_score(text):\n    # Convert text to an int and return it.\n    # Return None if text isn't a valid number, or if it's negative.\n    pass\n",
+    "solutionCode": "def parse_score(text):\n    try:\n        value = int(text)\n    except ValueError:\n        return None\n    else:\n        if value < 0:\n            return None\n        return value\n\nprint(parse_score(\"42\"))\nprint(parse_score(\"-5\"))\nprint(parse_score(\"abc\"))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "has-try",
+        "label": "Uses a try block",
+        "pattern": "try\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "catches-valueerror",
+        "label": "Catches ValueError",
+        "pattern": "except\\s+ValueError",
+        "mustMatch": true
+      },
+      {
+        "id": "has-else",
+        "label": "Uses an else block on try",
+        "pattern": "else\\s*:",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(parse_score(\"42\"))\n    print(parse_score(\"-5\"))\n    print(parse_score(\"abc\"))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "42\nNone\nNone\n",
+    "outputCheckLabel": "parse_score(\"42\") prints 42, parse_score(\"-5\") prints None, parse_score(\"abc\") prints None"
+  },
+  "hints": [
+    "int(text) belongs in the try block \u2014 that's the line that can raise ValueError.",
+    "The negative-number check belongs in else, since it should only run once the conversion succeeded.",
+    "Return None from the except block for text that isn't a valid number at all.",
+    "Inside else, compare value to 0 before deciding whether to return it or None."
+  ],
+  "nextLessonId": "py-ch12-failing-silently"
+}

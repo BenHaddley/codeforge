@@ -1,0 +1,78 @@
+{
+  "id": "py-ch02-numbers",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.5",
+  "title": "Numbers",
+  "xp": 50,
+  "objective": "Distinguish int from float and convert numbers to strings safely.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "2",
+    "chapterTitle": "Variables and Simple Data Types",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Python has two everyday number types. An int is a whole number with no decimal point, like 5 or -12. A float has a decimal point, like 5.0 or 3.14, even if the digits after the point are zero.",
+      "Doing math with two ints gives an int (except division with /, which always gives a float). Mixing an int and a float in the same expression gives a float, because Python widens to the more precise type.",
+      "You cannot concatenate a number directly to a string with + — Python raises a TypeError. The fix is str(), which converts a number into its text form so it can be joined with other text."
+    ],
+    "rule": "Use str(number) to convert a number into text before joining it to a string with +."
+  },
+  "examples": [
+    {
+      "title": "Converting a Number for Display",
+      "code": "swords_made = 7\nmessage = \"Swords made: \" + str(swords_made)\nprint(message)",
+      "note": "str(swords_made) turns the int 7 into the text '7' so it can be concatenated."
+    }
+  ],
+  "checks": [
+    {
+      "id": "typeerror-fix",
+      "question": "print(\"Total: \" + 5) raises a TypeError. What fixes it?",
+      "options": [
+        "Change + to a comma inside print().",
+        "Wrap 5 in str(): print(\"Total: \" + str(5))",
+        "Remove the quotes around Total:",
+        "Nothing — this code is already correct."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — str() converts the number to text so it can be concatenated.",
+        "incorrect": "You can't concatenate a string and a number directly — convert the number with str() first."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Ingot Count",
+    "brief": "Write ingot_report(count) that prints the exact text 'Ingots: ' followed by count, using str() to combine them with +.",
+    "requirements": [
+      "Define ingot_report(count).",
+      "Use str() to convert count.",
+      "Concatenate with + and print the result, e.g. 'Ingots: 4' for count=4."
+    ],
+    "starterCode": "def ingot_report(count):\n    # Build and print 'Ingots: ' + count using str().\n    pass\n\ningot_report(4)\n",
+    "solutionCode": "def ingot_report(count):\n    message = \"Ingots: \" + str(count)\n    print(message)\n\ningot_report(4)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines ingot_report()", "pattern": "def\\s+ingot_report\\s*\\(", "mustMatch": true },
+      { "id": "uses-str", "label": "Uses str()", "pattern": "str\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    ingot_report(4)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Ingots: 4\n",
+    "outputCheckLabel": "ingot_report(4) prints exactly: Ingots: 4"
+  },
+  "hints": [
+    "You can't concatenate 'Ingots: ' directly to count — convert it first.",
+    "str(count) turns the number into text.",
+    "Join the pieces with + and print the combined string.",
+    "There is exactly one space after the colon in 'Ingots: '."
+  ],
+  "nextLessonId": "py-ch02-comments-and-zen"
+}

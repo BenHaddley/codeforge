@@ -1,0 +1,83 @@
+{
+  "id": "py-ch08-passing-lists-to-functions",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.9",
+  "title": "Passing Lists to Functions",
+  "xp": 50,
+  "objective": "Recognize that a function receives the same list object it was passed, and use a copy when the original must stay unchanged.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8",
+    "chapterTitle": "Passing a List; Preventing a Function from Modifying a List",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "When you pass a list to a function, the function receives the exact same list object the caller has — not a copy. If the function appends to it, sorts it, or removes items from it, those changes are visible back in the caller too, once the function returns.",
+      "This is different from passing a number or a string, where the function only ever works with its own value. Lists (and other mutable objects) are shared, so a function that changes one in place changes it everywhere it's referenced.",
+      "When you don't want a function to touch the original list, give it a copy instead: roster[:] or list(roster) both create a brand-new list with the same items, so anything the function does to the copy leaves the original untouched."
+    ],
+    "rule": "A function that receives a list can modify the caller's original list in place, unless it's given a copy instead."
+  },
+  "examples": [
+    {
+      "title": "Modifying the Original",
+      "code": "def add_topping(toppings, new_topping):\n    toppings.append(new_topping)\n\npizza = [\"cheese\"]\nadd_topping(pizza, \"pepperoni\")\nprint(pizza)",
+      "note": "add_topping() appends directly to the same list object pizza refers to, so the caller sees the new topping too."
+    },
+    {
+      "title": "Protecting the Original with a Copy",
+      "code": "def preview_topping(toppings, new_topping):\n    preview = toppings[:]\n    preview.append(new_topping)\n    return preview\n\npizza = [\"cheese\"]\nprint(preview_topping(pizza, \"olives\"))\nprint(pizza)",
+      "note": "toppings[:] makes a separate copy, so appending to preview never touches the original pizza list."
+    }
+  ],
+  "checks": [
+    {
+      "id": "mutation-visible",
+      "question": "add_scores(scores) appends a number to the list it receives. After calling add_scores(my_scores), what happens to my_scores?",
+      "options": [
+        "Nothing — my_scores is unaffected.",
+        "my_scores gains the new number too, since the function shares the same list.",
+        "A copy of my_scores is created automatically.",
+        "It raises a TypeError."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — the function receives the same list object, so appending inside it changes my_scores as well.",
+        "incorrect": "A list passed to a function is shared, not copied, so changes made inside the function are visible outside it too."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Recruit Roster",
+    "brief": "Write enlist(roster, name), which appends name directly to the given roster list (modifying it in place, no return needed). Then write preview_enlist(roster, name), which returns a brand-new list with name added, without changing the original roster at all.",
+    "requirements": [
+      "Define enlist(roster, name) that appends name to roster in place.",
+      "Define preview_enlist(roster, name) that builds a copy of roster (e.g. roster[:]), appends name to the copy, and returns the copy.",
+      "preview_enlist must not modify the original roster list."
+    ],
+    "starterCode": "def enlist(roster, name):\n    # Append name directly to roster.\n    pass\n\ndef preview_enlist(roster, name):\n    # Return a new list with name added, without changing roster.\n    pass\n",
+    "solutionCode": "def enlist(roster, name):\n    roster.append(name)\n\ndef preview_enlist(roster, name):\n    preview = roster[:]\n    preview.append(name)\n    return preview\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-enlist", "label": "Defines enlist(roster, name)", "pattern": "def\\s+enlist\\s*\\(", "mustMatch": true },
+      { "id": "defines-preview-enlist", "label": "Defines preview_enlist(roster, name)", "pattern": "def\\s+preview_enlist\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    roster = [\"Nyx\", \"Bram\"]\n    enlist(roster, \"Fen\")\n    print(roster)\n    preview = preview_enlist(roster, \"Ghost\")\n    print(preview)\n    print(roster)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "['Nyx', 'Bram', 'Fen']\n['Nyx', 'Bram', 'Fen', 'Ghost']\n['Nyx', 'Bram', 'Fen']\n",
+    "outputCheckLabel": "enlist() mutates roster in place; preview_enlist() leaves roster unchanged"
+  },
+  "hints": [
+    "enlist() just needs one line: roster.append(name).",
+    "preview_enlist() should not touch roster directly — start by copying it with roster[:].",
+    "Append name to the copy, not to roster, then return the copy.",
+    "After both calls, roster should show Fen (from enlist) but never Ghost (which only exists in the returned preview)."
+  ],
+  "nextLessonId": "py-ch09-a-simple-dictionary"
+}

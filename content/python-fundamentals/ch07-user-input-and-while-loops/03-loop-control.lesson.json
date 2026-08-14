@@ -1,0 +1,100 @@
+{
+  "id": "py-ch07-loop-control",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch07",
+  "number": "7.3",
+  "title": "Loop Control: break, continue, and Flags",
+  "xp": 50,
+  "objective": "Exit or skip parts of a loop with break and continue, and track loop state with a flag variable.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "7",
+    "chapterTitle": "Using break to Exit a Loop; Using continue in a Loop; Using a Flag",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "break immediately exits the nearest loop, even if its condition is still True. Execution jumps straight to the first line after the loop — nothing else in the loop body runs for that pass or any future one.",
+      "continue skips the rest of the current pass and jumps back to re-check the loop's condition, without exiting the loop entirely. Any code in the loop body written after continue is skipped for that pass only.",
+      "A flag is a Boolean variable you use to track whether a loop should keep running, especially when the stopping condition depends on several different things. Starting a flag as True and setting it to False when it's time to stop keeps a while loop's condition simple, like while is_running:."
+    ],
+    "rule": "break exits a loop completely; continue skips to the next pass without exiting."
+  },
+  "examples": [
+    {
+      "title": "Skipping and Stopping",
+      "code": "count = 0\nwhile count < 10:\n    count += 1\n    if count == 3:\n        continue\n    if count == 6:\n        break\n    print(count)",
+      "note": "3 is skipped by continue; the loop stops entirely once count reaches 6, so 6 and beyond never print."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — break and continue",
+      "startSeconds": 7799,
+      "endSeconds": 7865,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=7799&end=7865&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "break-vs-continue",
+      "question": "Inside a while loop, which statement skips the rest of the current pass but keeps the loop running afterward?",
+      "options": [
+        "break",
+        "continue",
+        "return",
+        "pass"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — continue skips to the next pass; break would stop the loop entirely.",
+        "incorrect": "That's break's job (or a different statement entirely). continue skips just the current pass."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Skip and Stop",
+    "brief": "Write count_to(limit) using a while loop that prints numbers from 1 up to limit, skipping any multiple of 3 with continue, and stopping immediately (with break) once it would print a number greater than or equal to limit.",
+    "requirements": [
+      "Define count_to(limit).",
+      "Use a while loop with continue to skip multiples of 3.",
+      "Use break to stop once the counter reaches limit."
+    ],
+    "starterCode": "def count_to(limit):\n    # Print 1..limit, skipping multiples of 3, stopping at limit.\n    pass\n\ncount_to(7)\n",
+    "solutionCode": "def count_to(limit):\n    count = 0\n    while True:\n        count += 1\n        if count > limit:\n            break\n        if count % 3 == 0:\n            continue\n        print(count)\n\ncount_to(7)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "uses-continue",
+        "label": "Uses continue",
+        "pattern": "\\bcontinue\\b",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-break",
+        "label": "Uses break",
+        "pattern": "\\bbreak\\b",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    count_to(7)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "1\n2\n4\n5\n7\n",
+    "outputCheckLabel": "count_to(7) prints 1,2,4,5,7 (skipping 3 and 6)"
+  },
+  "hints": [
+    "You can loop with while True: and use break to stop manually.",
+    "Increment your counter first, then check if it's over the limit — break if so.",
+    "Check count % 3 == 0 to detect multiples of 3, and continue past them.",
+    "For limit=7, the multiples of 3 skipped are 3 and 6; the rest print."
+  ],
+  "nextLessonId": "py-ch08-introducing-lists"
+}

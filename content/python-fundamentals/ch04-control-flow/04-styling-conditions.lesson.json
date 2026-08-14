@@ -1,0 +1,78 @@
+{
+  "id": "py-ch04-styling-conditions",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch04",
+  "number": "4.4",
+  "title": "Styling Your Conditions",
+  "xp": 50,
+  "objective": "Write conditions that read clearly and avoid redundant comparisons.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "if Statements",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material. List-dependent if-statement patterns are covered later in the Collections chapter, after lists are introduced."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A condition that already produces a Boolean doesn't need to be compared to True or False again. is_ready == True is redundant — is_ready alone already says the same thing, and reads more naturally.",
+      "Put a single, simple space around comparison operators (a >= b, not a>=b) so the condition is easy to scan at a glance. Consistent spacing matters more than any one particular style choice.",
+      "When a condition needs a comment to explain what it checks, consider whether naming an intermediate variable would make the comment unnecessary — a variable named is_hot_enough often communicates more clearly than a comment next to a raw comparison."
+    ],
+    "rule": "If a condition already evaluates to True or False, use it directly instead of comparing it to True or False again."
+  },
+  "examples": [
+    {
+      "title": "Removing a Redundant Comparison",
+      "code": "is_ready = temperature >= 1200\n\n# Prefer this:\nif is_ready:\n    print(\"Go\")\n\n# Over this:\nif is_ready == True:\n    print(\"Go\")",
+      "note": "Both work, but the first reads more like a plain sentence."
+    }
+  ],
+  "checks": [
+    {
+      "id": "redundant-comparison",
+      "question": "is_valid is already a Boolean. Which condition is the better style?",
+      "options": [
+        "if is_valid == True:",
+        "if is_valid:",
+        "if is_valid == True == True:",
+        "There's no difference either way."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — comparing a Boolean to True is redundant; use it directly.",
+        "incorrect": "is_valid is already True or False, so comparing it to True again is redundant."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Direct Boolean Check",
+    "brief": "Write announce(is_ready) that prints 'Go' if is_ready is True and 'Wait' otherwise, using is_ready directly (not ==True).",
+    "requirements": [
+      "Define announce(is_ready).",
+      "Use if is_ready: / else: directly, without comparing to True or False.",
+      "Print the correct message for each case."
+    ],
+    "starterCode": "def announce(is_ready):\n    # Use is_ready directly, without comparing to True/False.\n    pass\n\nannounce(True)\n",
+    "solutionCode": "def announce(is_ready):\n    if is_ready:\n        print(\"Go\")\n    else:\n        print(\"Wait\")\n\nannounce(True)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines announce()", "pattern": "def\\s+announce\\s*\\(", "mustMatch": true },
+      { "id": "no-redundant-true", "label": "Does not compare to True/False", "pattern": "==\\s*(True|False)", "mustMatch": false }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    announce(True)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Go\n",
+    "outputCheckLabel": "announce(True) prints exactly: Go"
+  },
+  "hints": [
+    "is_ready is already a Boolean — you don't need == True.",
+    "if is_ready: is enough to check that it's True.",
+    "Use else: for the False case, printing 'Wait'.",
+    "Calling announce(True) should print exactly: Go"
+  ],
+  "nextLessonId": "py-ch05-defining-functions"
+}

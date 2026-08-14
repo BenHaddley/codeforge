@@ -1,0 +1,81 @@
+{
+  "id": "py-ch09-nesting",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch09",
+  "number": "9.4",
+  "title": "Nesting",
+  "xp": 50,
+  "objective": "Combine lists and dictionaries to model more complex, real data.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "6",
+    "chapterTitle": "Dictionaries",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Nesting means putting one collection inside another. A list of dictionaries is useful when you have many similar records — each dictionary describes one item, and the list holds all of them.",
+      "A dictionary can also hold a list as one of its values, which is handy when a single key needs to map to several things at once, like one person owning several items.",
+      "You can even nest a dictionary inside another dictionary, using an outer key to group related inner dictionaries together — for example, mapping a username to that user's own profile dictionary."
+    ],
+    "rule": "Reach for a list of dicts for many similar records, and a dict of dicts when each record needs its own name."
+  },
+  "examples": [
+    {
+      "title": "The Roster",
+      "code": "apprentices = [\n    {\"name\": \"Ada\", \"level\": 2},\n    {\"name\": \"Kade\", \"level\": 1},\n]\n\nfor smith in apprentices:\n    print(f\"{smith['name']} is level {smith['level']}\")",
+      "note": "Each dictionary in the list describes one apprentice; the for loop visits them one at a time."
+    },
+    {
+      "title": "Three Shapes of Nesting",
+      "code": "recipe = {\"sword\": [\"steel\", \"leather\", \"oak\"]}\n\nsmiths = {\n    \"Ada\": {\"role\": \"smith\", \"years\": 12},\n    \"Kade\": {\"role\": \"apprentice\", \"years\": 1},\n}\n\nprint(recipe[\"sword\"][0])\nprint(smiths[\"Ada\"][\"role\"])",
+      "note": "recipe maps a key to a list — a dictionary holding a list. smiths maps each name to its own dictionary of details — a dictionary nested inside a dictionary. Chain the brackets to reach the value you want."
+    }
+  ],
+  "checks": [
+    {
+      "id": "pick-structure",
+      "question": "Which structure fits best if you need to look someone up instantly by their username?",
+      "options": [
+        "A dictionary of dictionaries, keyed by username.",
+        "A list of dictionaries.",
+        "A single dictionary with one key.",
+        "A list of usernames only."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Right — keying by username gives you an instant lookup instead of searching a list.",
+        "incorrect": "Not quite — think about which structure lets you jump straight to one username."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Inventory Bag",
+    "brief": "Write bag_summary(name) that builds a dictionary with one key, the given name, mapped to a list of three starter items: \"sword\", \"shield\", \"potion\". Print the list stored under that name.",
+    "requirements": [
+      "Define bag_summary(name).",
+      "Build a dictionary mapping name to a list containing \"sword\", \"shield\", \"potion\" in that order.",
+      "Print the list stored under that name."
+    ],
+    "starterCode": "def bag_summary(name):\n    # Build a dict mapping name to a list of starter items, then print it.\n    pass\n\nbag_summary(\"Ada\")\n",
+    "solutionCode": "def bag_summary(name):\n    bags = {name: [\"sword\", \"shield\", \"potion\"]}\n    print(bags[name])\n\nbag_summary(\"Ada\")\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "dict-of-list", "label": "Maps name to a list of items", "pattern": "\\[[^\\]]*\"sword\"[^\\]]*\\]", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    bag_summary(\"Kade\")\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "['sword', 'shield', 'potion']\n",
+    "outputCheckLabel": "bag_summary(\"Kade\") prints ['sword', 'shield', 'potion']"
+  },
+  "hints": [
+    "Build the dictionary with the name as the key: {name: [...]}.",
+    "The value is a list: [\"sword\", \"shield\", \"potion\"].",
+    "Look the list back up with bags[name] before printing it."
+  ],
+  "nextLessonId": "py-ch10-storing-functions-in-modules"
+}

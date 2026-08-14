@@ -1,0 +1,76 @@
+{
+  "id": "py-ch02-string-indexing-and-slicing",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.3",
+  "title": "String Indexing & Slicing",
+  "xp": 50,
+  "objective": "Read individual characters and substrings out of a string using indexing and slicing.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Python Full Course for free",
+    "creator": "Bro Code",
+    "videoId": "ix9cRaBkVe0",
+    "url": "https://www.youtube.com/watch?v=ix9cRaBkVe0",
+    "note": "Alignment metadata only; this topic isn't covered in Python Crash Course but is taught in the companion video. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A string is a sequence of characters, and Python lets you reach into that sequence the same way you would a list. word[0] gives you the first character, word[-1] gives you the last, and asking for an index that doesn't exist raises an IndexError, exactly like it does for lists.",
+      "A slice pulls out a whole substring instead of one character: word[1:4] returns a new string containing the characters at index 1 up to, but not including, index 4. Leaving off either number means 'to the start' or 'to the end', so word[:3] takes the first three characters and word[3:] takes everything after that.",
+      "Strings are immutable, so indexing and slicing only ever read characters — they never let you assign to word[0] the way you might with a list. To change part of a string, build a brand-new one instead, often by slicing and concatenating."
+    ],
+    "rule": "word[i] reads one character by position; word[a:b] reads a substring from a up to (not including) b — neither one changes the original string."
+  },
+  "examples": [
+    {
+      "title": "Reading Characters by Index",
+      "code": "word = \"forge\"\nprint(word[0])\nprint(word[-1])",
+      "note": "word[0] is the first character; word[-1] is the last, no matter how long the string is."
+    },
+    {
+      "title": "Slicing a Substring",
+      "code": "word = \"hammering\"\nprint(word[:4])\nprint(word[4:])",
+      "note": "word[:4] takes the first four characters; word[4:] takes everything from index 4 onward."
+    }
+  ],
+  "checks": [
+    {
+      "id": "slice-bounds",
+      "question": "word = \"ember\" — what does word[1:3] return?",
+      "options": ["'mb'", "'emb'", "'be'", "'em'"],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — index 1 is 'm', index 2 is 'b', and the slice stops before index 3.",
+        "incorrect": "Count from index 1 up to, but not including, index 3: that's the characters at positions 1 and 2."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Shorten the Word",
+    "brief": "Write shorten(word) that returns the first 3 characters of word if it's longer than 3 characters, otherwise returns word unchanged.",
+    "requirements": [
+      "Define shorten(word).",
+      "If len(word) is greater than 3, return word[:3].",
+      "Otherwise, return word unchanged."
+    ],
+    "starterCode": "def shorten(word):\n    # Return the first 3 characters if word is longer than 3, else return word as-is.\n    pass\n\nprint(shorten(\"hammer\"))\nprint(shorten(\"ax\"))\n",
+    "solutionCode": "def shorten(word):\n    if len(word) > 3:\n        return word[:3]\n    return word\n\nprint(shorten(\"hammer\"))\nprint(shorten(\"ax\"))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines shorten()", "pattern": "def\\s+shorten\\s*\\(", "mustMatch": true },
+      { "id": "uses-slice", "label": "Uses slicing", "pattern": "\\[:3\\]|\\[0:3\\]", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(shorten(\"hammer\"))\n    print(shorten(\"ax\"))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "ham\nax\n",
+    "outputCheckLabel": "shorten('hammer') and shorten('ax') print ham then ax"
+  },
+  "hints": [
+    "word[:3] takes the first three characters of word.",
+    "len(word) tells you how long word is before you decide whether to shorten it.",
+    "If word has 3 or fewer characters, return it unchanged — don't slice it.",
+    "shorten('ax') should return 'ax' exactly, since it's not longer than 3 characters."
+  ],
+  "nextLessonId": "py-ch02-format-specifiers"
+}

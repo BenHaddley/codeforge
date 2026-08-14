@@ -1,0 +1,89 @@
+{
+  "id": "py-ch08-2d-lists",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.6",
+  "title": "2D Lists",
+  "xp": 50,
+  "objective": "Create and access a list of lists (a 2D list) to model grid-like data such as rows and columns.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Python Full Course for free",
+    "creator": "Bro Code",
+    "videoId": "ix9cRaBkVe0",
+    "url": "https://www.youtube.com/watch?v=ix9cRaBkVe0",
+    "note": "Alignment metadata only; this topic isn't covered in Python Crash Course but is taught in the companion video. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A 2D list is a list whose elements are themselves lists — think of it as a grid, where the outer list holds the rows and each inner list holds one row's values. grid = [[1, 2], [3, 4]] describes a 2-row, 2-column grid.",
+      "To reach a single value, use two indices in a row: grid[0] gives you the first inner list (the first row), and grid[0][1] gives you the second value within that row. The first index picks the row, the second picks the position within that row.",
+      "Looping over a 2D list usually means nesting two for loops: the outer loop visits each row (each inner list), and the inner loop visits each value within that row — the exact nested-loop pattern from the last lesson, applied to real data instead of a range."
+    ],
+    "rule": "grid[row][col] reaches a single value in a 2D list — the first index picks which inner list, the second picks the position inside it."
+  },
+  "examples": [
+    {
+      "title": "Reading a Grid",
+      "code": "grid = [[1, 2, 3], [4, 5, 6]]\nprint(grid[0])\nprint(grid[0][1])\nprint(grid[1][2])",
+      "note": "grid[0] is the whole first row, [1, 2, 3]. grid[0][1] narrows down to a single value within that row: 2."
+    },
+    {
+      "title": "Looping Through Every Value",
+      "code": "grid = [[1, 2], [3, 4], [5, 6]]\nfor row in grid:\n    for value in row:\n        print(value)",
+      "note": "The outer loop visits each inner list; the inner loop visits each value inside it — six prints total for this 3-row grid."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — 2D lists",
+      "startSeconds": 9923,
+      "endSeconds": 11007,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=9923&end=11007&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "2d-index",
+      "question": "grid = [[10, 20], [30, 40]] — what is grid[1][0]?",
+      "options": ["10", "20", "30", "40"],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — grid[1] is the second row, [30, 40], and index 0 within it is 30.",
+        "incorrect": "The first index picks the row (grid[1] is [30, 40]); the second index picks the value within that row."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Grid Total",
+    "brief": "Write grid_total(grid) that returns the sum of every value in a 2D list, using nested loops (not the built-in sum() function).",
+    "requirements": [
+      "Define grid_total(grid).",
+      "Use a nested loop to visit every value in every row.",
+      "Accumulate the total with += and return it."
+    ],
+    "starterCode": "def grid_total(grid):\n    # Add up every value in every row using nested loops.\n    pass\n\nprint(grid_total([[1, 2], [3, 4]]))\n",
+    "solutionCode": "def grid_total(grid):\n    total = 0\n    for row in grid:\n        for value in row:\n            total += value\n    return total\n\nprint(grid_total([[1, 2], [3, 4]]))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines grid_total()", "pattern": "def\\s+grid_total\\s*\\(", "mustMatch": true },
+      { "id": "uses-nested-for", "label": "Uses a nested for loop", "pattern": "for\\s+\\w+\\s+in[\\s\\S]*for\\s+\\w+\\s+in", "mustMatch": true },
+      { "id": "no-builtin-sum", "label": "Does not use the built-in sum()", "pattern": "\\bsum\\s*\\(", "mustMatch": false }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(grid_total([[1, 2], [3, 4]]))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "10\n",
+    "outputCheckLabel": "grid_total([[1, 2], [3, 4]]) prints 10"
+  },
+  "hints": [
+    "Start total at 0 before looping.",
+    "The outer loop visits each row (an inner list); the inner loop visits each value in that row.",
+    "Add each value to total with total += value.",
+    "grid_total([[1, 2], [3, 4]]) should return 10 (1 + 2 + 3 + 4)."
+  ],
+  "nextLessonId": "py-ch08-slicing-and-tuples"
+}

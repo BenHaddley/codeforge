@@ -52,7 +52,7 @@ const RunnerClient = (() => {
     worker.postMessage({ type: 'warmup' });
   }
 
-  function run(code, { timeoutMs = 8000 } = {}) {
+  function run(code, { timeoutMs = 8000, stdinLines } = {}) {
     const id = nextId++;
     const effectiveTimeout = pyodideReady ? timeoutMs : Math.max(timeoutMs, COLD_START_TIMEOUT_MS);
     return new Promise((resolve) => {
@@ -68,7 +68,7 @@ const RunnerClient = (() => {
         });
       }, effectiveTimeout);
       pending.set(id, { resolve, timer });
-      worker.postMessage({ id, code });
+      worker.postMessage({ id, code, stdinLines });
     });
   }
 

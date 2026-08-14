@@ -1,0 +1,100 @@
+{
+  "id": "py-ch04-if-statements",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch04",
+  "number": "4.1",
+  "title": "The if Statement",
+  "xp": 50,
+  "objective": "Run code conditionally with if and if-else.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "if Statements",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material. List-dependent if-statement patterns are covered later in the Collections chapter, after lists are introduced."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "An if statement runs a block of code only when its condition is True. Write if, then a Boolean expression, then a colon; the indented lines below run only when that expression is True.",
+      "Indentation is not just style in Python — it's how the language knows which lines belong to the if block. Every line indented the same amount right after the if line is part of that block; the first line back at the original indentation ends it.",
+      "Adding else gives you a second block that runs only when the condition is False. Together, if and else cover both possible outcomes of a single condition — exactly one of the two blocks runs, never both, never neither."
+    ],
+    "rule": "The indented lines under if run only when the condition is True; the indented lines under else run only when it's False."
+  },
+  "examples": [
+    {
+      "title": "One Path or the Other",
+      "code": "temperature = 900\n\nif temperature >= 1200:\n    print(\"Ready to forge.\")\nelse:\n    print(\"Keep heating.\")",
+      "note": "Since 900 is less than 1200, only the else block runs."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — if statements",
+      "startSeconds": 3105,
+      "endSeconds": 3599,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=3105&end=3599&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "one-branch-runs",
+      "question": "In an if/else statement, how many of the two blocks run for a single check?",
+      "options": [
+        "Always both.",
+        "Exactly one, whichever matches the condition.",
+        "Neither, unless you call them.",
+        "It depends on indentation."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — if/else is an either/or; exactly one branch executes.",
+        "incorrect": "if/else always picks exactly one branch based on the condition's value."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Heat Check",
+    "brief": "Write heat_check(temperature) that prints 'Ready to forge.' if temperature is at least 1200, otherwise prints 'Keep heating.'",
+    "requirements": [
+      "Define heat_check(temperature).",
+      "Use an if/else statement.",
+      "Print the correct message for each case."
+    ],
+    "starterCode": "def heat_check(temperature):\n    # Use if/else to print the right message.\n    pass\n\nheat_check(900)\n",
+    "solutionCode": "def heat_check(temperature):\n    if temperature >= 1200:\n        print(\"Ready to forge.\")\n    else:\n        print(\"Keep heating.\")\n\nheat_check(900)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines heat_check()",
+        "pattern": "def\\s+heat_check\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-if-else",
+        "label": "Uses if and else",
+        "pattern": "if\\b[\\s\\S]*else\\s*:",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    heat_check(900)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Keep heating.\n",
+    "outputCheckLabel": "heat_check(900) prints exactly: Keep heating."
+  },
+  "hints": [
+    "Compare temperature to 1200 using >=.",
+    "The if block runs when the condition is True; the else block runs when it's False.",
+    "Indent both print() calls the same amount, one level in from if/else.",
+    "900 is less than 1200, so the else branch should run for this call."
+  ],
+  "nextLessonId": "py-ch04-if-elif-else"
+}

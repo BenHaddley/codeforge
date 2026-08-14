@@ -1,0 +1,78 @@
+{
+  "id": "py-ch04-if-elif-else",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch04",
+  "number": "4.2",
+  "title": "if-elif-else Chains",
+  "xp": 50,
+  "objective": "Handle more than two outcomes with elif, and know when to omit else.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "if Statements",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material. List-dependent if-statement patterns are covered later in the Collections chapter, after lists are introduced."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "elif (short for 'else if') lets you check additional conditions when the first if is False. Python tests each condition top to bottom and runs the block under the first one that's True, then skips the rest of the chain entirely.",
+      "Order matters in an elif chain. Because Python stops at the first True condition, a broad condition placed too early can shadow a more specific one placed after it.",
+      "else at the end of a chain is optional. Include it when you want a fallback for every case you didn't explicitly check; leave it out when 'do nothing' is the correct behavior for anything that doesn't match."
+    ],
+    "rule": "An if-elif-else chain runs at most one block: the first condition (top to bottom) that evaluates to True."
+  },
+  "examples": [
+    {
+      "title": "Grading a Blade",
+      "code": "quality = 72\n\nif quality >= 90:\n    print(\"Masterwork\")\nelif quality >= 70:\n    print(\"Fine\")\nelif quality >= 50:\n    print(\"Serviceable\")\nelse:\n    print(\"Scrap\")",
+      "note": "72 fails the first check but passes the second, so 'Fine' prints and the rest of the chain is skipped."
+    }
+  ],
+  "checks": [
+    {
+      "id": "order-matters",
+      "question": "quality = 95. If the chain checks 'quality >= 70' before 'quality >= 90', which block runs?",
+      "options": [
+        "The quality >= 90 block, because Python checks the most specific match.",
+        "The quality >= 70 block, because it's the first True condition Python reaches.",
+        "Both blocks run.",
+        "Neither block runs."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — Python stops at the first True condition, regardless of order specificity.",
+        "incorrect": "elif chains run top to bottom and stop at the first True condition — order matters."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Grade the Blade",
+    "brief": "Write grade_blade(quality) that prints 'Masterwork' for quality >= 90, 'Fine' for quality >= 70, 'Serviceable' for quality >= 50, otherwise 'Scrap'.",
+    "requirements": [
+      "Define grade_blade(quality).",
+      "Use an if-elif-elif-else chain with the four grades in the correct order.",
+      "Print the matching grade."
+    ],
+    "starterCode": "def grade_blade(quality):\n    # Use if-elif-elif-else to print the correct grade.\n    pass\n\ngrade_blade(72)\n",
+    "solutionCode": "def grade_blade(quality):\n    if quality >= 90:\n        print(\"Masterwork\")\n    elif quality >= 70:\n        print(\"Fine\")\n    elif quality >= 50:\n        print(\"Serviceable\")\n    else:\n        print(\"Scrap\")\n\ngrade_blade(72)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines grade_blade()", "pattern": "def\\s+grade_blade\\s*\\(", "mustMatch": true },
+      { "id": "uses-elif", "label": "Uses elif", "pattern": "\\belif\\b", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    grade_blade(72)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Fine\n",
+    "outputCheckLabel": "grade_blade(72) prints exactly: Fine"
+  },
+  "hints": [
+    "Check the highest threshold first: quality >= 90.",
+    "Use elif for the middle two checks, and else for the fallback.",
+    "72 is not >= 90, but it is >= 70, so it should land on 'Fine'.",
+    "Only one print() should run per call — make sure your blocks don't overlap incorrectly."
+  ],
+  "nextLessonId": "py-ch04-conditional-expressions"
+}

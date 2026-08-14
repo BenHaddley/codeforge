@@ -1,0 +1,78 @@
+{
+  "id": "py-ch05-return-values",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch05",
+  "number": "5.3",
+  "title": "Return Values",
+  "xp": 50,
+  "objective": "Send a value back from a function with return and use it in the caller.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8",
+    "chapterTitle": "Return Values",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A function that only prints hands its output straight to the screen — nothing comes back to the code that called it. return sends a value back instead, so the caller can store it, check it, or pass it somewhere else.",
+      "As soon as Python executes a return statement, the function stops immediately — any code after it in that function never runs, even if it's still indented inside the function body.",
+      "A function without an explicit return statement returns None, Python's way of saying 'nothing.' Printing and returning solve different problems: printing is for showing a human something right now; returning is for handing a value to the rest of the program."
+    ],
+    "rule": "return sends a value back to the caller and immediately ends the function — code after it never runs."
+  },
+  "examples": [
+    {
+      "title": "Using a Returned Value",
+      "code": "def double(n):\n    return n * 2\n\nresult = double(21)\nprint(result)",
+      "note": "double() hands back a value, which is stored in result and used afterward — it never prints anything itself."
+    }
+  ],
+  "checks": [
+    {
+      "id": "return-stops-function",
+      "question": "def check(n):\\n    if n < 0:\\n        return \"negative\"\\n    return \"non-negative\"\\n    print(\"done\")  # what happens to this line?",
+      "options": [
+        "It always runs after the return statements.",
+        "It never runs — both branches return before reaching it.",
+        "It runs only when n is negative.",
+        "It causes a SyntaxError."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — return exits the function immediately, so unreachable code after it never executes.",
+        "incorrect": "return ends the function right away. Any code after a return that always executes first is unreachable."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Temper the Blade",
+    "brief": "Write temper_rating(hardness) that returns 'brittle' if hardness > 60, 'tempered' if hardness >= 30, otherwise 'soft'. Print the returned value for temper_rating(45).",
+    "requirements": [
+      "Define temper_rating(hardness) using return, not print, inside the function.",
+      "Cover all three cases with if/elif/else.",
+      "Print temper_rating(45) at the top level."
+    ],
+    "starterCode": "def temper_rating(hardness):\n    # Return the correct rating string; do not print inside this function.\n    pass\n\nprint(temper_rating(45))\n",
+    "solutionCode": "def temper_rating(hardness):\n    if hardness > 60:\n        return \"brittle\"\n    elif hardness >= 30:\n        return \"tempered\"\n    else:\n        return \"soft\"\n\nprint(temper_rating(45))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines temper_rating()", "pattern": "def\\s+temper_rating\\s*\\(", "mustMatch": true },
+      { "id": "uses-return", "label": "Uses return", "pattern": "\\breturn\\b", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(temper_rating(45))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "tempered\n",
+    "outputCheckLabel": "temper_rating(45) returns 'tempered'"
+  },
+  "hints": [
+    "Use return inside the function instead of print.",
+    "45 is not greater than 60, but it is >= 30, so it should return 'tempered'.",
+    "The print() call at the bottom is what displays the returned value.",
+    "Make sure every branch of the if/elif/else uses return, not print."
+  ],
+  "nextLessonId": "py-ch06-local-and-global-scope"
+}

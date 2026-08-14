@@ -1,0 +1,94 @@
+{
+  "id": "py-ch15-the-final-simulation",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch15",
+  "number": "15.3",
+  "title": "The Final Simulation",
+  "xp": 75,
+  "objective": "Combine classes, lists, and a while loop into a complete turn-by-turn battle simulation.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "12 & 13",
+    "chapterTitle": "A Ship That Fires Bullets; Aliens! (Project 1: Alien Invasion)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Original Code Forge capstone inspired by the book's Alien Invasion project's class structure, adapted to a text-based stdout simulation because Code Forge's grading harness cannot run a graphical pygame event loop. All prose and code are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "This is the capstone: bringing together classes, a list of objects, and a while loop into one running simulation. The fleet is just a list of Alien instances, and each pass through the loop is one round of combat.",
+      "The pattern is: while the ship is still alive and the fleet still has aliens in it, the ship attacks the alien at the front of the list. If that attack destroys it, remove it from the fleet with pop() and announce the kill. Otherwise report its remaining health. Then, if any alien is still standing, it attacks back and you report the ship's health.",
+      "The loop naturally ends one of two ways: the fleet list becomes empty (fleet is falsy, so the while condition stops being true) or the ship's health reaches zero. Checking which one happened after the loop tells you whether to print a victory or a defeat message."
+    ],
+    "rule": "A simulation loop keeps running while its stop conditions are all still false \u2014 check both 'is the ship alive?' and 'is the fleet non-empty?' in the same while condition."
+  },
+  "examples": [
+    {
+      "title": "One Round of the Pattern",
+      "code": "class Fighter:\n    def __init__(self, health, attack_power):\n        self.health = health\n        self.attack_power = attack_power\n\n    def take_damage(self, amount):\n        self.health = max(0, self.health - amount)\n\n    def is_destroyed(self):\n        return self.health == 0\n\nplayer = Fighter(30, 12)\nfoes = [Fighter(10, 5), Fighter(10, 5)]\n\nwhile not player.is_destroyed() and foes:\n    target = foes[0]\n    target.take_damage(player.attack_power)\n    if target.is_destroyed():\n        foes.pop(0)\n        print(f\"A foe fell! {len(foes)} left.\")\n    if foes:\n        player.take_damage(foes[0].attack_power)\n\nprint(\"Player HP:\", player.health)",
+      "note": "Each pass removes at most one foe and lets a survivor strike back \u2014 the list shrinks until the loop's condition goes False."
+    }
+  ],
+  "checks": [
+    {
+      "id": "why-check-fleet-after-pop",
+      "question": "Why does the loop check 'if fleet:' again after possibly popping an alien, before letting an alien attack back?",
+      "options": [
+        "It's unnecessary \u2014 Python would raise no error either way.",
+        "Because the fleet might have just become empty, and an empty fleet has no alien left to attack.",
+        "To make the loop run twice as fast.",
+        "Because pop() requires a follow-up if statement by syntax."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct \u2014 after removing the last alien, indexing fleet[0] would raise an IndexError, so the check guards against that.",
+        "incorrect": "Think about what fleet[0] would do if the fleet list just became empty."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Run the Battle",
+    "brief": "Complete run_battle(ship, fleet) so it simulates Forge Invasion turn by turn until one side is destroyed.",
+    "requirements": [
+      "Use the Ship and Alien classes exactly as given in the starter code \u2014 do not change them.",
+      "Define run_battle(ship, fleet) where fleet is a list of Alien instances.",
+      "Loop with while as long as the ship is not destroyed AND the fleet list is non-empty.",
+      "Each pass: the ship damages fleet[0] by ship.attack_power.",
+      "If that alien is destroyed, remove it from fleet with pop(0) and print: 'An alien was destroyed! {N} remaining.' where N is the new fleet length.",
+      "Otherwise print: 'Alien HP: {health}' for that alien's remaining health.",
+      "If the fleet is still non-empty after that, the alien now at fleet[0] damages the ship by its attack_power, and you print: 'Ship HP: {health}' for the ship's remaining health.",
+      "After the loop ends, print 'Victory! The fleet was destroyed.' if the fleet is empty, otherwise print 'Defeat! The ship was destroyed.'"
+    ],
+    "starterCode": "class Ship:\n    def __init__(self, health, attack_power):\n        self.health = health\n        self.attack_power = attack_power\n\n    def take_damage(self, amount):\n        self.health = max(0, self.health - amount)\n\n    def is_destroyed(self):\n        return self.health == 0\n\n\nclass Alien:\n    def __init__(self, health, attack_power):\n        self.health = health\n        self.attack_power = attack_power\n\n    def take_damage(self, amount):\n        self.health = max(0, self.health - amount)\n\n    def is_destroyed(self):\n        return self.health == 0\n\n\ndef run_battle(ship, fleet):\n    # Write the turn-by-turn while loop described above.\n    pass\n",
+    "solutionCode": "class Ship:\n    def __init__(self, health, attack_power):\n        self.health = health\n        self.attack_power = attack_power\n\n    def take_damage(self, amount):\n        self.health = max(0, self.health - amount)\n\n    def is_destroyed(self):\n        return self.health == 0\n\n\nclass Alien:\n    def __init__(self, health, attack_power):\n        self.health = health\n        self.attack_power = attack_power\n\n    def take_damage(self, amount):\n        self.health = max(0, self.health - amount)\n\n    def is_destroyed(self):\n        return self.health == 0\n\n\ndef run_battle(ship, fleet):\n    while not ship.is_destroyed() and fleet:\n        target = fleet[0]\n        target.take_damage(ship.attack_power)\n        if target.is_destroyed():\n            fleet.pop(0)\n            print(f\"An alien was destroyed! {len(fleet)} remaining.\")\n        else:\n            print(f\"Alien HP: {target.health}\")\n        if fleet:\n            attacker = fleet[0]\n            ship.take_damage(attacker.attack_power)\n            print(f\"Ship HP: {ship.health}\")\n\n    if fleet:\n        print(\"Defeat! The ship was destroyed.\")\n    else:\n        print(\"Victory! The fleet was destroyed.\")\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "uses-while",
+        "label": "Uses a while loop",
+        "pattern": "\\bwhile\\b",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-pop",
+        "label": "Removes destroyed aliens with pop",
+        "pattern": "\\.pop\\(",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_ship = Ship(50, 20)\n_cf_fleet = [Alien(15, 10), Alien(15, 10)]\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    run_battle(_cf_ship, _cf_fleet)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "An alien was destroyed! 1 remaining.\nShip HP: 40\nAn alien was destroyed! 0 remaining.\nVictory! The fleet was destroyed.\n",
+    "outputCheckLabel": "run_battle(Ship(50,20), [Alien(15,10), Alien(15,10)]) prints the full turn-by-turn log ending in victory"
+  },
+  "hints": [
+    "The while condition needs two parts joined with and: the ship not destroyed, and the fleet list being non-empty (a non-empty list is truthy).",
+    "Always attack fleet[0] \u2014 that's 'the alien currently at the front of the line.'",
+    "Check is_destroyed() right after damaging the alien to decide between the pop()+announcement branch and the HP-report branch.",
+    "Guard the counter-attack with a second 'if fleet:' \u2014 the fleet you just popped from might now be empty.",
+    "After the loop, an empty fleet means victory; a non-empty fleet means the ship must be the one destroyed."
+  ],
+  "nextLessonId": null
+}

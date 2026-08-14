@@ -1,0 +1,107 @@
+{
+  "id": "py-ch13-reading-from-a-file",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch13",
+  "number": "13.1",
+  "title": "Reading from a File",
+  "xp": 50,
+  "objective": "Open a file safely and read its contents into your program.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "10",
+    "chapterTitle": "Files and Exceptions (file-handling and Storing Data sections)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only; exception-handling is covered in Code Forge's Errors & Exceptions chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A file on disk is just text sitting outside your program. To use it, you open a connection to it, read what you need, and then close the connection again.",
+      "Code Forge runs Python in your browser using Pyodide, which gives your program an in-memory virtual filesystem instead of access to your computer's real disk. That virtual filesystem starts empty every time your code runs and disappears again when the run ends — nothing you write persists between runs. Because of that, the examples in this lesson write() a small file first and then read it back in that same run, purely so a file exists to read. On a normal desktop install of Python, you would skip that write step and go straight to opening a file that already exists.",
+      "The with statement handles the closing for you automatically, even if something goes wrong while you're reading. That's why `with open(path) as f:` is the standard way to open a file in Python.",
+      "Once a file is open, .read() pulls in the entire contents as one string. If you only need it line by line, looping over the file object itself, or calling .readlines(), gives you each line separately."
+    ],
+    "rule": "Open files with a with block so Python closes them for you, even if an error happens partway through."
+  },
+  "examples": [
+    {
+      "title": "Reading a whole file",
+      "code": "with open('notes.txt', 'w') as f:\n    f.write('Meet at 6pm.\\nBring snacks.')\n\nwith open('notes.txt') as f:\n    contents = f.read()\n\nprint(contents)",
+      "note": "The first with block writes notes.txt so this example has something to read — Code Forge's browser runtime has no file already sitting there. The second with block is the part that matters: open the file, read it, and it closes automatically once the block ends."
+    },
+    {
+      "title": "Reading line by line",
+      "code": "with open('notes.txt', 'w') as f:\n    f.write('Meet at 6pm.\\nBring snacks.\\n')\n\nwith open('notes.txt') as f:\n    for line in f:\n        print(line.strip())",
+      "note": "Looping directly over the file object hands you one line at a time, including the trailing newline — strip() removes it."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — reading files",
+      "startSeconds": 30045,
+      "endSeconds": 30467,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=30045&end=30467&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "why-with",
+      "question": "Why open files with a with block instead of a plain open()/close() pair?",
+      "options": [
+        "It reads the file faster.",
+        "Python automatically closes the file for you, even if an error happens inside the block.",
+        "It is required syntax and files cannot be opened any other way.",
+        "It converts the file contents to a list automatically."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — with guarantees the file gets closed, error or not.",
+        "incorrect": "Not quite. Think about what happens if your code crashes before you call close()."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Read the Greeting",
+    "brief": "Write read_greeting(path) that opens the file at path and prints its entire contents.",
+    "requirements": [
+      "Define read_greeting(path).",
+      "Open the file using a with block.",
+      "Read the whole file's contents.",
+      "Print the contents."
+    ],
+    "starterCode": "def read_greeting(path):\n    # Open the file at `path` and print its entire contents.\n    pass\n",
+    "solutionCode": "def read_greeting(path):\n    with open(path) as f:\n        contents = f.read()\n    print(contents)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "uses-with",
+        "label": "Uses a with block",
+        "pattern": "\\bwith\\s+open\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-read",
+        "label": "Calls .read()",
+        "pattern": "\\.read\\(\\)",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\nwith open('greeting.txt', 'w') as _cf_f:\n    _cf_f.write('Welcome to Code Forge!')\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    read_greeting('greeting.txt')\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Welcome to Code Forge!\n",
+    "outputCheckLabel": "read_greeting('greeting.txt') prints the file's contents"
+  },
+  "hints": [
+    "Use `with open(path) as f:` to open the file safely.",
+    "Inside the with block, call f.read() to get the whole file as one string.",
+    "Store the result in a variable before printing it, or print it directly.",
+    "Nothing needs to happen after the with block except printing what you read."
+  ],
+  "nextLessonId": "py-ch13-writing-to-a-file"
+}

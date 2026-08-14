@@ -1,0 +1,98 @@
+{
+  "id": "py-ch06-arbitrary-arguments",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch06",
+  "number": "6.3",
+  "title": "Arbitrary Arguments",
+  "xp": 50,
+  "objective": "Accept any number of positional arguments with *args and any number of named arguments with **kwargs.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8",
+    "chapterTitle": "Passing an Arbitrary Number of Arguments",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Sometimes you don't know in advance how many values a function needs to accept. A parameter written with a single * in front, like *items, collects every extra positional argument into one tuple that the function body can use.",
+      "You can still mix a normal required parameter with an arbitrary one — the required parameter must come first, and *args soaks up whatever is left.",
+      "Inside the function, the collected values behave like any other sequence: you can check how many there are with len(), or loop over them once loops are covered. For now, just know *args gathers them into a single tuple named whatever you called it.",
+      "A parameter written with two stars in front, like **details, works the same way but for keyword arguments instead: it collects every extra name=value argument into a single dictionary, with each keyword becoming a key. You can mix all three kinds in one function, but the order in the def line is fixed: regular parameters first, then *args, then **kwargs."
+    ],
+    "rule": "*name collects extra positional arguments into a tuple; **name collects extra keyword arguments into a dictionary."
+  },
+  "examples": [
+    {
+      "title": "Collecting Extra Arguments",
+      "code": "def order_summary(customer, *items):\n    print(customer)\n    print(len(items))\n\norder_summary(\"Ada\", \"hammer\", \"tongs\", \"ingot\")",
+      "note": "customer takes the first argument; every argument after it is gathered into the items tuple, which here has length 3."
+    },
+    {
+      "title": "Collecting Extra Keyword Arguments",
+      "code": "def print_profile(username, **details):\n    print(username)\n    print(details)\n\nprint_profile(\"ada99\", rank=\"apprentice\", years=2)",
+      "note": "username takes the first argument; every keyword argument after it is gathered into the details dictionary, in the order they were passed."
+    }
+  ],
+  "checks": [
+    {
+      "id": "star-args",
+      "question": "def total(*values): — what is values inside the function when you call total(1, 2, 3)?",
+      "options": [
+        "The number 3.",
+        "A tuple containing (1, 2, 3).",
+        "Only the first value, 1.",
+        "A SyntaxError."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — *values collects all positional arguments into a single tuple.",
+        "incorrect": "*values gathers every positional argument into one tuple, not just the first or last."
+      }
+    },
+    {
+      "id": "double-star-kwargs",
+      "question": "def profile(**info): — what is info inside the function when you call profile(rank=\"smith\", years=5)?",
+      "options": [
+        "A tuple containing ('smith', 5).",
+        "A dictionary: {'rank': 'smith', 'years': 5}.",
+        "Two separate variables, rank and years.",
+        "A SyntaxError, since profile has no regular parameters."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — **info collects every keyword argument into a single dictionary.",
+        "incorrect": "**info gathers every name=value argument into one dictionary, keyed by the argument names."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Count the Order",
+    "brief": "Write order_summary(customer, *items, **details) that prints customer, then prints len(items), then prints the details dictionary.",
+    "requirements": [
+      "Define order_summary(customer, *items, **details).",
+      "Print customer, then print len(items), then print details.",
+      "Call order_summary('Ada', 'hammer', 'tongs', 'ingot', gift_wrap=True, rush=False)."
+    ],
+    "starterCode": "def order_summary(customer, *items, **details):\n    # Print customer, then len(items), then details.\n    pass\n\norder_summary(\"Ada\", \"hammer\", \"tongs\", \"ingot\", gift_wrap=True, rush=False)\n",
+    "solutionCode": "def order_summary(customer, *items, **details):\n    print(customer)\n    print(len(items))\n    print(details)\n\norder_summary(\"Ada\", \"hammer\", \"tongs\", \"ingot\", gift_wrap=True, rush=False)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines order_summary() with *items and **details", "pattern": "def\\s+order_summary\\s*\\(\\s*customer\\s*,\\s*\\*items\\s*,\\s*\\*\\*details\\s*\\)", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    order_summary(\"Ada\", \"hammer\", \"tongs\", \"ingot\", gift_wrap=True, rush=False)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Ada\n3\n{'gift_wrap': True, 'rush': False}\n",
+    "outputCheckLabel": "order_summary(...) prints Ada, then 3, then the details dictionary"
+  },
+  "hints": [
+    "customer is a normal parameter; *items collects positional extras; **details collects keyword extras.",
+    "len(items) tells you how many extra positional arguments were passed.",
+    "Three items were passed after 'Ada', so len(items) should be 3.",
+    "print(details) shows the whole dictionary at once — you don't need to loop over it or pick out keys."
+  ],
+  "nextLessonId": "py-ch07-user-input"
+}

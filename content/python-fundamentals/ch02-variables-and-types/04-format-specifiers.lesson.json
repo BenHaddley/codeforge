@@ -1,0 +1,76 @@
+{
+  "id": "py-ch02-format-specifiers",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.4",
+  "title": "Format Specifiers",
+  "xp": 50,
+  "objective": "Control how a value is displayed inside an f-string using a format specifier.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Python Full Course for free",
+    "creator": "Bro Code",
+    "videoId": "ix9cRaBkVe0",
+    "url": "https://www.youtube.com/watch?v=ix9cRaBkVe0",
+    "note": "Alignment metadata only; this topic isn't covered in Python Crash Course but is taught in the companion video. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Inside an f-string, you can add a format specifier after a colon to control exactly how a value is displayed, without changing the value itself. f\"{price:.2f}\" always shows price with exactly two digits after the decimal point, even if the real number has more or fewer.",
+      ".2f means 'fixed-point, 2 digits after the decimal' — the f stands for fixed-point notation, and the number before it sets how many decimal digits to show, rounding if there are more.",
+      "Format specifiers can also pad numbers with leading zeros: f\"{minutes:02}\" shows minutes as at least two digits, adding a leading zero if it's a single digit — 5 becomes 05, but 12 stays 12. This is common when displaying something like a clock."
+    ],
+    "rule": "Add :spec after a value inside an f-string's curly braces to control its display — .2f for two decimal places, 02 for zero-padded width."
+  },
+  "examples": [
+    {
+      "title": "Rounding to Two Decimals",
+      "code": "price = 19.5\nprint(f\"${price:.2f}\")",
+      "note": "19.5 becomes 19.50 — .2f always shows exactly two digits after the decimal point."
+    },
+    {
+      "title": "Zero-Padding a Clock",
+      "code": "minutes = 5\nseconds = 9\nprint(f\"{minutes:02}:{seconds:02}\")",
+      "note": "Both numbers are padded to at least two digits, so the display reads 05:09 instead of 5:9."
+    }
+  ],
+  "checks": [
+    {
+      "id": "fixed-point-format",
+      "question": "price = 3 — what does f\"{price:.2f}\" print?",
+      "options": ["3", "3.00", "3.0", "03"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — .2f always shows exactly two digits after the decimal point, even for a whole number.",
+        "incorrect": ".2f forces exactly two decimal digits to be shown, padding with zeros if needed."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Timer Display",
+    "brief": "Write timer_display(minutes, seconds) that returns a string formatted as MM:SS, zero-padding each part to two digits.",
+    "requirements": [
+      "Define timer_display(minutes, seconds).",
+      "Use the :02 format specifier on both minutes and seconds inside an f-string.",
+      "Return the formatted string in the form MM:SS."
+    ],
+    "starterCode": "def timer_display(minutes, seconds):\n    # Return an MM:SS string, zero-padding each part to two digits.\n    pass\n\nprint(timer_display(5, 9))\nprint(timer_display(12, 3))\n",
+    "solutionCode": "def timer_display(minutes, seconds):\n    return f\"{minutes:02}:{seconds:02}\"\n\nprint(timer_display(5, 9))\nprint(timer_display(12, 3))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines timer_display()", "pattern": "def\\s+timer_display\\s*\\(", "mustMatch": true },
+      { "id": "uses-format-spec", "label": "Uses the :02 format specifier", "pattern": ":02", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(timer_display(5, 9))\n    print(timer_display(12, 3))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "05:09\n12:03\n",
+    "outputCheckLabel": "timer_display(5, 9) and timer_display(12, 3) print 05:09 then 12:03"
+  },
+  "hints": [
+    "f\"{minutes:02}\" pads minutes to at least two digits with a leading zero.",
+    "The same :02 pattern works for seconds too.",
+    "Join them with a colon inside one f-string: f\"{minutes:02}:{seconds:02}\".",
+    "timer_display(5, 9) should return exactly '05:09'."
+  ],
+  "nextLessonId": "py-ch02-numbers"
+}

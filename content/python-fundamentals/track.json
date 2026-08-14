@@ -21,8 +21,10 @@
       "lessons": [
         { "id": "py-ch02-variables", "number": "2.1", "title": "Variables", "path": "ch02-variables-and-types/01-variables.lesson.json" },
         { "id": "py-ch02-strings", "number": "2.2", "title": "Strings", "path": "ch02-variables-and-types/02-strings.lesson.json" },
-        { "id": "py-ch02-numbers", "number": "2.3", "title": "Numbers", "path": "ch02-variables-and-types/03-numbers.lesson.json" },
-        { "id": "py-ch02-comments-and-zen", "number": "2.4", "title": "Comments & the Zen of Python", "path": "ch02-variables-and-types/04-comments-and-zen.lesson.json" }
+        { "id": "py-ch02-string-indexing-and-slicing", "number": "2.3", "title": "String Indexing & Slicing", "path": "ch02-variables-and-types/03-string-indexing-and-slicing.lesson.json" },
+        { "id": "py-ch02-format-specifiers", "number": "2.4", "title": "Format Specifiers", "path": "ch02-variables-and-types/04-format-specifiers.lesson.json" },
+        { "id": "py-ch02-numbers", "number": "2.5", "title": "Numbers", "path": "ch02-variables-and-types/05-numbers.lesson.json" },
+        { "id": "py-ch02-comments-and-zen", "number": "2.6", "title": "Comments & the Zen of Python", "path": "ch02-variables-and-types/06-comments-and-zen.lesson.json" }
       ]
     },
     {
@@ -41,7 +43,8 @@
       "lessons": [
         { "id": "py-ch04-if-statements", "number": "4.1", "title": "The if Statement", "path": "ch04-control-flow/01-if-statements.lesson.json" },
         { "id": "py-ch04-if-elif-else", "number": "4.2", "title": "if-elif-else Chains", "path": "ch04-control-flow/02-if-elif-else.lesson.json" },
-        { "id": "py-ch04-styling-conditions", "number": "4.3", "title": "Styling Your Conditions", "path": "ch04-control-flow/03-styling-conditions.lesson.json" }
+        { "id": "py-ch04-conditional-expressions", "number": "4.3", "title": "Conditional Expressions (Ternary)", "path": "ch04-control-flow/03-conditional-expressions.lesson.json" },
+        { "id": "py-ch04-styling-conditions", "number": "4.4", "title": "Styling Your Conditions", "path": "ch04-control-flow/04-styling-conditions.lesson.json" }
       ]
     },
     {
@@ -60,7 +63,7 @@
       "title": "Scope",
       "lessons": [
         { "id": "py-ch06-local-and-global-scope", "number": "6.1", "title": "Local vs Global Scope", "path": "ch06-scope/01-local-and-global-scope.lesson.json" },
-        { "id": "py-ch06-passing-lists-to-functions", "number": "6.2", "title": "Passing Lists to Functions", "path": "ch06-scope/02-passing-lists-to-functions.lesson.json" },
+        { "id": "py-ch06-functions-calling-functions", "number": "6.2", "title": "Functions Calling Functions", "path": "ch06-scope/02-functions-calling-functions.lesson.json" },
         { "id": "py-ch06-arbitrary-arguments", "number": "6.3", "title": "Arbitrary Arguments", "path": "ch06-scope/03-arbitrary-arguments.lesson.json" }
       ]
     },
@@ -71,7 +74,7 @@
       "lessons": [
         { "id": "py-ch07-user-input", "number": "7.1", "title": "Using the input() Function", "path": "ch07-user-input-and-while-loops/01-user-input.lesson.json" },
         { "id": "py-ch07-while-loops", "number": "7.2", "title": "While Loops", "path": "ch07-user-input-and-while-loops/02-while-loops.lesson.json" },
-        { "id": "py-ch07-while-with-lists-and-dicts", "number": "7.3", "title": "Using while with Lists and Dictionaries", "path": "ch07-user-input-and-while-loops/03-while-with-lists-and-dicts.lesson.json" }
+        { "id": "py-ch07-loop-control", "number": "7.3", "title": "Loop Control: break, continue, and Flags", "path": "ch07-user-input-and-while-loops/03-loop-control.lesson.json" }
       ]
     },
     {
@@ -83,8 +86,11 @@
         { "id": "py-ch08-changing-a-list", "number": "8.2", "title": "Changing, Adding, and Removing Elements", "path": "ch08-collections/02-changing-a-list.lesson.json" },
         { "id": "py-ch08-organizing-a-list", "number": "8.3", "title": "Organizing a List", "path": "ch08-collections/03-organizing-a-list.lesson.json" },
         { "id": "py-ch08-looping-through-a-list", "number": "8.4", "title": "Looping Through a List", "path": "ch08-collections/04-looping-through-a-list.lesson.json" },
-        { "id": "py-ch08-slicing-and-tuples", "number": "8.5", "title": "Slicing, Copying, and Tuples", "path": "ch08-collections/05-slicing-and-tuples.lesson.json" },
-        { "id": "py-ch08-if-statements-with-lists", "number": "8.6", "title": "Using if Statements with Lists", "path": "ch08-collections/06-if-statements-with-lists.lesson.json" }
+        { "id": "py-ch08-nested-loops", "number": "8.5", "title": "Nested Loops", "path": "ch08-collections/05-nested-loops.lesson.json" },
+        { "id": "py-ch08-2d-lists", "number": "8.6", "title": "2D Lists", "path": "ch08-collections/06-2d-lists.lesson.json" },
+        { "id": "py-ch08-slicing-and-tuples", "number": "8.7", "title": "Slicing, Copying, and Tuples", "path": "ch08-collections/07-slicing-and-tuples.lesson.json" },
+        { "id": "py-ch08-if-statements-with-lists", "number": "8.8", "title": "Using if Statements with Lists", "path": "ch08-collections/08-if-statements-with-lists.lesson.json" },
+        { "id": "py-ch08-passing-lists-to-functions", "number": "8.9", "title": "Passing Lists to Functions", "path": "ch08-collections/09-passing-lists-to-functions.lesson.json" }
       ]
     },
     {
@@ -104,7 +110,8 @@
       "title": "Modules",
       "lessons": [
         { "id": "py-ch10-storing-functions-in-modules", "number": "10.1", "title": "Storing Functions in Modules", "path": "ch10-modules/01-storing-functions-in-modules.lesson.json" },
-        { "id": "py-ch10-the-standard-library", "number": "10.2", "title": "The Python Standard Library", "path": "ch10-modules/02-the-standard-library.lesson.json" }
+        { "id": "py-ch10-main-guard", "number": "10.2", "title": "The if __name__ == \"__main__\" Guard", "path": "ch10-modules/02-main-guard.lesson.json" },
+        { "id": "py-ch10-the-standard-library", "number": "10.3", "title": "The Python Standard Library", "path": "ch10-modules/03-the-standard-library.lesson.json" }
       ]
     },
     {
@@ -114,8 +121,9 @@
       "lessons": [
         { "id": "py-ch11-creating-and-using-a-class", "number": "11.1", "title": "Creating and Using a Class", "path": "ch11-classes/01-creating-and-using-a-class.lesson.json" },
         { "id": "py-ch11-working-with-instances", "number": "11.2", "title": "Working with Classes and Instances", "path": "ch11-classes/02-working-with-instances.lesson.json" },
-        { "id": "py-ch11-inheritance", "number": "11.3", "title": "Inheritance", "path": "ch11-classes/03-inheritance.lesson.json" },
-        { "id": "py-ch11-importing-classes", "number": "11.4", "title": "Importing Classes", "path": "ch11-classes/04-importing-classes.lesson.json" }
+        { "id": "py-ch11-class-variables", "number": "11.3", "title": "Class Variables", "path": "ch11-classes/03-class-variables.lesson.json" },
+        { "id": "py-ch11-inheritance", "number": "11.4", "title": "Inheritance", "path": "ch11-classes/04-inheritance.lesson.json" },
+        { "id": "py-ch11-importing-classes", "number": "11.5", "title": "Importing Classes", "path": "ch11-classes/05-importing-classes.lesson.json" }
       ]
     },
     {

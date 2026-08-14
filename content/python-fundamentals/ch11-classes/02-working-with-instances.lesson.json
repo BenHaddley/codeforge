@@ -1,0 +1,83 @@
+{
+  "id": "py-ch11-working-with-instances",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch11",
+  "number": "11.2",
+  "title": "Working with Classes and Instances",
+  "xp": 50,
+  "objective": "Give an attribute a default value in __init__(), then update it both directly and through a method.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "9",
+    "chapterTitle": "Classes",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose, examples, and exercises are original Code Forge material using an original theme, not the book's example classes."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Not every attribute needs to come from an argument. Inside __init__(), you can also assign a fixed starting value directly, giving every new instance the same default state before anything else happens to it.",
+      "Once an instance exists, you can change its attributes in two ways. The direct way reaches straight into the instance with dot notation, such as instance.attribute = new_value. This works, but it bypasses whatever logic the class might otherwise run.",
+      "The second way is to call a method that updates the attribute on the instance's behalf. A method can print a message, check the new value, or update more than one attribute at once — plain direct assignment cannot do any of that."
+    ],
+    "rule": "Give an attribute a default value inside __init__(), then update it either directly with dot notation or through a method that changes it for you."
+  },
+  "examples": [
+    {
+      "title": "A Default Value, Then Two Ways to Change It",
+      "code": "class Torch:\n    \"\"\"A torch that starts out unlit.\"\"\"\n\n    def __init__(self, fuel_type):\n        self.fuel_type = fuel_type\n        self.is_lit = False  # Every torch starts unlit by default.\n\n    def light(self):\n        self.is_lit = True\n        print(\"The torch flares to life.\")\n\n\ncamp_torch = Torch(\"oil\")\nprint(camp_torch.is_lit)\n\ncamp_torch.is_lit = True  # Change the attribute directly.\nprint(camp_torch.is_lit)\n\ncamp_torch.is_lit = False\ncamp_torch.light()  # Change the attribute through a method instead.\nprint(camp_torch.is_lit)\n",
+      "note": "fuel_type comes from an argument, but is_lit gets a default value of False right inside __init__(). The example then changes is_lit both directly with dot notation and indirectly by calling light()."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "direct-vs-method",
+      "question": "Which statement changes an attribute directly, without going through a method?",
+      "options": [
+        "camp_torch.is_lit = True",
+        "camp_torch.light()",
+        "Torch(\"oil\")",
+        "print(camp_torch.is_lit)"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — dot notation followed by = reaches straight into the instance without calling any method.",
+        "incorrect": "Not quite. Look for the line that assigns straight to an attribute with dot notation instead of calling a method."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Training Dummy",
+    "brief": "Write a TrainingDummy class whose hit count starts at zero, then change it directly and through a method.",
+    "requirements": [
+      "Define a class named TrainingDummy.",
+      "Implement __init__(self, name) that stores name as self.name and gives self.hit_count a default value of 0.",
+      "Implement a method record_hit() that increases self.hit_count by 1 and prints f\"{self.name} has been hit {self.hit_count} time(s).\"",
+      "Create a TrainingDummy instance, set its hit_count directly to 5 using dot notation, then call record_hit() once."
+    ],
+    "starterCode": "class TrainingDummy:\n    def __init__(self, name):\n        # Store name, and give hit_count a default value of 0.\n        pass\n\n    def record_hit(self):\n        # Increase hit_count by 1, then print a message with an f-string.\n        pass\n\n\n# Create a TrainingDummy instance.\n# Set its hit_count directly to 5, then call record_hit() once.\n",
+    "solutionCode": "class TrainingDummy:\n    def __init__(self, name):\n        self.name = name\n        self.hit_count = 0\n\n    def record_hit(self):\n        self.hit_count += 1\n        print(f\"{self.name} has been hit {self.hit_count} time(s).\")\n\n\ndummy = TrainingDummy(\"Practice Dummy\")\ndummy.hit_count = 5\ndummy.record_hit()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "class-dummy", "label": "Defines class TrainingDummy", "pattern": "class\\s+TrainingDummy", "mustMatch": true },
+      { "id": "has-init", "label": "Implements __init__", "pattern": "def\\s+__init__", "mustMatch": true },
+      { "id": "default-hit-count", "label": "Sets a default hit_count of 0", "pattern": "self\\.hit_count\\s*=\\s*0", "mustMatch": true },
+      { "id": "has-record-hit", "label": "Implements record_hit()", "pattern": "def\\s+record_hit", "mustMatch": true },
+      { "id": "increments-hit-count", "label": "Increases hit_count inside record_hit()", "pattern": "self\\.hit_count\\s*\\+=\\s*1", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    _cf_dummy = TrainingDummy(\"Straw Man\")\n    _cf_dummy.hit_count = 2\n    _cf_dummy.record_hit()\n    _cf_dummy.record_hit()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Straw Man has been hit 3 time(s).\nStraw Man has been hit 4 time(s).\n",
+    "outputCheckLabel": "Two record_hit() calls after setting hit_count = 2 print counts 3 then 4"
+  },
+  "hints": [
+    "Inside __init__(self, name), set self.hit_count = 0 so every dummy starts at zero without needing an argument for it.",
+    "record_hit() should add 1 to self.hit_count before it prints anything.",
+    "Use an f-string in record_hit() so the message always shows the current self.hit_count.",
+    "After creating the instance, set dummy.hit_count = 5 directly with dot notation, then call dummy.record_hit() once."
+  ],
+  "nextLessonId": "py-ch11-class-variables"
+}

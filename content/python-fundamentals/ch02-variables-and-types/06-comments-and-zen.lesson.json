@@ -1,0 +1,100 @@
+{
+  "id": "py-ch02-comments-and-zen",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.6",
+  "title": "Comments & the Zen of Python",
+  "xp": 50,
+  "objective": "Write useful comments and understand Python's preference for simple, readable code.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "2",
+    "chapterTitle": "Variables and Simple Data Types",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A comment starts with # and everything after it on that line is ignored by Python. Comments exist for the people reading the code, not the interpreter.",
+      "The most useful comments explain why a piece of code exists or what nonobvious decision it makes — not what a line does, since well-named variables and functions usually make that clear on their own. A comment repeating the code in English adds noise instead of value.",
+      "Python's design carries a well-known philosophy: code that is easy to read is more valuable than code that is merely clever. Favoring a straightforward solution over a compressed, tricky one tends to save far more time later, when someone (often you) has to come back and understand it again."
+    ],
+    "rule": "Write a comment when the why isn't obvious from the code itself — skip it when the code already speaks for itself."
+  },
+  "examples": [
+    {
+      "title": "A Comment That Earns Its Place",
+      "code": "# Discount applied after midnight promo; remove after the event ends\nprice = 40 * 0.8\nprint(price)",
+      "note": "The comment explains a reason that isn't visible in the math itself."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — comments",
+      "startSeconds": 309,
+      "endSeconds": 345,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=309&end=345&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "good-comment",
+      "question": "Which comment is more useful to a future reader?",
+      "options": [
+        "# add 1 to count\ncount = count + 1",
+        "# retry limit; increase if the flaky network check keeps failing\ncount = count + 1",
+        "# this is a variable\ncount = count + 1",
+        "No comment is ever useful."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — it explains a reason that isn't visible in the code itself.",
+        "incorrect": "The best comments explain why, not what — the code already shows what happens."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Documented Discount",
+    "brief": "Write apply_discount() with at least one comment explaining why, that prints exactly: 32.0",
+    "requirements": [
+      "Define apply_discount().",
+      "Include at least one comment line starting with #.",
+      "Print exactly: 32.0 (the result of 40 multiplied by 0.8)."
+    ],
+    "starterCode": "def apply_discount():\n    # Add a comment explaining the discount, then print the result.\n    pass\n\napply_discount()\n",
+    "solutionCode": "def apply_discount():\n    # 20% off during the anniversary sale\n    price = 40 * 0.8\n    print(price)\n\napply_discount()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines apply_discount()",
+        "pattern": "def\\s+apply_discount\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-print",
+        "label": "Uses print",
+        "pattern": "\\bprint\\s*\\(",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    apply_discount()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "32.0\n",
+    "outputCheckLabel": "apply_discount() prints exactly: 32.0"
+  },
+  "hints": [
+    "40 * 0.8 gives a float result because one of the values has a decimal point.",
+    "Your comment should explain why the discount exists, not just restate the math.",
+    "Print the calculated price, not a typed-out 32.0.",
+    "A comment line starts with #, anywhere in the function."
+  ],
+  "nextLessonId": "py-ch03-arithmetic-operators"
+}

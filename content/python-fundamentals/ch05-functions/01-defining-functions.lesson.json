@@ -1,0 +1,100 @@
+{
+  "id": "py-ch05-defining-functions",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch05",
+  "number": "5.1",
+  "title": "Defining and Calling Functions",
+  "xp": 50,
+  "objective": "Define a function with def and call it with the right number of arguments.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8",
+    "chapterTitle": "Defining a Function",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A function is a named block of code you can run again and again without rewriting it. You create one with def, a name, parentheses, and a colon; the indented lines beneath are its body, and they only run when the function is called.",
+      "The names inside the parentheses in a def line are parameters — placeholders for values the function needs. When you call the function, the values you provide in its parentheses are arguments, and they get matched to the parameters in order.",
+      "Defining a function does not run it. Nothing inside the body executes until the function is called by name, with parentheses, somewhere else in the program."
+    ],
+    "rule": "def name(parameters): creates a function; name(arguments) is what actually runs it."
+  },
+  "examples": [
+    {
+      "title": "Define, Then Call",
+      "code": "def strike_anvil(times):\n    print(\"Striking\", times, \"times.\")\n\nstrike_anvil(3)",
+      "note": "Nothing prints until the last line calls strike_anvil with an argument."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — functions",
+      "startSeconds": 13931,
+      "endSeconds": 14569,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=13931&end=14569&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "define-vs-call",
+      "question": "You write a function with def but never call it anywhere. What happens?",
+      "options": [
+        "It runs automatically at the end of the file.",
+        "Python raises an error for an unused function.",
+        "Nothing — its body never executes until it's called.",
+        "It runs once when Python starts."
+      ],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — defining a function only creates it; calling it is what runs the body.",
+        "incorrect": "def only creates the function. Its body runs only when the function is called."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Strike the Anvil",
+    "brief": "Write strike_anvil(times) that prints the exact text 'Striking ' followed by times followed by ' times.'",
+    "requirements": [
+      "Define strike_anvil(times).",
+      "Print 'Striking ' + str(times) + ' times.'",
+      "Call strike_anvil(3) so it actually runs."
+    ],
+    "starterCode": "def strike_anvil(times):\n    # Print 'Striking ' followed by times followed by ' times.'\n    pass\n\nstrike_anvil(3)\n",
+    "solutionCode": "def strike_anvil(times):\n    print(\"Striking \" + str(times) + \" times.\")\n\nstrike_anvil(3)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines strike_anvil()",
+        "pattern": "def\\s+strike_anvil\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "calls-function",
+        "label": "Calls strike_anvil(3)",
+        "pattern": "strike_anvil\\s*\\(\\s*3\\s*\\)",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    strike_anvil(3)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Striking 3 times.\n",
+    "outputCheckLabel": "strike_anvil(3) prints exactly: Striking 3 times."
+  },
+  "hints": [
+    "Use str(times) to convert the parameter to text before joining it with +.",
+    "The parameter times is used directly inside the function body.",
+    "Build the full message, then print it in one call.",
+    "strike_anvil(3) should print exactly: Striking 3 times."
+  ],
+  "nextLessonId": "py-ch05-passing-arguments"
+}

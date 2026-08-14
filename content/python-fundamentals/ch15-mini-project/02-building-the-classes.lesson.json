@@ -1,0 +1,97 @@
+{
+  "id": "py-ch15-building-the-classes",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch15",
+  "number": "15.2",
+  "title": "Building the Classes",
+  "xp": 75,
+  "objective": "Build a Ship class and an Alien class that can damage each other and report whether they've been destroyed.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "12 & 13",
+    "chapterTitle": "A Ship That Fires Bullets; Aliens! (Project 1: Alien Invasion)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Original Code Forge capstone inspired by the book's Alien Invasion project's class structure, adapted to a text-based stdout simulation because Code Forge's grading harness cannot run a graphical pygame event loop. All prose and code are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "With ForgeSettings ready, the next step is the objects that actually fight: a Ship and an Alien. Both share a shape \u2014 each one has health and an attack power, each one can take damage, and each one can be asked whether it's destroyed.",
+      "A take_damage(amount) method should subtract from health, but never let health drop below zero \u2014 a ship at -15 HP doesn't mean anything, so clamp it to 0. A separate is_destroyed() method just checks whether health has reached zero, keeping the 'am I dead?' question in one place instead of repeating the comparison everywhere.",
+      "Notice that Ship and Alien don't need to inherit from each other here \u2014 they just happen to share a similar shape. That's fine. Inheritance is for when one class truly is a specialized version of another, not just because two classes look alike."
+    ],
+    "rule": "Give every stateful object a method to change its state (take_damage) and a method to ask about its state (is_destroyed) \u2014 don't scatter that logic elsewhere."
+  },
+  "examples": [
+    {
+      "title": "A Damageable Object",
+      "code": "class Alien:\n    def __init__(self, health, attack_power):\n        self.health = health\n        self.attack_power = attack_power\n\n    def take_damage(self, amount):\n        self.health = max(0, self.health - amount)\n\n    def is_destroyed(self):\n        return self.health == 0\n\nalien = Alien(20, 5)\nalien.take_damage(25)\nprint(alien.health, alien.is_destroyed())",
+      "note": "max(0, ...) stops health from going negative, and is_destroyed() reads cleanly wherever it's used."
+    }
+  ],
+  "checks": [
+    {
+      "id": "why-clamp-health",
+      "question": "Why does take_damage() use max(0, self.health - amount) instead of just self.health -= amount?",
+      "options": [
+        "It runs faster.",
+        "It prevents health from going below zero, which wouldn't make sense for a destroyed object.",
+        "Python requires it for subtraction.",
+        "It has no real effect \u2014 both are the same."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct \u2014 clamping keeps health meaningful even after a killing blow.",
+        "incorrect": "Try tracing through take_damage(30) on an object with 20 health without the max()."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Ship and Alien Classes",
+    "brief": "Define a Ship class and an Alien class that can attack and damage each other, then show one exchange of damage.",
+    "requirements": [
+      "Define class Ship with __init__(self, health, attack_power) storing both as attributes.",
+      "Define class Alien with __init__(self, health, attack_power) storing both as attributes.",
+      "Both classes need take_damage(self, amount) that reduces health but never below 0.",
+      "Both classes need is_destroyed(self) returning True when health is 0.",
+      "Write a function battle_round(ship, alien) that has the alien damage the ship by alien.attack_power, then has the ship damage the alien by ship.attack_power, then prints 'Ship HP: {ship.health} | Alien HP: {alien.health}'.",
+      "Do not use a while loop yet \u2014 that's the next lesson."
+    ],
+    "starterCode": "class Ship:\n    def __init__(self, health, attack_power):\n        pass\n\n    def take_damage(self, amount):\n        pass\n\n    def is_destroyed(self):\n        pass\n\n\nclass Alien:\n    def __init__(self, health, attack_power):\n        pass\n\n    def take_damage(self, amount):\n        pass\n\n    def is_destroyed(self):\n        pass\n\n\ndef battle_round(ship, alien):\n    # Alien attacks ship, then ship attacks alien, then print the HP line.\n    pass\n",
+    "solutionCode": "class Ship:\n    def __init__(self, health, attack_power):\n        self.health = health\n        self.attack_power = attack_power\n\n    def take_damage(self, amount):\n        self.health = max(0, self.health - amount)\n\n    def is_destroyed(self):\n        return self.health == 0\n\n\nclass Alien:\n    def __init__(self, health, attack_power):\n        self.health = health\n        self.attack_power = attack_power\n\n    def take_damage(self, amount):\n        self.health = max(0, self.health - amount)\n\n    def is_destroyed(self):\n        return self.health == 0\n\n\ndef battle_round(ship, alien):\n    ship.take_damage(alien.attack_power)\n    alien.take_damage(ship.attack_power)\n    print(f\"Ship HP: {ship.health} | Alien HP: {alien.health}\")\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "has-ship",
+        "label": "Defines Ship class",
+        "pattern": "class Ship",
+        "mustMatch": true
+      },
+      {
+        "id": "has-alien",
+        "label": "Defines Alien class",
+        "pattern": "class Alien",
+        "mustMatch": true
+      },
+      {
+        "id": "has-battle-round",
+        "label": "Defines battle_round function",
+        "pattern": "def battle_round\\(ship, alien\\)",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_ship = Ship(100, 15)\n_cf_alien = Alien(20, 10)\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    battle_round(_cf_ship, _cf_alien)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Ship HP: 90 | Alien HP: 5\n",
+    "outputCheckLabel": "battle_round(Ship(100,15), Alien(20,10)) prints 'Ship HP: 90 | Alien HP: 5'"
+  },
+  "hints": [
+    "Ship and Alien have the identical shape \u2014 write one, then reuse its pattern for the other.",
+    "take_damage should look like: self.health = max(0, self.health - amount).",
+    "is_destroyed just compares self.health to 0 and returns the result.",
+    "In battle_round, damage the ship first (alien.attack_power), then the alien (ship.attack_power), then print the line with an f-string."
+  ],
+  "nextLessonId": "py-ch15-the-final-simulation"
+}

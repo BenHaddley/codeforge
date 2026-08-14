@@ -1,0 +1,88 @@
+{
+  "id": "py-ch01-reading-errors",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch01",
+  "number": "1.3",
+  "title": "Reading Your First Error Messages",
+  "xp": 50,
+  "objective": "Read a Python traceback and tell a SyntaxError apart from a NameError.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "1",
+    "chapterTitle": "Getting Started",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Adapted for Code Forge's in-browser Pyodide runtime \u2014 no local installation. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Errors are not a sign you broke something permanently \u2014 they are Python telling you exactly what it could not do, and usually on which line. Reading the last line of the error message first is almost always the fastest path to a fix.",
+      "A SyntaxError means Python could not even understand the shape of your code \u2014 a missing quote, a missing colon, an unmatched parenthesis. The interpreter cannot run a single line until the grammar is fixed.",
+      "A NameError means the grammar was fine, but your code used a name \u2014 a variable or function \u2014 that does not exist yet at that point in the program. This usually means a typo, or using something before it was created."
+    ],
+    "rule": "Read the last line of a traceback first \u2014 it names the error type and usually explains the problem in plain words."
+  },
+  "examples": [
+    {
+      "title": "Broken, Then Fixed",
+      "code": "# Broken: 'blade_name' is used before it exists\n# print(blade_name)\n\n# Fixed: create it first, then use it\nblade_name = \"Ember\"\nprint(blade_name)",
+      "note": "Running the commented-out line alone would raise NameError: name 'blade_name' is not defined, because Python reaches that line before the variable exists."
+    }
+  ],
+  "checks": [
+    {
+      "id": "error-type",
+      "question": "Python raises NameError: name 'score' is not defined. What does this tell you?",
+      "options": [
+        "There is a missing quote somewhere in the file.",
+        "'score' was used before it was ever created, or its name was mistyped.",
+        "The program ran successfully.",
+        "Python does not support variables named score."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct \u2014 the interpreter reached a name it has no record of.",
+        "incorrect": "NameError specifically means the name isn't recognized yet \u2014 check spelling and order."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Defined Before Used",
+    "brief": "Write report_score() that creates a variable holding the number 100 and then prints it, avoiding a NameError.",
+    "requirements": [
+      "Define report_score().",
+      "Create a variable before printing it.",
+      "Print exactly: 100"
+    ],
+    "starterCode": "def report_score():\n    # Create the variable first, then print it.\n    pass\n\nreport_score()\n",
+    "solutionCode": "def report_score():\n    score = 100\n    print(score)\n\nreport_score()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines report_score()",
+        "pattern": "def\\s+report_score\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-print",
+        "label": "Uses print",
+        "pattern": "\\bprint\\s*\\(",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    report_score()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "100\n",
+    "outputCheckLabel": "report_score() prints exactly: 100"
+  },
+  "hints": [
+    "Create the variable on one line, then print it on the next.",
+    "A variable must exist before you can print it \u2014 order matters.",
+    "print(score) will print the number stored in score, not the word 'score'.",
+    "Double-check the variable name is spelled the same way both times."
+  ],
+  "nextLessonId": "py-ch02-variables"
+}

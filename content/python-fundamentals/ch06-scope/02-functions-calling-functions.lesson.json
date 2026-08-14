@@ -1,0 +1,78 @@
+{
+  "id": "py-ch06-functions-calling-functions",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch06",
+  "number": "6.2",
+  "title": "Functions Calling Functions",
+  "xp": 50,
+  "objective": "Compose functions by calling one from inside another, and trace how each call gets its own local scope.",
+  "sourceAlignment": {
+    "type": "original-synthesis",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8",
+    "chapterTitle": "Functions",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Original Code Forge lesson connecting scope to function composition. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A function's body can call any other function that's already been defined, including ones you wrote yourself. This lets you break a problem into small, named pieces instead of writing one long block of code.",
+      "Each call — no matter which function it's in — gets its own fresh set of local variables. If sharpen_bonus() calls compute_rate(), compute_rate() cannot see sharpen_bonus()'s locals, and sharpen_bonus() cannot see compute_rate()'s locals either. The only thing that crosses the boundary is whatever compute_rate() returns.",
+      "This pattern — one function using another's return value — is how larger programs stay organized. Instead of one function doing everything, each function does one job and hands its result to whoever called it."
+    ],
+    "rule": "Calling one function from inside another does not share their local variables — only a return value crosses that boundary."
+  },
+  "examples": [
+    {
+      "title": "One Function Using Another's Result",
+      "code": "def compute_rate(base):\n    return base * 1.5\n\ndef sharpen_bonus(base):\n    rate = compute_rate(base)\n    return rate + 10\n\nprint(sharpen_bonus(20))",
+      "note": "sharpen_bonus() calls compute_rate() and uses its return value, but never sees compute_rate()'s local variable 'base' as its own."
+    }
+  ],
+  "checks": [
+    {
+      "id": "scope-across-calls",
+      "question": "function_a() calls function_b(). Can function_a() read a local variable created inside function_b()?",
+      "options": [
+        "Yes, because function_a() called it.",
+        "No — only function_b()'s return value crosses back to function_a().",
+        "Only if the variable has the same name in both functions.",
+        "Yes, but only after function_b() finishes."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — locals stay inside the function that created them; only the return value comes back.",
+        "incorrect": "Locals never leak between functions, even when one calls the other. Only a return value crosses that boundary."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Bonus Calculator",
+    "brief": "Write compute_rate(base) that returns base * 1.5, and sharpen_bonus(base) that calls compute_rate(base) and returns that result plus 10. Print sharpen_bonus(20).",
+    "requirements": [
+      "Define compute_rate(base) returning base * 1.5.",
+      "Define sharpen_bonus(base) that calls compute_rate(base) and returns the result plus 10.",
+      "Print sharpen_bonus(20)."
+    ],
+    "starterCode": "def compute_rate(base):\n    # Return base * 1.5\n    pass\n\ndef sharpen_bonus(base):\n    # Call compute_rate(base) and return the result plus 10.\n    pass\n\nprint(sharpen_bonus(20))\n",
+    "solutionCode": "def compute_rate(base):\n    return base * 1.5\n\ndef sharpen_bonus(base):\n    rate = compute_rate(base)\n    return rate + 10\n\nprint(sharpen_bonus(20))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-compute-rate", "label": "Defines compute_rate()", "pattern": "def\\s+compute_rate\\s*\\(", "mustMatch": true },
+      { "id": "calls-compute-rate", "label": "sharpen_bonus calls compute_rate", "pattern": "compute_rate\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(sharpen_bonus(20))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "40.0\n",
+    "outputCheckLabel": "sharpen_bonus(20) returns 40.0"
+  },
+  "hints": [
+    "compute_rate(20) should return 30.0 (20 * 1.5).",
+    "sharpen_bonus() calls compute_rate(base) and adds 10 to whatever it returns.",
+    "30.0 + 10 is 40.0.",
+    "Both functions use return, not print — the print() call at the bottom displays the final result."
+  ],
+  "nextLessonId": "py-ch06-arbitrary-arguments"
+}

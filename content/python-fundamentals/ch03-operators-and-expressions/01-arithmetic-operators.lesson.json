@@ -1,0 +1,106 @@
+{
+  "id": "py-ch03-arithmetic-operators",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch03",
+  "number": "3.1",
+  "title": "Arithmetic Operators",
+  "xp": 50,
+  "objective": "Use Python's arithmetic operators, including integer division, modulo, and exponents.",
+  "sourceAlignment": {
+    "type": "original-synthesis",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "2 & 7",
+    "chapterTitle": "Numbers; The Modulo Operator",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Original Code Forge chapter bridging the book's number basics and modulo coverage. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Python supports the arithmetic you'd expect: + for addition, - for subtraction, * for multiplication, and / for division. Division with / always returns a float, even when the numbers divide evenly.",
+      "Two operators are less familiar. // is floor division — it divides and then drops anything after the decimal point, giving a whole number result. % is the modulo operator — it returns the remainder left over after dividing, which is useful for checking things like whether a number is even.",
+      "** raises a number to a power, so 2 ** 3 means 2 times itself 3 times, giving 8. Python follows the usual order of operations: exponents first, then multiplication/division/floor-division/modulo, then addition/subtraction, and parentheses override all of it.",
+      "Updating a variable based on its own current value — like adding to a running total — is common enough that Python gives it a shortcut. Instead of writing total = total + 5, you can write total += 5. Every arithmetic operator has one of these: -= subtracts and reassigns, *= multiplies and reassigns, /= divides and reassigns, and so on. They all mean 'do the operation to the variable's current value, then store the result back in that same variable.'"
+    ],
+    "rule": "// returns a whole-number quotient; % returns the remainder of that same division."
+  },
+  "examples": [
+    {
+      "title": "Quotient and Remainder",
+      "code": "items = 17\nper_box = 5\n\nfull_boxes = items // per_box\nleftover = items % per_box\n\nprint(full_boxes)\nprint(leftover)",
+      "note": "17 // 5 is 3 full boxes; 17 % 5 is 2 items left over."
+    },
+    {
+      "title": "Updating a Variable in Place",
+      "code": "total = 0\ntotal += 5\ntotal += 3\ntotal -= 2\nprint(total)",
+      "note": "total += 5 means the same thing as total = total + 5. Each line updates total using its own current value."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — arithmetic operators",
+      "startSeconds": 2287,
+      "endSeconds": 3095,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=2287&end=3095&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "modulo-even",
+      "question": "What does 10 % 2 evaluate to?",
+      "options": [
+        "5",
+        "0",
+        "1",
+        "2"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — 10 divides evenly by 2, so there's no remainder.",
+        "incorrect": "% gives the remainder after division. 10 divided by 2 has none left over."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Even or Odd Remainder",
+    "brief": "Write remainder_report(n) that prints the remainder of n divided by 2 using the % operator.",
+    "requirements": [
+      "Define remainder_report(n).",
+      "Use the % operator to compute n's remainder when divided by 2.",
+      "Print that remainder."
+    ],
+    "starterCode": "def remainder_report(n):\n    # Compute n % 2 and print it.\n    pass\n\nremainder_report(7)\n",
+    "solutionCode": "def remainder_report(n):\n    remainder = n % 2\n    print(remainder)\n\nremainder_report(7)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines remainder_report()",
+        "pattern": "def\\s+remainder_report\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-modulo",
+        "label": "Uses %",
+        "pattern": "%",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    remainder_report(7)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "1\n",
+    "outputCheckLabel": "remainder_report(7) prints exactly: 1"
+  },
+  "hints": [
+    "The % operator gives you a remainder, not a quotient.",
+    "n % 2 is 0 for even numbers and 1 for odd numbers.",
+    "7 divided by 2 is 3 with 1 left over.",
+    "Print the result of n % 2, not n itself."
+  ],
+  "nextLessonId": "py-ch03-comparison-and-boolean"
+}

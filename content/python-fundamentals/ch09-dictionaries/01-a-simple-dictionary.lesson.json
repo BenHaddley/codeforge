@@ -1,0 +1,95 @@
+{
+  "id": "py-ch09-a-simple-dictionary",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch09",
+  "number": "9.1",
+  "title": "A Simple Dictionary",
+  "xp": 50,
+  "objective": "Store and retrieve related values with a dictionary.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "6",
+    "chapterTitle": "Dictionaries",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A dictionary stores information as key-value pairs. Instead of finding a value by its position like in a list, you look it up by a key you choose — a name, an id, a label.",
+      "Dictionaries are written with curly braces. Each pair is written as key: value, separated by commas. You read a value back by putting the key in square brackets after the dictionary's name.",
+      "Keys are usually strings or numbers, and each key can only appear once in a dictionary. If you write the same key twice while building one, the second value wins."
+    ],
+    "rule": "A dictionary maps each key to exactly one value — use the key to look the value up."
+  },
+  "examples": [
+    {
+      "title": "Forge Rank",
+      "code": "smith = {\"name\": \"Ada\", \"rank\": \"Apprentice\"}\n\nprint(smith[\"name\"])\nprint(smith[\"rank\"])",
+      "note": "Each lookup uses the key in square brackets to pull out its matching value."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — dictionaries",
+      "startSeconds": 11007,
+      "endSeconds": 11460,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=11007&end=11460&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "dict-lookup",
+      "question": "What does forge = {\"level\": 3} let you do?",
+      "options": [
+        "Look up the value 3 using the key \"level\".",
+        "Look up the key \"level\" using the value 3.",
+        "Store \"level\" and 3 as two separate list items.",
+        "Create a list containing the string \"level\" and the number 3."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Right — forge[\"level\"] would give back 3.",
+        "incorrect": "Not quite — the key goes in the brackets, and it gives you back the value."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Smith Card",
+    "brief": "Write smith_card(name, rank) that builds a dictionary with keys \"name\" and \"rank\" set to the given arguments, then prints the name followed by the rank on the next line.",
+    "requirements": [
+      "Define smith_card(name, rank).",
+      "Build a dictionary with keys \"name\" and \"rank\".",
+      "Print the value stored at \"name\".",
+      "Print the value stored at \"rank\" on the next line."
+    ],
+    "starterCode": "def smith_card(name, rank):\n    # Build a dictionary here, then print name and rank.\n    pass\n\nsmith_card(\"Ada\", \"Apprentice\")\n",
+    "solutionCode": "def smith_card(name, rank):\n    card = {\"name\": name, \"rank\": rank}\n    print(card[\"name\"])\n    print(card[\"rank\"])\n\nsmith_card(\"Ada\", \"Apprentice\")\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "uses-dict",
+        "label": "Uses a dictionary literal",
+        "pattern": "\\{[^}]*:",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    smith_card(\"Kade\", \"Journeyman\")\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Kade\nJourneyman\n",
+    "outputCheckLabel": "smith_card(\"Kade\", \"Journeyman\") prints Kade then Journeyman"
+  },
+  "hints": [
+    "Curly braces {} create a dictionary; each entry is key: value.",
+    "Use the parameter names inside the dictionary literal: {\"name\": name, \"rank\": rank}.",
+    "Look up a value with card[\"name\"], not card.name.",
+    "Print name first, then rank, each on its own line."
+  ],
+  "nextLessonId": "py-ch09-working-with-dictionaries"
+}

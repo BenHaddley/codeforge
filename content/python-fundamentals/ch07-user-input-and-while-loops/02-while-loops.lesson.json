@@ -88,5 +88,5 @@
     "Print the counter, then subtract one from it.",
     "FORGE! belongs after the loop has finished."
   ],
-  "nextLessonId": null
+  "nextLessonId": "py-ch07-loop-control"
 }

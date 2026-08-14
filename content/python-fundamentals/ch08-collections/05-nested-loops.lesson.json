@@ -1,0 +1,88 @@
+{
+  "id": "py-ch08-nested-loops",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.5",
+  "title": "Nested Loops",
+  "xp": 50,
+  "objective": "Write a loop inside another loop to process every combination of two sequences, such as rows and columns.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Python Full Course for free",
+    "creator": "Bro Code",
+    "videoId": "ix9cRaBkVe0",
+    "url": "https://www.youtube.com/watch?v=ix9cRaBkVe0",
+    "note": "Alignment metadata only; this topic isn't covered in Python Crash Course but is taught in the companion video. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A nested loop is a loop written inside the body of another loop. The outer loop controls how many times the whole inner loop runs from scratch, and the inner loop runs all the way through on every single pass of the outer loop.",
+      "For two outer passes and three inner passes, the inner loop's body runs a total of six times — once for every combination of an outer pass and an inner pass. This is exactly how you process something with two dimensions, like rows and columns in a grid.",
+      "Give the inner loop's counter a different name than the outer loop's. Reusing the same counter name for both would mean the inner loop's changes overwrite the outer loop's counter, breaking the outer loop's progress."
+    ],
+    "rule": "The inner loop runs completely, every single time the outer loop takes one step — give each loop its own counter name."
+  },
+  "examples": [
+    {
+      "title": "Rows and Columns",
+      "code": "for row in range(2):\n    for col in range(3):\n        print(row, col)",
+      "note": "The inner loop runs 3 times for row 0, then 3 more times for row 1 — 6 prints total."
+    },
+    {
+      "title": "Building a Grid of Symbols",
+      "code": "for row in range(3):\n    line = \"\"\n    for col in range(4):\n        line += \"*\"\n    print(line)",
+      "note": "Each pass of the outer loop builds and prints one complete row of four stars, using the inner loop and += to build it up."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — nested loops",
+      "startSeconds": 8248,
+      "endSeconds": 8582,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=8248&end=8582&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "nested-loop-count",
+      "question": "for a in range(3):\\n    for b in range(2):\\n        ... — how many times does the inner loop's body run in total?",
+      "options": ["3", "2", "5", "6"],
+      "correctIndex": 3,
+      "feedback": {
+        "correct": "Correct — the inner loop runs 2 times for every one of the outer loop's 3 passes: 3 x 2 = 6.",
+        "incorrect": "Multiply the number of outer passes by the number of inner passes: 3 x 2."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Print a Grid",
+    "brief": "Write print_grid(rows, cols) that prints a grid of asterisks with the given number of rows and columns, one row per line.",
+    "requirements": [
+      "Define print_grid(rows, cols).",
+      "Use a nested loop: an outer loop for rows and an inner loop for cols.",
+      "Build each row as a string of cols asterisks, then print it once per row."
+    ],
+    "starterCode": "def print_grid(rows, cols):\n    # Print `rows` lines, each containing `cols` asterisks.\n    pass\n\nprint_grid(2, 3)\n",
+    "solutionCode": "def print_grid(rows, cols):\n    for r in range(rows):\n        line = \"\"\n        for c in range(cols):\n            line += \"*\"\n        print(line)\n\nprint_grid(2, 3)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines print_grid()", "pattern": "def\\s+print_grid\\s*\\(", "mustMatch": true },
+      { "id": "uses-nested-for", "label": "Uses a nested for loop", "pattern": "for\\s+\\w+\\s+in[\\s\\S]*for\\s+\\w+\\s+in", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print_grid(2, 3)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "***\n***\n",
+    "outputCheckLabel": "print_grid(2, 3) prints two rows of three asterisks each"
+  },
+  "hints": [
+    "The outer loop should run `rows` times; the inner loop should run `cols` times for each outer pass.",
+    "Build up a string of asterisks with += inside the inner loop, then print it once the inner loop finishes.",
+    "Reset line back to an empty string at the start of every outer pass, or every row will get longer than the last.",
+    "print_grid(2, 3) should print two lines, each with exactly three asterisks."
+  ],
+  "nextLessonId": "py-ch08-2d-lists"
+}

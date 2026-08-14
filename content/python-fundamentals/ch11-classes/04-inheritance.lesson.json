@@ -1,0 +1,111 @@
+{
+  "id": "py-ch11-inheritance",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch11",
+  "number": "11.4",
+  "title": "Inheritance",
+  "xp": 50,
+  "objective": "Build a child class that inherits from a parent with super().__init__(), then extends and overrides its behavior.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "9",
+    "chapterTitle": "Classes",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose, examples, and exercises are original Code Forge material using an original theme, not the book's example classes."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "When one class is a more specific version of another, you don't need to repeat its code. A child class can inherit from a parent class by listing the parent's name in parentheses after the child's own name, as in class Child(Parent):.",
+      "Inside the child's __init__(), calling super().__init__(...) runs the parent class's __init__() for you, so the parent's attributes get set up correctly before the child adds anything of its own.",
+      "A child class isn't limited to what it inherits. It can define brand-new attributes and methods that only it has, and it can also override a method from the parent by defining a method with the same name — Python uses the child's version instead for instances of the child."
+    ],
+    "rule": "A child class inherits from its parent with class Child(Parent):, calls super().__init__() to reuse the parent's setup, and can add or override methods of its own."
+  },
+  "examples": [
+    {
+      "title": "Extending and Overriding a Parent Class",
+      "code": "class Worker:\n    \"\"\"A generic worker at the forge.\"\"\"\n\n    def __init__(self, name, shift_hours):\n        self.name = name\n        self.shift_hours = shift_hours\n\n    def clock_in(self):\n        print(f\"{self.name} clocks in for a {self.shift_hours}-hour shift.\")\n\n\nclass Smith(Worker):\n    \"\"\"A worker who specializes in smithing.\"\"\"\n\n    def __init__(self, name, shift_hours, specialty):\n        super().__init__(name, shift_hours)\n        self.specialty = specialty\n\n    def clock_in(self):\n        print(f\"{self.name} clocks in to work on {self.specialty}.\")\n\n    def forge_item(self, item):\n        print(f\"{self.name} forges a {item}.\")\n\n\napprentice = Smith(\"Rin\", 6, \"blades\")\napprentice.clock_in()\napprentice.forge_item(\"dagger\")\n",
+      "note": "Smith(Worker) inherits from Worker. super().__init__(name, shift_hours) reuses Worker's setup, self.specialty is a new attribute, forge_item() is a new method, and clock_in() overrides the parent's version entirely."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "override-behavior",
+      "question": "What happens when a child class defines a method with the same name as one in its parent class?",
+      "options": [
+        "The child's version overrides the parent's version for instances of the child class.",
+        "Python raises an error because the name is already used.",
+        "Both methods run every time, one after the other.",
+        "The parent's version always takes priority."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — a method defined on the child class overrides the parent's method of the same name.",
+        "incorrect": "Not quite. Python looks at the child class first and uses its version if one exists."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Sentinel Watch",
+    "brief": "Write a Guard class and a Sentinel subclass that inherits from it, adds new behavior, and overrides report().",
+    "requirements": [
+      "Define a class named Guard with __init__(self, name, post) that stores self.name and self.post.",
+      "Guard has a method report() that prints f\"{self.name} is stationed at {self.post}.\"",
+      "Define a class named Sentinel that inherits from Guard.",
+      "Sentinel's __init__(self, name, post, alert_level) calls super().__init__(name, post) and then stores self.alert_level.",
+      "Sentinel overrides report() to print f\"{self.name} is stationed at {self.post} (alert level: {self.alert_level}).\"",
+      "Sentinel adds a new method sound_alarm() that prints f\"{self.name} sounds the alarm!\"",
+      "Create a Sentinel instance and call both report() and sound_alarm() on it."
+    ],
+    "starterCode": "class Guard:\n    def __init__(self, name, post):\n        # Store name and post.\n        pass\n\n    def report(self):\n        # Print a status message using an f-string.\n        pass\n\n\nclass Sentinel(Guard):\n    def __init__(self, name, post, alert_level):\n        # Call the parent's __init__, then store alert_level.\n        pass\n\n    def report(self):\n        # Override report() to include alert_level.\n        pass\n\n    def sound_alarm(self):\n        # Print an alarm message.\n        pass\n\n\n# Create a Sentinel instance and call report() and sound_alarm() on it.\n",
+    "solutionCode": "class Guard:\n    def __init__(self, name, post):\n        self.name = name\n        self.post = post\n\n    def report(self):\n        print(f\"{self.name} is stationed at {self.post}.\")\n\n\nclass Sentinel(Guard):\n    def __init__(self, name, post, alert_level):\n        super().__init__(name, post)\n        self.alert_level = alert_level\n\n    def report(self):\n        print(f\"{self.name} is stationed at {self.post} (alert level: {self.alert_level}).\")\n\n    def sound_alarm(self):\n        print(f\"{self.name} sounds the alarm!\")\n\n\nwatcher = Sentinel(\"Orin\", \"north wall\", \"yellow\")\nwatcher.report()\nwatcher.sound_alarm()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "class-guard",
+        "label": "Defines class Guard",
+        "pattern": "class\\s+Guard\\b",
+        "mustMatch": true
+      },
+      {
+        "id": "class-sentinel-inherits",
+        "label": "Sentinel inherits from Guard",
+        "pattern": "class\\s+Sentinel\\s*\\(\\s*Guard\\s*\\)",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-super",
+        "label": "Sentinel's __init__ calls super().__init__()",
+        "pattern": "super\\(\\)\\.__init__",
+        "mustMatch": true
+      },
+      {
+        "id": "overrides-report",
+        "label": "Sentinel defines its own report()",
+        "pattern": "def\\s+report",
+        "mustMatch": true
+      },
+      {
+        "id": "new-method",
+        "label": "Sentinel adds sound_alarm()",
+        "pattern": "def\\s+sound_alarm",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    _cf_watcher = Sentinel(\"Vex\", \"east gate\", \"red\")\n    _cf_watcher.report()\n    _cf_watcher.sound_alarm()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Vex is stationed at east gate (alert level: red).\nVex sounds the alarm!\n",
+    "outputCheckLabel": "Sentinel(\"Vex\", \"east gate\", \"red\") reports its alert level, then sounds the alarm"
+  },
+  "hints": [
+    "Guard needs its own __init__(self, name, post) and a report() method before you touch Sentinel.",
+    "Sentinel(Guard) goes in the class line to inherit from Guard.",
+    "Inside Sentinel's __init__, call super().__init__(name, post) first, then set self.alert_level = alert_level.",
+    "Define report() again inside Sentinel with the same name — that overrides the parent's version. sound_alarm() is a new method that only Sentinel has."
+  ],
+  "nextLessonId": "py-ch11-importing-classes"
+}

@@ -1,0 +1,88 @@
+{
+  "id": "py-ch01-what-is-python",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch01",
+  "number": "1.1",
+  "title": "What Is Python?",
+  "xp": 50,
+  "objective": "Understand what Python is and how Code Forge runs the code you write.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "1",
+    "chapterTitle": "Getting Started",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Adapted for Code Forge's in-browser Pyodide runtime \u2014 no local installation. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Python is a general-purpose programming language known for reading almost like plain English. You describe a series of steps, and the computer carries them out exactly as written, in order, from top to bottom.",
+      "Normally, running Python means installing an interpreter on your own machine. Code Forge skips that step: the editor on this page runs a real Python interpreter directly in your browser, so the code you write executes the moment you press Run.",
+      "Because Python reads top to bottom, the order you write your lines in is the order they happen. Moving a line up or down changes what the program does, even if none of the words themselves change."
+    ],
+    "rule": "Python runs your code one line at a time, from top to bottom, exactly as written."
+  },
+  "examples": [
+    {
+      "title": "Order Matters",
+      "code": "print(\"Heating the forge.\")\nprint(\"Striking the anvil.\")\nprint(\"Cooling the blade.\")",
+      "note": "Each line runs in order. Swapping the second and third lines would cool the blade before it was ever struck."
+    }
+  ],
+  "checks": [
+    {
+      "id": "top-to-bottom",
+      "question": "If you swap the order of two print() lines in a Python file, what happens?",
+      "options": [
+        "Nothing changes \u2014 Python always runs the shortest line first.",
+        "The output order changes to match the new line order.",
+        "Python refuses to run the file.",
+        "Both lines run at the same time."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct \u2014 Python executes statements in the order they appear.",
+        "incorrect": "Not quite. Python has no idea what a line will do until it reaches it, in order."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Light the Forge",
+    "brief": "Write light_the_forge() using print() to output exactly one line: Forge lit..",
+    "requirements": [
+      "Define light_the_forge().",
+      "Use print() exactly once inside the function.",
+      "The printed text must be exactly: Forge lit."
+    ],
+    "starterCode": "def light_the_forge():\n    # Print the message here.\n    pass\n\nlight_the_forge()\n",
+    "solutionCode": "def light_the_forge():\n    print(\"Forge lit.\")\n\nlight_the_forge()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines light_the_forge()",
+        "pattern": "def\\s+light_the_forge\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-print",
+        "label": "Uses print",
+        "pattern": "\\bprint\\s*\\(",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    light_the_forge()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Forge lit.\n",
+    "outputCheckLabel": "light_the_forge() prints exactly: Forge lit."
+  },
+  "hints": [
+    "You need exactly one print() call inside the function.",
+    "Text in Python goes inside quotes, like \"this\".",
+    "Match the punctuation exactly \u2014 the period at the end counts.",
+    "Call the function after defining it, just like the starter code already does."
+  ],
+  "nextLessonId": "py-ch01-hello-world"
+}

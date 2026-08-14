@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/video-player.css">
 <link rel="stylesheet" href="css/screens.css">
 <link rel="stylesheet" href="css/paperclip.css">
+<link rel="stylesheet" href="css/win98-window.css">
 </head>
 <body>
 <div class="desktop">
@@ -44,8 +45,13 @@
     <div class="app-body">
       <div class="breadcrumb" id="breadcrumb"></div>
 
-      <!-- SCREEN 1: Lesson (read + watch) -->
+      <!-- SCREEN 1: Lesson workspace (read + watch + practice + Paperclip in
+           one continuous flow; the IDE stays put on the right) -->
       <section class="screen active" id="screen-lesson">
+        <div class="workspace-switch" id="workspaceSwitch" hidden>
+          <button class="classic-button active" id="wsTabLesson">Lesson</button>
+          <button class="classic-button" id="wsTabCode">Code</button>
+        </div>
         <div class="lesson-columns">
           <div class="lesson-left pane">
             <div class="pane-title">
@@ -55,7 +61,27 @@
                 <button id="ttsStopBtn" class="tts-btn" aria-label="Stop narration" title="Stop narration" hidden>⏹</button>
               </div>
             </div>
-            <div class="pane-body lesson-scroll" id="lessonText"></div>
+            <div class="pane-body lesson-scroll" id="lessonScroll">
+              <div id="lessonText"></div>
+              <!-- Paperclip: embedded AI tutor, a collapsible section at the
+                   bottom of the lesson column -->
+              <section class="paperclip-pane" id="paperclipPane" aria-label="Paperclip tutor">
+                <div class="paperclip-titlebar" id="paperclipTitlebar">
+                  <span>📎 Paperclip</span>
+                  <span class="paperclip-status" id="paperclipStatus"></span>
+                  <button class="paperclip-toggle" id="paperclipToggle" aria-label="Collapse or expand Paperclip">▼</button>
+                </div>
+                <div class="paperclip-hint" id="paperclipHint">Need help? Ask about this lesson or your code.</div>
+                <div class="paperclip-body" id="paperclipBody">
+                  <div class="paperclip-conversation" id="paperclipConversation"></div>
+                  <div class="paperclip-input-row">
+                    <input id="paperclipInput" class="paperclip-input" placeholder="Ask Paperclip..." maxlength="2000" autocomplete="off" spellcheck="false" aria-label="Ask Paperclip a question">
+                    <button class="classic-button paperclip-send-btn" id="paperclipSendBtn" aria-label="Send question">►</button>
+                  </div>
+                  <div class="paperclip-debug" id="paperclipDebug"></div>
+                </div>
+              </section>
+            </div>
           </div>
           <div class="col-resizer" id="lessonColResizer" aria-hidden="true"></div>
           <div class="lesson-right pane" id="lessonRight">
@@ -67,54 +93,24 @@
             <div class="editor-toolbar">
               <button class="classic-button" id="previewSubmitBtn">Submit</button>
               <button class="classic-button" id="previewRunBtn">Run</button>
+              <button class="classic-button" id="previewHintBtn">Hint</button>
               <button class="classic-button" id="previewSolutionBtn">Solution</button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SCREEN 2: Practice -->
-      <section class="screen" id="screen-practice">
-        <div class="screen-header">
-          <button class="classic-button" id="backToLessonBtn">← Back to Lesson</button>
-          <h1 id="practiceTitle">Practice</h1>
-          <span style="width:140px"></span>
-        </div>
-        <div class="practice-columns">
-          <div class="practice-left" id="practiceLeft">
-            <div class="pane practice-assignment-pane">
-              <div class="pane-title">Assignment</div>
-              <div class="pane-body" id="practiceAssignment"></div>
-            </div>
-            <div class="pane practice-output-pane">
-              <div class="practice-pass-banner" id="practicePassBanner">
-                Assignment passed!
-                <button class="classic-button" id="continueToQuizBtn">Continue to Knowledge Check →</button>
-              </div>
+            <div class="workspace-output">
               <div class="tabs">
                 <button class="active" data-tab="output">Output</button>
+                <button data-tab="tests">Tests</button>
                 <button data-tab="hints">Hints</button>
               </div>
-              <pre class="console" id="practiceConsole">&gt; Ready. Run or Submit to see output here.</pre>
-            </div>
-          </div>
-          <div class="col-resizer" id="practiceColResizer" aria-hidden="true"></div>
-          <div class="practice-right pane">
-            <div class="pane-title">main.py</div>
-            <div class="editor-shell">
-              <div class="line-numbers" id="practiceLineNumbers" aria-hidden="true"></div>
-              <textarea id="practiceEditor" spellcheck="false" aria-label="Python code editor"></textarea>
-            </div>
-            <div class="editor-toolbar">
-              <button class="classic-button" id="practiceSubmitBtn">Submit</button>
-              <button class="classic-button" id="practiceRunBtn">Run</button>
-              <button class="classic-button" id="practiceHintBtn">Hint</button>
+              <pre class="console" id="workspaceConsole">&gt; Ready. Run to see output, or Submit to check your solution.</pre>
+              <div class="tests-panel" id="workspaceTests" hidden></div>
+              <div class="hints-panel" id="workspaceHints" hidden></div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SCREEN 3: Quiz -->
+      <!-- SCREEN 2: Quiz (reached from the completion dialog) -->
       <section class="screen" id="screen-quiz">
         <div class="quiz-wrap">
           <div class="quiz-card pane">
@@ -132,7 +128,7 @@
         </div>
       </section>
 
-      <!-- SCREEN 4: Results -->
+      <!-- SCREEN 3: Results -->
       <section class="screen" id="screen-results">
         <div class="results-wrap">
           <div class="results-card pane">
@@ -161,23 +157,6 @@
       </section>
     </div>
 
-    <!-- Paperclip: embedded AI tutor, docked above the status bar -->
-    <section class="paperclip-pane" id="paperclipPane" aria-label="Paperclip tutor">
-      <div class="paperclip-titlebar" id="paperclipTitlebar">
-        <span>📎 Paperclip</span>
-        <span class="paperclip-status" id="paperclipStatus"></span>
-        <button class="paperclip-toggle" id="paperclipToggle" aria-label="Collapse or expand Paperclip">▼</button>
-      </div>
-      <div class="paperclip-body" id="paperclipBody">
-        <div class="paperclip-conversation" id="paperclipConversation"></div>
-        <div class="paperclip-input-row">
-          <input id="paperclipInput" class="paperclip-input" placeholder="Ask Paperclip..." maxlength="2000" autocomplete="off" spellcheck="false" aria-label="Ask Paperclip a question">
-          <button class="classic-button paperclip-send-btn" id="paperclipSendBtn" aria-label="Send question">►</button>
-        </div>
-        <div class="paperclip-debug" id="paperclipDebug"></div>
-      </div>
-    </section>
-
     <footer class="statusbar statusbar-4">
       <div id="statusText">Ready</div><div>Python 3 · Pyodide</div><div id="statusLesson">—</div><div id="clock">--:--</div>
     </footer>
@@ -189,6 +168,7 @@
 <script src="js/youtube-player.js"></script>
 <script src="js/course-drawer.js"></script>
 <script src="js/panel-resizer.js"></script>
+<script src="js/win98-window.js"></script>
 <script src="js/runner-client.js"></script>
 <script src="js/grading.js"></script>
 <script src="js/paperclip/state.js"></script>

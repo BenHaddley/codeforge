@@ -1,0 +1,102 @@
+{
+  "id": "py-ch14-testing-a-class",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch14",
+  "number": "14.2",
+  "title": "Testing a Class",
+  "xp": 50,
+  "objective": "Use setUp() to build a fresh instance before each test method and verify a class's methods.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "11",
+    "chapterTitle": "Testing Your Code",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Testing a class works the same way as testing a function: you write test_ methods on a TestCase subclass and check results with self.assertEqual. The difference is that most methods on a class need an instance to call them on, and many tests need that same kind of instance.",
+      "You could create the instance at the top of every single test method, but that means repeating the same setup code over and over, and if the class's constructor ever changes, you would have to update every test method to match. unittest gives you a better place to do it once.",
+      "A TestCase can define a method named setUp(). unittest calls setUp() automatically before every test_ method runs, and it hands each test method a completely fresh copy of whatever setUp() created — nothing from one test carries over into the next.",
+      "A common pattern is to build the object under test in setUp() and store it on self, such as self.tracker = ScoreTracker(). Every test method can then read self.tracker and immediately start calling methods on it, instead of repeating the constructor call itself."
+    ],
+    "rule": "Define setUp() to build the objects every test method needs; unittest runs it fresh before each test_ method, so no test method has to repeat that setup code."
+  },
+  "examples": [
+    {
+      "title": "Sharing Setup With setUp()",
+      "code": "class Counter:\n    def __init__(self):\n        self.value = 0\n\n    def increment(self, amount=1):\n        self.value += amount\n\n\nimport unittest\n\n\nclass TestCounter(unittest.TestCase):\n    def setUp(self):\n        self.counter = Counter()\n\n    def test_starts_at_zero(self):\n        self.assertEqual(self.counter.value, 0)\n\n    def test_increment_adds_amount(self):\n        self.counter.increment(5)\n        self.assertEqual(self.counter.value, 5)\n\n\nunittest.main(argv=[\"\"], exit=False)",
+      "note": "setUp() builds a fresh self.counter before test_starts_at_zero runs, and builds another fresh self.counter before test_increment_adds_amount runs. Neither test method has to call Counter() itself, and changes made in one test never leak into the other."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "setup-timing",
+      "question": "When does unittest call a TestCase's setUp() method?",
+      "options": [
+        "Once, before the very first test method in the class runs.",
+        "Fresh, before every individual test_ method runs.",
+        "Only if the previous test method failed.",
+        "After all the test methods have finished running."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — setUp() runs again before each test_ method, so every test gets its own fresh objects.",
+        "incorrect": "Not quite. setUp() is not a one-time or after-the-fact step — think about how many times each test method needs a clean object."
+      }
+    },
+    {
+      "id": "setup-purpose",
+      "question": "What is the main reason to move object creation into setUp() instead of repeating it in each test method?",
+      "options": [
+        "setUp() runs faster than code inside a test method.",
+        "It avoids duplicating the same setup code across every test method.",
+        "Test methods are not allowed to create objects directly.",
+        "It lets you skip writing assertEqual calls."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — setUp() exists so shared setup code lives in one place instead of being copied into every test method.",
+        "incorrect": "Not quite. Think about what would happen if ten test methods each repeated the same constructor call by hand."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Test ScoreTracker",
+    "brief": "ScoreTracker below is already correct: it keeps a running total and count of scores added with add_score, and reports the mean with average. Write a TestCase named TestScoreTracker with a setUp() method plus at least two test methods.",
+    "requirements": [
+      "Import the unittest module.",
+      "Define a class named TestScoreTracker that inherits from unittest.TestCase.",
+      "Write a setUp method that creates self.tracker = ScoreTracker().",
+      "Write at least two test methods, each with a name starting with test_, that use self.tracker.",
+      "Use self.assertEqual in at least one test method.",
+      "Do not change ScoreTracker itself."
+    ],
+    "starterCode": "class ScoreTracker:\n    \"\"\"Keep a running total and count of scores added.\"\"\"\n\n    def __init__(self, starting_score=0):\n        self.total = starting_score\n        self.count = 0\n\n    def add_score(self, points):\n        self.total += points\n        self.count += 1\n\n    def average(self):\n        if self.count == 0:\n            return 0\n        return self.total / self.count\n\n\nimport unittest\n\n\nclass TestScoreTracker(unittest.TestCase):\n    # Write a setUp method, then at least two test methods below.\n    pass\n",
+    "solutionCode": "class ScoreTracker:\n    \"\"\"Keep a running total and count of scores added.\"\"\"\n\n    def __init__(self, starting_score=0):\n        self.total = starting_score\n        self.count = 0\n\n    def add_score(self, points):\n        self.total += points\n        self.count += 1\n\n    def average(self):\n        if self.count == 0:\n            return 0\n        return self.total / self.count\n\n\nimport unittest\n\n\nclass TestScoreTracker(unittest.TestCase):\n    def setUp(self):\n        self.tracker = ScoreTracker()\n\n    def test_add_score_updates_total(self):\n        self.tracker.add_score(10)\n        self.assertEqual(self.tracker.total, 10)\n\n    def test_average_returns_mean_of_scores(self):\n        self.tracker.add_score(10)\n        self.tracker.add_score(20)\n        self.assertEqual(self.tracker.average(), 15)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "imports-unittest", "label": "Imports unittest", "pattern": "import\\s+unittest", "mustMatch": true },
+      { "id": "defines-testcase", "label": "Defines class TestScoreTracker(unittest.TestCase)", "pattern": "class\\s+TestScoreTracker\\s*\\(\\s*unittest\\.TestCase\\s*\\)", "mustMatch": true },
+      { "id": "has-setup", "label": "Defines a setUp method", "pattern": "def\\s+setUp\\s*\\(self\\)", "mustMatch": true },
+      { "id": "setup-creates-tracker", "label": "setUp creates self.tracker = ScoreTracker()", "pattern": "self\\.tracker\\s*=\\s*ScoreTracker\\(", "mustMatch": true },
+      { "id": "two-test-methods", "label": "Has at least two test_ methods", "pattern": "def\\s+test_\\w+\\s*\\(self\\)[\\s\\S]*def\\s+test_\\w+\\s*\\(self\\)", "mustMatch": true },
+      { "id": "uses-assert-equal", "label": "Uses self.assertEqual", "pattern": "self\\.assertEqual\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport unittest, io\n_cf_stream = io.StringIO()\n_cf_suite = unittest.TestLoader().loadTestsFromTestCase(TestScoreTracker)\n_cf_result = unittest.TextTestRunner(stream=_cf_stream, verbosity=2).run(_cf_suite)\n_cf_summary = f\"ran={_cf_result.testsRun} failures={len(_cf_result.failures)} errors={len(_cf_result.errors)}\"\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_summary))\n",
+    "expectedOutput": "ran=2 failures=0 errors=0",
+    "outputCheckLabel": "Both test methods in TestScoreTracker pass with no errors."
+  },
+  "hints": [
+    "Start with class TestScoreTracker(unittest.TestCase): and add a setUp(self) method.",
+    "Inside setUp, create the object every test needs: self.tracker = ScoreTracker(). unittest calls setUp fresh before each test_ method.",
+    "Write test methods that call self.tracker's methods, then check the result with self.assertEqual.",
+    "Try one test that checks add_score changes self.tracker.total, and another that checks average() after adding a couple of scores."
+  ],
+  "nextLessonId": "py-ch15-planning-the-project"
+}

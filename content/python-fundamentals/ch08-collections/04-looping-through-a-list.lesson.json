@@ -1,0 +1,92 @@
+{
+  "id": "py-ch08-looping-through-a-list",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.4",
+  "title": "Looping Through a List",
+  "xp": 50,
+  "objective": "Process every item in a list with a for loop, generate a sequence of numbers with range(), and build a new list with a list comprehension.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "3 & 4",
+    "chapterTitle": "Introducing Lists; Working with Lists",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A for loop lets you run the same block of code once for every item in a list, without knowing in advance how many items there are. for name in crew: gives you one crew member at a time in name, in order, until the list runs out.",
+      "range() generates a sequence of numbers on demand instead of you typing them out. range(3) produces 0, 1, 2; range(1, 4) produces 1, 2, 3, starting at the first number and stopping just before the second. It's most often paired with a for loop when you need to repeat something a set number of times.",
+      "A list comprehension builds a new list from an existing one in a single line: [expression for item in list_name]. [n * 2 for n in [1, 2, 3]] produces [2, 4, 6] — it's a compact replacement for a loop that appends to an empty list one item at a time."
+    ],
+    "rule": "for item in a_list: visits every element in order; range(start, stop) generates numbers up to but not including stop; a list comprehension writes that whole loop-and-append pattern in one line."
+  },
+  "examples": [
+    {
+      "title": "Visiting Every Item",
+      "code": "crew = [\"Talia\", \"Rook\", \"Sable\"]\nfor member in crew:\n    print(f\"{member} reporting in.\")",
+      "note": "The loop runs once per item in crew, binding member to a different value each pass."
+    },
+    {
+      "title": "range() and a Comprehension",
+      "code": "for i in range(1, 4):\n    print(f\"Round {i}\")\n\nsquares = [n * n for n in range(1, 5)]\nprint(squares)",
+      "note": "range(1, 4) produces 1, 2, 3. The comprehension builds squares in one line instead of looping and appending."
+    }
+  ],
+  "checks": [
+    {
+      "id": "range-bounds",
+      "question": "What numbers does range(1, 4) produce?",
+      "options": ["1, 2, 3, 4", "0, 1, 2, 3", "1, 2, 3", "2, 3, 4"],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — range(1, 4) stops just before 4, producing 1, 2, 3.",
+        "incorrect": "range()'s stop value is never included. Count from 1 up to, but not through, 4."
+      }
+    },
+    {
+      "id": "comprehension-purpose",
+      "question": "What does [n * 2 for n in [1, 2, 3]] produce?",
+      "options": ["[1, 2, 3, 1, 2, 3]", "[2, 4, 6]", "6", "An error"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — each item is doubled and collected into a new list.",
+        "incorrect": "The expression before 'for' is applied to every item, building a new list from the results."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Training Drill",
+    "brief": "Write squad_workout(names) that greets each squad member by name, announces three numbered training rounds, then prints a list of everyone's initials.",
+    "requirements": [
+      "Define squad_workout(names).",
+      "Use a for loop to print \"{name} reports for training.\" for every name in names.",
+      "Use range() to print \"Round {n} complete.\" for rounds 1 through 3.",
+      "Build a list comprehension that collects the first letter of each name into a list called initials.",
+      "Print \"Initials:\" followed by the initials list."
+    ],
+    "starterCode": "def squad_workout(names):\n    # Greet each member, announce three rounds, then print initials.\n    pass\n\nsquad_workout([\"Nyx\", \"Bram\", \"Odele\"])\n",
+    "solutionCode": "def squad_workout(names):\n    for name in names:\n        print(f\"{name} reports for training.\")\n    for round_num in range(1, 4):\n        print(f\"Round {round_num} complete.\")\n    initials = [name[0] for name in names]\n    print(\"Initials:\", initials)\n\nsquad_workout([\"Nyx\", \"Bram\", \"Odele\"])\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "uses-for", "label": "Uses a for loop", "pattern": "\\bfor\\b", "mustMatch": true },
+      { "id": "uses-range", "label": "Uses range()", "pattern": "\\brange\\(", "mustMatch": true },
+      { "id": "uses-comprehension", "label": "Uses a list comprehension", "pattern": "\\[.*\\bfor\\b.*\\]", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    squad_workout([\"Nyx\", \"Bram\", \"Odele\"])\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Nyx reports for training.\nBram reports for training.\nOdele reports for training.\nRound 1 complete.\nRound 2 complete.\nRound 3 complete.\nInitials: ['N', 'B', 'O']\n",
+    "outputCheckLabel": "squad_workout([\"Nyx\", \"Bram\", \"Odele\"]) prints greetings, rounds, and initials"
+  },
+  "hints": [
+    "The first loop is a plain for name in names: printing one line per member.",
+    "range(1, 4) gives you 1, 2, and 3 — exactly three rounds, numbered starting at 1.",
+    "A list comprehension for this looks like [name[0] for name in names] — name[0] is the first character of each string.",
+    "Print the greetings, then the rounds, then the initials line — in that order.",
+    "name[0] works on strings the same way indexing works on lists, since a string is a sequence of characters."
+  ],
+  "nextLessonId": "py-ch08-nested-loops"
+}

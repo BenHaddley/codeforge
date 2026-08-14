@@ -1,0 +1,100 @@
+{
+  "id": "py-ch08-organizing-a-list",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.3",
+  "title": "Organizing a List",
+  "xp": 50,
+  "objective": "Order the items in a list permanently with .sort() or temporarily with sorted(), reverse a list with .reverse(), and measure it with len().",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "3 & 4",
+    "chapterTitle": "Introducing Lists; Working with Lists",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Python gives you two different ways to sort a list, and the difference matters. scores.sort() rearranges scores in place — the original order is gone for good. sorted(scores) instead builds and returns a brand-new sorted list while leaving scores exactly as it was, which is useful when you still need the original order later.",
+      "list_name.reverse() flips the current order of a list in place — first becomes last and last becomes first. It does not sort anything; it just reverses whatever order the items were already in.",
+      "len(list_name) returns how many items are currently in a list. It's a plain function call, not a method, so you write len(scores) rather than scores.len()."
+    ],
+    "rule": "sort() changes the list forever; sorted() hands you a new list and leaves the original alone; reverse() flips the current order; len() counts the items."
+  },
+  "examples": [
+    {
+      "title": "Permanent vs. Temporary Order",
+      "code": "scores = [42, 17, 89]\nprint(sorted(scores))\nprint(scores)\nscores.sort()\nprint(scores)",
+      "note": "sorted(scores) returns a new ordered list without touching scores. Only scores.sort() changes scores itself."
+    },
+    {
+      "title": "Reverse and Count",
+      "code": "queue = [\"Nyx\", \"Bram\", \"Odele\"]\nqueue.reverse()\nprint(queue)\nprint(len(queue))",
+      "note": "reverse() flips the existing order in place; len() reports how many items remain."
+    }
+  ],
+  "checks": [
+    {
+      "id": "sort-vs-sorted",
+      "question": "After running scores.sort(), what has happened to scores?",
+      "options": [
+        "scores is unchanged; sort() returns a new list",
+        "scores is now permanently rearranged in ascending order",
+        "scores is emptied",
+        "sort() only works on strings"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — .sort() rearranges the list itself.",
+        "incorrect": "Not quite. .sort() (unlike sorted()) changes the original list."
+      }
+    },
+    {
+      "id": "len-usage",
+      "question": "Which call correctly reports how many items are in a list named crew?",
+      "options": ["crew.len()", "len(crew)", "crew.length", "count(crew)"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — len() is a built-in function, called as len(crew).",
+        "incorrect": "len() is a function you call on the list, not a method attached to it."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Leaderboard",
+    "brief": "Write show_leaderboard(scores) that prints the original scores, a temporarily sorted view, confirmation the original is untouched, the permanently sorted list, the reversed list, and the total number of entries.",
+    "requirements": [
+      "Define show_leaderboard(scores).",
+      "Print the original list labeled \"Original:\".",
+      "Print sorted(scores) labeled \"Temporary sort:\" without changing scores yet.",
+      "Print scores again labeled \"Still original:\" to prove it hasn't changed.",
+      "Call scores.sort() and print it labeled \"Permanently sorted:\".",
+      "Call scores.reverse() and print it labeled \"Reversed:\".",
+      "Print len(scores) labeled \"Total entries:\"."
+    ],
+    "starterCode": "def show_leaderboard(scores):\n    # Print original, temporary sort, original again, permanent sort, reversed, and count.\n    pass\n\nshow_leaderboard([42, 17, 89, 3])\n",
+    "solutionCode": "def show_leaderboard(scores):\n    print(\"Original:\", scores)\n    print(\"Temporary sort:\", sorted(scores))\n    print(\"Still original:\", scores)\n    scores.sort()\n    print(\"Permanently sorted:\", scores)\n    scores.reverse()\n    print(\"Reversed:\", scores)\n    print(\"Total entries:\", len(scores))\n\nshow_leaderboard([42, 17, 89, 3])\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "uses-sorted", "label": "Uses sorted()", "pattern": "\\bsorted\\(", "mustMatch": true },
+      { "id": "uses-sort-method", "label": "Uses .sort()", "pattern": "\\.sort\\(", "mustMatch": true },
+      { "id": "uses-reverse", "label": "Uses .reverse()", "pattern": "\\.reverse\\(", "mustMatch": true },
+      { "id": "uses-len", "label": "Uses len()", "pattern": "\\blen\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    show_leaderboard([42, 17, 89, 3])\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Original: [42, 17, 89, 3]\nTemporary sort: [3, 17, 42, 89]\nStill original: [42, 17, 89, 3]\nPermanently sorted: [3, 17, 42, 89]\nReversed: [89, 42, 17, 3]\nTotal entries: 4\n",
+    "outputCheckLabel": "show_leaderboard([42, 17, 89, 3]) prints each stage of ordering scores"
+  },
+  "hints": [
+    "sorted(scores) returns a new list — print it directly without saving over scores.",
+    "Print scores again after that to prove it still has its original order.",
+    "Only scores.sort() (called on its own line) actually changes scores permanently.",
+    "scores.reverse() flips whatever order scores is currently in — call it after sort() so the reversal is of the sorted order.",
+    "len(scores) goes last, after both sort() and reverse() have already run."
+  ],
+  "nextLessonId": "py-ch08-looping-through-a-list"
+}

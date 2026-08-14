@@ -1,7 +1,10 @@
-// App controller for the multi-screen lesson experience:
-// Lesson -> Practice -> Quiz -> Results, one job per screen (see
-// wiki/04-LessonPlayer.md). Content is fetched from content/*.json;
-// nothing here hardcodes lesson text.
+// App controller for the single continuous LessonWorkspace: concept,
+// example, video, assignment, and the Paperclip tutor scroll together in
+// the left column while the IDE (editor, Run/Submit/Hint/Solution, Output
+// and Tests tabs) stays put on the right. Quiz and Results remain internal
+// routes; passing the assignment opens the completion dialog instead of
+// navigating away. Content is fetched from content/*.json; nothing here
+// hardcodes lesson text.
 const CONTENT_BASE = '../content/python-fundamentals/';
 const DEFAULT_LESSON_ID = 'py-ch07-while-loops';
 
@@ -14,7 +17,6 @@ let lesson = null;
 let hintIndex = 0;
 let quizIndex = 0;
 let quizAnswered = false;
-let pendingPracticeAction = null; // 'run' | 'submit' | null — auto-fires once practice screen shows
 let lastSubmitResult = null;
 let lastQuizCorrect = null;
 
@@ -38,7 +40,7 @@ function updateStreakDisplay() {
 
 // ---------- Screen switching ----------
 
-const SCREEN_LABELS = { lesson: null, practice: 'Practice', quiz: 'Knowledge Check', results: 'Results' };
+const SCREEN_LABELS = { lesson: null, quiz: 'Knowledge Check', results: 'Results' };
 
 function renderBreadcrumb(screenName) {
   const parts = [track.title, chapter.title, lesson.title];
@@ -50,7 +52,7 @@ function renderBreadcrumb(screenName) {
 }
 
 function showScreen(name) {
-  if (TTS.available() && TTS.getState() !== 'idle') {
+  if (TTS.getState() !== 'idle') {
     TTS.stop();
     resetTtsUi();
   }
@@ -58,30 +60,64 @@ function showScreen(name) {
   document.getElementById(`screen-${name}`).classList.add('active');
   renderBreadcrumb(name);
   location.hash = name;
-  if (name === 'practice') refreshPracticeEditor();
-  if (name === 'lesson') refreshPreviewEditor();
+  if (name === 'lesson') refreshEditor();
   if (name === 'quiz') renderQuizScreen();
   if (name === 'results') renderResultsScreen();
 }
 
-// ---------- Lesson screen ----------
+// ---------- Lesson workspace screen ----------
 
 function renderLessonScreen() {
   document.title = `Code Forge — ${lesson.title}`;
   const src = lesson.sourceAlignment;
-  const sourceNote = src
-    ? `<p class="source-note">Companion concept: <em>${escapeHtml(src.title)}</em>, Ch. ${escapeHtml(src.chapter)}. Code Forge text below is original.</p>`
-    : '';
+  // Book-companion/original(-synthesis) lessons carry a book chapter number;
+  // video-companion lessons (no book coverage for the topic) carry a video
+  // creator instead — render whichever attribution the lesson actually has.
+  let sourceNote = '';
+  if (src && src.chapter) {
+    sourceNote = `<p class="source-note">Companion concept: <em>${escapeHtml(src.title)}</em>, Ch. ${escapeHtml(src.chapter)}. Code Forge text below is original.</p>`;
+  } else if (src && src.creator) {
+    sourceNote = `<p class="source-note">Companion concept: <em>${escapeHtml(src.title)}</em> by ${escapeHtml(src.creator)}. Code Forge text below is original.</p>`;
+  }
   const paragraphs = lesson.explanation.paragraphs
     .map((p, i) => `<p class="tts-para" data-tts-index="${i}">${escapeHtml(p)}</p>`)
     .join('\n');
   const rule = lesson.explanation.rule
     ? `<div class="classic-callout tts-para" data-tts-index="${lesson.explanation.paragraphs.length}"><b>Rule of thumb:</b> ${escapeHtml(lesson.explanation.rule)}</div>`
     : '';
-  const example = lesson.examples[0];
-  const exampleHtml = example
-    ? `<h2>Example</h2><pre><code>${escapeHtml(example.code)}</code></pre>${example.note ? `<p>${escapeHtml(example.note)}</p>` : ''}`
+
+  // Render every example, not just the first — several lessons walk through
+  // two or three distinct snippets and all of them matter.
+  const exampleHtml = (lesson.examples || [])
+    .map(
+      (example, i) => `<div class="example-block">
+         <div class="example-bar"><span>Example — ${escapeHtml(example.title)}</span>
+           <button class="classic-button example-copy-btn" data-example-index="${i}">Copy</button>
+         </div>
+         <pre class="example-code"><code>${escapeHtml(example.code)}</code></pre>
+         ${example.note ? `<p class="example-note">${escapeHtml(example.note)}</p>` : ''}
+       </div>`
+    )
+    .join('');
+
+  const video = lesson.videos && lesson.videos[0];
+  const videoHtml = video
+    ? `<div class="video-section" id="videoSection">
+         <div class="video-section-bar">
+           <span>Lesson Video</span>
+           <button class="classic-button" id="videoToggleBtn">Hide video</button>
+         </div>
+         <div id="videoContainer"></div>
+       </div>`
     : '';
+
+  const a = lesson.assignment;
+  const assignmentHtml = `<div class="assignment-box">
+    <h2>Assignment</h2>
+    <b>${escapeHtml(a.title)}</b>
+    <p>${escapeHtml(a.brief)}</p>
+    <ul>${a.requirements.map((r) => `<li>${escapeHtml(r)}</li>`).join('')}</ul>
+  </div>`;
 
   document.getElementById('lessonText').innerHTML =
     sourceNote +
@@ -89,20 +125,35 @@ function renderLessonScreen() {
     paragraphs +
     rule +
     exampleHtml +
-    `<div class="video-section">
-       <div class="video-section-title">Lesson Video</div>
-       <div id="videoContainer"></div>
-     </div>
-     <div class="practice-cta">
-       <button class="classic-button" id="openPracticeBtn">Open Practice Workspace →</button>
-     </div>`;
+    videoHtml +
+    assignmentHtml;
 
-  CFVideoPlayer.mount(document.getElementById('videoContainer'), lesson.videos && lesson.videos[0]);
+  if (video) CFVideoPlayer.mount(document.getElementById('videoContainer'), video);
 
-  document.getElementById('openPracticeBtn').addEventListener('click', () => {
-    pendingPracticeAction = null;
-    showScreen('practice');
+  document.querySelectorAll('.example-copy-btn').forEach((copyBtn) => {
+    copyBtn.addEventListener('click', () => {
+      const code = lesson.examples[Number(copyBtn.dataset.exampleIndex)].code;
+      navigator.clipboard.writeText(code).then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+      }).catch(() => setStatus('Could not copy — select the code manually.'));
+    });
   });
+
+  const videoToggle = document.getElementById('videoToggleBtn');
+  if (videoToggle) {
+    const applyVideoHidden = () => {
+      const hidden = sessionStorage.getItem('codeforge:videoHidden') === '1';
+      document.getElementById('videoContainer').style.display = hidden ? 'none' : '';
+      videoToggle.textContent = hidden ? 'Show video' : 'Hide video';
+    };
+    applyVideoHidden();
+    videoToggle.addEventListener('click', () => {
+      const hidden = sessionStorage.getItem('codeforge:videoHidden') === '1';
+      sessionStorage.setItem('codeforge:videoHidden', hidden ? '0' : '1');
+      applyVideoHidden();
+    });
+  }
 
   wireTts();
 }
@@ -135,12 +186,6 @@ function wireTts() {
   const toggleBtn = document.getElementById('ttsToggleBtn');
   const stopBtn = document.getElementById('ttsStopBtn');
 
-  if (!TTS.available()) {
-    toggleBtn.disabled = true;
-    toggleBtn.title = 'Text-to-speech is not available in this browser.';
-    return;
-  }
-
   toggleBtn.addEventListener('click', () => {
     const state = TTS.getState();
     if (state === 'idle') {
@@ -159,9 +204,9 @@ function wireTts() {
           resetTtsUi();
           setStatus('Narration finished');
         },
-        onFailure: () => {
+        onFailure: (message) => {
           resetTtsUi();
-          setStatus("Text-to-speech didn't produce audio in this browser.");
+          setStatus(message || 'Narration failed.');
         },
       });
     } else if (state === 'speaking') {
@@ -194,31 +239,156 @@ function updateLines(textarea, lineNumbersEl) {
   lineNumbersEl.textContent = Array.from({ length: count }, (_, i) => i + 1).join('\n');
 }
 
-function refreshPreviewEditor() {
+function refreshEditor() {
   const editor = document.getElementById('previewEditor');
   editor.value = ProgressStore.getDraft(lesson.id, lesson.assignment.starterCode);
   updateLines(editor, document.getElementById('previewLineNumbers'));
 }
 
-function setupPreviewEditor() {
+// ---------- Output / Tests / Hints tabs ----------
+
+function activateTab(name) {
+  const holder = document.querySelector('.workspace-output .tabs');
+  holder.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b.dataset.tab === name));
+  document.getElementById('workspaceConsole').hidden = name !== 'output';
+  document.getElementById('workspaceTests').hidden = name !== 'tests';
+  document.getElementById('workspaceHints').hidden = name !== 'hints';
+}
+
+function setConsole(text) {
+  const el = document.getElementById('workspaceConsole');
+  el.textContent = text;
+  el.scrollTop = el.scrollHeight;
+  activateTab('output');
+}
+
+function renderTests(result) {
+  const rows = [];
+  result.requirementResults.forEach((r, i) => rows.push({ n: i + 1, pass: r.passed, label: r.label }));
+  rows.push({ n: rows.length + 1, pass: result.outputCheck.passed, label: result.outputCheck.label });
+  rows.push({ n: rows.length + 1, pass: result.executed, label: 'Program executes without an exception' });
+  const testsEl = document.getElementById('workspaceTests');
+  testsEl.innerHTML = rows
+    .map((r) => `<div class="test-row ${r.pass ? 'pass' : 'fail'}"><span class="test-badge">${r.pass ? 'PASS' : 'FAIL'}</span><span>Test ${r.n} — ${escapeHtml(r.label)}</span></div>`)
+    .join('');
+  activateTab('tests');
+}
+
+function renderHints() {
+  const hints = lesson.hints;
+  const seen = hints.slice(0, hintIndex + 1);
+  const el = document.getElementById('workspaceHints');
+  el.innerHTML = seen.map((h, i) => `<div class="hint-row"><b>Hint ${i + 1}:</b> ${escapeHtml(h)}</div>`).join('') ||
+    '<div class="hint-row">No hints for this lesson.</div>';
+  if (hintIndex < hints.length) hintIndex += 1;
+  activateTab('hints');
+}
+
+// ---------- Program input popup ----------
+
+// Floating Win98 window (see js/win98-window.js) that collects every value
+// a Run will need from input(), since the calls themselves can't be
+// answered interactively mid-run. Resolves to an array of lines, or null if
+// the learner cancelled (via Cancel or the window's [x]).
+function promptForStdin() {
+  return new Promise((resolve) => {
+    let resolved = false;
+    const finish = (value) => {
+      if (resolved) return;
+      resolved = true;
+      resolve(value);
+    };
+
+    const win = Win98Window.create({
+      title: 'Program Input',
+      width: 360,
+      bodyHtml: `
+        <p>This program uses <code>input()</code>. Enter each value it will ask for, one per line, in the order your program will request them.</p>
+        <textarea id="stdinPromptText" rows="4" placeholder="e.g.&#10;Ada&#10;7" aria-label="Input values, one per line"></textarea>
+        <div class="win98-float-actions">
+          <button type="button" class="classic-button" id="stdinPromptCancel">Cancel</button>
+          <button type="button" class="classic-button" id="stdinPromptRun">Run</button>
+        </div>`,
+      onClose: () => finish(null),
+    });
+
+    const textarea = win.el.querySelector('#stdinPromptText');
+    textarea.focus();
+    win.el.querySelector('#stdinPromptCancel').addEventListener('click', () => win.close());
+    win.el.querySelector('#stdinPromptRun').addEventListener('click', () => {
+      finish(textarea.value.split('\n'));
+      win.close();
+    });
+    textarea.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'Enter') win.el.querySelector('#stdinPromptRun').click();
+    });
+  });
+}
+
+function setupWorkspace() {
   const editor = document.getElementById('previewEditor');
   const lineNumbers = document.getElementById('previewLineNumbers');
-  refreshPreviewEditor();
+  refreshEditor();
   editor.addEventListener('input', () => {
     updateLines(editor, lineNumbers);
     ProgressStore.setDraft(lesson.id, editor.value);
   });
 
-  document.getElementById('previewRunBtn').addEventListener('click', () => {
+  const run = async () => {
     ProgressStore.setDraft(lesson.id, editor.value);
-    pendingPracticeAction = 'run';
-    showScreen('practice');
-  });
-  document.getElementById('previewSubmitBtn').addEventListener('click', () => {
+
+    // input() can't block a Worker mid-run (see pyodide-worker.js), so when
+    // the learner's own code calls it, collect every line it'll need up
+    // front via a popup before running — otherwise skip the popup entirely,
+    // so lessons that don't touch input() never see it.
+    let stdinLines;
+    if (/\binput\s*\(/.test(editor.value)) {
+      const lines = await promptForStdin();
+      if (lines === null) {
+        setStatus('Run cancelled');
+        return;
+      }
+      stdinLines = lines;
+    }
+
+    setStatus('Running code...');
+    setConsole('> Running code...\n');
+    const result = await RunnerClient.run(editor.value, { timeoutMs: 8000, stdinLines });
+    Paperclip.recordRun({ ...result, output: result.output, timedOut: result.timedOut, source: 'run' });
+    setConsole(`> Running code...\n\n${result.output || '(no output)'}\n> ${result.timedOut ? 'Execution timed out.' : result.ok ? 'Program finished.' : 'Program stopped with an error.'}`);
+    setStatus(result.timedOut ? 'Run timed out' : result.ok ? 'Run complete' : 'Run failed');
+  };
+
+  const submit = async () => {
     ProgressStore.setDraft(lesson.id, editor.value);
-    pendingPracticeAction = 'submit';
-    showScreen('practice');
-  });
+    setStatus('Testing assignment...');
+    setConsole('> Running assignment tests...\n');
+    ProgressStore.incrementAttempts(lesson.id);
+    const result = await Grading.submit(editor.value, lesson.assignment);
+    lastSubmitResult = result;
+    Paperclip.recordRun({ ...result, output: result.rawOutput, source: 'submit' });
+
+    const lines = ['> Test Results', ''];
+    for (const r of result.requirementResults) lines.push(`${r.passed ? '[PASS]' : '[FAIL]'} ${r.label}`);
+    lines.push(`${result.outputCheck.passed ? '[PASS]' : '[FAIL]'} ${result.outputCheck.label}`);
+    lines.push(`${result.executed ? '[PASS]' : '[FAIL]'} Program executes without an exception`);
+    if (!result.passed) lines.push('', result.timedOut ? result.rawOutput : 'Fix the failed requirement and submit again.');
+    setConsole(lines.join('\n'));
+    renderTests(result);
+
+    if (result.passed) {
+      const { newlyCompleted, totalXp } = ProgressStore.markComplete(lesson.id, lesson.xp);
+      updateXpDisplay();
+      setStatus('Assignment passed');
+      showCompletionDialog(newlyCompleted, totalXp);
+    } else {
+      setStatus('Tests failed');
+    }
+  };
+
+  document.getElementById('previewRunBtn').addEventListener('click', run);
+  document.getElementById('previewSubmitBtn').addEventListener('click', submit);
+  document.getElementById('previewHintBtn').addEventListener('click', renderHints);
   document.getElementById('previewSolutionBtn').addEventListener('click', () => {
     if (!confirm('Load the full solution? You can still practice it afterward.')) return;
     editor.value = lesson.assignment.solutionCode;
@@ -226,106 +396,71 @@ function setupPreviewEditor() {
     ProgressStore.setDraft(lesson.id, editor.value);
     setStatus('Solution loaded');
   });
-}
 
-// ---------- Practice screen ----------
-
-function renderPracticeScreen() {
-  const a = lesson.assignment;
-  document.getElementById('practiceTitle').textContent = lesson.title;
-  document.getElementById('practiceAssignment').innerHTML = `
-    <b>${escapeHtml(a.title)}</b>
-    <p>${escapeHtml(a.brief)}</p>
-    <ul>${a.requirements.map((r) => `<li>${escapeHtml(r)}</li>`).join('')}</ul>`;
-
-  document.querySelectorAll('.practice-output-pane .tabs button').forEach((btn) => {
-    btn.addEventListener('click', () => activateTab(btn.dataset.tab));
-  });
-  document.getElementById('backToLessonBtn').addEventListener('click', () => showScreen('lesson'));
-  document.getElementById('practiceRunBtn').addEventListener('click', () => runPractice());
-  document.getElementById('practiceSubmitBtn').addEventListener('click', () => submitPractice());
-  document.getElementById('continueToQuizBtn').addEventListener('click', () => showScreen('quiz'));
-  document.getElementById('practiceHintBtn').addEventListener('click', () => {
-    const hints = lesson.hints;
-    setPracticeConsole(hints[Math.min(hintIndex, hints.length - 1)]);
-    hintIndex = Math.min(hintIndex + 1, hints.length - 1);
-    activateTab('hints');
-  });
-
-  const editor = document.getElementById('practiceEditor');
-  const lineNumbers = document.getElementById('practiceLineNumbers');
-  editor.addEventListener('input', () => {
-    updateLines(editor, lineNumbers);
-    ProgressStore.setDraft(lesson.id, editor.value);
+  document.querySelector('.workspace-output .tabs').addEventListener('click', (e) => {
+    if (e.target.matches('button')) activateTab(e.target.dataset.tab);
   });
 
   document.addEventListener('keydown', (e) => {
-    if (!document.getElementById('screen-practice').classList.contains('active')) return;
+    if (!document.getElementById('screen-lesson').classList.contains('active')) return;
     if (e.ctrlKey && e.shiftKey && e.key === 'Enter') {
       e.preventDefault();
-      submitPractice();
+      submit();
     } else if (e.ctrlKey && e.key === 'Enter') {
       e.preventDefault();
-      runPractice();
+      run();
     }
   });
-}
 
-function refreshPracticeEditor() {
-  const editor = document.getElementById('practiceEditor');
-  editor.value = ProgressStore.getDraft(lesson.id, lesson.assignment.starterCode);
-  updateLines(editor, document.getElementById('practiceLineNumbers'));
-  document.getElementById('practicePassBanner').classList.remove('show');
-
-  if (pendingPracticeAction === 'run') runPractice();
-  else if (pendingPracticeAction === 'submit') submitPractice();
-  pendingPracticeAction = null;
-}
-
-function activateTab(name) {
-  document.querySelectorAll('.practice-output-pane .tabs button').forEach((b) => b.classList.toggle('active', b.dataset.tab === name));
-}
-function setPracticeConsole(text) {
-  document.getElementById('practiceConsole').textContent = text;
-  activateTab('output');
-}
-
-async function runPractice() {
-  const editor = document.getElementById('practiceEditor');
-  setStatus('Running code...');
-  setPracticeConsole('> Running code...\n');
-  const result = await RunnerClient.run(editor.value, { timeoutMs: 8000 });
-  Paperclip.recordRun({ ...result, output: result.output, timedOut: result.timedOut, source: 'run' });
-  setPracticeConsole(`> Running code...\n\n${result.output || '(no output)'}\n> ${result.timedOut ? 'Execution timed out.' : result.ok ? 'Program finished.' : 'Program stopped with an error.'}`);
-  setStatus(result.timedOut ? 'Run timed out' : result.ok ? 'Run complete' : 'Run failed');
-}
-
-async function submitPractice() {
-  const editor = document.getElementById('practiceEditor');
-  setStatus('Testing assignment...');
-  setPracticeConsole('> Running assignment tests...\n');
-  ProgressStore.incrementAttempts(lesson.id);
-  const result = await Grading.submit(editor.value, lesson.assignment);
-  lastSubmitResult = result;
-  Paperclip.recordRun({ ...result, output: result.rawOutput, source: 'submit' });
-
-  const lines = ['> Test Results', ''];
-  for (const r of result.requirementResults) lines.push(`${r.passed ? '[PASS]' : '[FAIL]'} ${r.label}`);
-  lines.push(`${result.outputCheck.passed ? '[PASS]' : '[FAIL]'} ${result.outputCheck.label}`);
-  lines.push(`${result.executed ? '[PASS]' : '[FAIL]'} Program executes without an exception`);
-  setPracticeConsole(lines.join('\n'));
-
-  if (result.passed) {
-    ProgressStore.markComplete(lesson.id, lesson.xp);
-    updateXpDisplay();
-    setStatus('Assignment passed');
-    const banner = document.getElementById('practicePassBanner');
-    banner.classList.add('show');
-  } else {
-    lines.push('', result.timedOut ? result.rawOutput : 'Fix the failed requirement and submit again.');
-    setPracticeConsole(lines.join('\n'));
-    setStatus('Tests failed');
+  // Narrow screens: Lesson | Code switcher keeps both columns alive so the
+  // editor never loses state.
+  const switchEl = document.getElementById('workspaceSwitch');
+  if (switchEl) {
+    const setPane = (name) => {
+      document.getElementById('lessonScroll').closest('.lesson-left').style.display = name === 'lesson' ? '' : 'none';
+      document.getElementById('lessonRight').style.display = name === 'code' ? '' : 'none';
+      switchEl.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b.id === (name === 'lesson' ? 'wsTabLesson' : 'wsTabCode')));
+    };
+    document.getElementById('wsTabLesson').addEventListener('click', () => setPane('lesson'));
+    document.getElementById('wsTabCode').addEventListener('click', () => setPane('code'));
   }
+}
+
+// ---------- Completion dialog ----------
+
+function showCompletionDialog(newlyCompleted, totalXp) {
+  const overlay = document.createElement('div');
+  overlay.className = 'dialog-overlay';
+  overlay.innerHTML = `
+    <div class="completion-dialog pane" role="dialog" aria-modal="true" aria-labelledby="completionTitle">
+      <div class="pane-title">Quest Complete</div>
+      <div class="pane-body">
+        <p id="completionTitle" class="completion-title">${escapeHtml(lesson.title)} — complete!</p>
+        ${newlyCompleted ? `<p class="completion-xp">+${lesson.xp} XP earned <span class="completion-total">(${totalXp} total)</span></p>` : '<p class="completion-xp">Already completed — no additional XP.</p>'}
+        <div class="completion-actions">
+          ${lesson.checks && lesson.checks.length ? '<button class="classic-button" id="completionQuizBtn">Knowledge Check →</button>' : ''}
+          <button class="classic-button" id="completionReviewBtn">Review</button>
+          <button class="classic-button" id="completionNextBtn">Next Lesson →</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  const close = () => overlay.remove();
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  document.getElementById('completionReviewBtn').addEventListener('click', close);
+  const quizBtn = document.getElementById('completionQuizBtn');
+  if (quizBtn) quizBtn.addEventListener('click', () => { close(); showScreen('quiz'); });
+  const nextBtn = document.getElementById('completionNextBtn');
+  nextBtn.addEventListener('click', () => {
+    if (lesson.nextLessonId) {
+      location.search = `?lesson=${encodeURIComponent(lesson.nextLessonId)}`;
+    } else {
+      close();
+      setStatus('This is the newest lesson — more chapters are on the way.');
+    }
+  });
+  nextBtn.focus();
 }
 
 // ---------- Quiz screen ----------
@@ -412,16 +547,20 @@ function renderResultsScreen() {
 
   document.getElementById('resultsWell').innerHTML = didWell.length
     ? didWell.map((t) => `<li>${escapeHtml(t)}</li>`).join('')
-    : '<li>Nothing yet — try Submit on the Practice screen.</li>';
+    : '<li>Nothing yet — try Submit in the workspace.</li>';
   document.getElementById('resultsNeedsWork').innerHTML = needsWork.length
     ? needsWork.map((t) => `<li>${escapeHtml(t)}</li>`).join('')
     : '<li>Nothing — great work!</li>';
 }
 
 function wireResultsScreen() {
-  document.getElementById('retryBtn').addEventListener('click', () => showScreen('practice'));
+  document.getElementById('retryBtn').addEventListener('click', () => showScreen('lesson'));
   document.getElementById('nextLessonBtn').addEventListener('click', () => {
-    setStatus('This is the newest lesson — more chapters are on the way.');
+    if (lesson.nextLessonId) {
+      location.search = `?lesson=${encodeURIComponent(lesson.nextLessonId)}`;
+    } else {
+      setStatus('This is the newest lesson — more chapters are on the way.');
+    }
   });
   document.getElementById('backToCourseBtn').addEventListener('click', () => {
     showScreen('lesson');
@@ -455,13 +594,12 @@ async function init() {
   });
 
   renderLessonScreen();
-  setupPreviewEditor();
-  renderPracticeScreen();
+  setupWorkspace();
   wireQuizScreen();
   wireResultsScreen();
   Paperclip.init(track, chapter, lesson);
 
-  const startScreen = ['lesson', 'practice', 'quiz', 'results'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'lesson';
+  const startScreen = ['lesson', 'quiz', 'results'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'lesson';
   showScreen(startScreen);
 
   document.getElementById('statusLesson').textContent = `${lesson.number} ${lesson.title}`;

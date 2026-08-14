@@ -1,0 +1,100 @@
+{
+  "id": "py-ch07-user-input",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch07",
+  "number": "7.1",
+  "title": "Using the input() Function",
+  "xp": 50,
+  "objective": "Read text from the user with input() and convert it to a number when needed.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "7",
+    "chapterTitle": "How the input() Function Works",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "input(prompt) pauses your program, displays the prompt text, and waits for the user to type something and press Enter. Whatever they typed comes back as the function's return value — you'll usually store it in a variable.",
+      "input() always returns a string, even if the user typed digits. If you need to do math with what they typed, convert it first with int() or float(); trying to do math on the raw string raises a TypeError.",
+      "In Code Forge, you can try input() interactively using Run. Because automated grading needs a predictable, repeatable input, the graded assignments in this lesson use a function parameter to stand in for what input() would have returned — the same idea, but testable."
+    ],
+    "rule": "input() always returns a string — use int() or float() to convert it before doing math."
+  },
+  "examples": [
+    {
+      "title": "Reading and Converting Input",
+      "code": "# Try this with Run — it will prompt you interactively:\n# raw_age = input(\"How old are you? \")\n# age = int(raw_age)\n# print(age + 1)\n\n# The same idea, written so it can be tested automatically:\ndef next_age(raw_age):\n    age = int(raw_age)\n    return age + 1\n\nprint(next_age(\"30\"))",
+      "note": "next_age() takes the string a real input() call would have produced, converts it, and does the math."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — accepting user input",
+      "startSeconds": 1278,
+      "endSeconds": 1760,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=1278&end=1760&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "input-returns-string",
+      "question": "raw = input(\"Enter a number: \") — what type is raw, even if the user types 42?",
+      "options": [
+        "int",
+        "float",
+        "str",
+        "bool"
+      ],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — input() always returns a string, no matter what was typed.",
+        "incorrect": "input() never returns a number directly — it always returns a string, which you convert if needed."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Double the Input",
+    "brief": "Write double_input(raw_value) that converts raw_value (a string, like what input() would return) to an int, doubles it, and returns the result.",
+    "requirements": [
+      "Define double_input(raw_value).",
+      "Convert raw_value to an int using int().",
+      "Return double the converted number."
+    ],
+    "starterCode": "def double_input(raw_value):\n    # Convert raw_value to int, then return it doubled.\n    pass\n\nprint(double_input(\"7\"))\n",
+    "solutionCode": "def double_input(raw_value):\n    number = int(raw_value)\n    return number * 2\n\nprint(double_input(\"7\"))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines double_input()",
+        "pattern": "def\\s+double_input\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-int",
+        "label": "Converts with int()",
+        "pattern": "int\\s*\\(\\s*raw_value\\s*\\)",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(double_input(\"7\"))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "14\n",
+    "outputCheckLabel": "double_input('7') returns 14"
+  },
+  "hints": [
+    "raw_value is a string — convert it with int(raw_value) first.",
+    "Multiply the converted number by 2.",
+    "Use return, not print, inside double_input().",
+    "int(\"7\") * 2 should equal 14."
+  ],
+  "nextLessonId": "py-ch07-while-loops"
+}

@@ -1,0 +1,107 @@
+{
+  "id": "py-ch13-writing-to-a-file",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch13",
+  "number": "13.2",
+  "title": "Writing to a File",
+  "xp": 50,
+  "objective": "Save data from your program into a file, choosing between overwriting and appending.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "10",
+    "chapterTitle": "Files and Exceptions (file-handling and Storing Data sections)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only; exception-handling is covered in Code Forge's Errors & Exceptions chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Opening a file for writing needs a second argument to open(): the mode. 'w' opens the file for writing and starts it empty, even if it already had content — anything that was there before is gone.",
+      "'a' opens the file for appending instead, adding new content to the end while keeping what was already there. Reach for 'a' whenever you want to add to a file without erasing its history.",
+      "The write() method does not add a newline for you. If you're writing several lines, add \\n yourself, or your text runs together on one line.",
+      "Code Forge runs Python in your browser through Pyodide, so open() writes into an in-memory virtual filesystem rather than your computer's real disk. That virtual filesystem starts fresh every run, so the examples below write a file and then read it back in that same run, just to prove what ended up inside it."
+    ],
+    "rule": "Use mode 'w' to start a file fresh, and mode 'a' to add to what's already there."
+  },
+  "examples": [
+    {
+      "title": "Writing a fresh file",
+      "code": "with open('log.txt', 'w') as f:\n    f.write('Forge started.\\n')\n\nwith open('log.txt') as f:\n    print(f.read())",
+      "note": "Mode 'w' erases any existing content in log.txt before writing. The read-back at the end just confirms what was written — it isn't part of the writing itself."
+    },
+    {
+      "title": "Appending to a file",
+      "code": "with open('log.txt', 'w') as f:\n    f.write('Forge started.\\n')\n\nwith open('log.txt', 'a') as f:\n    f.write('Forge stopped.\\n')\n\nwith open('log.txt') as f:\n    print(f.read())",
+      "note": "The first block creates log.txt with one line, standing in for content that was already there from an earlier run. Mode 'a' then adds a second line without erasing the first — the final read-back shows both lines survived."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — writing files",
+      "startSeconds": 30467,
+      "endSeconds": 30962,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=30467&end=30962&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "w-vs-a",
+      "question": "What happens if you open an existing file in 'w' mode?",
+      "options": [
+        "New text is added after the existing content.",
+        "Python refuses to open it.",
+        "The existing content is erased before the new text is written.",
+        "It behaves exactly like 'a' mode."
+      ],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — 'w' mode empties the file first.",
+        "incorrect": "Not quite. 'w' stands for write-from-scratch, not append."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Shopping List",
+    "brief": "Write write_shopping_list(items, path) that writes each item in the items list to the file at path, one item per line.",
+    "requirements": [
+      "Define write_shopping_list(items, path).",
+      "Open the file in write ('w') mode.",
+      "Write each item on its own line.",
+      "Do not print anything — the function only writes to the file."
+    ],
+    "starterCode": "def write_shopping_list(items, path):\n    # Write each item in `items` to `path`, one per line.\n    pass\n",
+    "solutionCode": "def write_shopping_list(items, path):\n    with open(path, 'w') as f:\n        for item in items:\n            f.write(item + '\\n')\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "uses-write-mode",
+        "label": "Opens the file in 'w' mode",
+        "pattern": "open\\([^)]*['\"]w['\"]",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-write-call",
+        "label": "Calls .write()",
+        "pattern": "\\.write\\(",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\nwrite_shopping_list(['eggs', 'milk', 'bread'], 'list.txt')\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    with open('list.txt') as _cf_f:\n        print(_cf_f.read(), end='')\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "eggs\nmilk\nbread\n",
+    "outputCheckLabel": "list.txt contains each item on its own line after calling write_shopping_list"
+  },
+  "hints": [
+    "Open the file with `open(path, 'w')` inside a with block.",
+    "Loop over items and call f.write(...) for each one.",
+    "write() doesn't add a newline automatically — add '\\n' yourself.",
+    "This function shouldn't print anything; it only writes to the file."
+  ],
+  "nextLessonId": "py-ch13-storing-data-with-json"
+}

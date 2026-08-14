@@ -1,0 +1,69 @@
+/* Floating Win98 popup windows (see js/win98-window.js). Used for one-off
+   GUI prompts — currently just the stdin-input prompt — that need to float
+   over the page, be dragged by the learner, and closed only via the [x] in
+   the titlebar. Deliberately has no minimize/maximize control. */
+
+.win98-float-window{
+  position:fixed;
+  z-index:2000;
+  background:var(--silver);
+  border:2px solid;border-color:#fff #000 #000 #fff;
+  box-shadow:3px 3px 8px rgba(0,0,0,.45);
+  min-width:240px;
+  max-width:92vw;
+}
+.win98-float-window.dragging{opacity:.94}
+
+.win98-float-titlebar{
+  height:26px;
+  flex:0 0 26px;
+  background:linear-gradient(90deg,var(--blue),#0b36bb);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:0 4px 0 8px;
+  font-weight:bold;
+  font-size:13px;
+  cursor:move;
+  user-select:none;
+}
+.win98-float-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.win98-float-close{
+  width:20px;height:18px;
+  flex:0 0 auto;
+  padding:0;
+  background:var(--silver);
+  border:2px solid;border-color:#fff #000 #000 #fff;
+  color:#000;
+  font-size:11px;
+  line-height:1;
+  font-weight:bold;
+}
+.win98-float-close:active{border-color:#000 #fff #fff #000;transform:translate(1px,1px)}
+
+.win98-float-body{
+  padding:12px;
+  background:var(--silver);
+  font-size:13px;
+}
+.win98-float-body p{margin:0 0 8px}
+.win98-float-body textarea{
+  width:100%;
+  min-height:88px;
+  resize:vertical;
+  background:#fff;
+  border:2px inset #fff;
+  padding:6px 8px;
+  font-family:"Courier New",monospace;
+  font-size:13px;
+  box-sizing:border-box;
+}
+.win98-float-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:7px;
+  margin-top:10px;
+}

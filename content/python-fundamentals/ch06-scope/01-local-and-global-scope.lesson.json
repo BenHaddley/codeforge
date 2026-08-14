@@ -1,0 +1,100 @@
+{
+  "id": "py-ch06-local-and-global-scope",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch06",
+  "number": "6.1",
+  "title": "Local vs Global Scope",
+  "xp": 50,
+  "objective": "Understand where a variable is visible and why functions can't see each other's local variables.",
+  "sourceAlignment": {
+    "type": "original-synthesis",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8",
+    "chapterTitle": "Functions",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Scope is drawn out as its own chapter from concepts embedded throughout the book's Functions chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A variable created inside a function is local to that function — it exists only while the function is running, and no code outside that function can see it, not even other functions.",
+      "A variable created at the top level of your script, outside any function, is global — every function can read it. But a function can't change a global variable just by assigning to a name with the same word inside its body; that assignment creates a brand-new local variable instead, which quietly shadows the global one.",
+      "Each function call gets its own fresh set of local variables, even if you call the same function twice in a row. Nothing from one call carries over into the next unless it's passed in or read from a global."
+    ],
+    "rule": "A variable created inside a function only exists inside that function; it disappears when the function finishes."
+  },
+  "examples": [
+    {
+      "title": "A Local Variable Stays Local",
+      "code": "def heat_metal():\n    temperature = 1200\n    print(temperature)\n\nheat_metal()\n# print(temperature)  # NameError: temperature only existed inside heat_metal()",
+      "note": "temperature is created and destroyed entirely within heat_metal(); nothing outside the function can see it."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — variable scope",
+      "startSeconds": 18531,
+      "endSeconds": 18861,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=18531&end=18861&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "local-scope",
+      "question": "A variable is created inside function_a(). Can function_b() read it?",
+      "options": [
+        "Yes, all functions share every variable.",
+        "No — a local variable only exists inside the function that created it.",
+        "Only if function_b() is defined first.",
+        "Only if the variable is named the same in both functions."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — local variables are private to the function that created them.",
+        "incorrect": "Local variables don't leak out of the function they're created in, even to other functions."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Local Counter",
+    "brief": "Write count_ingots() that creates a local variable count set to 5 and prints it, then call it twice in a row to show each call starts fresh.",
+    "requirements": [
+      "Define count_ingots() with a local variable count = 5.",
+      "Print count inside the function.",
+      "Call count_ingots() exactly twice."
+    ],
+    "starterCode": "def count_ingots():\n    # Create a local variable count = 5 and print it.\n    pass\n\ncount_ingots()\ncount_ingots()\n",
+    "solutionCode": "def count_ingots():\n    count = 5\n    print(count)\n\ncount_ingots()\ncount_ingots()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines count_ingots()",
+        "pattern": "def\\s+count_ingots\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "calls-twice",
+        "label": "Calls count_ingots() twice",
+        "pattern": "(count_ingots\\s*\\(\\s*\\)[\\s\\S]*){2,}",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    count_ingots()\n    count_ingots()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "5\n5\n",
+    "outputCheckLabel": "count_ingots() called twice prints 5 both times"
+  },
+  "hints": [
+    "Create count = 5 inside the function body, then print(count).",
+    "Each call to count_ingots() creates a fresh local count — they don't affect each other.",
+    "Call the function twice, exactly as the starter code already sets up.",
+    "The output should be 5 on one line, then 5 again on the next."
+  ],
+  "nextLessonId": "py-ch06-functions-calling-functions"
+}

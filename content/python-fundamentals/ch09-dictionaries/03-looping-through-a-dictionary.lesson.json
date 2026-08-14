@@ -1,0 +1,79 @@
+{
+  "id": "py-ch09-looping-through-a-dictionary",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch09",
+  "number": "9.3",
+  "title": "Looping Through a Dictionary",
+  "xp": 50,
+  "objective": "Visit every key, every value, or every pair in a dictionary using a for loop.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "6",
+    "chapterTitle": "Dictionaries",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Calling .items() on a dictionary gives you each key and its value together, which you can unpack into two loop variables at once.",
+      ".keys() loops through just the keys, and .values() loops through just the values — looping over the dictionary itself gives you the keys by default.",
+      "Dictionaries don't guarantee any particular order. If you need the keys in a predictable order, wrap the loop in sorted(), e.g. for key in sorted(forge.keys())."
+    ],
+    "rule": "Use .items() for pairs, .keys() for keys, .values() for values — and sorted() when order matters."
+  },
+  "examples": [
+    {
+      "title": "Reading the Ledger",
+      "code": "prices = {\"sword\": 40, \"shield\": 25, \"potion\": 5}\n\nfor item, cost in prices.items():\n    print(f\"{item}: {cost}\")\n\nfor item in sorted(prices.keys()):\n    print(item)",
+      "note": "items() unpacks into (key, value) pairs; sorted(prices.keys()) visits the keys alphabetically."
+    }
+  ],
+  "checks": [
+    {
+      "id": "loop-values",
+      "question": "Which loop header visits only the values stored in a dictionary called stock?",
+      "options": [
+        "for amount in stock.values():",
+        "for amount in stock.keys():",
+        "for amount in stock.items():",
+        "for amount in stock:"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Right — .values() gives you just the values, without their keys.",
+        "incorrect": "Not quite — that form gives you something other than just the values."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Total Order",
+    "brief": "Write total_cost(prices) that takes a dictionary of item name to price, and prints the total of all the values using a for loop (not sum()).",
+    "requirements": [
+      "Define total_cost(prices).",
+      "Loop over the dictionary's values with a for loop.",
+      "Do not use the built-in sum() function.",
+      "Print the total."
+    ],
+    "starterCode": "def total_cost(prices):\n    # Loop through prices and add up the values.\n    pass\n\ntotal_cost({\"sword\": 40, \"shield\": 25, \"potion\": 5})\n",
+    "solutionCode": "def total_cost(prices):\n    total = 0\n    for amount in prices.values():\n        total += amount\n    print(total)\n\ntotal_cost({\"sword\": 40, \"shield\": 25, \"potion\": 5})\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "uses-for", "label": "Uses a for loop", "pattern": "\\bfor\\b", "mustMatch": true },
+      { "id": "no-sum", "label": "Does not use sum()", "pattern": "\\bsum\\(", "mustMatch": false }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    total_cost({\"a\": 10, \"b\": 5, \"c\": 3})\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "18\n",
+    "outputCheckLabel": "total_cost({'a': 10, 'b': 5, 'c': 3}) prints 18"
+  },
+  "hints": [
+    "Start a running total at 0 before the loop.",
+    "Loop with for amount in prices.values():.",
+    "Add each amount to total inside the loop.",
+    "Print total once, after the loop ends."
+  ],
+  "nextLessonId": "py-ch09-nesting"
+}

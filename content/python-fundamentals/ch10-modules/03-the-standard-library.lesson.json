@@ -1,0 +1,89 @@
+{
+  "id": "py-ch10-the-standard-library",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch10",
+  "number": "10.3",
+  "title": "The Python Standard Library",
+  "xp": 50,
+  "objective": "Recognize when Python's standard library already solves your problem.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8 & 9",
+    "chapterTitle": "Functions (Storing Functions in Modules); Classes (The Python Standard Library)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Python ships with a large standard library — modules that are always available once you import them, no extra installation required. Reaching for one of these before writing your own version saves time and avoids reinventing well-tested code.",
+      "The random module generates pseudo-random values: random.randint(a, b) returns a whole number between a and b, including both ends. The math module adds functions and constants beyond the built-in arithmetic operators, like math.sqrt() and the constant math.pi.",
+      "Code Forge's Python runtime includes these modules just like a regular Python installation, so the same import statements you would use anywhere else work here too."
+    ],
+    "rule": "Before writing a helper function from scratch, check whether the standard library already has one."
+  },
+  "examples": [
+    {
+      "title": "Rolling a Die",
+      "code": "import random\n\nrandom.seed(7)\nroll = random.randint(1, 6)\nprint(roll)",
+      "note": "randint(1, 6) returns a whole number from 1 to 6, both included — perfect for simulating a six-sided die. seed() is used here only so this example always prints the same result."
+    }
+  ],
+  "checks": [
+    {
+      "id": "randint-range",
+      "question": "What does random.randint(1, 6) return?",
+      "options": [
+        "A whole number from 1 to 6, including both 1 and 6.",
+        "A whole number from 0 to 6, excluding 6.",
+        "A decimal number between 1 and 6.",
+        "Always the number 6."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — randint's range includes both endpoints.",
+        "incorrect": "Not quite. randint's second argument is included in the possible results, unlike range()."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Dice Roller",
+    "brief": "Write roll_dice(sides) that returns a random whole number from 1 to sides, inclusive, using the random module.",
+    "requirements": [
+      "Import the random module.",
+      "Define roll_dice(sides).",
+      "Use random.randint to pick the number.",
+      "Return the result."
+    ],
+    "starterCode": "import random\n\ndef roll_dice(sides):\n    # Return a random whole number from 1 to sides.\n    pass\n",
+    "solutionCode": "import random\n\ndef roll_dice(sides):\n    return random.randint(1, sides)\n\nrandom.seed(7)\nprint(roll_dice(6))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "imports-random",
+        "label": "Imports random",
+        "pattern": "import\\s+random",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-randint",
+        "label": "Uses random.randint",
+        "pattern": "random\\.randint",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib, random\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    random.seed(7)\n    print(roll_dice(6))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "3\n",
+    "outputCheckLabel": "roll_dice(6) prints 3 when random is seeded with 7"
+  },
+  "hints": [
+    "random.randint(1, sides) picks a whole number, both ends included.",
+    "Don't call random.seed() inside roll_dice — the harness seeds it for you before calling your function.",
+    "Return the number — don't print it inside roll_dice.",
+    "sides is the upper bound; 1 is always the lower bound."
+  ],
+  "nextLessonId": "py-ch11-creating-and-using-a-class"
+}

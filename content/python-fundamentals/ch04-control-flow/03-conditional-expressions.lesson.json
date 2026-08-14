@@ -1,0 +1,89 @@
+{
+  "id": "py-ch04-conditional-expressions",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch04",
+  "number": "4.3",
+  "title": "Conditional Expressions (Ternary)",
+  "xp": 50,
+  "objective": "Write a one-line if-else using a conditional expression.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Python Full Course for free",
+    "creator": "Bro Code",
+    "videoId": "ix9cRaBkVe0",
+    "url": "https://www.youtube.com/watch?v=ix9cRaBkVe0",
+    "note": "Alignment metadata only; this topic isn't covered in Python Crash Course but is taught in the companion video. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A conditional expression is a one-line shortcut for a simple if-else that only ever produces a value — no separate blocks, no colons, no indentation. The pattern is value_if_true if condition else value_if_false, read almost like a sentence: return this if the condition holds, otherwise return that.",
+      "Because a conditional expression evaluates to a single value, you can print it directly, store it in a variable, or use it anywhere else an if-else would otherwise force you to write several lines. status = \"adult\" if age >= 18 else \"child\" does the same job as a four-line if-else block.",
+      "Reach for a conditional expression when both outcomes are simple values and the choice itself is the whole point. If either branch needs more than one line of logic, a regular if-else is clearer — don't force a conditional expression just to save space."
+    ],
+    "rule": "value_if_true if condition else value_if_false evaluates to one of two values in a single expression — a shortcut for a simple if-else, not a replacement for every one."
+  },
+  "examples": [
+    {
+      "title": "Positive or Negative",
+      "code": "num = -5\nresult = \"positive\" if num > 0 else \"negative\"\nprint(result)",
+      "note": "num > 0 is False, so result becomes 'negative' — the same outcome as a four-line if-else, in one line."
+    },
+    {
+      "title": "Using It Directly in a print()",
+      "code": "age = 20\nprint(\"adult\" if age >= 18 else \"child\")",
+      "note": "No variable needed — the conditional expression's result is passed straight into print()."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — conditional expressions",
+      "startSeconds": 4887,
+      "endSeconds": 5220,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=4887&end=5220&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "ternary-result",
+      "question": "num = 4; result = \"even\" if num % 2 == 0 else \"odd\" — what is result?",
+      "options": ["'even'", "'odd'", "True", "4"],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — num % 2 == 0 is True for 4, so result becomes 'even'.",
+        "incorrect": "Check the condition first: num % 2 == 0 is True whenever num is even."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Access Level",
+    "brief": "Write access_level(role) that returns 'full access' if role is 'admin', otherwise 'limited access' — using a conditional expression, not an if statement.",
+    "requirements": [
+      "Define access_level(role).",
+      "Use a conditional expression (value if condition else value) on the return line.",
+      "Do not use a separate if: block."
+    ],
+    "starterCode": "def access_level(role):\n    # Return 'full access' if role == 'admin' else 'limited access', using a conditional expression.\n    pass\n\nprint(access_level(\"admin\"))\nprint(access_level(\"guest\"))\n",
+    "solutionCode": "def access_level(role):\n    return \"full access\" if role == \"admin\" else \"limited access\"\n\nprint(access_level(\"admin\"))\nprint(access_level(\"guest\"))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines access_level()", "pattern": "def\\s+access_level\\s*\\(", "mustMatch": true },
+      { "id": "uses-ternary", "label": "Uses a conditional expression", "pattern": "\\bif\\b.*\\belse\\b", "mustMatch": true },
+      { "id": "no-if-block", "label": "Does not use an if: block", "pattern": "if\\s+[^\\n]*:", "mustMatch": false }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(access_level(\"admin\"))\n    print(access_level(\"guest\"))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "full access\nlimited access\n",
+    "outputCheckLabel": "access_level('admin') and access_level('guest') print full access then limited access"
+  },
+  "hints": [
+    "The pattern is: return value_if_true if condition else value_if_false.",
+    "Your condition is role == \"admin\".",
+    "No if: block is needed — this all fits on one return line.",
+    "access_level('guest') should return 'limited access' since 'guest' isn't 'admin'."
+  ],
+  "nextLessonId": "py-ch04-styling-conditions"
+}

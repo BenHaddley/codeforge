@@ -1,0 +1,88 @@
+{
+  "id": "py-ch01-hello-world",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch01",
+  "number": "1.2",
+  "title": "Hello, World!",
+  "xp": 50,
+  "objective": "Use print() and string literals to produce exact text output.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "1",
+    "chapterTitle": "Getting Started",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Adapted for Code Forge's in-browser Pyodide runtime \u2014 no local installation. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "print() is a function: a named, reusable action. You call it by writing its name followed by parentheses, and you hand it the thing you want it to display by placing that value inside the parentheses.",
+      "Text values in Python are called strings, and you write them surrounded by quotes \u2014 either single quotes or double quotes both work, as long as the opening and closing quote match. Anything inside the quotes is printed exactly as written, including spaces and punctuation.",
+      "Programmers traditionally write a tiny program that prints Hello, World! as the first thing they run in a new language. It confirms two things at once: the interpreter works, and you know how to produce output."
+    ],
+    "rule": "print(\"some text\") outputs the exact text inside the quotes, followed by a new line."
+  },
+  "examples": [
+    {
+      "title": "Two Ways to Quote",
+      "code": "print('Hello, World!')\nprint(\"Hello, World!\")",
+      "note": "Single and double quotes both create the same kind of string. Pick one style and be consistent."
+    }
+  ],
+  "checks": [
+    {
+      "id": "quotes-must-match",
+      "question": "Which of these is a valid Python string?",
+      "options": [
+        "\"Hello, World!'",
+        "'Hello, World!'",
+        "Hello, World!",
+        "[Hello, World!]"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct \u2014 the opening and closing quotes match.",
+        "incorrect": "A string's opening and closing quote characters must match."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Hello, Forge!",
+    "brief": "Write greet_forge() that prints exactly: Hello, Forge!",
+    "requirements": [
+      "Define greet_forge().",
+      "Use print() exactly once inside the function.",
+      "The printed text must be exactly: Hello, Forge!"
+    ],
+    "starterCode": "def greet_forge():\n    # Print the greeting here.\n    pass\n\ngreet_forge()\n",
+    "solutionCode": "def greet_forge():\n    print(\"Hello, Forge!\")\n\ngreet_forge()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines greet_forge()",
+        "pattern": "def\\s+greet_forge\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-print",
+        "label": "Uses print",
+        "pattern": "\\bprint\\s*\\(",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    greet_forge()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Hello, Forge!\n",
+    "outputCheckLabel": "greet_forge() prints exactly: Hello, Forge!"
+  },
+  "hints": [
+    "Use print() with a string inside the parentheses.",
+    "The comma and exclamation point are part of the required text.",
+    "Single or double quotes both work, just make the opening and closing quote match.",
+    "Capitalization matters: Hello and Forge both start with a capital letter."
+  ],
+  "nextLessonId": "py-ch01-reading-errors"
+}

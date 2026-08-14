@@ -1,0 +1,124 @@
+{
+  "id": "py-ch08-slicing-and-tuples",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.7",
+  "title": "Slicing, Copying, and Tuples",
+  "xp": 50,
+  "objective": "Extract part of a list with slicing, tell apart a real copy of a list from an alias to the same list, and store fixed values in a tuple.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "3 & 4",
+    "chapterTitle": "Introducing Lists; Working with Lists",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A slice pulls out part of a list without changing the original. party[1:3] returns a new list containing the items at index 1 up to, but not including, index 3. Leaving off either number means \"to the start\" or \"to the end\": party[:2] takes the first two items, party[2:] takes everything from index 2 onward. A slice is a real list of its own, so you can loop over it just like any other list.",
+      "Writing new_list = old_list does not make a copy — it makes new_list point at the exact same list as old_list. Change one and the other changes too, because there's really only one list with two names. To get an independent copy, slice the whole thing with old_list[:], which builds a brand-new list containing the same items.",
+      "A tuple is a list-like sequence that cannot be changed after it's created. You write one with parentheses (or nothing at all) and commas, like coords = (10, 20). Tuples are useful for values that should stay fixed, such as coordinates or a screen size — trying to reassign coords[0] raises a TypeError."
+    ],
+    "rule": "A slice like list_name[a:b] copies a range into a new list; list_name[:] copies the whole thing; plain assignment (new_list = old_list) only creates another name for the same list; tuples are written with parentheses and can never be changed."
+  },
+  "examples": [
+    {
+      "title": "Slicing a Party",
+      "code": "party = [\"Nyx\", \"Bram\", \"Odele\", \"Fen\"]\nfront_two = party[:2]\nprint(front_two)\nfor member in party[1:3]:\n    print(member)",
+      "note": "party[:2] takes the first two items; party[1:3] takes index 1 and 2, stopping before index 3."
+    },
+    {
+      "title": "Alias vs. Copy",
+      "code": "original = [1, 2, 3]\nalias = original\ncopy = original[:]\nalias.append(4)\nprint(original)\nprint(copy)",
+      "note": "alias points at the same list as original, so appending to alias changes original too. copy is independent, so it stays [1, 2, 3]."
+    }
+  ],
+  "checks": [
+    {
+      "id": "slice-bounds",
+      "question": "Given items = [10, 20, 30, 40, 50], what does items[1:3] return?",
+      "options": [
+        "[10, 20, 30]",
+        "[20, 30]",
+        "[20, 30, 40]",
+        "[30, 40]"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — index 1 up to, but not including, index 3 is [20, 30].",
+        "incorrect": "The slice includes the start index but stops just before the end index."
+      }
+    },
+    {
+      "id": "alias-vs-copy",
+      "question": "If b = a (no slicing) and then b.append(9), what happens to a?",
+      "options": [
+        "Nothing — a and b are separate lists",
+        "a also gains the new item, since a and b are the same list",
+        "This raises a TypeError",
+        "a is reversed"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — without slicing, b is just another name for a's list.",
+        "incorrect": "Plain assignment doesn't copy a list — it makes a second name for the same one."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Scout Party",
+    "brief": "Write scouting_report(party) that slices out the scouts, walks the front line with a for loop over a slice, demonstrates the alias-vs-copy difference, and prints a fixed pair of coordinates as a tuple.",
+    "requirements": [
+      "Define scouting_report(party).",
+      "Slice party[1:3] into a variable called scouts and print it labeled \"Scouts:\".",
+      "Loop over party[:2] with a for loop, printing \"Front line: {name}\" for each.",
+      "Create same_list = party (an alias) and copy_list = party[:] (a real copy).",
+      "Append \"Kestrel\" to same_list, then print party labeled \"Party now:\" and copy_list labeled \"Copy unaffected:\".",
+      "Create a tuple coords = (10, 20) and print it labeled \"Coordinates:\"."
+    ],
+    "starterCode": "def scouting_report(party):\n    # Slice the party, loop a slice, compare alias vs copy, then print a tuple.\n    pass\n\nscouting_report([\"Nyx\", \"Bram\", \"Odele\", \"Fen\"])\n",
+    "solutionCode": "def scouting_report(party):\n    scouts = party[1:3]\n    print(\"Scouts:\", scouts)\n    for member in party[:2]:\n        print(f\"Front line: {member}\")\n    same_list = party\n    copy_list = party[:]\n    same_list.append(\"Kestrel\")\n    print(\"Party now:\", party)\n    print(\"Copy unaffected:\", copy_list)\n    coords = (10, 20)\n    print(\"Coordinates:\", coords)\n\nscouting_report([\"Nyx\", \"Bram\", \"Odele\", \"Fen\"])\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "uses-slice",
+        "label": "Slices the list",
+        "pattern": "party\\[1:3\\]",
+        "mustMatch": true
+      },
+      {
+        "id": "loops-slice",
+        "label": "Loops over a slice",
+        "pattern": "for\\s+\\w+\\s+in\\s+party\\[:2\\]",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-full-slice-copy",
+        "label": "Copies with [:]",
+        "pattern": "party\\[:\\]",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-tuple",
+        "label": "Creates a tuple",
+        "pattern": "\\(\\s*10\\s*,\\s*20\\s*\\)",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    scouting_report([\"Nyx\", \"Bram\", \"Odele\", \"Fen\"])\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Scouts: ['Bram', 'Odele']\nFront line: Nyx\nFront line: Bram\nParty now: ['Nyx', 'Bram', 'Odele', 'Fen', 'Kestrel']\nCopy unaffected: ['Nyx', 'Bram', 'Odele', 'Fen']\nCoordinates: (10, 20)\n",
+    "outputCheckLabel": "scouting_report([...]) prints the slice, front line, alias/copy comparison, and tuple"
+  },
+  "hints": [
+    "party[1:3] grabs index 1 and 2 — two items, stopping before index 3.",
+    "party[:2] is its own list, so you can put it directly after 'in' in a for loop.",
+    "same_list = party does not copy anything; party[:] is what actually builds a new, independent list.",
+    "Because same_list and party are the same list, appending to same_list changes what party prints too — but copy_list was built before that append, so it stays as it was.",
+    "A tuple just needs parentheses and a comma: (10, 20)."
+  ],
+  "nextLessonId": "py-ch08-if-statements-with-lists"
+}

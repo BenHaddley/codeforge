@@ -1,0 +1,89 @@
+{
+  "id": "py-ch11-class-variables",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch11",
+  "number": "11.3",
+  "title": "Class Variables",
+  "xp": 50,
+  "objective": "Distinguish a class variable, shared by every instance, from an instance variable that belongs to just one.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Python Full Course for free",
+    "creator": "Bro Code",
+    "videoId": "ix9cRaBkVe0",
+    "url": "https://www.youtube.com/watch?v=ix9cRaBkVe0",
+    "note": "Alignment metadata only; this topic isn't covered in Python Crash Course but is taught in the companion video. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Every attribute you've set so far inside __init__() with self.attribute = value is an instance variable — each instance gets its own separate copy. A class variable is different: it's written directly inside the class body, not inside __init__(), and every instance of that class shares the exact same value.",
+      "You read a class variable through any instance, the same way you'd read an instance variable — instance.class_variable works fine. Python looks for the attribute on the instance first, and only falls back to the class's own copy if the instance doesn't have one of its own with that name.",
+      "Class variables suit values that should be identical across every instance, like a counter tracking how many instances have been created in total. Be careful with instance.class_variable = new_value, though — that doesn't change the shared class variable at all. It creates a brand-new instance variable on that one instance that shadows the class variable from then on, which is a common source of bugs."
+    ],
+    "rule": "A class variable, written directly in the class body, is shared by every instance; an instance variable, written with self. inside a method, belongs to just one instance."
+  },
+  "examples": [
+    {
+      "title": "A Shared Class Variable",
+      "code": "class Apprentice:\n    workshop = \"Ember Forge\"\n\n    def __init__(self, name):\n        self.name = name\n\nfirst = Apprentice(\"Mira\")\nsecond = Apprentice(\"Talia\")\nprint(first.workshop)\nprint(second.workshop)",
+      "note": "workshop lives on the class itself, so both first and second see the exact same value without either one storing its own copy."
+    },
+    {
+      "title": "Counting Every Instance",
+      "code": "class Widget:\n    count = 0\n\n    def __init__(self):\n        Widget.count += 1\n\nWidget()\nWidget()\nWidget()\nprint(Widget.count)",
+      "note": "Widget.count += 1 updates the shared class variable itself, accessed through the class name — every new instance increases the same counter, so the count ends at 3."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — class variables",
+      "startSeconds": 24289,
+      "endSeconds": 24788,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=24289&end=24788&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "instance-shadow",
+      "question": "class Team: mascot = \"Wolf\" ... t1 = Team(); t2 = Team(); t1.mascot = \"Bear\" — what is t2.mascot afterward?",
+      "options": ["\"Bear\"", "\"Wolf\"", "None", "AttributeError"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — t1.mascot = \"Bear\" only creates a new instance variable on t1. t2 still reads the shared class variable, \"Wolf\".",
+        "incorrect": "Assigning directly to t1.mascot doesn't touch the shared class variable — it shadows it only for t1. t2 still sees the original class variable."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Roster Counter",
+    "brief": "Write a Recruit class with a class variable total_recruits starting at 0. Every time a Recruit is created, increment the shared counter by one using the class name, not self.",
+    "requirements": [
+      "Define class Recruit with a class variable total_recruits = 0.",
+      "Inside __init__(), increment the shared counter with Recruit.total_recruits += 1.",
+      "Create three Recruit instances, then print Recruit.total_recruits."
+    ],
+    "starterCode": "class Recruit:\n    # Add a class variable total_recruits = 0 here.\n\n    def __init__(self, name):\n        self.name = name\n        # Increment the shared counter using the class name.\n        pass\n\nRecruit(\"Ada\")\nRecruit(\"Bram\")\nRecruit(\"Cole\")\nprint(Recruit.total_recruits)\n",
+    "solutionCode": "class Recruit:\n    total_recruits = 0\n\n    def __init__(self, name):\n        self.name = name\n        Recruit.total_recruits += 1\n\nRecruit(\"Ada\")\nRecruit(\"Bram\")\nRecruit(\"Cole\")\nprint(Recruit.total_recruits)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-class", "label": "Defines class Recruit", "pattern": "class\\s+Recruit\\b", "mustMatch": true },
+      { "id": "has-class-variable", "label": "Declares total_recruits = 0 in the class body", "pattern": "total_recruits\\s*=\\s*0", "mustMatch": true },
+      { "id": "increments-shared", "label": "Increments Recruit.total_recruits (not self.total_recruits)", "pattern": "Recruit\\.total_recruits\\s*\\+=", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(Recruit.total_recruits)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "3\n",
+    "outputCheckLabel": "Recruit.total_recruits reads 3 after creating three instances"
+  },
+  "hints": [
+    "total_recruits = 0 goes directly in the class body, not inside __init__().",
+    "Increment it with Recruit.total_recruits += 1, using the class name.",
+    "self.total_recruits += 1 would create a separate instance variable instead of updating the shared one — avoid it here.",
+    "Creating three Recruit instances should leave Recruit.total_recruits reading exactly 3."
+  ],
+  "nextLessonId": "py-ch11-inheritance"
+}

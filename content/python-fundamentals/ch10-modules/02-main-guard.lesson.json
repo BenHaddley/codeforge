@@ -1,0 +1,93 @@
+{
+  "id": "py-ch10-main-guard",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch10",
+  "number": "10.2",
+  "title": "The if __name__ == \"__main__\" Guard",
+  "xp": 50,
+  "objective": "Use if __name__ == \"__main__\": to control what runs when a file is executed directly versus imported as a module.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Python Full Course for free",
+    "creator": "Bro Code",
+    "videoId": "ix9cRaBkVe0",
+    "url": "https://www.youtube.com/watch?v=ix9cRaBkVe0",
+    "note": "Alignment metadata only; this topic isn't covered in Python Crash Course but is taught in the companion video. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Every Python file has a built-in variable named __name__. When you run a file directly, Python sets that file's __name__ to the string \"__main__\". When the same file is instead imported by another file, __name__ is set to the module's own name instead.",
+      "This lets you write code that only runs when the file is executed directly, using if __name__ == \"__main__\":. Code inside that block runs when you run the file yourself, but is skipped when another file imports it — only the function and class definitions above it get imported, not whatever main-program code sits alongside them.",
+      "This matters because importing a module runs its top-level code once, immediately, as part of the import. Without the guard, any print() or function call sitting unprotected at the top level of a file would fire every time something imports it — usually not what you want from a file meant to be reused as a module."
+    ],
+    "rule": "if __name__ == \"__main__\": runs its block only when the file is executed directly, never when the file is imported by something else."
+  },
+  "examples": [
+    {
+      "title": "Guarding a Direct-Run Call",
+      "code": "def greet():\n    print(\"Hello from greet()\")\n\nif __name__ == \"__main__\":\n    greet()",
+      "note": "Running this file directly prints the greeting, because __name__ equals \"__main__\" only when the file is run on its own."
+    },
+    {
+      "title": "What Happens on Import (for reference)",
+      "code": "# Imagine this is greeter.py:\ndef greet():\n    print(\"Hello from greet()\")\n\nif __name__ == \"__main__\":\n    print(\"Only runs when greeter.py itself is executed.\")\n\n# In a different file:\n# import greeter\n# greeter.greet()  # works fine\n# but the print() above never ran automatically on import.",
+      "note": "Importing greeter.py makes greet() available, but skips the guarded block entirely — that code only runs when greeter.py is executed directly. Code Forge grades a single file at a time, so this half is for reference only."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — if __name__ == \"__main__\"",
+      "startSeconds": 18861,
+      "endSeconds": 19415,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=18861&end=19415&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "name-on-import",
+      "question": "A file is imported by another file, rather than run directly. What is __name__ set to inside the imported file?",
+      "options": [
+        "\"__main__\"",
+        "The imported file's own module name (not \"__main__\")",
+        "None",
+        "It raises an error"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — __name__ only equals \"__main__\" for the file that was run directly; an imported file gets its own module name instead.",
+        "incorrect": "__name__ equals \"__main__\" only for the file that was executed directly — an imported file's __name__ is its module name instead."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Run Directly",
+    "brief": "Write announce_forge() that prints 'Forge is open!', and call it only from inside an if __name__ == \"__main__\": guard.",
+    "requirements": [
+      "Define announce_forge() that prints 'Forge is open!'.",
+      "Add if __name__ == \"__main__\": below the function.",
+      "Call announce_forge() only inside that guarded block."
+    ],
+    "starterCode": "def announce_forge():\n    # Print 'Forge is open!'\n    pass\n\n# Call announce_forge() only when this file is run directly.\n",
+    "solutionCode": "def announce_forge():\n    print(\"Forge is open!\")\n\nif __name__ == \"__main__\":\n    announce_forge()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines announce_forge()", "pattern": "def\\s+announce_forge\\s*\\(", "mustMatch": true },
+      { "id": "uses-main-guard", "label": "Uses if __name__ == \"__main__\":", "pattern": "__name__\\s*==\\s*[\"']__main__[\"']", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    announce_forge()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Forge is open!\n",
+    "outputCheckLabel": "announce_forge() prints exactly: Forge is open!"
+  },
+  "hints": [
+    "Define announce_forge() first, exactly like any other function.",
+    "Below it, on its own line, write if __name__ == \"__main__\":.",
+    "Indent the call to announce_forge() underneath that guard.",
+    "Since Code Forge always runs your file directly, __name__ will equal \"__main__\" here, so the guarded call does run."
+  ],
+  "nextLessonId": "py-ch10-the-standard-library"
+}

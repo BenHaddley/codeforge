@@ -1,0 +1,94 @@
+{
+  "id": "py-ch05-passing-arguments",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch05",
+  "number": "5.2",
+  "title": "Passing Arguments",
+  "xp": 50,
+  "objective": "Use positional arguments, keyword arguments, and default values.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "8",
+    "chapterTitle": "Passing Arguments",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "By default, arguments are matched to parameters by position — the first argument fills the first parameter, the second fills the second, and so on. Getting the order wrong silently assigns values to the wrong parameters.",
+      "Keyword arguments let you name which parameter each value goes to, in any order: forge_sword(metal=\"steel\", length=30). This removes any ambiguity about order and makes a call easier to read.",
+      "A parameter can have a default value, written as name=value in the def line. Any call that leaves that argument out uses the default instead, so you only need to specify it when you want something different."
+    ],
+    "rule": "Positional arguments are matched by order; keyword arguments are matched by name; a default value fills in when an argument is left out."
+  },
+  "examples": [
+    {
+      "title": "Positional, Keyword, and Default",
+      "code": "def forge_sword(metal, length=30):\n    print(metal, length)\n\nforge_sword(\"steel\")\nforge_sword(\"iron\", 25)\nforge_sword(length=40, metal=\"bronze\")",
+      "note": "The first call uses the default length. The third call uses keyword arguments in a different order than the def line."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — default arguments",
+      "startSeconds": 14569,
+      "endSeconds": 14936,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=14569&end=14936&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "default-value",
+      "question": "def forge(metal, length=30): — what happens if you call forge(\"steel\")?",
+      "options": [
+        "Python raises an error for a missing argument.",
+        "length is automatically 30.",
+        "length is automatically 0.",
+        "metal becomes 30."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — leaving out an argument with a default value uses that default.",
+        "incorrect": "A default value fills in automatically whenever that argument is omitted."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Order",
+    "brief": "Write forge_order(metal, quantity=1) that prints metal followed by ' x' followed by quantity, e.g. 'steel x1'.",
+    "requirements": [
+      "Define forge_order(metal, quantity=1) with a default value for quantity.",
+      "Print metal + ' x' + str(quantity).",
+      "Call forge_order('steel') relying on the default."
+    ],
+    "starterCode": "def forge_order(metal, quantity=1):\n    # Print metal + ' x' + str(quantity)\n    pass\n\nforge_order(\"steel\")\n",
+    "solutionCode": "def forge_order(metal, quantity=1):\n    print(metal + \" x\" + str(quantity))\n\nforge_order(\"steel\")\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines forge_order() with default",
+        "pattern": "def\\s+forge_order\\s*\\(\\s*metal\\s*,\\s*quantity\\s*=\\s*1\\s*\\)",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    forge_order(\"steel\")\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "steel x1\n",
+    "outputCheckLabel": "forge_order('steel') prints exactly: steel x1"
+  },
+  "hints": [
+    "Give quantity a default value of 1 in the def line.",
+    "Build the message with metal + ' x' + str(quantity).",
+    "Calling forge_order('steel') should use quantity's default of 1.",
+    "The output should read exactly: steel x1"
+  ],
+  "nextLessonId": "py-ch05-return-values"
+}

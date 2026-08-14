@@ -1,0 +1,128 @@
+{
+  "id": "py-ch08-introducing-lists",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.1",
+  "title": "Introducing Lists",
+  "xp": 50,
+  "objective": "Create a list of related items and read individual elements using positive and negative index positions.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "3 & 4",
+    "chapterTitle": "Introducing Lists; Working with Lists",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A list stores a sequence of related values in a single variable. You build one by placing items inside square brackets and separating them with commas, like forge_crew = [\"Talia\", \"Rook\", \"Sable\"]. Lists can hold any type of value, and the items keep the order you gave them.",
+      "Every item in a list has an index — a numbered position Python uses to find it. Indexing starts at 0, so the first item in forge_crew is forge_crew[0], the second is forge_crew[1], and so on. Asking for an index that does not exist raises an IndexError.",
+      "Python also lets you count backward from the end of a list using negative indices. forge_crew[-1] is always the last item and forge_crew[-2] is the second-to-last. This works no matter how long the list is, which is handy when you don't know its exact length."
+    ],
+    "rule": "List indices start at 0 from the front, and -1 from the back — forge_crew[0] is the first item and forge_crew[-1] is the last."
+  },
+  "examples": [
+    {
+      "title": "Building a Roster",
+      "code": "forge_crew = [\"Talia\", \"Rook\", \"Sable\"]\nprint(forge_crew)\nprint(forge_crew[0])\nprint(forge_crew[-1])",
+      "note": "forge_crew[0] reads the first item; forge_crew[-1] reads the last item without needing to know the list's length."
+    },
+    {
+      "title": "Index Out of Range",
+      "code": "colors = [\"red\", \"gold\"]\nprint(colors[1])\n# colors[5] would raise IndexError - there is no third item",
+      "note": "Every index has to point at a position that actually exists in the list."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — lists",
+      "startSeconds": 8582,
+      "endSeconds": 9163,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=8582&end=9163&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "first-index",
+      "question": "What is the index of the first item in a list?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "It depends on the list"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — Python list indices start counting at 0.",
+        "incorrect": "Not quite. The very first item sits at index 0."
+      }
+    },
+    {
+      "id": "negative-index",
+      "question": "Given squad = [\"Nyx\", \"Bram\", \"Odele\"], what does squad[-1] return?",
+      "options": [
+        "\"Nyx\"",
+        "\"Bram\"",
+        "\"Odele\"",
+        "An IndexError"
+      ],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — -1 always points at the last item in the list.",
+        "incorrect": "Negative indices count backward from the end, so -1 is the last item."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Squad Report",
+    "brief": "Write squad_report(members) that prints the squad leader (the first member) and the rear guard (the last member).",
+    "requirements": [
+      "Define squad_report(members).",
+      "Access the first member using index 0.",
+      "Access the last member using a negative index.",
+      "Print \"Leader: {name}\" for the first member.",
+      "Print \"Rear guard: {name}\" for the last member."
+    ],
+    "starterCode": "def squad_report(members):\n    # Print the leader (first member) and rear guard (last member).\n    pass\n\nsquad_report([\"Nyx\", \"Bram\", \"Odele\", \"Fen\"])\n",
+    "solutionCode": "def squad_report(members):\n    leader = members[0]\n    rear = members[-1]\n    print(f\"Leader: {leader}\")\n    print(f\"Rear guard: {rear}\")\n\nsquad_report([\"Nyx\", \"Bram\", \"Odele\", \"Fen\"])\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "uses-index-zero",
+        "label": "Accesses index 0",
+        "pattern": "\\[0\\]",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-negative-index",
+        "label": "Uses a negative index",
+        "pattern": "\\[-1\\]",
+        "mustMatch": true
+      },
+      {
+        "id": "defines-function",
+        "label": "Defines squad_report",
+        "pattern": "def\\s+squad_report",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    squad_report([\"Nyx\", \"Bram\", \"Odele\", \"Fen\"])\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Leader: Nyx\nRear guard: Fen\n",
+    "outputCheckLabel": "squad_report([\"Nyx\", \"Bram\", \"Odele\", \"Fen\"]) prints the leader and rear guard"
+  },
+  "hints": [
+    "members[0] is the first item in the list — that's your leader.",
+    "members[-1] always gives you the last item, no matter how long the list is.",
+    "Build each line with an f-string, like f\"Leader: {leader}\".",
+    "Print the leader line before the rear guard line."
+  ],
+  "nextLessonId": "py-ch08-changing-a-list"
+}

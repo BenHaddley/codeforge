@@ -1,0 +1,100 @@
+{
+  "id": "py-ch02-variables",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.1",
+  "title": "Variables",
+  "xp": 50,
+  "objective": "Create, name, and reassign variables correctly.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "2",
+    "chapterTitle": "Variables and Simple Data Types",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A variable is a label attached to a value so you can use that value again later. You create one with a single equals sign: the name on the left, the value on the right. Python evaluates the right side first, then attaches the name to the result.",
+      "Variable names can use letters, digits, and underscores, but cannot start with a digit and cannot contain spaces. Names are case-sensitive, so score and Score are two different variables. Avoid words Python already uses for something else, like print or if.",
+      "A variable can be reassigned at any time. Giving it a new value does not create a second variable — it simply replaces what the name points to, and the old value is gone unless something else was holding onto it."
+    ],
+    "rule": "name = value creates or updates a variable; the name always points to the most recent value assigned to it."
+  },
+  "examples": [
+    {
+      "title": "Reassigning a Variable",
+      "code": "hammer_uses = 0\nprint(hammer_uses)\n\nhammer_uses = 1\nprint(hammer_uses)",
+      "note": "The second assignment replaces the first. Only the newest value remains."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — variables & data types",
+      "startSeconds": 345,
+      "endSeconds": 967,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=345&end=967&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "valid-name",
+      "question": "Which of these is a valid Python variable name?",
+      "options": [
+        "2nd_place",
+        "player score",
+        "player_score",
+        "player-score"
+      ],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — letters and underscores, no spaces, no leading digit.",
+        "incorrect": "Variable names can't start with a digit and can't contain spaces or hyphens."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Temperature",
+    "brief": "Write report_temperature() that stores 1200 in a variable, then prints that variable.",
+    "requirements": [
+      "Define report_temperature().",
+      "Create a variable holding the number 1200.",
+      "Print that variable (not a literal 1200)."
+    ],
+    "starterCode": "def report_temperature():\n    # Create a variable, then print it.\n    pass\n\nreport_temperature()\n",
+    "solutionCode": "def report_temperature():\n    temperature = 1200\n    print(temperature)\n\nreport_temperature()\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "defines-function",
+        "label": "Defines report_temperature()",
+        "pattern": "def\\s+report_temperature\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "has-assignment",
+        "label": "Assigns a variable",
+        "pattern": "\\w+\\s*=\\s*1200",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    report_temperature()\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "1200\n",
+    "outputCheckLabel": "report_temperature() prints exactly: 1200"
+  },
+  "hints": [
+    "Pick any valid name, like temperature, and assign it 1200.",
+    "Use a single equals sign: name = 1200.",
+    "Print the variable name itself, not the number typed again.",
+    "The output should just be the number, with no extra text around it."
+  ],
+  "nextLessonId": "py-ch02-strings"
+}

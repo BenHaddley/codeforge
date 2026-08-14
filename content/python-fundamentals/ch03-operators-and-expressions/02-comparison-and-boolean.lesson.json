@@ -1,0 +1,78 @@
+{
+  "id": "py-ch03-comparison-and-boolean",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch03",
+  "number": "3.2",
+  "title": "Comparison & Boolean Expressions",
+  "xp": 50,
+  "objective": "Write comparisons and combine them with and/or/not to form Boolean expressions.",
+  "sourceAlignment": {
+    "type": "original-synthesis",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "Conditional Tests; Boolean Expressions",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Comparison and Boolean operators taught ahead of if statements as their own building block. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A comparison asks a yes-or-no question about two values and produces True or False. == checks equality, != checks inequality, and <, >, <=, >= compare size. A single = assigns a value; a double == compares two values — mixing them up is one of the most common early bugs.",
+      "True and False are Python's Boolean values — there are only ever these two, and every comparison produces one of them.",
+      "You can combine comparisons with and, or, and not. and is True only when both sides are True. or is True when at least one side is True. not flips a Boolean's value, turning True into False and back again."
+    ],
+    "rule": "== compares two values for equality; = assigns a value to a variable. They are never interchangeable."
+  },
+  "examples": [
+    {
+      "title": "Combining Conditions",
+      "code": "temperature = 1250\nis_hot_enough = temperature >= 1200\nis_too_hot = temperature > 1500\n\nprint(is_hot_enough and not is_too_hot)",
+      "note": "The forge is ready when it's hot enough but not dangerously hot — True in this case."
+    }
+  ],
+  "checks": [
+    {
+      "id": "equality-vs-assignment",
+      "question": "What does score == 10 do?",
+      "options": [
+        "Sets score to 10.",
+        "Checks whether score currently equals 10 and produces True or False.",
+        "Raises a SyntaxError.",
+        "Deletes score."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — == compares, it never assigns.",
+        "incorrect": "A single = assigns; a double == compares. score == 10 only checks the current value."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Ready to Forge",
+    "brief": "Write is_ready(temperature) that prints True if temperature is at least 1200 and at most 1500, otherwise prints False, using and.",
+    "requirements": [
+      "Define is_ready(temperature).",
+      "Combine two comparisons with and.",
+      "Print the resulting Boolean value."
+    ],
+    "starterCode": "def is_ready(temperature):\n    # Combine two comparisons with 'and' and print the result.\n    pass\n\nis_ready(1300)\n",
+    "solutionCode": "def is_ready(temperature):\n    ready = temperature >= 1200 and temperature <= 1500\n    print(ready)\n\nis_ready(1300)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines is_ready()", "pattern": "def\\s+is_ready\\s*\\(", "mustMatch": true },
+      { "id": "uses-and", "label": "Uses and", "pattern": "\\band\\b", "mustMatch": true }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    is_ready(1300)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "True\n",
+    "outputCheckLabel": "is_ready(1300) prints exactly: True"
+  },
+  "hints": [
+    "You need two comparisons joined by and.",
+    "temperature >= 1200 checks the lower bound; temperature <= 1500 checks the upper bound.",
+    "Store the combined Boolean in a variable, then print it.",
+    "print() will show True or False exactly as Python capitalizes them."
+  ],
+  "nextLessonId": "py-ch04-if-statements"
+}

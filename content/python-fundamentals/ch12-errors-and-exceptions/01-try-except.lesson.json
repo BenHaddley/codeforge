@@ -1,0 +1,91 @@
+{
+  "id": "py-ch12-try-except",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch12",
+  "number": "12.1",
+  "title": "Handling Exceptions with try-except",
+  "xp": 50,
+  "objective": "Use try/except to catch a specific exception and keep a program running instead of crashing.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "10",
+    "chapterTitle": "Files and Exceptions (Exceptions)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only; the file-handling part of this book chapter is covered separately in Code Forge's Files chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "When Python hits a line it cannot execute — dividing by zero, looking up a missing dictionary key, converting the word \"hello\" to an integer — it raises an exception. If nothing in your code handles that exception, the program stops immediately and Python prints a traceback showing what went wrong and where.",
+      "A try block lets you attempt risky code without letting a failure end the whole program. You put the line that might fail inside try:, and follow it with except SomeErrorType: containing the code that should run instead if that specific error happens. If no error occurs, the except block is skipped entirely.",
+      "Naming the exact exception type — like ZeroDivisionError or ValueError — matters. It means you only catch the failure you planned for, and any other, unexpected kind of error still shows up as a traceback so you notice and fix it rather than silently hiding a bug."
+    ],
+    "rule": "Wrap only the risky line in try:, then handle one named exception type in except: so unexpected errors still surface."
+  },
+  "examples": [
+    {
+      "title": "Surviving a Division by Zero",
+      "code": "def safe_divide(a, b):\n    try:\n        result = a / b\n    except ZeroDivisionError:\n        print(\"Can't divide by zero.\")\n        return None\n    return result\n\nprint(safe_divide(10, 2))\nprint(safe_divide(10, 0))\nprint(safe_divide(9, 3))",
+      "note": "The second call triggers ZeroDivisionError, prints a message, and returns None — the program keeps running and reaches the third call instead of crashing."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "unhandled-exception-effect",
+      "question": "What happens when a Python program raises an exception that no try/except catches?",
+      "options": [
+        "The program stops running and prints a traceback.",
+        "Python skips that line and continues with the next one.",
+        "The variable involved is set to None automatically.",
+        "The program pauses and asks the user to fix the input."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — an unhandled exception halts the program and shows a traceback.",
+        "incorrect": "Not quite. With no try/except in place, Python has no fallback: it stops execution and prints the traceback."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Safe Average",
+    "brief": "Write safe_average(numbers) that returns the average of a list of numbers, but returns None instead of crashing when the list is empty.",
+    "requirements": [
+      "Define safe_average(numbers).",
+      "Use a try block to compute sum(numbers) / len(numbers).",
+      "Catch ZeroDivisionError specifically.",
+      "Return None from the except block when the list is empty.",
+      "Return the computed average otherwise."
+    ],
+    "starterCode": "def safe_average(numbers):\n    # Return the average of numbers, or None if the list is empty.\n    pass\n",
+    "solutionCode": "def safe_average(numbers):\n    try:\n        result = sum(numbers) / len(numbers)\n    except ZeroDivisionError:\n        return None\n    return result\n\nprint(safe_average([4, 8, 12]))\nprint(safe_average([]))\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "has-try",
+        "label": "Uses a try block",
+        "pattern": "try\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "catches-zerodivisionerror",
+        "label": "Catches ZeroDivisionError",
+        "pattern": "except\\s+ZeroDivisionError",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    print(safe_average([4, 8, 12]))\n    print(safe_average([]))\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "8.0\nNone\n",
+    "outputCheckLabel": "safe_average([4, 8, 12]) prints 8.0, then safe_average([]) prints None"
+  },
+  "hints": [
+    "Put only the line that might fail — the division — inside the try block.",
+    "The exception raised when len(numbers) is 0 and you divide by it is ZeroDivisionError.",
+    "Return None from inside the except block, not from outside it.",
+    "sum([]) is 0 and len([]) is 0, so sum(numbers) / len(numbers) raises the error for an empty list."
+  ],
+  "nextLessonId": "py-ch12-else-and-multiple-exceptions"
+}

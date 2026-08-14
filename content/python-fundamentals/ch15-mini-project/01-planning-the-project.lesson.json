@@ -1,0 +1,89 @@
+{
+  "id": "py-ch15-planning-the-project",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch15",
+  "number": "15.1",
+  "title": "Planning the Project",
+  "xp": 75,
+  "objective": "Design a small settings object that holds the starting configuration for a simulation before writing any game logic.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "12 & 13",
+    "chapterTitle": "A Ship That Fires Bullets; Aliens! (Project 1: Alien Invasion)",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Original Code Forge capstone inspired by the book's Alien Invasion project's class structure, adapted to a text-based stdout simulation because Code Forge's grading harness cannot run a graphical pygame event loop. All prose and code are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Over the next three lessons you'll build Forge Invasion: a text-based battle between a ship and a small fleet of aliens, printed turn by turn to the console. Before writing any battle logic, it pays to plan what classes you need and what each one is responsible for.",
+      "A good first step is a settings object: one place that holds every starting number your simulation needs, like how much health the ship has, how much health each alien has, and how many aliens are in the fleet. Keeping these values in one class means you can tune the difficulty of your simulation later by changing a single object instead of hunting through your code.",
+      "A settings class usually just needs an __init__() method that stores its attributes, plus sometimes a small helper method \u2014 like one that returns a readable summary of the current configuration."
+    ],
+    "rule": "Plan your classes before your logic: decide what each object owns before you decide what it does."
+  },
+  "examples": [
+    {
+      "title": "A Settings Class",
+      "code": "class GameSettings:\n    def __init__(self, difficulty):\n        self.difficulty = difficulty\n        self.starting_lives = 3\n\n    def summary(self):\n        return f\"{self.difficulty} mode, {self.starting_lives} lives\"\n\nsettings = GameSettings(\"Normal\")\nprint(settings.summary())",
+      "note": "All the starting numbers live on one object, and summary() turns them into a readable string on demand."
+    }
+  ],
+  "checks": [
+    {
+      "id": "why-settings-class",
+      "question": "What is the main benefit of collecting starting values in a single settings class?",
+      "options": [
+        "It makes the program run faster.",
+        "It lets you tune the simulation's configuration from one place instead of scattering numbers through the code.",
+        "It is required by Python's syntax.",
+        "It removes the need for an __init__() method."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct \u2014 a settings object centralizes configuration so it's easy to find and change.",
+        "incorrect": "Not quite. Think about what happens when several classes each need the same starting numbers."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Invasion Settings",
+    "brief": "Write a ForgeSettings class that stores the starting configuration for Forge Invasion and can summarize itself as a string.",
+    "requirements": [
+      "Define class ForgeSettings.",
+      "__init__(self, ship_health, alien_health, alien_count) stores each value as an attribute of the same name.",
+      "Define a method summary(self) that returns the exact string: 'Ship: {ship_health} HP | Aliens: {alien_count} x {alien_health} HP' with the real values substituted in.",
+      "Do not print anything inside the class \u2014 only return the string from summary()."
+    ],
+    "starterCode": "class ForgeSettings:\n    def __init__(self, ship_health, alien_health, alien_count):\n        # Store the three arguments as attributes.\n        pass\n\n    def summary(self):\n        # Return the formatted summary string.\n        pass\n",
+    "solutionCode": "class ForgeSettings:\n    def __init__(self, ship_health, alien_health, alien_count):\n        self.ship_health = ship_health\n        self.alien_health = alien_health\n        self.alien_count = alien_count\n\n    def summary(self):\n        return f\"Ship: {self.ship_health} HP | Aliens: {self.alien_count} x {self.alien_health} HP\"\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      {
+        "id": "has-init",
+        "label": "Defines __init__",
+        "pattern": "def __init__\\(self, ship_health, alien_health, alien_count\\)",
+        "mustMatch": true
+      },
+      {
+        "id": "has-summary",
+        "label": "Defines summary method",
+        "pattern": "def summary\\(self\\)",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\n_cf_settings = ForgeSettings(100, 20, 5)\n_cf_result = _cf_settings.summary()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "Ship: 100 HP | Aliens: 5 x 20 HP",
+    "outputCheckLabel": "ForgeSettings(100, 20, 5).summary() returns the correctly formatted string"
+  },
+  "hints": [
+    "__init__ takes self plus the three named arguments \u2014 assign each one to self.<name>.",
+    "summary() needs to return a value, not print one.",
+    "Use an f-string so you can drop the attributes directly into the text.",
+    "Match the exact wording and spacing: 'Ship: {ship_health} HP | Aliens: {alien_count} x {alien_health} HP'."
+  ],
+  "nextLessonId": "py-ch15-building-the-classes"
+}
