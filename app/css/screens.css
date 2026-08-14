@@ -1,0 +1,54 @@
+/* Practice / Quiz / Results screens — each with one job, per the
+   Read → Watch → Practice → Submit → Quiz → Results → Next Lesson flow. */
+
+/* Practice */
+.practice-columns{display:flex;gap:0;flex:1;min-height:0}
+.practice-left{flex:0 0 auto;width:340px;min-width:260px;max-width:65%;display:flex;flex-direction:column;gap:8px;min-height:0}
+.practice-assignment-pane{flex:0 0 auto;max-height:40%;display:flex;flex-direction:column}
+.practice-assignment-pane .pane-body{flex:1;min-height:0;overflow:auto;font-size:13px;line-height:1.5}
+.practice-assignment-pane ul{margin:6px 0 0 18px;padding:0}
+.practice-output-pane{flex:1;min-height:0;display:flex;flex-direction:column}
+.practice-right{flex:1 1 auto;min-width:320px;display:flex;flex-direction:column;min-height:0}
+.practice-right .editor-shell{flex:1}
+.practice-pass-banner{display:none;align-items:center;justify-content:space-between;gap:10px;background:#dfffe0;border:2px groove #9c9;color:#006000;padding:8px 10px;margin:5px;font-weight:bold}
+.practice-pass-banner.show{display:flex}
+
+/* Quiz */
+.quiz-wrap{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto}
+.quiz-card{width:min(600px,100%);background:var(--silver);border:2px solid;border-color:#fff #404040 #404040 #fff;margin:10px}
+.quiz-card .pane-body{padding:22px}
+.quiz-progress{font-size:12px;color:#555;margin:0 0 12px}
+.quiz-question{font-size:16px;margin:0 0 16px;line-height:1.4}
+.quiz-options label{display:block;background:#fff;border:2px inset #fff;padding:9px 12px;margin-bottom:8px;cursor:pointer}
+.quiz-options label.correct{background:#dfffe0;border-color:#6a6}
+.quiz-options label.incorrect{background:#ffe0e0;border-color:#a66}
+.quiz-options input{margin-right:8px}
+.quiz-feedback{margin-top:12px;font-weight:bold;min-height:20px}
+.quiz-feedback.good{color:#006000}
+.quiz-feedback.bad{color:#800000}
+.quiz-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+
+/* Results */
+.results-wrap{flex:1;overflow:auto;display:flex;justify-content:center}
+.results-card{width:min(720px,100%);background:var(--silver);border:2px solid;border-color:#fff #404040 #404040 #fff;align-self:flex-start;margin:10px 0}
+.results-banner{padding:18px;text-align:center;font-size:20px;font-weight:bold}
+.results-banner.pass{background:#dfffe0;color:#006000;border-bottom:2px solid #9c9}
+.results-banner.fail{background:#ffe0e0;color:#800000;border-bottom:2px solid #c99}
+.results-xp{text-align:center;font-size:14px;padding:10px;background:#fff;border-bottom:1px dotted #aaa}
+.results-body{padding:16px}
+.results-table{width:100%;border-collapse:collapse;font-family:"Courier New",monospace;font-size:13px;margin-bottom:18px}
+.results-table td{border:1px solid #999;padding:4px 8px;background:#fff}
+.results-table td.pass{color:#006000;font-weight:bold}
+.results-table td.fail{color:#800000;font-weight:bold}
+.results-columns{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+.results-columns h3{font-size:13px;color:var(--blue);margin:0 0 6px}
+.results-columns ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6}
+.results-actions{display:flex;justify-content:flex-end;gap:8px;padding:14px;border-top:1px solid #999}
+
+@media (max-width:1050px){
+  .practice-columns{display:block}
+  .practice-left,.practice-right{margin-bottom:8px}
+  .practice-output-pane .console{height:180px}
+  .practice-right .editor-shell{height:360px}
+  .results-columns{grid-template-columns:1fr}
+}

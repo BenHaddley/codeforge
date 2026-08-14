@@ -8,10 +8,19 @@ function tick() {
 tick();
 setInterval(tick, 30000);
 
-document.querySelectorAll('.menubar button').forEach((btn) => {
+// #courseBtn and .profile-btn have their own real handlers (course-drawer.js /
+// lesson-loader.js) — only decorative File/Help-style menu buttons land here.
+document.querySelectorAll('.menubar button:not(#courseBtn):not(.profile-btn)').forEach((btn) => {
   btn.addEventListener('click', () => {
     const status = document.getElementById('statusText');
     if (status) status.textContent = `${btn.textContent} menu — not implemented in this build`;
+  });
+});
+
+document.querySelectorAll('.profile-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const status = document.getElementById('statusText');
+    if (status) status.textContent = 'Profile — no accounts yet in this build.';
   });
 });
 

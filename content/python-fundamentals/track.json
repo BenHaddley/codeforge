@@ -1,29 +1,161 @@
 {
   "id": "python-fundamentals",
   "title": "Python Fundamentals",
-  "version": 1,
+  "version": 2,
   "description": "Learn Python by reading, listening, watching focused demonstrations and completing real assignments in the Code Forge IDE.",
   "chapters": [
-    { "id": "ch01", "number": 1, "title": "Getting Started" },
-    { "id": "ch02", "number": 2, "title": "Variables & Types" },
-    { "id": "ch03", "number": 3, "title": "Operators & Expressions" },
-    { "id": "ch04", "number": 4, "title": "Control Flow" },
-    { "id": "ch05", "number": 5, "title": "Functions" },
-    { "id": "ch06", "number": 6, "title": "Scope" },
+    {
+      "id": "ch01",
+      "number": 1,
+      "title": "Getting Started",
+      "lessons": [
+        { "id": "py-ch01-what-is-python", "number": "1.1", "title": "What Is Python?", "path": "ch01-getting-started/01-what-is-python.lesson.json" },
+        { "id": "py-ch01-hello-world", "number": "1.2", "title": "Hello, World!", "path": "ch01-getting-started/02-hello-world.lesson.json" },
+        { "id": "py-ch01-reading-errors", "number": "1.3", "title": "Reading Your First Error Messages", "path": "ch01-getting-started/03-reading-errors.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch02",
+      "number": 2,
+      "title": "Variables & Types",
+      "lessons": [
+        { "id": "py-ch02-variables", "number": "2.1", "title": "Variables", "path": "ch02-variables-and-types/01-variables.lesson.json" },
+        { "id": "py-ch02-strings", "number": "2.2", "title": "Strings", "path": "ch02-variables-and-types/02-strings.lesson.json" },
+        { "id": "py-ch02-numbers", "number": "2.3", "title": "Numbers", "path": "ch02-variables-and-types/03-numbers.lesson.json" },
+        { "id": "py-ch02-comments-and-zen", "number": "2.4", "title": "Comments & the Zen of Python", "path": "ch02-variables-and-types/04-comments-and-zen.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch03",
+      "number": 3,
+      "title": "Operators & Expressions",
+      "lessons": [
+        { "id": "py-ch03-arithmetic-operators", "number": "3.1", "title": "Arithmetic Operators", "path": "ch03-operators-and-expressions/01-arithmetic-operators.lesson.json" },
+        { "id": "py-ch03-comparison-and-boolean", "number": "3.2", "title": "Comparison & Boolean Expressions", "path": "ch03-operators-and-expressions/02-comparison-and-boolean.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch04",
+      "number": 4,
+      "title": "Control Flow",
+      "lessons": [
+        { "id": "py-ch04-if-statements", "number": "4.1", "title": "The if Statement", "path": "ch04-control-flow/01-if-statements.lesson.json" },
+        { "id": "py-ch04-if-elif-else", "number": "4.2", "title": "if-elif-else Chains", "path": "ch04-control-flow/02-if-elif-else.lesson.json" },
+        { "id": "py-ch04-styling-conditions", "number": "4.3", "title": "Styling Your Conditions", "path": "ch04-control-flow/03-styling-conditions.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch05",
+      "number": 5,
+      "title": "Functions",
+      "lessons": [
+        { "id": "py-ch05-defining-functions", "number": "5.1", "title": "Defining and Calling Functions", "path": "ch05-functions/01-defining-functions.lesson.json" },
+        { "id": "py-ch05-passing-arguments", "number": "5.2", "title": "Passing Arguments", "path": "ch05-functions/02-passing-arguments.lesson.json" },
+        { "id": "py-ch05-return-values", "number": "5.3", "title": "Return Values", "path": "ch05-functions/03-return-values.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch06",
+      "number": 6,
+      "title": "Scope",
+      "lessons": [
+        { "id": "py-ch06-local-and-global-scope", "number": "6.1", "title": "Local vs Global Scope", "path": "ch06-scope/01-local-and-global-scope.lesson.json" },
+        { "id": "py-ch06-passing-lists-to-functions", "number": "6.2", "title": "Passing Lists to Functions", "path": "ch06-scope/02-passing-lists-to-functions.lesson.json" },
+        { "id": "py-ch06-arbitrary-arguments", "number": "6.3", "title": "Arbitrary Arguments", "path": "ch06-scope/03-arbitrary-arguments.lesson.json" }
+      ]
+    },
     {
       "id": "ch07",
       "number": 7,
       "title": "User Input & While Loops",
       "lessons": [
-        { "id": "py-ch07-while-loops", "number": "7.2", "title": "While Loops", "path": "ch07-user-input-and-while-loops/02-while-loops.lesson.json" }
+        { "id": "py-ch07-user-input", "number": "7.1", "title": "Using the input() Function", "path": "ch07-user-input-and-while-loops/01-user-input.lesson.json" },
+        { "id": "py-ch07-while-loops", "number": "7.2", "title": "While Loops", "path": "ch07-user-input-and-while-loops/02-while-loops.lesson.json" },
+        { "id": "py-ch07-while-with-lists-and-dicts", "number": "7.3", "title": "Using while with Lists and Dictionaries", "path": "ch07-user-input-and-while-loops/03-while-with-lists-and-dicts.lesson.json" }
       ]
     },
-    { "id": "ch08", "number": 8, "title": "Collections" },
-    { "id": "ch09", "number": 9, "title": "Dictionaries" },
-    { "id": "ch10", "number": 10, "title": "Modules" },
-    { "id": "ch11", "number": 11, "title": "Errors & Exceptions" },
-    { "id": "ch12", "number": 12, "title": "Files" },
-    { "id": "ch13", "number": 13, "title": "Testing" },
-    { "id": "ch14", "number": 14, "title": "Mini Project" }
+    {
+      "id": "ch08",
+      "number": 8,
+      "title": "Collections",
+      "lessons": [
+        { "id": "py-ch08-introducing-lists", "number": "8.1", "title": "Introducing Lists", "path": "ch08-collections/01-introducing-lists.lesson.json" },
+        { "id": "py-ch08-changing-a-list", "number": "8.2", "title": "Changing, Adding, and Removing Elements", "path": "ch08-collections/02-changing-a-list.lesson.json" },
+        { "id": "py-ch08-organizing-a-list", "number": "8.3", "title": "Organizing a List", "path": "ch08-collections/03-organizing-a-list.lesson.json" },
+        { "id": "py-ch08-looping-through-a-list", "number": "8.4", "title": "Looping Through a List", "path": "ch08-collections/04-looping-through-a-list.lesson.json" },
+        { "id": "py-ch08-slicing-and-tuples", "number": "8.5", "title": "Slicing, Copying, and Tuples", "path": "ch08-collections/05-slicing-and-tuples.lesson.json" },
+        { "id": "py-ch08-if-statements-with-lists", "number": "8.6", "title": "Using if Statements with Lists", "path": "ch08-collections/06-if-statements-with-lists.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch09",
+      "number": 9,
+      "title": "Dictionaries",
+      "lessons": [
+        { "id": "py-ch09-a-simple-dictionary", "number": "9.1", "title": "A Simple Dictionary", "path": "ch09-dictionaries/01-a-simple-dictionary.lesson.json" },
+        { "id": "py-ch09-working-with-dictionaries", "number": "9.2", "title": "Working with Dictionaries", "path": "ch09-dictionaries/02-working-with-dictionaries.lesson.json" },
+        { "id": "py-ch09-looping-through-a-dictionary", "number": "9.3", "title": "Looping Through a Dictionary", "path": "ch09-dictionaries/03-looping-through-a-dictionary.lesson.json" },
+        { "id": "py-ch09-nesting", "number": "9.4", "title": "Nesting", "path": "ch09-dictionaries/04-nesting.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch10",
+      "number": 10,
+      "title": "Modules",
+      "lessons": [
+        { "id": "py-ch10-storing-functions-in-modules", "number": "10.1", "title": "Storing Functions in Modules", "path": "ch10-modules/01-storing-functions-in-modules.lesson.json" },
+        { "id": "py-ch10-the-standard-library", "number": "10.2", "title": "The Python Standard Library", "path": "ch10-modules/02-the-standard-library.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch11",
+      "number": 11,
+      "title": "Classes",
+      "lessons": [
+        { "id": "py-ch11-creating-and-using-a-class", "number": "11.1", "title": "Creating and Using a Class", "path": "ch11-classes/01-creating-and-using-a-class.lesson.json" },
+        { "id": "py-ch11-working-with-instances", "number": "11.2", "title": "Working with Classes and Instances", "path": "ch11-classes/02-working-with-instances.lesson.json" },
+        { "id": "py-ch11-inheritance", "number": "11.3", "title": "Inheritance", "path": "ch11-classes/03-inheritance.lesson.json" },
+        { "id": "py-ch11-importing-classes", "number": "11.4", "title": "Importing Classes", "path": "ch11-classes/04-importing-classes.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch12",
+      "number": 12,
+      "title": "Errors & Exceptions",
+      "lessons": [
+        { "id": "py-ch12-try-except", "number": "12.1", "title": "Handling Exceptions with try-except", "path": "ch12-errors-and-exceptions/01-try-except.lesson.json" },
+        { "id": "py-ch12-else-and-multiple-exceptions", "number": "12.2", "title": "The else Block & Multiple Exceptions", "path": "ch12-errors-and-exceptions/02-else-and-multiple-exceptions.lesson.json" },
+        { "id": "py-ch12-failing-silently", "number": "12.3", "title": "Failing Silently vs. Reporting Errors", "path": "ch12-errors-and-exceptions/03-failing-silently.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch13",
+      "number": 13,
+      "title": "Files",
+      "lessons": [
+        { "id": "py-ch13-reading-from-a-file", "number": "13.1", "title": "Reading from a File", "path": "ch13-files/01-reading-from-a-file.lesson.json" },
+        { "id": "py-ch13-writing-to-a-file", "number": "13.2", "title": "Writing to a File", "path": "ch13-files/02-writing-to-a-file.lesson.json" },
+        { "id": "py-ch13-storing-data-with-json", "number": "13.3", "title": "Storing Data with JSON", "path": "ch13-files/03-storing-data-with-json.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch14",
+      "number": 14,
+      "title": "Testing",
+      "lessons": [
+        { "id": "py-ch14-testing-a-function", "number": "14.1", "title": "Testing a Function", "path": "ch14-testing/01-testing-a-function.lesson.json" },
+        { "id": "py-ch14-testing-a-class", "number": "14.2", "title": "Testing a Class", "path": "ch14-testing/02-testing-a-class.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch15",
+      "number": 15,
+      "title": "Mini Project",
+      "lessons": [
+        { "id": "py-ch15-planning-the-project", "number": "15.1", "title": "Planning the Project", "path": "ch15-mini-project/01-planning-the-project.lesson.json" },
+        { "id": "py-ch15-building-the-classes", "number": "15.2", "title": "Building the Classes", "path": "ch15-mini-project/02-building-the-classes.lesson.json" },
+        { "id": "py-ch15-the-final-simulation", "number": "15.3", "title": "The Final Simulation", "path": "ch15-mini-project/03-the-final-simulation.lesson.json" }
+      ]
+    }
   ]
 }
