@@ -4,66 +4,63 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quests — Codeforge</title>
-<meta name="description" content="Quest tracks: original coding challenges paired to books I'm reading, with XP, levels, and progress tracking.">
-<link rel="stylesheet" href="css/style.css">
+<meta name="description" content="Quest tracks: original coding challenges paired to books and videos, with XP, levels, and progress tracking.">
+<link rel="stylesheet" href="app/css/win98.css">
+<link rel="stylesheet" href="app/css/site.css">
 </head>
 <body>
 
-<nav class="topnav">
-  <div class="wrap navbar">
-    <a href="index.html" class="brand"><span class="dot"></span> Codeforge</a>
-    <div class="navlinks">
-      <a href="index.html">Home</a>
-      <a href="library.html">Library</a>
-      <a href="quests.html" aria-current="page">Quests</a>
-    </div>
-  </div>
-</nav>
+<div class="desktop">
+  <main class="app-window site-window" aria-label="Code Forge — Quests">
+    <header class="titlebar">
+      <div class="title-left"><span class="app-icon">⚒</span><strong>Code Forge</strong><span class="title-sub">— Quests</span></div>
+      <div class="window-controls" aria-hidden="true"><button>_</button><button>□</button><button>×</button></div>
+    </header>
 
-<header class="hero compact">
-  <h1>Quest <span class="glow">Tracks</span></h1>
-  <p class="tagline">
-    Original coding challenges, one track per book I'm working through. Each
-    quest is my own exercise idea aimed at the same skill as the matching
-    chapter — not material copied from the book itself. Progress is tracked
-    locally in your browser.
-  </p>
-</header>
+    <nav class="menubar" aria-label="Application menu">
+      <button>File</button><button>Edit</button><button>View</button><button>Help</button>
+    </nav>
 
-<section>
-  <div class="wrap">
-    <div class="library-note">
-      Quests are written from scratch to exercise the same concepts as each
-      chapter — no exercises, code listings, or text are reproduced from the
-      books themselves. Grab your own copy from
-      <a href="https://nostarch.com/" target="_blank" rel="noopener">No Starch Press</a>
-      to follow along with the real material.
-    </div>
+    <section class="toolbar" aria-label="Site navigation">
+      <a class="tool" href="index.html"><span>🏠</span><b>Home</b></a>
+      <a class="tool" href="library.html"><span>📚</span><b>Library</b></a>
+      <a class="tool" href="quests.html"><span>🗺</span><b>Quests</b></a>
+      <a class="tool" href="app/lesson.html"><span>▶</span><b>Lessons</b></a>
+      <div class="brandmark"><span class="anvil">⚒</span><span>CODE<br>FORGE</span></div>
+    </section>
 
-    <div class="grid">
-      <a class="track-card" href="track-python-crash-course.html">
-        <div class="card">
-          <span class="badge badge-reading">14 Quests</span>
-          <h3>Python Crash Course</h3>
-          <p class="track-meta">Companion track · Eric Matthes · No Starch Press</p>
-          <p class="track-desc">
-            11 fundamentals quests covering variables through testing, plus 3
-            boss quests for the arcade game, data visualization, and web app
-            project arcs.
+    <section class="site-body">
+      <section class="pane doc-pane">
+        <div class="pane-title">Quest Tracks</div>
+        <div class="pane-body doc-scroll">
+          <h1>Quest Tracks</h1>
+          <p>
+            Original coding challenges, one track per book or reference I'm working through.
+            Each quest exercises the same concept as the matching chapter — written from
+            scratch, not copied from the source material. Progress is tracked locally
+            in your browser.
+          </p>
+
+          <a class="track-card" href="app/lesson.html">
+            <b>Python Fundamentals</b>
+            <p class="track-meta">Companion track · Python Crash Course, 3rd Ed. · Eric Matthes · No Starch Press</p>
+            <p>Chapter 7 in progress: User Input &amp; While Loops. More chapters ship as they're built.</p>
+          </a>
+          <p style="font-size:13px;">See the <a href="https://github.com/BenHaddley/codeforge">GitHub repo</a> for the current roadmap.</p>
+
+          <p style="margin-top:24px;font-size:12px;color:#555;">
+            Codeforge is an independent, self-hosted project — not affiliated with boot.dev, No Starch Press, or any other platform.
           </p>
         </div>
-      </a>
-    </div>
-  </div>
-</section>
+      </section>
+    </section>
 
-<footer>
-  <div class="wrap">
-    Codeforge is an independent, self-hosted project — not affiliated with boot.dev, No Starch Press, or any other platform.
-    <br>
-    <a href="https://github.com/BenHaddley/codeforge">View on GitHub</a>
-  </div>
-</footer>
+    <footer class="statusbar statusbar-2">
+      <div>Ready</div><div id="clock">--:--</div>
+    </footer>
+  </main>
+</div>
 
+<script src="app/js/app.js"></script>
 </body>
 </html>

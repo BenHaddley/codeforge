@@ -1,0 +1,29 @@
+{
+  "id": "python-fundamentals",
+  "title": "Python Fundamentals",
+  "version": 1,
+  "description": "Learn Python by reading, listening, watching focused demonstrations and completing real assignments in the Code Forge IDE.",
+  "chapters": [
+    { "id": "ch01", "number": 1, "title": "Getting Started" },
+    { "id": "ch02", "number": 2, "title": "Variables & Types" },
+    { "id": "ch03", "number": 3, "title": "Operators & Expressions" },
+    { "id": "ch04", "number": 4, "title": "Control Flow" },
+    { "id": "ch05", "number": 5, "title": "Functions" },
+    { "id": "ch06", "number": 6, "title": "Scope" },
+    {
+      "id": "ch07",
+      "number": 7,
+      "title": "User Input & While Loops",
+      "lessons": [
+        { "id": "py-ch07-while-loops", "number": "7.2", "title": "While Loops", "path": "ch07-user-input-and-while-loops/02-while-loops.lesson.json" }
+      ]
+    },
+    { "id": "ch08", "number": 8, "title": "Collections" },
+    { "id": "ch09", "number": 9, "title": "Dictionaries" },
+    { "id": "ch10", "number": 10, "title": "Modules" },
+    { "id": "ch11", "number": 11, "title": "Errors & Exceptions" },
+    { "id": "ch12", "number": 12, "title": "Files" },
+    { "id": "ch13", "number": 13, "title": "Testing" },
+    { "id": "ch14", "number": 14, "title": "Mini Project" }
+  ]
+}

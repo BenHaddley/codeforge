@@ -1,0 +1,92 @@
+{
+  "id": "py-ch07-while-loops",
+  "trackId": "python-fundamentals",
+  "chapterId": "ch07",
+  "number": "7.2",
+  "title": "While Loops",
+  "xp": 50,
+  "objective": "Control repetition using a condition that changes over time.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Python Crash Course, 3rd Edition",
+    "author": "Eric Matthes",
+    "publisher": "No Starch Press",
+    "chapter": "7",
+    "chapterTitle": "User Input and while Loops",
+    "url": "https://nostarch.com/python-crash-course-3rd-edition",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A while loop repeats a block of code for as long as its condition evaluates to True. Think of it as an if statement that checks again after the block finishes.",
+      "The key idea is changing state. Something inside the loop normally changes a variable, receives new input, or reaches an exit condition. If nothing can make the condition false, the program may run forever.",
+      "Use a while loop when you know the condition that should end the repetition, but you do not necessarily know in advance how many repetitions will occur."
+    ],
+    "rule": "Use while when you know the condition that should stop the repetition, but not necessarily the number of repetitions."
+  },
+  "examples": [
+    {
+      "title": "Countdown",
+      "code": "count = 5\n\nwhile count > 0:\n    print(count)\n    count -= 1\n\nprint(\"FORGE!\")",
+      "note": "Each pass reduces count. Once it reaches 0, the condition is false and the loop ends."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "ix9cRaBkVe0",
+      "creator": "Bro Code",
+      "title": "Python Full Course for free — while loops",
+      "startSeconds": 6715,
+      "endSeconds": 7133,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/ix9cRaBkVe0?start=6715&end=7133&rel=0"
+    }
+  ],
+  "checks": [
+    {
+      "id": "loop-stops",
+      "question": "Why does a countdown loop eventually stop?",
+      "options": [
+        "Python automatically limits while loops to five passes.",
+        "The counter changes until the loop condition becomes false.",
+        "The print function ends the loop.",
+        "It does not stop."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — the changing counter eventually makes the condition false.",
+        "incorrect": "Not quite. Look for the value that changes each pass."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Countdown",
+    "brief": "Write forge_countdown(start) using a while loop. Print every number from start to 1, then print FORGE!.",
+    "requirements": [
+      "Define forge_countdown(start).",
+      "Use a while loop.",
+      "Do not use a for loop.",
+      "Print each number from start down to 1.",
+      "Print FORGE! after the loop ends."
+    ],
+    "starterCode": "def forge_countdown(start):\n    # Write your while loop here.\n    pass\n\nforge_countdown(5)\n",
+    "solutionCode": "def forge_countdown(start):\n    count = start\n    while count > 0:\n        print(count)\n        count -= 1\n    print(\"FORGE!\")\n\nforge_countdown(5)\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "uses-while", "label": "Uses while", "pattern": "\\bwhile\\b", "mustMatch": true },
+      { "id": "no-for", "label": "Does not use for", "pattern": "\\bfor\\b", "mustMatch": false }
+    ],
+    "testHarness": "\n\n# ---- Code Forge validation ----\nimport io, contextlib\n_cf_buf = io.StringIO()\nwith contextlib.redirect_stdout(_cf_buf):\n    forge_countdown(3)\n_cf_result = _cf_buf.getvalue()\nprint(\"__CF_TEST_OUTPUT__\")\nprint(repr(_cf_result))\n",
+    "expectedOutput": "3\n2\n1\nFORGE!\n",
+    "outputCheckLabel": "forge_countdown(3) prints 3, 2, 1, FORGE!"
+  },
+  "hints": [
+    "What value should change on every pass through the loop?",
+    "Your condition can stay true while the counter is greater than zero.",
+    "Print the counter, then subtract one from it.",
+    "FORGE! belongs after the loop has finished."
+  ],
+  "nextLessonId": null
+}

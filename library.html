@@ -4,248 +4,52 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Library — Codeforge</title>
-<meta name="description" content="A personal, evolving catalog of programming books — mostly No Starch Press — organized by topic, with reading status and notes.">
-<link rel="stylesheet" href="css/style.css">
+<meta name="description" content="A personal, evolving catalog of programming books and references used as companions for Code Forge tracks.">
+<link rel="stylesheet" href="app/css/win98.css">
+<link rel="stylesheet" href="app/css/site.css">
 </head>
 <body>
 
-<nav class="topnav">
-  <div class="wrap navbar">
-    <a href="index.html" class="brand"><span class="dot"></span> Codeforge</a>
-    <div class="navlinks">
-      <a href="index.html">Home</a>
-      <a href="library.html" aria-current="page">Library</a>
-      <a href="quests.html">Quests</a>
-    </div>
-  </div>
-</nav>
+<div class="desktop">
+  <main class="app-window site-window" aria-label="Code Forge — Library">
+    <header class="titlebar">
+      <div class="title-left"><span class="app-icon">⚒</span><strong>Code Forge</strong><span class="title-sub">— Library</span></div>
+      <div class="window-controls" aria-hidden="true"><button>_</button><button>□</button><button>×</button></div>
+    </header>
 
-<header class="hero compact">
-  <h1>The <span class="glow">Library</span></h1>
-  <p class="tagline">
-    A personal catalog of programming books I'm working through, mostly from
-    No Starch Press. Organized by topic with reading status and notes as I go.
-  </p>
-</header>
+    <nav class="menubar" aria-label="Application menu">
+      <button>File</button><button>Edit</button><button>View</button><button>Help</button>
+    </nav>
 
-<section>
-  <div class="wrap">
-    <div class="library-note">
-      This page lists titles, authors, and my own reading notes only — no book
-      files are linked or hosted here. If you want to read one of these, grab
-      a copy from <a href="https://nostarch.com/" target="_blank" rel="noopener">No Starch Press</a>
-      or your library.
-    </div>
+    <section class="toolbar" aria-label="Site navigation">
+      <a class="tool" href="index.html"><span>🏠</span><b>Home</b></a>
+      <a class="tool" href="library.html"><span>📚</span><b>Library</b></a>
+      <a class="tool" href="quests.html"><span>🗺</span><b>Quests</b></a>
+      <a class="tool" href="app/lesson.html"><span>▶</span><b>Lessons</b></a>
+      <div class="brandmark"><span class="anvil">⚒</span><span>CODE<br>FORGE</span></div>
+    </section>
 
-    <div class="topic-section">
-      <h2>Python <span class="topic-count">3</span></h2>
-      <p class="shelf-hint">Click a spine to pull it off the shelf.</p>
-      <div class="shelf-rack">
-        <div class="book-slot" style="--pages:40px; --spine:#f0c419;">
-          <div id="b1" class="book" onclick="toggleBook('b1')">
-            <div class="face face-spine">Automate the Boring Stuff · Sweigart</div>
-            <div class="face face-cover">
-              <span class="badge badge-read">Read</span>
-              <h3 class="book-title">Automate the Boring Stuff with Python</h3>
-              <p class="book-meta">Al Sweigart</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-read">Read</span>
-              <p>— notes not yet added —</p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
+    <section class="site-body">
+      <section class="pane doc-pane">
+        <div class="pane-title">The Library</div>
+        <div class="pane-body doc-scroll">
+          <h1>The Library</h1>
+          <p>
+            A catalog of the books and references quest tracks are aligned to —
+            currently just <em>Python Crash Course, 3rd Edition</em> by Eric Matthes
+            (No Starch Press), which the Python Fundamentals track companions.
+          </p>
+          <p>More entries land here as new tracks are built. See <a href="quests.html">Quests</a> for what's live.</p>
         </div>
-        <div class="book-slot" style="--pages:38px; --spine:#f0c419;">
-          <div id="b2" class="book" onclick="toggleBook('b2')">
-            <div class="face face-spine">Python Crash Course · Matthes</div>
-            <div class="face face-cover">
-              <span class="badge badge-reading">Reading</span>
-              <h3 class="book-title">Python Crash Course</h3>
-              <p class="book-meta">Eric Matthes</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-reading">Reading</span>
-              <p><a href="track-python-crash-course.html" style="color:var(--spark);">Quest track available →</a></p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
-        </div>
-        <div class="book-slot" style="--pages:26px; --spine:#f0c419;">
-          <div id="b3" class="book" onclick="toggleBook('b3')">
-            <div class="face face-spine">Impractical Python Projects · Vaughan</div>
-            <div class="face face-cover">
-              <span class="badge badge-toread">To Read</span>
-              <h3 class="book-title">Impractical Python Projects</h3>
-              <p class="book-meta">Lee Vaughan</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-toread">To Read</span>
-              <p>— notes not yet added —</p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </section>
+    </section>
 
-    <div class="topic-section">
-      <h2>Security <span class="topic-count">2</span></h2>
-      <div class="shelf-rack">
-        <div class="book-slot" style="--pages:18px; --spine:#ff7a3d;">
-          <div id="b4" class="book" onclick="toggleBook('b4')">
-            <div class="face face-spine">Black Hat Python · Seitz &amp; Arnold</div>
-            <div class="face face-cover">
-              <span class="badge badge-toread">To Read</span>
-              <h3 class="book-title">Black Hat Python, 2nd Edition</h3>
-              <p class="book-meta">Justin Seitz &amp; Tim Arnold</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-toread">To Read</span>
-              <p>— notes not yet added —</p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
-        </div>
-        <div class="book-slot" style="--pages:42px; --spine:#ff7a3d;">
-          <div id="b5" class="book" onclick="toggleBook('b5')">
-            <div class="face face-spine">The Ghidra Book · Eagle &amp; Nance</div>
-            <div class="face face-cover">
-              <span class="badge badge-toread">To Read</span>
-              <h3 class="book-title">The Ghidra Book</h3>
-              <p class="book-meta">Chris Eagle &amp; Kara Nance</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-toread">To Read</span>
-              <p>— notes not yet added —</p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <footer class="statusbar statusbar-2">
+      <div>Ready</div><div id="clock">--:--</div>
+    </footer>
+  </main>
+</div>
 
-    <div class="topic-section">
-      <h2>Linux &amp; Tools <span class="topic-count">2</span></h2>
-      <div class="shelf-rack">
-        <div class="book-slot" style="--pages:32px; --spine:#4fd1c5;">
-          <div id="b6" class="book" onclick="toggleBook('b6')">
-            <div class="face face-spine">The Linux Command Line · Shotts</div>
-            <div class="face face-cover">
-              <span class="badge badge-read">Read</span>
-              <h3 class="book-title">The Linux Command Line, 2nd Edition</h3>
-              <p class="book-meta">William Shotts</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-read">Read</span>
-              <p>— notes not yet added —</p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
-        </div>
-        <div class="book-slot" style="--pages:30px; --spine:#4fd1c5;">
-          <div id="b7" class="book" onclick="toggleBook('b7')">
-            <div class="face face-spine">How Linux Works · Ward</div>
-            <div class="face face-cover">
-              <span class="badge badge-reading">Reading</span>
-              <h3 class="book-title">How Linux Works, 3rd Edition</h3>
-              <p class="book-meta">Brian Ward</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-reading">Reading</span>
-              <p>— notes not yet added —</p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="topic-section">
-      <h2>Web &amp; JavaScript <span class="topic-count">1</span></h2>
-      <div class="shelf-rack">
-        <div class="book-slot" style="--pages:32px; --spine:#dbe2f0;">
-          <div id="b8" class="book" onclick="toggleBook('b8')">
-            <div class="face face-spine">Eloquent JavaScript · Haverbeke</div>
-            <div class="face face-cover">
-              <span class="badge badge-toread">To Read</span>
-              <h3 class="book-title">Eloquent JavaScript, 3rd Edition</h3>
-              <p class="book-meta">Marijn Haverbeke</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-toread">To Read</span>
-              <p>— notes not yet added —</p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="topic-section">
-      <h2>Systems <span class="topic-count">1</span></h2>
-      <div class="shelf-rack">
-        <div class="book-slot" style="--pages:36px; --spine:#ffb27a;">
-          <div id="b9" class="book" onclick="toggleBook('b9')">
-            <div class="face face-spine">The Rust Programming Language · Klabnik &amp; Nichols</div>
-            <div class="face face-cover">
-              <span class="badge badge-toread">To Read</span>
-              <h3 class="book-title">The Rust Programming Language</h3>
-              <p class="book-meta">Steve Klabnik &amp; Carol Nichols</p>
-              <span class="press">No Starch Press</span>
-            </div>
-            <div class="face face-back">
-              <span class="badge badge-toread">To Read</span>
-              <p>— notes not yet added —</p>
-            </div>
-            <div class="face face-pages"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    Codeforge is an independent, self-hosted project — not affiliated with boot.dev, No Starch Press, or any other platform.
-    Shelf animation inspired by <a href="https://github.com/mawise/bookshelf" target="_blank" rel="noopener">mawise/bookshelf</a>.
-    <br>
-    <a href="https://github.com/BenHaddley/codeforge">View on GitHub</a>
-  </div>
-</footer>
-
-<script>
-  function toggleBook(id) {
-    var book = document.getElementById(id);
-    document.querySelectorAll('.book').forEach(function (b) {
-      if (b !== book) closeBook(b);
-    });
-    if (book.classList.contains('is-open')) {
-      book.className = 'book is-back';
-    } else if (book.classList.contains('is-back')) {
-      book.className = 'book is-closing-back';
-    } else {
-      book.className = 'book is-open';
-    }
-  }
-
-  function closeBook(book) {
-    if (book.classList.contains('is-open')) {
-      book.className = 'book is-closing-open';
-    } else if (book.classList.contains('is-back')) {
-      book.className = 'book is-closing-back';
-    }
-  }
-</script>
-
+<script src="app/js/app.js"></script>
 </body>
 </html>

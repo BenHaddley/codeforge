@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Forge — Lesson</title>
+<link rel="stylesheet" href="css/win98.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+<div class="desktop">
+  <main class="app-window" aria-label="Code Forge lesson application">
+    <header class="titlebar">
+      <div class="title-left"><span class="app-icon">⚒</span><strong>Code Forge</strong><span class="title-sub">— Python Fundamentals</span></div>
+      <div class="window-controls" aria-hidden="true"><button>_</button><button>□</button><button>×</button></div>
+    </header>
+
+    <nav class="menubar" aria-label="Application menu">
+      <a href="../index.html" style="color:inherit;text-decoration:none;padding:3px 10px;">Home</a>
+      <button>File</button><button>Edit</button><button>View</button><button>Lesson</button><button>Tools</button><button>Help</button>
+    </nav>
+
+    <section class="toolbar" aria-label="Lesson toolbar">
+      <button class="tool"><span>📚</span><b>Lessons</b></button>
+      <button class="tool"><span>🔎</span><b>Search</b></button>
+      <button class="tool" id="notesBtn"><span>📝</span><b>Notes</b></button>
+      <button class="tool"><span>🔨</span><b>Tools</b></button>
+      <div class="separator"></div>
+      <button class="tool" id="listenBtn"><span>🔊</span><b>Listen</b></button>
+      <div class="separator"></div>
+      <button class="tool" id="runBtn"><span>▶</span><b>Run</b></button>
+      <button class="tool" id="submitBtn"><span>🏁</span><b>Submit</b></button>
+      <button class="tool" id="hintBtn"><span>💡</span><b>Hint</b></button>
+      <button class="tool" id="solutionBtn"><span>📋</span><b>Solution</b></button>
+      <div class="separator"></div>
+      <button class="tool" onclick="window.print()"><span>🖨</span><b>Print</b></button>
+      <div class="brandmark"><span class="anvil">⚒</span><span>CODE<br>FORGE</span></div>
+    </section>
+
+    <section class="workspace">
+      <aside class="left-column">
+        <section class="pane lessons-pane">
+          <div class="pane-title">Lessons <button aria-label="close pane">×</button></div>
+          <div class="pane-body">
+            <select class="classic-select" aria-label="Course"><option>Python Fundamentals</option></select>
+            <div class="tree" id="lessonTree" role="tree"></div>
+          </div>
+        </section>
+
+        <section class="pane progress-pane">
+          <div class="pane-body progress-body">
+            <b>Lesson Progress</b>
+            <div class="segbar" id="progressSegbar" aria-label="Course progress"></div>
+            <div class="progress-copy"><span id="progressChapter">—</span><strong id="progressPercent">—</strong></div>
+          </div>
+        </section>
+
+        <section class="pane cd-pane">
+          <div class="pane-body cd-body">
+            <div class="disc"></div>
+            <div><strong>Code Forge Learning System</strong><br>Interactive Python Training<br><br><span>Build 0.1</span><br><span>Independent project</span></div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="middle-column">
+        <section class="pane lesson-pane">
+          <div class="pane-title"><span id="lessonPaneTitle">Loading…</span> <button aria-label="close pane">×</button></div>
+          <div class="pane-body lesson-scroll" id="lessonText"></div>
+        </section>
+
+        <section class="pane video-pane">
+          <div class="pane-title">Video Example <span class="pane-muted" id="videoPaneLabel"></span></div>
+          <div id="videoContainer"></div>
+        </section>
+      </section>
+
+      <section class="right-column">
+        <section class="pane editor-pane">
+          <div class="pane-title">code.py <button aria-label="close pane">×</button></div>
+          <div class="editor-shell">
+            <div class="line-numbers" id="lineNumbers" aria-hidden="true"></div>
+            <textarea id="editor" spellcheck="false" aria-label="Python code editor"></textarea>
+          </div>
+        </section>
+
+        <section class="bottom-right">
+          <section class="pane output-pane">
+            <div class="tabs"><button class="active" data-tab="output">Output</button><button data-tab="tests">Test Results</button><button data-tab="hints">Hints</button></div>
+            <pre class="console" id="console"></pre>
+          </section>
+
+          <section class="pane quiz-pane" id="quizPane"></section>
+        </section>
+      </section>
+    </section>
+
+    <footer class="statusbar statusbar-4">
+      <div id="statusText">Ready</div><div>Python 3 · Pyodide</div><div>XP: <span id="xp">0</span></div><div id="clock">--:--</div>
+    </footer>
+  </main>
+</div>
+
+<dialog id="notesDialog" class="classic-dialog">
+  <form method="dialog">
+    <div class="pane-title">Lesson Notes <button value="cancel">×</button></div>
+    <div class="dialog-body"><textarea id="notesArea" placeholder="Write notes for this lesson..."></textarea><div class="dialog-actions"><button class="classic-button" id="saveNotesBtn" value="default">Save</button><button class="classic-button" value="cancel">Close</button></div></div>
+  </form>
+</dialog>
+
+<script src="js/progress-store.js"></script>
+<script src="js/tts.js"></script>
+<script src="js/video.js"></script>
+<script src="js/runner-client.js"></script>
+<script src="js/grading.js"></script>
+<script src="js/lesson-loader.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

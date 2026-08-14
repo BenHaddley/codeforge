@@ -4,129 +4,78 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Codeforge — Level Up Your Code</title>
-<meta name="description" content="Codeforge is a quest-driven learning platform for developers. Forge real skills through hands-on projects, XP, and levels.">
-<link rel="stylesheet" href="css/style.css">
+<meta name="description" content="Codeforge is a desktop-styled, quest-driven learning workspace for developers. Real code execution, real assignments, visible progress.">
+<link rel="stylesheet" href="app/css/win98.css">
+<link rel="stylesheet" href="app/css/site.css">
 </head>
 <body>
 
-<nav class="topnav">
-  <div class="wrap navbar">
-    <a href="index.html" class="brand"><span class="dot"></span> Codeforge</a>
-    <div class="navlinks">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="library.html">Library</a>
-      <a href="quests.html">Quests</a>
-    </div>
-  </div>
-</nav>
+<div class="desktop">
+  <main class="app-window site-window" aria-label="Code Forge">
+    <header class="titlebar">
+      <div class="title-left"><span class="app-icon">⚒</span><strong>Code Forge</strong></div>
+      <div class="window-controls" aria-hidden="true"><button>_</button><button>□</button><button>×</button></div>
+    </header>
 
-<header class="hero">
-  <h1>Stop watching.<br><span class="glow">Start forging.</span></h1>
-  <p class="tagline">
-    Codeforge is a quest-driven learning ground for developers. No lecture halls,
-    no passive video — just a keyboard, real projects, and a level counter that only
-    goes up when you actually ship working code.
-  </p>
-  <div class="cta-row">
-    <a class="btn btn-primary" href="#signup">Join the waitlist</a>
-    <a class="btn btn-ghost" href="#how-it-works">See how it works</a>
-  </div>
-  <div class="status-pill">⚒ IN THE FORGE — homepage live, quests coming soon</div>
-</header>
+    <nav class="menubar" aria-label="Application menu">
+      <button>File</button><button>Edit</button><button>View</button><button>Help</button>
+    </nav>
 
-<section id="what">
-  <div class="wrap">
-    <h2>What is Codeforge?</h2>
-    <p class="lede">
-      A place to learn to code the way you'd actually want to: by building things,
-      getting stuck, and figuring it out — with just enough structure to keep you
-      moving instead of scrolling.
-    </p>
-    <div class="grid">
-      <div class="card">
-        <span class="icon">⚔️</span>
-        <h3>Quests, not tutorials</h3>
-        <p>Every lesson is a small, real problem to solve — not a video to watch. You write code from the first minute.</p>
-      </div>
-      <div class="card">
-        <span class="icon">📈</span>
-        <h3>XP &amp; levels</h3>
-        <p>Progress is visible. Finish a quest, bank the XP, level up your character sheet as a developer.</p>
-      </div>
-      <div class="card">
-        <span class="icon">🛠️</span>
-        <h3>Real portfolio projects</h3>
-        <p>Not toy exercises — things you'd actually put on GitHub: servers, CLIs, crawlers, tools that do something.</p>
-      </div>
-      <div class="card">
-        <span class="icon">🧭</span>
-        <h3>Guided, not hand-held</h3>
-        <p>Hints nudge you toward the answer instead of handing it over. You leave knowing why it works.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <section class="toolbar" aria-label="Site navigation">
+      <a class="tool" href="index.html"><span>🏠</span><b>Home</b></a>
+      <a class="tool" href="library.html"><span>📚</span><b>Library</b></a>
+      <a class="tool" href="quests.html"><span>🗺</span><b>Quests</b></a>
+      <a class="tool" href="app/lesson.html"><span>▶</span><b>Lessons</b></a>
+      <div class="brandmark"><span class="anvil">⚒</span><span>CODE<br>FORGE</span></div>
+    </section>
 
-<section id="how-it-works">
-  <div class="wrap">
-    <h2>How it'll work</h2>
-    <p class="lede">Codeforge is early — this is the map of where it's headed.</p>
-    <div class="path">
-      <div class="step">
-        <h3>Pick a track</h3>
-        <p>Choose a language and a direction: backend, tooling, scripting.</p>
-      </div>
-      <div class="step">
-        <h3>Take on a quest</h3>
-        <p>Read the brief, open the editor, write real code against real tests.</p>
-      </div>
-      <div class="step">
-        <h3>Get unstuck, not spoiled</h3>
-        <p>Hints guide your thinking instead of giving you the solution outright.</p>
-      </div>
-      <div class="step">
-        <h3>Level up</h3>
-        <p>Bank XP, unlock harder quests, build a project worth showing off.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <section class="site-body">
+      <section class="pane doc-pane">
+        <div class="pane-title">Code Forge — Home</div>
+        <div class="pane-body doc-scroll">
+          <h1>Stop watching. Start forging.</h1>
+          <p>
+            Code Forge is a desktop-software-styled coding school. Every lesson stays
+            in one workspace: read the explanation, watch a focused demonstration,
+            answer a quick check, then write and run real code against real tests —
+            no lecture halls, no passive video.
+          </p>
+          <a class="classic-button" href="app/lesson.html">Launch: Python Fundamentals →</a>
 
-<section id="languages">
-  <div class="wrap">
-    <h2>Starting languages</h2>
-    <p class="lede">Launching focused, then expanding based on what the community wants next.</p>
-    <div class="lang-row">
-      <span class="lang-tag">Python</span>
-      <span class="lang-tag">JavaScript</span>
-      <span class="lang-tag">Go</span>
-      <span class="lang-tag">SQL</span>
-      <span class="lang-tag">Git &amp; Linux basics</span>
-    </div>
-  </div>
-</section>
+          <h2>How it works</h2>
+          <div class="badge-row">
+            <span class="badge">Read &amp; listen</span>
+            <span class="badge">Inspect an example</span>
+            <span class="badge">Watch a clip</span>
+            <span class="badge">Predict</span>
+            <span class="badge">Build in the IDE</span>
+            <span class="badge">Run</span>
+            <span class="badge">Submit against tests</span>
+            <span class="badge">Earn XP</span>
+          </div>
 
-<section id="signup" class="signup">
-  <div class="wrap">
-    <h2>Get notified when quests go live</h2>
-    <p class="lede" style="margin-left:auto;margin-right:auto;text-align:center;">
-      No spam, no account needed yet — just a heads up when there's actual code to write.
-    </p>
-    <form onsubmit="event.preventDefault(); this.querySelector('button').textContent='Noted — thanks!'; this.querySelector('button').disabled=true;">
-      <input type="email" placeholder="you@example.com" required aria-label="Email address">
-      <button class="btn btn-primary" type="submit">Notify me</button>
-    </form>
-    <p class="fine">This is a placeholder form — nothing is sent anywhere yet.</p>
-  </div>
-</section>
+          <h2>What Code Forge is not</h2>
+          <ul>
+            <li>Not a mirror of Boot.dev.</li>
+            <li>Not a copy of Python Crash Course — companion tracks cite the book and write original material.</li>
+            <li>Not a passive video course — video is reinforcement, not the lesson.</li>
+            <li>Not a fake IDE — assignments run for real in the browser via Pyodide.</li>
+          </ul>
 
-<footer>
-  <div class="wrap">
-    Codeforge is an independent, self-hosted project — not affiliated with boot.dev or any other platform.
-    <br>
-    <a href="https://github.com/BenHaddley/codeforge">View on GitHub</a>
-  </div>
-</footer>
+          <p style="margin-top:24px;font-size:12px;color:#555;">
+            Code Forge is an independent, self-hosted project — not affiliated with boot.dev, No Starch Press, or any other platform.
+            <br><a href="https://github.com/BenHaddley/codeforge">View on GitHub</a>
+          </p>
+        </div>
+      </section>
+    </section>
 
+    <footer class="statusbar statusbar-2">
+      <div>Ready</div><div id="clock">--:--</div>
+    </footer>
+  </main>
+</div>
+
+<script src="app/js/app.js"></script>
 </body>
 </html>

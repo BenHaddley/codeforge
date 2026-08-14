@@ -1,0 +1,41 @@
+codeforge/
+├── README.md
+├── index.html
+├── app/
+│   ├── lesson.html
+│   ├── playground.html
+│   ├── profile.html
+│   ├── js/
+│   │   ├── app.js
+│   │   ├── router.js
+│   │   ├── lesson-loader.js
+│   │   ├── lesson-state.js
+│   │   ├── progress-store.js
+│   │   ├── notes-store.js
+│   │   ├── tts.js
+│   │   ├── video.js
+│   │   ├── runner-client.js
+│   │   ├── pyodide-worker.js
+│   │   └── grading.js
+│   └── css/
+│       ├── win98.css
+│       ├── layout.css
+│       ├── components.css
+│       └── editor.css
+├── content/
+│   ├── schema/
+│   │   ├── track.schema.json
+│   │   └── lesson.schema.json
+│   └── python-fundamentals/
+│       ├── track.json
+│       └── ch07-user-input-and-while-loops/
+│           └── 02-while-loops.lesson.json
+├── assets/
+│   ├── icons/
+│   └── sounds/
+├── scripts/
+│   └── validate-content.mjs
+├── docs/
+└── .github/
+    └── workflows/
+        └── pages.yml
