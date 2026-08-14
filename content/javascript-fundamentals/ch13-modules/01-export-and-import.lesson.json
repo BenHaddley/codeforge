@@ -1,0 +1,82 @@
+{
+  "id": "js-ch13-export-and-import",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch13",
+  "number": "13.1",
+  "title": "Exporting and Importing",
+  "xp": 50,
+  "objective": "Understand how a function is exported from its own module and imported into another file.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "N/A",
+    "chapterTitle": "N/A",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter; not aligned to a specific book chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "As a JavaScript project grows, keeping every function in one file gets unwieldy. A module is just a JS file whose functions and values other files can borrow — you mark what a file makes available with export, and pull it into another file with import.",
+      "The pattern looks like export function greet(name) { ... } in one file, and import { greet } from './greetings.js'; in another. Once imported, greet works exactly as if it had been defined right there — you just call greet(...) normally.",
+      "Code Forge grades a single file at a time, so it can't literally run an import across two files. The examples below show what the split files would contain; in a real project you'd save these as separate .js files, but the assignment itself defines everything directly in one file."
+    ],
+    "rule": "export makes a function or value available to other files; import brings it in by name from a specific file."
+  },
+  "examples": [
+    {
+      "title": "Inside greetings.js (a module)",
+      "code": "// greetings.js\nexport function greet(name) {\n  return `Hello, ${name}!`;\n}",
+      "note": "greet is exported, so any file can import it by name."
+    },
+    {
+      "title": "Inside main.js (the importing file)",
+      "code": "// main.js\n// import { greet } from './greetings.js';\n// console.log(greet(\"Ada\"));\n\n// Code Forge's grader runs a single file, so greet is defined\n// directly below instead of imported, and called the same way.\nfunction greet(name) {\n  return `Hello, ${name}!`;\n}\nconsole.log(greet(\"Ada\"));",
+      "note": "The commented lines show the real import syntax you'd use across two files; Code Forge runs everything as one file, so greet is defined directly above and called on the last line."
+    }
+  ],
+  "checks": [
+    {
+      "id": "export-keyword",
+      "question": "Which statement makes a function available for other files to import?",
+      "options": [
+        "import function greet() {}",
+        "export function greet() {}",
+        "module function greet() {}",
+        "public function greet() {}"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — export marks a function or value as available to other files via import.",
+        "incorrect": "The export keyword is what makes something importable elsewhere."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Toolkit",
+    "brief": "Write square(n) that returns n * n — the kind of small helper you'd normally export from its own module — and log square(6).",
+    "requirements": [
+      "Define square(n) that returns n * n.",
+      "Log the result of square(6)."
+    ],
+    "starterCode": "// Imagine this function lives in its own module, e.g. mathTools.js,\n// and gets imported elsewhere with: import { square } from './mathTools.js';\nfunction square(n) {\n  // Return n * n.\n}\n\nconsole.log(square(6));\n",
+    "solutionCode": "function square(n) {\n  return n * n;\n}\n\nconsole.log(square(6));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines square(n)", "pattern": "function\\s+square\\s*\\(", "mustMatch": true },
+      { "id": "no-import-export", "label": "Does not use import/export in the graded code", "pattern": "\\b(import|export)\\b", "mustMatch": false }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(square(6));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "36\n",
+    "outputCheckLabel": "square(6) prints 36"
+  },
+  "hints": [
+    "square(n) just needs one line: return n * n.",
+    "In a real project you'd export square from its own file and import it elsewhere — here it's defined directly since Code Forge grades one file at a time.",
+    "square(6) should return 36.",
+    "Call console.log(square(6)) to print the result."
+  ],
+  "nextLessonId": "js-ch14-try-catch-finally"
+}

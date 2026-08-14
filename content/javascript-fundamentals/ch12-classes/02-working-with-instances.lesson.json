@@ -1,0 +1,79 @@
+{
+  "id": "js-ch12-working-with-instances",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch12",
+  "number": "12.2",
+  "title": "Working with Class Instances",
+  "xp": 50,
+  "objective": "Give a property a default value in the constructor, then update it both directly and through a method.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "6",
+    "chapterTitle": "Classes",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Not every property needs to come from a constructor argument. Inside the constructor you can also assign a fixed starting value directly, giving every new instance the same default state before anything else happens to it.",
+      "Once an instance exists, you can change its properties in two ways. The direct way reaches straight into the instance with dot notation, like instance.property = newValue. This works, but it bypasses whatever logic a method might otherwise run.",
+      "The second way is to call a method that updates the property on the instance's behalf. A method can check the new value, combine it with the current one, or update more than one property at once — plain direct assignment can't do any of that."
+    ],
+    "rule": "Give a property a default value inside the constructor, then update it either directly with dot notation or through a method that changes it for you."
+  },
+  "examples": [
+    {
+      "title": "A Default Value, Then Two Ways to Change It",
+      "code": "class Robot {\n  constructor(name) {\n    this.name = name;\n    this.energy = 100;\n  }\n\n  charge(amount) {\n    this.energy += amount;\n  }\n}\n\nconst bot = new Robot(\"Rusty\");\nbot.energy = 50;\nbot.charge(10);\nconsole.log(bot.energy);",
+      "note": "energy comes from a fixed default (100), not an argument. It's then changed directly with bot.energy = 50, and again through the charge() method, ending at 60."
+    }
+  ],
+  "checks": [
+    {
+      "id": "default-value",
+      "question": "class Widget { constructor() { this.count = 0; } } — where does the value of count come from?",
+      "options": [
+        "A constructor argument the caller must supply.",
+        "A fixed default assigned directly inside the constructor.",
+        "It's undefined until set some other way.",
+        "It's copied from another instance."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — this.count = 0 assigns a fixed default value directly, with no argument involved.",
+        "incorrect": "There's no parameter here — this.count = 0 is a fixed default the constructor assigns to every new instance."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Training Dummy",
+    "brief": "Write a TrainingDummy class whose hitCount starts at 0 by default (not from an argument), with a hit() method that increments hitCount by 1. Then write runTraining() that creates one dummy, calls hit() twice, sets hitCount directly to 10, calls hit() once more, and logs the final hitCount.",
+    "requirements": [
+      "Define class TrainingDummy with a constructor() that sets this.hitCount = 0 (no constructor argument).",
+      "Define a hit() method that increments this.hitCount by 1.",
+      "Define runTraining() that creates a TrainingDummy, calls hit() twice, sets hitCount directly to 10, calls hit() once more, then logs hitCount."
+    ],
+    "starterCode": "class TrainingDummy {\n  constructor() {\n    // Set a default hitCount of 0.\n  }\n\n  hit() {\n    // Increment hitCount by 1.\n  }\n}\n\nfunction runTraining() {\n  // Create a dummy, hit it twice, set hitCount to 10 directly, hit it once more, log hitCount.\n}\n",
+    "solutionCode": "class TrainingDummy {\n  constructor() {\n    this.hitCount = 0;\n  }\n\n  hit() {\n    this.hitCount += 1;\n  }\n}\n\nfunction runTraining() {\n  const dummy = new TrainingDummy();\n  dummy.hit();\n  dummy.hit();\n  dummy.hitCount = 10;\n  dummy.hit();\n  console.log(dummy.hitCount);\n}\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-class", "label": "Defines class TrainingDummy", "pattern": "class\\s+TrainingDummy\\b", "mustMatch": true },
+      { "id": "default-hitcount", "label": "Defaults hitCount to 0", "pattern": "this\\.hitCount\\s*=\\s*0", "mustMatch": true },
+      { "id": "direct-assignment", "label": "Sets hitCount directly to 10", "pattern": "\\.hitCount\\s*=\\s*10\\b", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nrunTraining();\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "11\n",
+    "outputCheckLabel": "runTraining() logs 11 (10 set directly, then one more hit)"
+  },
+  "hints": [
+    "The constructor takes no argument for hitCount — just assign this.hitCount = 0 directly.",
+    "hit() should read this.hitCount += 1.",
+    "dummy.hitCount = 10 changes the property directly, bypassing hit() entirely.",
+    "After hitting twice (irrelevant once overwritten), setting to 10, then hitting once more: 10 + 1 = 11."
+  ],
+  "nextLessonId": "js-ch12-inheritance"
+}

@@ -1,0 +1,83 @@
+{
+  "id": "js-ch10-working-with-objects",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch10",
+  "number": "10.2",
+  "title": "Working with Objects",
+  "xp": 50,
+  "objective": "Add, modify, and delete properties on an existing object, and define a method that uses this.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; this book chapter covers both arrays and objects — Code Forge splits them into separate chapters. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "An object isn't fixed once you create it. Assigning to a new key adds it: recruit.rank = \"apprentice\"; works even if rank didn't exist a moment ago.",
+      "Assigning to a key that already exists overwrites its value — that's how you update an object as things change. The delete keyword removes a key entirely: delete recruit.rank; and afterward reading recruit.rank gives undefined again, as if it were never set.",
+      "A method is just a function stored as a property. Inside a method, the special keyword this refers to the object the method was called on, so a method can read and change that object's own properties without needing them passed in as arguments."
+    ],
+    "rule": "obj.key = value adds or overwrites a property; delete obj.key removes one; this inside a method refers to the object it was called on."
+  },
+  "examples": [
+    {
+      "title": "Adding, Updating, Deleting",
+      "code": "const recruit = { name: \"Ada\" };\nrecruit.rank = \"apprentice\";\nconsole.log(recruit.rank);\nrecruit.rank = \"journeyman\";\nconsole.log(recruit.rank);\ndelete recruit.rank;\nconsole.log(recruit.rank);",
+      "note": "The property is added, then overwritten, then removed entirely — the final read gives undefined."
+    },
+    {
+      "title": "A Method Using this",
+      "code": "const counter = {\n  count: 0,\n  increment() {\n    this.count += 1;\n  },\n};\ncounter.increment();\ncounter.increment();\nconsole.log(counter.count);",
+      "note": "this.count inside increment() refers to counter's own count property, so each call updates the same object."
+    }
+  ],
+  "checks": [
+    {
+      "id": "this-in-method",
+      "question": "Inside a method, what does this refer to?",
+      "options": [
+        "The global window object, always",
+        "The object the method was called on",
+        "The method's own name",
+        "Nothing — this isn't valid inside a method"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — this refers to whichever object the method was called on.",
+        "incorrect": "this refers to the object the method is called on, e.g. counter.increment() means this is counter inside that call."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Durability Tracker",
+    "brief": "Write repair(amount) that builds an item object starting at { durability: 50 } with a repairBy(amt) method that adds amt to durability using this, calls that method with amount, then logs the updated durability.",
+    "requirements": [
+      "Define repair(amount).",
+      "Build an item object with durability: 50 and a repairBy(amt) method using this.durability.",
+      "Call item.repairBy(amount), then log item.durability."
+    ],
+    "starterCode": "function repair(amount) {\n  // Build item = { durability: 50, repairBy(amt) { ... } }, call it, then log durability.\n}\n\nrepair(15);\n",
+    "solutionCode": "function repair(amount) {\n  const item = {\n    durability: 50,\n    repairBy(amt) {\n      this.durability += amt;\n    },\n  };\n  item.repairBy(amount);\n  console.log(item.durability);\n}\n\nrepair(15);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines repair()", "pattern": "function\\s+repair\\s*\\(", "mustMatch": true },
+      { "id": "uses-this", "label": "Uses this inside a method", "pattern": "this\\.", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nrepair(15);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "65\n",
+    "outputCheckLabel": "repair(15) logs 65"
+  },
+  "hints": [
+    "Create the item object with durability: 50 first.",
+    "Give it a method, e.g. repairBy(amt) { this.durability += amt; }.",
+    "Call item.repairBy(amount) to apply the change.",
+    "50 + 15 is 65 — that's what item.durability should read afterward."
+  ],
+  "nextLessonId": "js-ch10-nesting"
+}

@@ -1,0 +1,86 @@
+{
+  "id": "js-ch08-changing-an-array",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.2",
+  "title": "Changing, Adding, and Removing Elements",
+  "xp": 50,
+  "objective": "Update an array in place by assigning to an index, adding items with push()/unshift(), and removing items with pop()/shift()/splice().",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; this book chapter covers both arrays and objects — Code Forge splits them into separate chapters. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Arrays declared with const can still have their contents changed — const only locks the variable name to that array object, not the array's contents. To replace an item, assign a new value to its index: supplies[0] = \"reinforced tent\" swaps out whatever used to be at position 0.",
+      "To grow an array at the end, use .push(item). To grow it at the start, use .unshift(item). Both add one item and return the array's new length.",
+      "To shrink an array, .pop() removes and returns the last item, and .shift() removes and returns the first item. For removing or inserting somewhere in the middle, .splice(startIndex, deleteCount) deletes deleteCount items beginning at startIndex — pass 0 as deleteCount and a value afterward to insert instead of deleting."
+    ],
+    "rule": "push()/unshift() add to the end/start; pop()/shift() remove from the end/start; splice() handles the middle."
+  },
+  "examples": [
+    {
+      "title": "Growing and Shrinking at the Ends",
+      "code": "const crates = [\"nails\", \"rope\"];\ncrates.push(\"lantern\");\ncrates.unshift(\"map\");\nconsole.log(crates);\nconst removedLast = crates.pop();\nconsole.log(removedLast);",
+      "note": "push/unshift add to each end; pop removes from the end and hands back the removed value."
+    },
+    {
+      "title": "Removing from the Middle",
+      "code": "const crew = [\"Nyx\", \"Bram\", \"Fen\", \"Ada\"];\ncrew.splice(1, 2);\nconsole.log(crew);",
+      "note": "splice(1, 2) removes two items starting at index 1 (\"Bram\" and \"Fen\"), leaving [\"Nyx\", \"Ada\"]."
+    }
+  ],
+  "checks": [
+    {
+      "id": "push-vs-unshift",
+      "question": "Which method adds an item to the very beginning of an array?",
+      "options": [
+        "push()",
+        "pop()",
+        "unshift()",
+        "shift()"
+      ],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — unshift() adds to the start; push() adds to the end.",
+        "incorrect": "unshift() adds to the start of an array. push() is the one that adds to the end."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Camp Supply List",
+    "brief": "Write updateSupplies(supplies) that edits the given supplies array step by step: replace the first item with \"tent\", push \"lantern\" onto the end, then remove the second item using splice.",
+    "requirements": [
+      "Define updateSupplies(supplies).",
+      "Replace supplies[0] with \"tent\".",
+      "Push \"lantern\" onto the end.",
+      "Use splice to remove exactly the item now at index 1.",
+      "Log the final array."
+    ],
+    "starterCode": "function updateSupplies(supplies) {\n  // Replace index 0, push 'lantern', remove index 1 with splice, then log the array.\n}\n\nupdateSupplies([\"rope\", \"nails\", \"map\"]);\n",
+    "solutionCode": "function updateSupplies(supplies) {\n  supplies[0] = \"tent\";\n  supplies.push(\"lantern\");\n  supplies.splice(1, 1);\n  console.log(supplies);\n}\n\nupdateSupplies([\"rope\", \"nails\", \"map\"]);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines updateSupplies()", "pattern": "function\\s+updateSupplies\\s*\\(", "mustMatch": true },
+      { "id": "uses-push", "label": "Uses .push()", "pattern": "\\.push\\s*\\(", "mustMatch": true },
+      { "id": "uses-splice", "label": "Uses .splice()", "pattern": "\\.splice\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nupdateSupplies([\"rope\", \"nails\", \"map\"]);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "tent,map,lantern\n",
+    "outputCheckLabel": "updateSupplies([...]) logs the array after all three edits"
+  },
+  "hints": [
+    "supplies[0] = \"tent\" replaces the first item directly.",
+    "supplies.push(\"lantern\") adds to the end.",
+    "After the first two steps, index 1 holds \"nails\" — supplies.splice(1, 1) removes just that one item.",
+    "Log supplies itself at the end, after all three edits."
+  ],
+  "nextLessonId": "js-ch08-looping-through-an-array"
+}

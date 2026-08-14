@@ -1,0 +1,78 @@
+{
+  "id": "js-ch01-reading-errors",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch01",
+  "number": "1.3",
+  "title": "Reading Your First Error Messages",
+  "xp": 50,
+  "objective": "Read a JavaScript error and tell a SyntaxError apart from a ReferenceError.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "1",
+    "chapterTitle": "Getting Started",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Adapted for Code Forge's in-browser runtime — no local installation. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Errors are not a sign you broke something permanently — they are JavaScript telling you exactly what it could not do, and usually where. Reading the error's name and message first is almost always the fastest path to a fix.",
+      "A SyntaxError means JavaScript could not even understand the shape of your code — a missing quote, a missing brace, an unmatched parenthesis. Nothing runs until the grammar is fixed.",
+      "A ReferenceError means the grammar was fine, but your code used a name — a variable or function — that does not exist yet at that point in the program. This usually means a typo, or using something before it was declared."
+    ],
+    "rule": "Read the error's name first — SyntaxError means broken grammar; ReferenceError means an undefined name was used."
+  },
+  "examples": [
+    {
+      "title": "Broken, Then Fixed",
+      "code": "// Broken: 'bladeName' is used before it exists\n// console.log(bladeName);\n\n// Fixed: declare it first, then use it\nconst bladeName = \"Ember\";\nconsole.log(bladeName);",
+      "note": "Running the commented-out line alone would raise ReferenceError: bladeName is not defined, because JavaScript reaches that line before the variable exists."
+    }
+  ],
+  "checks": [
+    {
+      "id": "error-type",
+      "question": "Your code reads `consol.log(\"hi\")` (note the typo: consol, not console). What kind of error is that?",
+      "options": [
+        "A SyntaxError, because the grammar is broken.",
+        "A ReferenceError, because consol is a name that doesn't exist.",
+        "No error — JavaScript autocorrects typos.",
+        "A TypeError."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — consol is grammatically valid as a name, it just doesn't refer to anything that exists, so it's a ReferenceError.",
+        "incorrect": "The grammar itself is fine here — consol is a legal identifier, it just isn't defined. That makes it a ReferenceError, not a SyntaxError."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Defined Before Used",
+    "brief": "Write reportScore() that creates a variable holding the number 100 and then logs it, avoiding a ReferenceError.",
+    "requirements": [
+      "Define a function named reportScore.",
+      "Declare a variable set to 100 before logging it.",
+      "Log the variable's value (not the literal text \"100\")."
+    ],
+    "starterCode": "function reportScore() {\n  // Declare a variable holding 100, then log it.\n}\n\nreportScore();\n",
+    "solutionCode": "function reportScore() {\n  const score = 100;\n  console.log(score);\n}\n\nreportScore();\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines reportScore()", "pattern": "function\\s+reportScore\\s*\\(", "mustMatch": true },
+      { "id": "declares-variable", "label": "Declares a variable with let or const", "pattern": "\\b(let|const)\\s+\\w+\\s*=", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nreportScore();\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "100\n",
+    "outputCheckLabel": "reportScore() logs 100"
+  },
+  "hints": [
+    "Declare the variable with const or let before you try to log it.",
+    "const score = 100; creates a variable named score holding the number 100.",
+    "Log the variable itself — console.log(score) — not the text \"100\".",
+    "A variable must exist before any line that reads it, or JavaScript raises a ReferenceError."
+  ],
+  "nextLessonId": "js-ch02-variables"
+}

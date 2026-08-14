@@ -3,6 +3,12 @@
 const CourseDrawer = (() => {
   let track = null;
   let currentLessonId = null;
+  // Which chapter folder is open. Independent of currentLessonId so the
+  // learner can expand and browse any chapter, not just the one they're
+  // currently in — previously only the current chapter's folder was ever
+  // wired to click at all, so every other chapter (all 15, now that the
+  // full course exists) was inert and unreachable from the drawer.
+  let expandedChapterId = null;
   let onSelect = null;
 
   function escapeHtml(s) {
@@ -14,14 +20,16 @@ const CourseDrawer = (() => {
     el.innerHTML = track.chapters
       .map((ch) => {
         const hasContent = (ch.lessons || []).length > 0;
-        const isCurrentChapter = (ch.lessons || []).some((l) => l.id === currentLessonId);
-        const folderRow = `<div class="tree-row${isCurrentChapter ? ' selected' : ''}${hasContent ? '' : ' clickable'}" data-chapter="${ch.id}">
-          ${isCurrentChapter ? '⊟' : '⊞'} 📁 <span>${ch.number}. ${escapeHtml(ch.title)}</span>
+        const isExpanded = ch.id === expandedChapterId;
+        const folderRow = `<div class="tree-row clickable${isExpanded ? ' selected' : ''}" data-chapter="${ch.id}">
+          ${isExpanded ? '⊟' : '⊞'} 📁 <span>${ch.number}. ${escapeHtml(ch.title)}</span>
         </div>`;
-        if (!isCurrentChapter) return folderRow;
-        const children = (ch.lessons || [])
-          .map((l) => `<div class="tree-row clickable${l.id === currentLessonId ? ' current' : ''}" data-lesson="${l.id}">📄 <span>${l.number} ${escapeHtml(l.title)}</span></div>`)
-          .join('');
+        if (!isExpanded) return folderRow;
+        const children = hasContent
+          ? (ch.lessons || [])
+              .map((l) => `<div class="tree-row clickable${l.id === currentLessonId ? ' current' : ''}" data-lesson="${l.id}">📄 <span>${l.number} ${escapeHtml(l.title)}</span></div>`)
+              .join('')
+          : '<div class="tree-row">No published lessons yet.</div>';
         return folderRow + `<div class="tree-children">${children}</div>`;
       })
       .join('');
@@ -33,10 +41,11 @@ const CourseDrawer = (() => {
         if (id !== currentLessonId && onSelect) onSelect(id);
       });
     });
-    el.querySelectorAll('.tree-row.clickable:not([data-lesson])').forEach((row) => {
+    el.querySelectorAll('[data-chapter]').forEach((row) => {
       row.addEventListener('click', () => {
-        const status = document.getElementById('statusText');
-        if (status) status.textContent = 'That chapter has no published lessons yet.';
+        const id = row.getAttribute('data-chapter');
+        expandedChapterId = expandedChapterId === id ? null : id;
+        render();
       });
     });
   }
@@ -53,6 +62,8 @@ const CourseDrawer = (() => {
   function init(trackData, lessonId, selectHandler) {
     track = trackData;
     currentLessonId = lessonId;
+    const currentChapter = track.chapters.find((ch) => (ch.lessons || []).some((l) => l.id === lessonId));
+    expandedChapterId = currentChapter ? currentChapter.id : null;
     onSelect = selectHandler;
     render();
     document.getElementById('courseBtn').addEventListener('click', open);

@@ -1,0 +1,79 @@
+{
+  "id": "js-ch04-ternary-operator",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch04",
+  "number": "4.3",
+  "title": "The Ternary Operator",
+  "xp": 50,
+  "objective": "Write a one-line if/else using the ternary operator.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "4",
+    "chapterTitle": "Conditionals and Loops",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; the loop half of this book chapter is covered in Code Forge's Loops chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "The ternary operator is a one-line shortcut for a simple if/else that produces a value instead of running separate blocks. The pattern is condition ? valueIfTrue : valueIfFalse, read almost like a sentence: if the condition holds, use this value, otherwise use that one.",
+      "Because a ternary expression evaluates to a single value, you can log it directly, store it in a variable, or use it anywhere else an if/else would otherwise force you to write several lines. let status = age >= 18 ? \"adult\" : \"child\"; does the same job as a four-line if/else.",
+      "Reach for a ternary when both outcomes are simple values and the choice itself is the whole point. If either branch needs more than one line of logic, a regular if/else is clearer."
+    ],
+    "rule": "condition ? valueIfTrue : valueIfFalse evaluates to one of two values in a single expression — a shortcut for a simple if/else, not a replacement for every one."
+  },
+  "examples": [
+    {
+      "title": "Positive or Negative",
+      "code": "let num = -5;\nlet result = num > 0 ? \"positive\" : \"negative\";\nconsole.log(result);",
+      "note": "num > 0 is false, so result becomes 'negative' — the same outcome as a four-line if/else, in one line."
+    },
+    {
+      "title": "Using It Directly in a console.log",
+      "code": "let age = 20;\nconsole.log(age >= 18 ? \"adult\" : \"child\");",
+      "note": "No variable needed — the ternary's result is passed straight into console.log()."
+    }
+  ],
+  "checks": [
+    {
+      "id": "ternary-result",
+      "question": "let num = 4; let result = num % 2 === 0 ? \"even\" : \"odd\"; — what is result?",
+      "options": ["\"even\"", "\"odd\"", "true", "4"],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — num % 2 === 0 is true for 4, so result becomes \"even\".",
+        "incorrect": "Check the condition first: num % 2 === 0 is true whenever num is even."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Access Level",
+    "brief": "Write accessLevel(role) that returns 'full access' if role is 'admin', otherwise 'limited access' — using the ternary operator, not an if statement.",
+    "requirements": [
+      "Define function accessLevel(role).",
+      "Use the ternary operator (condition ? a : b) on the return line.",
+      "Do not use a separate if statement."
+    ],
+    "starterCode": "function accessLevel(role) {\n  // Return 'full access' if role === 'admin' else 'limited access', using a ternary.\n}\n\nconsole.log(accessLevel(\"admin\"));\nconsole.log(accessLevel(\"guest\"));\n",
+    "solutionCode": "function accessLevel(role) {\n  return role === \"admin\" ? \"full access\" : \"limited access\";\n}\n\nconsole.log(accessLevel(\"admin\"));\nconsole.log(accessLevel(\"guest\"));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines accessLevel()", "pattern": "function\\s+accessLevel\\s*\\(", "mustMatch": true },
+      { "id": "uses-ternary", "label": "Uses a ternary operator", "pattern": "\\?[^:]*:", "mustMatch": true },
+      { "id": "no-if-statement", "label": "Does not use an if statement", "pattern": "if\\s*\\(", "mustMatch": false }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(accessLevel(\"admin\"));\nconsole.log(accessLevel(\"guest\"));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "full access\nlimited access\n",
+    "outputCheckLabel": "accessLevel('admin') and accessLevel('guest') log full access then limited access"
+  },
+  "hints": [
+    "The pattern is: return condition ? valueIfTrue : valueIfFalse.",
+    "Your condition is role === \"admin\".",
+    "No if statement is needed — this all fits on one return line.",
+    "accessLevel('guest') should return 'limited access' since 'guest' isn't 'admin'."
+  ],
+  "nextLessonId": "js-ch05-defining-functions"
+}

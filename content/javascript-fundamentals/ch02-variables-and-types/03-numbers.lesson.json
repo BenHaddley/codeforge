@@ -1,0 +1,79 @@
+{
+  "id": "js-ch02-numbers",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.3",
+  "title": "Numbers",
+  "xp": 50,
+  "objective": "Recognize JavaScript's single number type and convert strings to numbers safely.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "2",
+    "chapterTitle": "The Basics",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Unlike some languages that separate whole numbers from decimals, JavaScript has just one numeric type: Number. 5 and 5.0 and 3.14 are all the same kind of value under the hood, whole numbers included.",
+      "Doing math on two numbers gives you a number back, as you'd expect. But text typed by a user, or read from a file, arrives as a string — even if it looks like digits — and JavaScript won't silently treat '5' as the number 5 everywhere.",
+      "Number(text) converts a string into a number, raising nothing but returning NaN (Not a Number) if the text can't be parsed. parseInt(text) does something similar but stops at the first non-digit character instead of failing outright, which is handy for text like '20px'."
+    ],
+    "rule": "Use Number(text) to convert a string into a number before doing math with it."
+  },
+  "examples": [
+    {
+      "title": "Converting Text to a Number",
+      "code": "const typed = \"7\";\nconst asNumber = Number(typed);\nconsole.log(asNumber + 3);",
+      "note": "Number('7') becomes the number 7, so adding 3 gives 10 instead of concatenating into '73'."
+    }
+  ],
+  "checks": [
+    {
+      "id": "string-plus-number",
+      "question": "What does \"7\" + 3 evaluate to in JavaScript?",
+      "options": [
+        "10",
+        "\"73\"",
+        "NaN",
+        "A TypeError"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — + between a string and a number converts the number to text and concatenates, giving '73'.",
+        "incorrect": "Without converting first, + treats a string operand as text — \"7\" + 3 concatenates into the string '73', not the number 10."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Ingot Count",
+    "brief": "Write ingotReport(countText) that converts countText (a string, like '7') to a number, adds 1, and logs the result.",
+    "requirements": [
+      "Define ingotReport(countText).",
+      "Convert countText to a number using Number().",
+      "Add 1 to the converted number.",
+      "Log the result."
+    ],
+    "starterCode": "function ingotReport(countText) {\n  // Convert countText to a number, add 1, then log the result.\n}\n\ningotReport(\"7\");\n",
+    "solutionCode": "function ingotReport(countText) {\n  const count = Number(countText);\n  console.log(count + 1);\n}\n\ningotReport(\"7\");\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines ingotReport()", "pattern": "function\\s+ingotReport\\s*\\(", "mustMatch": true },
+      { "id": "uses-number-conversion", "label": "Uses Number()", "pattern": "Number\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\ningotReport(\"7\");\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "8\n",
+    "outputCheckLabel": "ingotReport('7') logs exactly: 8"
+  },
+  "hints": [
+    "Number(countText) converts the string '7' into the actual number 7.",
+    "Without converting first, count + 1 on a string would concatenate instead of adding.",
+    "Store the converted value in a variable before adding 1 to it.",
+    "ingotReport('7') should log exactly 8, not '71' or '7' followed by 1."
+  ],
+  "nextLessonId": "js-ch02-booleans-and-conversion"
+}

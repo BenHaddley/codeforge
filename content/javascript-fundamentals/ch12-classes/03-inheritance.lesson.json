@@ -1,0 +1,80 @@
+{
+  "id": "js-ch12-inheritance",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch12",
+  "number": "12.3",
+  "title": "Inheritance & super",
+  "xp": 50,
+  "objective": "Build a child class that inherits from a parent with super(), then extends and overrides its behavior.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "6",
+    "chapterTitle": "Classes",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "When one class is a more specific version of another, you don't need to repeat its code. A child class can inherit from a parent class by writing class Child extends Parent, and every instance of Child automatically gets everything Parent defines.",
+      "Inside the child's constructor, calling super(...) runs the parent class's constructor for you, so the parent's properties get set up correctly before the child adds anything of its own. super() must be called before you use this anywhere in the child's constructor.",
+      "A child class isn't limited to what it inherits. It can define brand-new properties and methods that only it has, and it can override a method from the parent by defining a method with the same name — JavaScript uses the child's version for instances of the child."
+    ],
+    "rule": "A child class inherits from its parent with class Child extends Parent, calls super(...) to reuse the parent's setup, and can add or override methods of its own."
+  },
+  "examples": [
+    {
+      "title": "Extending and Overriding a Parent Class",
+      "code": "class Robot {\n  constructor(name) {\n    this.name = name;\n  }\n\n  report() {\n    console.log(`${this.name} reporting for duty.`);\n  }\n}\n\nclass ScoutRobot extends Robot {\n  constructor(name, range) {\n    super(name);\n    this.range = range;\n  }\n\n  scan() {\n    console.log(`${this.name} scans ${this.range} meters ahead.`);\n  }\n\n  report() {\n    console.log(`${this.name} (scout) reporting — range ${this.range}m.`);\n  }\n}\n\nconst scout = new ScoutRobot(\"Pathfinder\", 40);\nscout.report();\nscout.scan();",
+      "note": "ScoutRobot extends Robot. super(name) reuses Robot's setup, range is a new property, scan() is a new method, and report() overrides the parent's version entirely."
+    }
+  ],
+  "checks": [
+    {
+      "id": "super-call",
+      "question": "In a child class's constructor, what does calling super(args) do?",
+      "options": [
+        "Creates a brand-new, unrelated instance.",
+        "Runs the parent class's constructor, setting up the properties it defines.",
+        "Deletes the parent class.",
+        "Nothing — it's optional decoration."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — super(args) runs the parent constructor so its setup happens before the child adds anything of its own.",
+        "incorrect": "super(args) calls the parent class's constructor, which is what actually sets up the properties the parent defines."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Scout Robot",
+    "brief": "Write class Robot with constructor(name) and a report() method logging '<name> reporting for duty.'. Write class ScoutRobot extends Robot with constructor(name, range) that calls super(name) and stores range, a scan() method logging '<name> scans <range> meters ahead.', and an overridden report() logging '<name> (scout) reporting — range <range>m.'. Then write runScoutDemo(name, range) that creates a ScoutRobot and calls report() then scan().",
+    "requirements": [
+      "Define class Robot with constructor(name) and report().",
+      "Define class ScoutRobot extends Robot with constructor(name, range) calling super(name).",
+      "ScoutRobot must define scan() and override report().",
+      "Define runScoutDemo(name, range) that creates a ScoutRobot and calls report() then scan()."
+    ],
+    "starterCode": "class Robot {\n  constructor(name) {\n    // Store name.\n  }\n\n  report() {\n    // Log: <name> reporting for duty.\n  }\n}\n\nclass ScoutRobot extends Robot {\n  constructor(name, range) {\n    // Call super(name), store range.\n  }\n\n  scan() {\n    // Log: <name> scans <range> meters ahead.\n  }\n\n  report() {\n    // Log: <name> (scout) reporting \u2014 range <range>m.\n  }\n}\n\nfunction runScoutDemo(name, range) {\n  // Create a ScoutRobot, call report() then scan().\n}\n",
+    "solutionCode": "class Robot {\n  constructor(name) {\n    this.name = name;\n  }\n\n  report() {\n    console.log(`${this.name} reporting for duty.`);\n  }\n}\n\nclass ScoutRobot extends Robot {\n  constructor(name, range) {\n    super(name);\n    this.range = range;\n  }\n\n  scan() {\n    console.log(`${this.name} scans ${this.range} meters ahead.`);\n  }\n\n  report() {\n    console.log(`${this.name} (scout) reporting \u2014 range ${this.range}m.`);\n  }\n}\n\nfunction runScoutDemo(name, range) {\n  const scout = new ScoutRobot(name, range);\n  scout.report();\n  scout.scan();\n}\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "extends-robot", "label": "ScoutRobot extends Robot", "pattern": "class\\s+ScoutRobot\\s+extends\\s+Robot\\b", "mustMatch": true },
+      { "id": "calls-super", "label": "Calls super(name)", "pattern": "super\\s*\\(", "mustMatch": true },
+      { "id": "defines-scan", "label": "Defines scan()", "pattern": "scan\\s*\\(\\s*\\)\\s*\\{", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nrunScoutDemo(\"Pathfinder\", 40);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Pathfinder (scout) reporting \u2014 range 40m.\nPathfinder scans 40 meters ahead.\n",
+    "outputCheckLabel": "runScoutDemo('Pathfinder', 40) logs the overridden report(), then scan()"
+  },
+  "hints": [
+    "ScoutRobot's constructor must call super(name) before setting this.range.",
+    "report() in ScoutRobot completely replaces Robot's version — JavaScript uses whichever one belongs to the actual class of the instance.",
+    "scan() is new — Robot never had it, only ScoutRobot does.",
+    "Call report() first, then scan(), in that exact order inside runScoutDemo."
+  ],
+  "nextLessonId": "js-ch12-static-getters-setters"
+}

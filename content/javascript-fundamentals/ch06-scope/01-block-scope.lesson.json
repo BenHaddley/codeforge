@@ -1,0 +1,84 @@
+{
+  "id": "js-ch06-block-scope",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch06",
+  "number": "6.1",
+  "title": "Block Scope: let/const vs var",
+  "xp": 50,
+  "objective": "Understand that let and const are block-scoped, and why that makes them safer than the older var.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "Functions",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter naming scope explicitly, building on the book's Functions chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A variable declared with let or const only exists inside the nearest pair of curly braces that contains it — a block. If you declare one inside an if block or a for loop, it disappears the moment that block ends, and nothing outside the block can see it.",
+      "The older var keyword doesn't respect blocks at all — it's scoped to the whole function instead. A var declared inside an if block is still visible after that block ends, which can quietly leak values where you didn't expect them and make bugs harder to track down. This is the main reason modern JavaScript prefers let and const.",
+      "A variable declared inside a function, whether with let, const, or var, is still local to that function — nothing outside the function can see it, and each call to the function starts with a completely fresh set of its own variables."
+    ],
+    "rule": "let and const only exist inside the block {} where they're declared; var ignores blocks and leaks out to the whole function instead."
+  },
+  "examples": [
+    {
+      "title": "A Block-Scoped Variable Stays Inside Its Block",
+      "code": "function checkTemperature(temp) {\n  if (temp > 100) {\n    const status = \"boiling\";\n    console.log(status);\n  }\n  // status does not exist here — it belongs to the if block above.\n}\n\ncheckTemperature(105);",
+      "note": "status is created and destroyed entirely within the if block; nothing after it can read that name."
+    },
+    {
+      "title": "var Leaking Out of a Block",
+      "code": "function oldStyle(temp) {\n  if (temp > 100) {\n    var status = \"boiling\";\n  }\n  console.log(status);\n}\n\noldStyle(105);",
+      "note": "Because var ignores block boundaries, status is still readable after the if block ends — this works, but it's exactly the kind of leak let/const prevent."
+    }
+  ],
+  "checks": [
+    {
+      "id": "let-vs-var-scope",
+      "question": "A variable is declared with let inside a for loop's body. Can code after the loop read that variable?",
+      "options": [
+        "Yes, let always leaks out of loops.",
+        "No — let is scoped to the loop's block and disappears once the loop ends.",
+        "Only if the loop runs at least once.",
+        "Only if it was declared with var instead."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — let is block-scoped, so it stops existing once the block (here, the loop body) ends.",
+        "incorrect": "let is block-scoped: it only exists inside the {} it was declared in, including a loop's body."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Ready Check",
+    "brief": "Write readyCheck(level) that declares a const message inside an if block when level is at least 10, and logs a final result computed without relying on that variable outside its block.",
+    "requirements": [
+      "Define readyCheck(level).",
+      "Inside an if (level >= 10) block, declare const message set to 'Ready' and log it.",
+      "Inside an else block, log 'Not ready'.",
+      "Do not read message outside the if block."
+    ],
+    "starterCode": "function readyCheck(level) {\n  // If level >= 10, declare and log a 'Ready' message inside the if block.\n  // Otherwise log 'Not ready'.\n}\n\nreadyCheck(12);\nreadyCheck(4);\n",
+    "solutionCode": "function readyCheck(level) {\n  if (level >= 10) {\n    const message = \"Ready\";\n    console.log(message);\n  } else {\n    console.log(\"Not ready\");\n  }\n}\n\nreadyCheck(12);\nreadyCheck(4);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines readyCheck()", "pattern": "function\\s+readyCheck\\s*\\(", "mustMatch": true },
+      { "id": "uses-const", "label": "Uses const", "pattern": "\\bconst\\b", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nreadyCheck(12);\nreadyCheck(4);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Ready\nNot ready\n",
+    "outputCheckLabel": "readyCheck(12) then readyCheck(4) log Ready then Not ready"
+  },
+  "hints": [
+    "Declare const message = \"Ready\"; right inside the if block, not before it.",
+    "Log message immediately, while you're still inside the if block.",
+    "The else block just needs one log line — no variable required there.",
+    "readyCheck(12) should log 'Ready'; readyCheck(4) should log 'Not ready'."
+  ],
+  "nextLessonId": "js-ch06-functions-calling-functions"
+}

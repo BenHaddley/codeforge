@@ -1,0 +1,77 @@
+{
+  "id": "js-ch07-for-loop",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch07",
+  "number": "7.2",
+  "title": "The for Loop",
+  "xp": 50,
+  "objective": "Use a for loop to repeat code a known number of times.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "4",
+    "chapterTitle": "Conditionals and Loops",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; the conditional half of this book chapter is covered in Code Forge's Control Flow chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A for loop packs three parts into one line: a starting value, a condition that keeps the loop going, and an update that runs after each pass. for (let i = 0; i < n; i++) { ... } starts i at 0, keeps looping while i < n, and increases i by 1 after every pass.",
+      "The three parts run in a fixed order: the starting value runs once, then before each pass the condition is checked, and after each pass the update runs. i++ is shorthand for i = i + 1.",
+      "Reach for a for loop when you already know how many times you want to repeat something — counting up to a number, or visiting each position in a fixed-length sequence — instead of a while loop's open-ended condition."
+    ],
+    "rule": "for (start; condition; update) { ... } runs start once, then repeats while condition is true, running update after every pass."
+  },
+  "examples": [
+    {
+      "title": "Counting Up",
+      "code": "for (let i = 1; i <= 5; i++) {\n  console.log(i);\n}",
+      "note": "i starts at 1, the loop keeps going while i <= 5, and i increases by 1 after each pass — so this logs 1 through 5."
+    }
+  ],
+  "checks": [
+    {
+      "id": "for-loop-bounds",
+      "question": "for (let i = 0; i < 3; i++) { console.log(i); } — what does this log?",
+      "options": [
+        "0, 1, 2",
+        "1, 2, 3",
+        "0, 1, 2, 3",
+        "3, 2, 1"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — i starts at 0 and the loop stops once i is no longer less than 3, so the last value logged is 2.",
+        "incorrect": "i starts at 0, and the loop keeps going only while i < 3 — so it stops before logging 3."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Multiples Table",
+    "brief": "Write printMultiples(n) that logs n multiplied by 1 through 5, one per line, using a for loop.",
+    "requirements": [
+      "Define printMultiples(n).",
+      "Use a for loop that runs exactly 5 times.",
+      "Log n * i for i from 1 through 5, one value per line."
+    ],
+    "starterCode": "function printMultiples(n) {\n  // Log n * 1 through n * 5, one per line.\n}\n\nprintMultiples(3);\n",
+    "solutionCode": "function printMultiples(n) {\n  for (let i = 1; i <= 5; i++) {\n    console.log(n * i);\n  }\n}\n\nprintMultiples(3);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "uses-for", "label": "Uses a for loop", "pattern": "\\bfor\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nprintMultiples(3);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "3\n6\n9\n12\n15\n",
+    "outputCheckLabel": "printMultiples(3) logs 3, 6, 9, 12, 15"
+  },
+  "hints": [
+    "The for loop's three parts are: let i = 1, i <= 5, and i++.",
+    "Multiply n by i inside the loop body.",
+    "console.log(n * i) each pass, do not build a single combined string.",
+    "printMultiples(3) should log five lines: 3, 6, 9, 12, 15."
+  ],
+  "nextLessonId": "js-ch07-loop-control"
+}

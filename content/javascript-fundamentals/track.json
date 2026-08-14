@@ -1,0 +1,155 @@
+{
+  "id": "javascript-fundamentals",
+  "title": "JavaScript Fundamentals",
+  "version": 1,
+  "description": "Learn JavaScript by reading, watching focused demonstrations, and completing real assignments in the Code Forge IDE.",
+  "chapters": [
+    {
+      "id": "ch01",
+      "number": 1,
+      "title": "Getting Started",
+      "lessons": [
+        { "id": "js-ch01-what-is-javascript", "number": "1.1", "title": "What Is JavaScript?", "path": "ch01-getting-started/01-what-is-javascript.lesson.json" },
+        { "id": "js-ch01-hello-world", "number": "1.2", "title": "Hello, World!", "path": "ch01-getting-started/02-hello-world.lesson.json" },
+        { "id": "js-ch01-reading-errors", "number": "1.3", "title": "Reading Your First Error Messages", "path": "ch01-getting-started/03-reading-errors.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch02",
+      "number": 2,
+      "title": "Variables & Types",
+      "lessons": [
+        { "id": "js-ch02-variables", "number": "2.1", "title": "Variables", "path": "ch02-variables-and-types/01-variables.lesson.json" },
+        { "id": "js-ch02-strings", "number": "2.2", "title": "Strings", "path": "ch02-variables-and-types/02-strings.lesson.json" },
+        { "id": "js-ch02-numbers", "number": "2.3", "title": "Numbers", "path": "ch02-variables-and-types/03-numbers.lesson.json" },
+        { "id": "js-ch02-booleans-and-conversion", "number": "2.4", "title": "Booleans & Type Conversion", "path": "ch02-variables-and-types/04-booleans-and-conversion.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch03",
+      "number": 3,
+      "title": "Operators & Expressions",
+      "lessons": [
+        { "id": "js-ch03-arithmetic-operators", "number": "3.1", "title": "Arithmetic Operators", "path": "ch03-operators-and-expressions/01-arithmetic-operators.lesson.json" },
+        { "id": "js-ch03-comparison-and-logical", "number": "3.2", "title": "Comparison & Logical Operators", "path": "ch03-operators-and-expressions/02-comparison-and-logical.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch04",
+      "number": 4,
+      "title": "Control Flow",
+      "lessons": [
+        { "id": "js-ch04-if-statements", "number": "4.1", "title": "The if Statement", "path": "ch04-control-flow/01-if-statements.lesson.json" },
+        { "id": "js-ch04-else-if-and-switch", "number": "4.2", "title": "else if Chains & switch", "path": "ch04-control-flow/02-else-if-and-switch.lesson.json" },
+        { "id": "js-ch04-ternary-operator", "number": "4.3", "title": "The Ternary Operator", "path": "ch04-control-flow/03-ternary-operator.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch05",
+      "number": 5,
+      "title": "Functions",
+      "lessons": [
+        { "id": "js-ch05-defining-functions", "number": "5.1", "title": "Defining and Calling Functions", "path": "ch05-functions/01-defining-functions.lesson.json" },
+        { "id": "js-ch05-return-values", "number": "5.2", "title": "Return Values", "path": "ch05-functions/02-return-values.lesson.json" },
+        { "id": "js-ch05-default-params-and-arrows", "number": "5.3", "title": "Default Parameters & Arrow Functions", "path": "ch05-functions/03-default-params-and-arrows.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch06",
+      "number": 6,
+      "title": "Scope",
+      "lessons": [
+        { "id": "js-ch06-block-scope", "number": "6.1", "title": "Block Scope: let/const vs var", "path": "ch06-scope/01-block-scope.lesson.json" },
+        { "id": "js-ch06-functions-calling-functions", "number": "6.2", "title": "Functions Calling Functions", "path": "ch06-scope/02-functions-calling-functions.lesson.json" },
+        { "id": "js-ch06-closures", "number": "6.3", "title": "Closures", "path": "ch06-scope/03-closures.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch07",
+      "number": 7,
+      "title": "Loops",
+      "lessons": [
+        { "id": "js-ch07-while-loop", "number": "7.1", "title": "The while Loop", "path": "ch07-loops/01-while-loop.lesson.json" },
+        { "id": "js-ch07-for-loop", "number": "7.2", "title": "The for Loop", "path": "ch07-loops/02-for-loop.lesson.json" },
+        { "id": "js-ch07-loop-control", "number": "7.3", "title": "break, continue, and Nested Loops", "path": "ch07-loops/03-loop-control.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch08",
+      "number": 8,
+      "title": "Arrays",
+      "lessons": [
+        { "id": "js-ch08-introducing-arrays", "number": "8.1", "title": "Introducing Arrays", "path": "ch08-arrays/01-introducing-arrays.lesson.json" },
+        { "id": "js-ch08-changing-an-array", "number": "8.2", "title": "Changing, Adding, and Removing Elements", "path": "ch08-arrays/02-changing-an-array.lesson.json" },
+        { "id": "js-ch08-looping-through-an-array", "number": "8.3", "title": "Looping Through an Array", "path": "ch08-arrays/03-looping-through-an-array.lesson.json" },
+        { "id": "js-ch08-sorting-and-slicing", "number": "8.4", "title": "Sorting and Slicing", "path": "ch08-arrays/04-sorting-and-slicing.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch09",
+      "number": 9,
+      "title": "Array Higher-Order Methods",
+      "lessons": [
+        { "id": "js-ch09-foreach-and-map", "number": "9.1", "title": "forEach and map", "path": "ch09-array-higher-order-methods/01-foreach-and-map.lesson.json" },
+        { "id": "js-ch09-filter-and-reduce", "number": "9.2", "title": "filter and reduce", "path": "ch09-array-higher-order-methods/02-filter-and-reduce.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch10",
+      "number": 10,
+      "title": "Objects",
+      "lessons": [
+        { "id": "js-ch10-a-simple-object", "number": "10.1", "title": "A Simple Object", "path": "ch10-objects/01-a-simple-object.lesson.json" },
+        { "id": "js-ch10-working-with-objects", "number": "10.2", "title": "Working with Objects", "path": "ch10-objects/02-working-with-objects.lesson.json" },
+        { "id": "js-ch10-nesting", "number": "10.3", "title": "Nested Objects & Arrays of Objects", "path": "ch10-objects/03-nesting.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch11",
+      "number": 11,
+      "title": "Destructuring & Spread/Rest",
+      "lessons": [
+        { "id": "js-ch11-destructuring", "number": "11.1", "title": "Destructuring Arrays and Objects", "path": "ch11-destructuring-and-spread-rest/01-destructuring.lesson.json" },
+        { "id": "js-ch11-spread-and-rest", "number": "11.2", "title": "Spread and Rest Operators", "path": "ch11-destructuring-and-spread-rest/02-spread-and-rest.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch12",
+      "number": 12,
+      "title": "Classes",
+      "lessons": [
+        { "id": "js-ch12-creating-and-using-a-class", "number": "12.1", "title": "Creating and Using a Class", "path": "ch12-classes/01-creating-and-using-a-class.lesson.json" },
+        { "id": "js-ch12-working-with-instances", "number": "12.2", "title": "Working with Class Instances", "path": "ch12-classes/02-working-with-instances.lesson.json" },
+        { "id": "js-ch12-inheritance", "number": "12.3", "title": "Inheritance & super", "path": "ch12-classes/03-inheritance.lesson.json" },
+        { "id": "js-ch12-static-getters-setters", "number": "12.4", "title": "Static Methods, Getters, and Setters", "path": "ch12-classes/04-static-getters-setters.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch13",
+      "number": 13,
+      "title": "Modules",
+      "lessons": [
+        { "id": "js-ch13-export-and-import", "number": "13.1", "title": "Exporting and Importing", "path": "ch13-modules/01-export-and-import.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch14",
+      "number": 14,
+      "title": "Errors & Exceptions",
+      "lessons": [
+        { "id": "js-ch14-try-catch-finally", "number": "14.1", "title": "try, catch, and finally", "path": "ch14-errors-and-exceptions/01-try-catch-finally.lesson.json" },
+        { "id": "js-ch14-throwing-custom-errors", "number": "14.2", "title": "Throwing Custom Errors", "path": "ch14-errors-and-exceptions/02-throwing-custom-errors.lesson.json" }
+      ]
+    },
+    {
+      "id": "ch15",
+      "number": 15,
+      "title": "Mini Project",
+      "lessons": [
+        { "id": "js-ch15-planning-the-project", "number": "15.1", "title": "Planning the Project", "path": "ch15-mini-project/01-planning-the-project.lesson.json" },
+        { "id": "js-ch15-building-the-classes", "number": "15.2", "title": "Building the Classes", "path": "ch15-mini-project/02-building-the-classes.lesson.json" },
+        { "id": "js-ch15-the-final-simulation", "number": "15.3", "title": "The Final Simulation", "path": "ch15-mini-project/03-the-final-simulation.lesson.json" }
+      ]
+    }
+  ]
+}

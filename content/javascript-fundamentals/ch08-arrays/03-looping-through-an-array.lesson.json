@@ -1,0 +1,78 @@
+{
+  "id": "js-ch08-looping-through-an-array",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.3",
+  "title": "Looping Through an Array",
+  "xp": 50,
+  "objective": "Visit every element of an array with a classic for loop or a for...of loop.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A classic for loop can visit every element of an array by counting through its indices: for (let i = 0; i < arr.length; i++) gives you i as each valid index in turn, and arr[i] reads the element at that position.",
+      "for...of is a shorter way to do the same thing when you only need the values, not their positions: for (const item of arr) hands you each element directly, without you having to manage an index variable at all.",
+      "Reach for the classic for loop when you need the index itself — for example, to compare neighboring elements or build a new array using position. Reach for for...of when you just need each value, since it reads more directly."
+    ],
+    "rule": "for (let i = 0; i < arr.length; i++) gives you the index and arr[i]; for (const item of arr) gives you each value directly."
+  },
+  "examples": [
+    {
+      "title": "Looping by Index",
+      "code": "const crew = [\"Talia\", \"Rook\", \"Sable\"];\nfor (let i = 0; i < crew.length; i++) {\n  console.log(`${i}: ${crew[i]}`);\n}",
+      "note": "i counts from 0 up to crew.length - 1, and crew[i] reads the matching element on each pass."
+    },
+    {
+      "title": "Looping with for...of",
+      "code": "const crew = [\"Talia\", \"Rook\", \"Sable\"];\nfor (const member of crew) {\n  console.log(member);\n}",
+      "note": "for...of hands you each value directly — no index variable needed at all."
+    }
+  ],
+  "checks": [
+    {
+      "id": "for-of-values",
+      "question": "for (const x of [10, 20, 30]) { console.log(x); } — what gets logged?",
+      "options": ["0, 1, 2", "10, 20, 30", "[10, 20, 30] once", "undefined three times"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — for...of hands you each value in the array directly, not the indices.",
+        "incorrect": "for...of gives you each element's value, not its index — that's what a classic indexed for loop is for."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Squad Roll Call",
+    "brief": "Write rollCall(names) that logs each name in the array on its own line, prefixed with its position, in the form '0: Name'.",
+    "requirements": [
+      "Define rollCall(names).",
+      "Use a classic indexed for loop.",
+      "Log each entry as `${i}: ${names[i]}`."
+    ],
+    "starterCode": "function rollCall(names) {\n  // Log each name prefixed with its index, e.g. '0: Nyx'.\n}\n\nrollCall([\"Nyx\", \"Bram\", \"Fen\"]);\n",
+    "solutionCode": "function rollCall(names) {\n  for (let i = 0; i < names.length; i++) {\n    console.log(`${i}: ${names[i]}`);\n  }\n}\n\nrollCall([\"Nyx\", \"Bram\", \"Fen\"]);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines rollCall()", "pattern": "function\\s+rollCall\\s*\\(", "mustMatch": true },
+      { "id": "uses-for-loop", "label": "Uses a for loop", "pattern": "\\bfor\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nrollCall([\"Nyx\", \"Bram\", \"Fen\"]);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "0: Nyx\n1: Bram\n2: Fen\n",
+    "outputCheckLabel": "rollCall(['Nyx','Bram','Fen']) logs each name prefixed with its index"
+  },
+  "hints": [
+    "for (let i = 0; i < names.length; i++) { ... } visits every valid index.",
+    "Use a template literal: `${i}: ${names[i]}`.",
+    "console.log() the template literal once per pass through the loop.",
+    "The first line should read exactly: 0: Nyx"
+  ],
+  "nextLessonId": "js-ch08-sorting-and-slicing"
+}

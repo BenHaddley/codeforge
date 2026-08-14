@@ -1,0 +1,78 @@
+{
+  "id": "js-ch04-if-statements",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch04",
+  "number": "4.1",
+  "title": "The if Statement",
+  "xp": 50,
+  "objective": "Run code conditionally with if and if/else.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "4",
+    "chapterTitle": "Conditionals and Loops",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; the loop half of this book chapter is covered in Code Forge's Loops chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "An if statement runs a block of code only when its condition is true. Write if, then a condition in parentheses, then a block in curly braces; the code inside the braces runs only when that condition evaluates to true.",
+      "Curly braces mark the block in JavaScript instead of indentation. You can still indent for readability, but the braces are what the language actually reads to know where the block starts and ends.",
+      "Adding an else gives you a second block that runs only when the condition is false. Together, if and else cover both outcomes of a single condition — exactly one of the two blocks runs, never both, never neither."
+    ],
+    "rule": "The block after if runs only when the condition is true; the block after else runs only when it's false."
+  },
+  "examples": [
+    {
+      "title": "One Path or the Other",
+      "code": "let temperature = 1200;\n\nif (temperature >= 1500) {\n  console.log(\"Too hot!\");\n} else {\n  console.log(\"Good to forge.\");\n}",
+      "note": "temperature is 1200, so the condition is false and the else block runs instead."
+    }
+  ],
+  "checks": [
+    {
+      "id": "if-else-runs-one",
+      "question": "In an if/else statement, how many of the two blocks run for a single evaluation?",
+      "options": [
+        "Always both.",
+        "Exactly one — whichever matches the condition.",
+        "Neither, unless a loop is involved.",
+        "It depends on the number of curly braces."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — exactly one block runs: if when the condition is true, else when it's false.",
+        "incorrect": "An if/else always runs exactly one of its two blocks, based on the condition."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Heat Check",
+    "brief": "Write heatCheck(temperature) that logs 'Ready to forge.' if temperature is at least 1200, otherwise logs 'Keep heating.'",
+    "requirements": [
+      "Define function heatCheck(temperature).",
+      "Use if/else to check whether temperature is at least 1200.",
+      "Log the exact required message for each case."
+    ],
+    "starterCode": "function heatCheck(temperature) {\n  // Log 'Ready to forge.' if temperature >= 1200, else 'Keep heating.'\n}\n\nheatCheck(900);\n",
+    "solutionCode": "function heatCheck(temperature) {\n  if (temperature >= 1200) {\n    console.log(\"Ready to forge.\");\n  } else {\n    console.log(\"Keep heating.\");\n  }\n}\n\nheatCheck(900);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines heatCheck()", "pattern": "function\\s+heatCheck\\s*\\(", "mustMatch": true },
+      { "id": "uses-if", "label": "Uses if", "pattern": "\\bif\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nheatCheck(900);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Keep heating.\n",
+    "outputCheckLabel": "heatCheck(900) logs exactly: Keep heating."
+  },
+  "hints": [
+    "The condition goes inside parentheses right after if.",
+    "temperature >= 1200 checks 'at least 1200', which includes 1200 itself.",
+    "Each branch's message goes inside its own pair of curly braces.",
+    "900 is less than 1200, so the else branch should run for this call."
+  ],
+  "nextLessonId": "js-ch04-else-if-and-switch"
+}

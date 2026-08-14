@@ -1,0 +1,78 @@
+{
+  "id": "js-ch09-foreach-and-map",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch09",
+  "number": "9.1",
+  "title": "forEach and map",
+  "xp": 50,
+  "objective": "Use forEach to run code once per array element, and map to build a new transformed array.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter covering idiomatic array methods beyond the book's core coverage. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Array.prototype.forEach() runs a callback function once for every element in an array, passing the current element as an argument. It's a direct replacement for a for loop when you just need to visit each item and don't need a break or continue — but forEach() itself returns undefined, so it's for side effects like console.log(), not for building something new.",
+      "Array.prototype.map() looks similar but does something different: it runs a callback once per element too, but collects whatever the callback returns into a brand-new array, the same length as the original. The original array is never changed — map() always returns a new one.",
+      "The easiest way to tell them apart: if you want to DO something with each item (print it, log it), reach for forEach(). If you want a NEW array built out of each item (doubled, uppercased, reshaped), reach for map()."
+    ],
+    "rule": "forEach() runs a callback per element and returns undefined; map() runs a callback per element and returns a new array of the results."
+  },
+  "examples": [
+    {
+      "title": "Visiting Each Item with forEach",
+      "code": "const swords = [\"iron\", \"steel\", \"silver\"];\nswords.forEach((sword) => {\n  console.log(`Forging: ${sword}`);\n});",
+      "note": "forEach() calls the arrow function once per item; nothing is returned or collected."
+    },
+    {
+      "title": "Building a New Array with map",
+      "code": "const prices = [10, 20, 30];\nconst discounted = prices.map((price) => price * 0.9);\nconsole.log(discounted);",
+      "note": "map() returns a brand-new array of the same length, one transformed value per original item. prices itself is untouched."
+    }
+  ],
+  "checks": [
+    {
+      "id": "map-returns-new-array",
+      "question": "const nums = [1, 2, 3]; const result = nums.map(n => n * 2); what is result?",
+      "options": ["[2, 4, 6]", "undefined", "[1, 2, 3]", "6"],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — map() returns a new array of the callback's return values, one per element.",
+        "incorrect": "map() collects each callback return value into a new array — here, every number doubled."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Double Trouble",
+    "brief": "Write doubleAll(numbers) that returns a new array with every number doubled, using map (not a loop).",
+    "requirements": [
+      "Define doubleAll(numbers).",
+      "Use .map() to build the result.",
+      "Return the new array without modifying the original."
+    ],
+    "starterCode": "function doubleAll(numbers) {\n  // Return a new array with every number doubled, using map().\n}\n\nconsole.log(doubleAll([1, 2, 3]));\n",
+    "solutionCode": "function doubleAll(numbers) {\n  return numbers.map((n) => n * 2);\n}\n\nconsole.log(doubleAll([1, 2, 3]));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines doubleAll()", "pattern": "function\\s+doubleAll\\s*\\(", "mustMatch": true },
+      { "id": "uses-map", "label": "Uses .map()", "pattern": "\\.map\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(JSON.stringify(doubleAll([1, 2, 3])));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "[2,4,6]\n",
+    "outputCheckLabel": "doubleAll([1, 2, 3]) returns [2, 4, 6]"
+  },
+  "hints": [
+    "map() takes a callback and returns a new array — you don't need a loop or push().",
+    "Each element n should become n * 2 in the new array.",
+    "Return the result of calling numbers.map(...) directly.",
+    "doubleAll([1, 2, 3]) should return [2, 4, 6]."
+  ],
+  "nextLessonId": "js-ch09-filter-and-reduce"
+}

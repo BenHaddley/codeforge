@@ -1,0 +1,79 @@
+{
+  "id": "js-ch14-try-catch-finally",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch14",
+  "number": "14.1",
+  "title": "try, catch, and finally",
+  "xp": 50,
+  "objective": "Handle a runtime error with try/catch instead of letting it crash the program, and understand what finally is for.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "N/A",
+    "chapterTitle": "N/A",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter; not aligned to a specific book chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "When JavaScript hits an operation it cannot complete — calling a method on undefined, parsing text that isn't valid JSON — it throws an error. If nothing catches it, the program stops immediately and the error's message prints to the console instead of anything useful happening.",
+      "A try block lets you attempt risky code without letting a failure end the whole program. Wrap the line that might fail in try { ... }, and follow it with catch (err) { ... } containing the code that should run instead if an error happens. err is an Error object; err.message holds the human-readable text describing what went wrong.",
+      "An optional finally block runs after try/catch finishes, whether or not an error occurred — useful for cleanup that must always happen. Wrap only the risky line in try, not your whole program, so an error you didn't plan for still surfaces instead of being silently swallowed by something too broad."
+    ],
+    "rule": "try wraps risky code, catch (err) handles a thrown error, and finally runs regardless — every time."
+  },
+  "examples": [
+    {
+      "title": "Surviving a Bad Parse",
+      "code": "function readSetting(jsonText) {\n  try {\n    return JSON.parse(jsonText);\n  } catch (err) {\n    console.log(\"Invalid setting, using default.\");\n    return null;\n  }\n}\n\nconsole.log(readSetting('{\"volume\":5}'));\nconsole.log(readSetting('not json'));",
+      "note": "JSON.parse succeeds on valid JSON text and returns the parsed value. 'not json' isn't valid JSON, so JSON.parse throws, the catch block runs, and readSetting falls back to null."
+    }
+  ],
+  "checks": [
+    {
+      "id": "catch-skipped-on-success",
+      "question": "A try block finishes with no error. What happens to its catch block?",
+      "options": [
+        "It still runs after try.",
+        "It's skipped entirely.",
+        "It throws its own error.",
+        "It runs before try."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — catch only runs if something inside try actually threw an error.",
+        "incorrect": "catch is skipped whenever try completes without throwing — it only runs in response to an actual error."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Safe Config Read",
+    "brief": "Write readSetting(jsonText) that returns JSON.parse(jsonText) inside a try block. If parsing throws, catch the error, log 'Invalid setting, using default.', and return null.",
+    "requirements": [
+      "Define readSetting(jsonText).",
+      "Use try/catch around JSON.parse(jsonText).",
+      "On success, return the parsed value.",
+      "On error, log 'Invalid setting, using default.' and return null."
+    ],
+    "starterCode": "function readSetting(jsonText) {\n  // Try to parse jsonText; catch and return null on failure.\n}\n\nconsole.log(JSON.stringify(readSetting('{\"volume\":5}')));\nconsole.log(JSON.stringify(readSetting('not json')));\n",
+    "solutionCode": "function readSetting(jsonText) {\n  try {\n    return JSON.parse(jsonText);\n  } catch (err) {\n    console.log(\"Invalid setting, using default.\");\n    return null;\n  }\n}\n\nconsole.log(JSON.stringify(readSetting('{\"volume\":5}')));\nconsole.log(JSON.stringify(readSetting('not json')));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines readSetting()", "pattern": "function\\s+readSetting\\s*\\(", "mustMatch": true },
+      { "id": "uses-try-catch", "label": "Uses try/catch", "pattern": "try\\s*\\{[\\s\\S]*catch\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(JSON.stringify(readSetting('{\"volume\":5}')));\nconsole.log(JSON.stringify(readSetting('not json')));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "{\"volume\":5}\nInvalid setting, using default.\nnull\n",
+    "outputCheckLabel": "readSetting parses valid JSON and falls back to null (with a message) on invalid JSON"
+  },
+  "hints": [
+    "Put only the JSON.parse(jsonText) call — and the return that uses it — inside the try block.",
+    "catch (err) { ... } runs automatically when JSON.parse throws; you don't need to check anything yourself.",
+    "Log the message from inside the catch block, then return null right after.",
+    "readSetting('{\"volume\":5}') should return the object { volume: 5 }; readSetting('not json') should log a message and return null."
+  ],
+  "nextLessonId": "js-ch14-throwing-custom-errors"
+}

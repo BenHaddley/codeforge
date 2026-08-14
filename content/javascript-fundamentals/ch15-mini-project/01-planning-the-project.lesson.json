@@ -1,0 +1,78 @@
+{
+  "id": "js-ch15-planning-the-project",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch15",
+  "number": "15.1",
+  "title": "Planning the Project",
+  "xp": 75,
+  "objective": "Design a small settings object that holds the starting configuration for a simulation before writing any logic.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "N/A",
+    "chapterTitle": "N/A",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge capstone combining classes, arrays, and loops into a console-based simulation. All prose and code are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Over the next three lessons you'll build Widget Foundry: a small workshop simulation where a single worker processes a queue of incoming orders, one at a time, printed turn by turn to the console. Before writing any of that logic, it pays to plan what classes you need and what each one is responsible for.",
+      "A good first step is a settings class: one place that holds every starting number your simulation needs, like how much energy the worker starts with and how many orders are waiting. Keeping these values in one class means you can tune the simulation later by changing a single object instead of hunting through your code.",
+      "A settings class usually just needs a constructor that stores its properties, plus sometimes a small helper method — like one that returns a readable summary of the current configuration."
+    ],
+    "rule": "Plan your classes before your logic: decide what each object owns before you decide what it does."
+  },
+  "examples": [
+    {
+      "title": "A Settings Class",
+      "code": "class FoundrySettings {\n  constructor(workerEnergy, orderCount) {\n    this.workerEnergy = workerEnergy;\n    this.orderCount = orderCount;\n  }\n\n  summary() {\n    return `Worker energy: ${this.workerEnergy}, orders queued: ${this.orderCount}`;\n  }\n}\n\nconst settings = new FoundrySettings(10, 4);\nconsole.log(settings.summary());",
+      "note": "All the starting numbers live on one object, and summary() turns them into a readable string on demand."
+    }
+  ],
+  "checks": [
+    {
+      "id": "settings-purpose",
+      "question": "Why put every starting number in one settings class instead of scattering them as separate variables?",
+      "options": [
+        "It makes the code run faster.",
+        "It gives you one place to tune the simulation's difficulty later.",
+        "JavaScript requires configuration to live in a class.",
+        "It avoids ever needing a constructor."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — one object means one place to change values later, instead of hunting through the whole program.",
+        "incorrect": "The real benefit is organizational: every tunable value lives in one place instead of being scattered as loose variables."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Foundry Settings",
+    "brief": "Write a FoundrySettings class that stores the starting configuration for Widget Foundry and can summarize itself as a string.",
+    "requirements": [
+      "Define class FoundrySettings with a constructor(workerEnergy, orderCount).",
+      "Store both arguments as this.workerEnergy and this.orderCount.",
+      "Define a summary() method that returns the exact string: 'Worker energy: X, orders queued: Y' using the stored values."
+    ],
+    "starterCode": "class FoundrySettings {\n  constructor(workerEnergy, orderCount) {\n    // Store both arguments on this.\n  }\n\n  summary() {\n    // Return 'Worker energy: X, orders queued: Y'.\n  }\n}\n\nconst settings = new FoundrySettings(10, 4);\nconsole.log(settings.summary());\n",
+    "solutionCode": "class FoundrySettings {\n  constructor(workerEnergy, orderCount) {\n    this.workerEnergy = workerEnergy;\n    this.orderCount = orderCount;\n  }\n\n  summary() {\n    return `Worker energy: ${this.workerEnergy}, orders queued: ${this.orderCount}`;\n  }\n}\n\nconst settings = new FoundrySettings(10, 4);\nconsole.log(settings.summary());\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-class", "label": "Defines class FoundrySettings", "pattern": "class\\s+FoundrySettings\\b", "mustMatch": true },
+      { "id": "has-summary-method", "label": "Defines a summary() method", "pattern": "summary\\s*\\(\\s*\\)\\s*\\{", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconst _cfSettings = new FoundrySettings(10, 4);\nconsole.log(_cfSettings.summary());\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Worker energy: 10, orders queued: 4\n",
+    "outputCheckLabel": "new FoundrySettings(10, 4).summary() returns the correct string"
+  },
+  "hints": [
+    "The constructor's job is just to store both arguments: this.workerEnergy = workerEnergy, and the same for orderCount.",
+    "summary() should use a template literal so the numbers are inserted automatically.",
+    "Match the format exactly: 'Worker energy: 10, orders queued: 4' — comma, no extra words.",
+    "summary() returns the string; it doesn't print it itself."
+  ],
+  "nextLessonId": "js-ch15-building-the-classes"
+}

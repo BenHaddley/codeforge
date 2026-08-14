@@ -1,0 +1,83 @@
+{
+  "id": "js-ch07-loop-control",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch07",
+  "number": "7.3",
+  "title": "break, continue, and Nested Loops",
+  "xp": 50,
+  "objective": "Exit or skip parts of a loop with break and continue, and nest one loop inside another.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "4",
+    "chapterTitle": "Conditionals and Loops",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; the conditional half of this book chapter is covered in Code Forge's Control Flow chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "break immediately exits the nearest loop, even if its condition is still true. Nothing else in the loop runs for that pass or any future one — execution jumps straight to the first line after the loop.",
+      "continue skips the rest of the current pass and jumps back to check the loop's condition again, without exiting entirely. Code written after continue inside the loop body is skipped only for that one pass.",
+      "A loop can also contain another loop. The outer loop's each single pass runs the entire inner loop from start to finish — give each loop its own counter variable, or the inner loop's changes will overwrite the outer one's."
+    ],
+    "rule": "break exits a loop completely; continue skips to the next pass; a nested loop's inner loop runs fully on every single pass of the outer loop."
+  },
+  "examples": [
+    {
+      "title": "Skipping and Stopping",
+      "code": "let count = 0;\nwhile (count < 10) {\n  count += 1;\n  if (count === 3) continue;\n  if (count === 6) break;\n  console.log(count);\n}",
+      "note": "3 is skipped by continue; the loop stops entirely once count reaches 6, so 6 and beyond never log."
+    },
+    {
+      "title": "A Loop Inside a Loop",
+      "code": "for (let row = 0; row < 2; row++) {\n  for (let col = 0; col < 3; col++) {\n    console.log(`${row},${col}`);\n  }\n}",
+      "note": "The inner loop runs 3 times for row 0, then 3 more times for row 1 — 6 logs total."
+    }
+  ],
+  "checks": [
+    {
+      "id": "break-vs-continue",
+      "question": "Inside a loop, which statement skips the rest of the current pass but keeps the loop running afterward?",
+      "options": [
+        "break",
+        "continue",
+        "return",
+        "delete"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — continue skips to the next pass; break would stop the loop entirely.",
+        "incorrect": "That's break's job. continue skips just the current pass and keeps the loop going."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Skip and Stop",
+    "brief": "Write countTo(limit) using a while loop that logs numbers from 1 up to limit, skipping any multiple of 3 with continue, and stopping immediately (with break) once it would log a number greater than limit.",
+    "requirements": [
+      "Define countTo(limit).",
+      "Use a while loop with continue to skip multiples of 3.",
+      "Use break to stop once the counter exceeds limit."
+    ],
+    "starterCode": "function countTo(limit) {\n  // Log 1..limit, skipping multiples of 3, stopping at limit.\n}\n\ncountTo(7);\n",
+    "solutionCode": "function countTo(limit) {\n  let count = 0;\n  while (true) {\n    count += 1;\n    if (count > limit) break;\n    if (count % 3 === 0) continue;\n    console.log(count);\n  }\n}\n\ncountTo(7);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "uses-continue", "label": "Uses continue", "pattern": "\\bcontinue\\b", "mustMatch": true },
+      { "id": "uses-break", "label": "Uses break", "pattern": "\\bbreak\\b", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\ncountTo(7);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "1\n2\n4\n5\n7\n",
+    "outputCheckLabel": "countTo(7) logs 1, 2, 4, 5, 7 (skipping 3 and 6)"
+  },
+  "hints": [
+    "You can loop with while (true) and use break to stop manually.",
+    "Increment your counter first, then check if it's over the limit — break if so.",
+    "Check count % 3 === 0 to detect multiples of 3, and continue past them.",
+    "For limit=7, the multiples of 3 skipped are 3 and 6; the rest log."
+  ],
+  "nextLessonId": "js-ch08-introducing-arrays"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "js-ch01-hello-world",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch01",
+  "number": "1.2",
+  "title": "Hello, World!",
+  "xp": 50,
+  "objective": "Use console.log() and string literals to produce exact text output.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "1",
+    "chapterTitle": "Getting Started",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Adapted for Code Forge's in-browser runtime — no local installation. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "console.log() is a function: a named, reusable action. You call it by writing its name followed by parentheses, and you hand it the thing you want it to display by placing that value inside the parentheses.",
+      "Text values in JavaScript are called strings, and you can write them with single quotes, double quotes, or backticks — all three work for a plain string, as long as the opening and closing mark match. Anything inside the quotes is printed exactly as written, including spaces and punctuation.",
+      "Programmers traditionally write a tiny program that prints Hello, World! as the first thing they run in a new language. It confirms two things at once: the code runs, and you know how to produce output."
+    ],
+    "rule": "console.log(\"some text\") outputs the exact text inside the quotes, followed by a new line."
+  },
+  "examples": [
+    {
+      "title": "Two Ways to Quote",
+      "code": "console.log('Single quotes work.');\nconsole.log(\"So do double quotes.\");",
+      "note": "Single and double quotes both create the same kind of string. Pick one style and be consistent."
+    }
+  ],
+  "checks": [
+    {
+      "id": "string-quotes",
+      "question": "Which of these is NOT a valid way to write a plain JavaScript string?",
+      "options": [
+        "'Ember'",
+        "\"Ember\"",
+        "`Ember`",
+        "/Ember/"
+      ],
+      "correctIndex": 3,
+      "feedback": {
+        "correct": "Correct — slashes create a regular expression, not a string. Single quotes, double quotes, and backticks all create strings.",
+        "incorrect": "Single quotes, double quotes, and backticks all create strings. Slashes create something else entirely — a regular expression."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Hello, Forge!",
+    "brief": "Write greetForge() that logs exactly: Hello, Forge!",
+    "requirements": [
+      "Define a function named greetForge.",
+      "Use console.log() exactly once.",
+      "The logged text must be exactly: Hello, Forge!"
+    ],
+    "starterCode": "function greetForge() {\n  // Log the greeting here.\n}\n\ngreetForge();\n",
+    "solutionCode": "function greetForge() {\n  console.log(\"Hello, Forge!\");\n}\n\ngreetForge();\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines greetForge()", "pattern": "function\\s+greetForge\\s*\\(", "mustMatch": true },
+      { "id": "uses-console-log", "label": "Uses console.log", "pattern": "console\\.log\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\ngreetForge();\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Hello, Forge!\n",
+    "outputCheckLabel": "greetForge() logs exactly: Hello, Forge!"
+  },
+  "hints": [
+    "console.log() prints whatever string you give it.",
+    "The exact text is: Hello, Forge! — comma after Hello, exclamation point at the end.",
+    "Use either single or double quotes to wrap the text.",
+    "Don't forget to call greetForge(); after defining it."
+  ],
+  "nextLessonId": "js-ch01-reading-errors"
+}

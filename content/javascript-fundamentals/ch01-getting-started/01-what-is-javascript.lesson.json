@@ -1,0 +1,78 @@
+{
+  "id": "js-ch01-what-is-javascript",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch01",
+  "number": "1.1",
+  "title": "What Is JavaScript?",
+  "xp": 50,
+  "objective": "Understand what JavaScript is and how Code Forge runs the code you write.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "1",
+    "chapterTitle": "Getting Started",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Adapted for Code Forge's in-browser runtime — no local installation. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "JavaScript is the programming language every web browser understands natively. It started as the language that makes web pages interactive, and today it also runs outside the browser — on servers, in apps, almost everywhere — but Code Forge focuses on the language itself first.",
+      "Normally, trying JavaScript means opening a browser's developer console or installing a separate runtime like Node.js. Code Forge skips that step: the editor on this page runs your JavaScript directly, so the code you write executes the moment you press Run.",
+      "Like most programming languages, JavaScript reads your code from top to bottom and runs it in that order. The order you write your lines in is the order they happen."
+    ],
+    "rule": "JavaScript runs your code one line at a time, from top to bottom, exactly as written."
+  },
+  "examples": [
+    {
+      "title": "Order Matters",
+      "code": "console.log(\"Heating the forge.\");\nconsole.log(\"Striking the anvil.\");\nconsole.log(\"Cooling the blade.\");",
+      "note": "Each line runs in order. Swapping the second and third lines would cool the blade before it was ever struck."
+    }
+  ],
+  "checks": [
+    {
+      "id": "js-runs-top-to-bottom",
+      "question": "In what order does JavaScript execute the lines in a file?",
+      "options": [
+        "Bottom to top.",
+        "Top to bottom, in the order they're written.",
+        "In a random order each time.",
+        "All at once, simultaneously."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — JavaScript executes your code top to bottom, in the order you wrote it.",
+        "incorrect": "JavaScript reads a file from the first line to the last, running each one as it goes."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Light the Forge",
+    "brief": "Write lightTheForge() using console.log() to output exactly one line: Forge lit.",
+    "requirements": [
+      "Define a function named lightTheForge.",
+      "Use console.log() exactly once inside the function.",
+      "The logged text must be exactly: Forge lit."
+    ],
+    "starterCode": "function lightTheForge() {\n  // Log the message here.\n}\n\nlightTheForge();\n",
+    "solutionCode": "function lightTheForge() {\n  console.log(\"Forge lit.\");\n}\n\nlightTheForge();\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines lightTheForge()", "pattern": "function\\s+lightTheForge\\s*\\(", "mustMatch": true },
+      { "id": "uses-console-log", "label": "Uses console.log", "pattern": "console\\.log\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nlightTheForge();\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Forge lit.\n",
+    "outputCheckLabel": "lightTheForge() logs exactly: Forge lit."
+  },
+  "hints": [
+    "console.log(...) is how you print a value to the output.",
+    "Put the exact text \"Forge lit.\" inside the parentheses, in quotes.",
+    "Match the punctuation exactly: a period at the end, no extra spaces.",
+    "The function needs to be called — lightTheForge(); — for anything to happen."
+  ],
+  "nextLessonId": "js-ch01-hello-world"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "js-ch15-the-final-simulation",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch15",
+  "number": "15.3",
+  "title": "The Final Simulation",
+  "xp": 75,
+  "objective": "Combine classes, an array of objects, and a while loop into a complete turn-by-turn production simulation.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "N/A",
+    "chapterTitle": "N/A",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge capstone combining classes, arrays, and loops into a console-based simulation. All prose and code are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "This is the capstone: bringing together classes, an array of objects, and a while loop into one running simulation. The order queue is just an array of Order instances, and each pass through the loop is one order the worker attempts.",
+      "The pattern is: while the worker still has orders waiting and isn't exhausted, look at the next order without removing it yet. If the worker doesn't have enough energy to afford it, the worker collapses right there — log that and stop, leaving that order (and any after it) still in the array. Otherwise, remove the order from the front of the array with .shift(), complete it, and report the worker's remaining energy.",
+      "The loop naturally ends one of two ways: the order array becomes empty (orders.length === 0, so the while condition stops being true) or the worker collapses partway through. Checking which one happened after the loop tells you whether to print a success message or a collapse message."
+    ],
+    "rule": "A simulation loop keeps running while its stop conditions are all still false — check both 'are there orders left?' and 'can the worker still work?' in the same while condition."
+  },
+  "examples": [
+    {
+      "title": "A Full Run That Succeeds",
+      "code": "class Order {\n  constructor(id, effort) {\n    this.id = id;\n    this.effort = effort;\n  }\n}\n\nclass Worker {\n  constructor(name, energy) {\n    this.name = name;\n    this.energy = energy;\n    this.itemsCompleted = 0;\n  }\n\n  completeOrder(order) {\n    this.energy = Math.max(0, this.energy - order.effort);\n    this.itemsCompleted += 1;\n  }\n\n  isExhausted() {\n    return this.energy <= 0;\n  }\n}\n\nfunction runProduction(worker, orders) {\n  while (orders.length > 0 && !worker.isExhausted()) {\n    const next = orders[0];\n    if (worker.energy < next.effort) {\n      console.log(`${worker.name} collapsed before completing Order ${next.id}.`);\n      worker.energy = 0;\n      break;\n    }\n    orders.shift();\n    worker.completeOrder(next);\n    console.log(`Order ${next.id} completed. Energy remaining: ${worker.energy}.`);\n  }\n  if (orders.length === 0) {\n    console.log(`All orders completed! ${worker.name} finished ${worker.itemsCompleted} orders.`);\n  } else {\n    console.log(`${worker.name} collapsed with ${orders.length} order(s) still waiting.`);\n  }\n}\n\nconst bo = new Worker(\"Bo\", 20);\nconst queue = [new Order(1, 5), new Order(2, 5), new Order(3, 5)];\nrunProduction(bo, queue);",
+      "note": "Bo starts with plenty of energy for all three orders (5+5+5=15 <= 20), so the loop empties the array completely and the success branch runs."
+    }
+  ],
+  "checks": [
+    {
+      "id": "loop-exit-reason",
+      "question": "After runProduction finishes, orders.length is 2 (out of an original 3). What does that tell you?",
+      "options": [
+        "All three orders were completed.",
+        "The worker collapsed before finishing the second order.",
+        "The simulation had an error.",
+        "The worker still has full energy."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — one order was shifted off (completed) before the worker ran out of energy on the next one, leaving 2 still in the array.",
+        "incorrect": "orders.length only shrinks when an order is actually completed and shifted off — leftover orders mean the worker collapsed before reaching them."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Run the Foundry",
+    "brief": "Complete runProduction(worker, orders) so it simulates Widget Foundry turn by turn until the orders run out or the worker collapses.",
+    "requirements": [
+      "Define runProduction(worker, orders) using a while loop.",
+      "Each pass: if the worker can't afford the next order's effort, log a collapse message, set energy to 0, and stop.",
+      "Otherwise remove the order from the front of the array, complete it, and log its completion with the worker's remaining energy.",
+      "After the loop, log a success message if all orders were completed, or a collapse message reporting how many orders are still waiting."
+    ],
+    "starterCode": "class Order {\n  constructor(id, effort) {\n    this.id = id;\n    this.effort = effort;\n  }\n}\n\nclass Worker {\n  constructor(name, energy) {\n    this.name = name;\n    this.energy = energy;\n    this.itemsCompleted = 0;\n  }\n\n  completeOrder(order) {\n    this.energy = Math.max(0, this.energy - order.effort);\n    this.itemsCompleted += 1;\n  }\n\n  isExhausted() {\n    return this.energy <= 0;\n  }\n}\n\nfunction runProduction(worker, orders) {\n  // Simulate the queue turn by turn using a while loop.\n}\n\nconst worker = new Worker(\"Rin\", 10);\nconst orders = [new Order(1, 3), new Order(2, 4), new Order(3, 5)];\nrunProduction(worker, orders);\n",
+    "solutionCode": "class Order {\n  constructor(id, effort) {\n    this.id = id;\n    this.effort = effort;\n  }\n}\n\nclass Worker {\n  constructor(name, energy) {\n    this.name = name;\n    this.energy = energy;\n    this.itemsCompleted = 0;\n  }\n\n  completeOrder(order) {\n    this.energy = Math.max(0, this.energy - order.effort);\n    this.itemsCompleted += 1;\n  }\n\n  isExhausted() {\n    return this.energy <= 0;\n  }\n}\n\nfunction runProduction(worker, orders) {\n  while (orders.length > 0 && !worker.isExhausted()) {\n    const next = orders[0];\n    if (worker.energy < next.effort) {\n      console.log(`${worker.name} collapsed before completing Order ${next.id}.`);\n      worker.energy = 0;\n      break;\n    }\n    orders.shift();\n    worker.completeOrder(next);\n    console.log(`Order ${next.id} completed. Energy remaining: ${worker.energy}.`);\n  }\n  if (orders.length === 0) {\n    console.log(`All orders completed! ${worker.name} finished ${worker.itemsCompleted} orders.`);\n  } else {\n    console.log(`${worker.name} collapsed with ${orders.length} order(s) still waiting.`);\n  }\n}\n\nconst worker = new Worker(\"Rin\", 10);\nconst orders = [new Order(1, 3), new Order(2, 4), new Order(3, 5)];\nrunProduction(worker, orders);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-run-production", "label": "Defines runProduction(worker, orders)", "pattern": "function\\s+runProduction\\s*\\(\\s*worker\\s*,\\s*orders\\s*\\)", "mustMatch": true },
+      { "id": "uses-while", "label": "Uses a while loop", "pattern": "\\bwhile\\s*\\(", "mustMatch": true },
+      { "id": "uses-shift", "label": "Removes orders with .shift()", "pattern": "\\.shift\\s*\\(\\s*\\)", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconst _cfWorker = new Worker(\"Rin\", 10);\nconst _cfOrders = [new Order(1, 3), new Order(2, 4), new Order(3, 5)];\nrunProduction(_cfWorker, _cfOrders);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Order 1 completed. Energy remaining: 7.\nOrder 2 completed. Energy remaining: 3.\nRin collapsed before completing Order 3.\nRin collapsed with 1 order(s) still waiting.\n",
+    "outputCheckLabel": "runProduction with Rin(10 energy) against orders [3,4,5] completes 2 orders then collapses on the third"
+  },
+  "hints": [
+    "The while condition needs both checks: orders.length > 0 && !worker.isExhausted().",
+    "Look at orders[0] first (don't remove it yet) to check whether the worker can afford it.",
+    "Only call orders.shift() once you know the worker has enough energy for that order.",
+    "For Rin starting at 10 energy against orders costing 3, 4, then 5: 10-3=7, 7-4=3, then 3 is less than 5, so Rin collapses on Order 3 with 1 order left in the array."
+  ],
+  "nextLessonId": null
+}

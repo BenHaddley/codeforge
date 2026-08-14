@@ -1,0 +1,78 @@
+{
+  "id": "js-ch06-closures",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch06",
+  "number": "6.3",
+  "title": "Closures",
+  "xp": 50,
+  "objective": "Understand that a function defined inside another function keeps access to that function's variables even after it returns.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "Functions",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter naming scope explicitly, building on the book's Functions chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A closure happens when a function defined inside another function keeps access to that outer function's variables, even after the outer function has already finished running. The inner function 'closes over' those variables instead of losing them.",
+      "A common use is a function that builds and returns another function. makeCounter() can declare a local count variable and return a small function that increments and reads it — every time you call the returned function, it remembers count from the call before, because it's the same closed-over variable, not a fresh one.",
+      "Each call to the outer function creates its own separate closure. Calling makeCounter() twice gives you two independent counters, each remembering its own count — they don't share state with each other."
+    ],
+    "rule": "A function defined inside another function keeps access to that function's variables for as long as the inner function exists — that's a closure."
+  },
+  "examples": [
+    {
+      "title": "A Counter That Remembers Its Own State",
+      "code": "function makeCounter() {\n  let count = 0;\n  return function () {\n    count += 1;\n    return count;\n  };\n}\n\nconst counter = makeCounter();\nconsole.log(counter());\nconsole.log(counter());\nconsole.log(counter());",
+      "note": "Each call to counter() increments the same count variable from makeCounter()'s scope, which it remembers between calls — the output is 1, 2, 3."
+    },
+    {
+      "title": "Two Independent Closures",
+      "code": "function makeCounter() {\n  let count = 0;\n  return function () {\n    count += 1;\n    return count;\n  };\n}\n\nconst a = makeCounter();\nconst b = makeCounter();\nconsole.log(a());\nconsole.log(a());\nconsole.log(b());",
+      "note": "a and b each have their own closed-over count — calling a() twice doesn't affect b() at all, so b() still starts at 1."
+    }
+  ],
+  "checks": [
+    {
+      "id": "closure-memory",
+      "question": "const c = makeCounter(); c(); c(); — what does the second c() call return, given makeCounter() from the examples above?",
+      "options": ["1", "2", "0", "undefined"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — the first call sets count to 1, and the closure remembers that, so the second call increments it to 2.",
+        "incorrect": "The returned function remembers count between calls — the first call makes it 1, so the second call increments it to 2."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Ingot Tally",
+    "brief": "Write makeTally() that returns a function. Each time the returned function is called, it should add 1 to an internal count (starting at 0) and return the new total.",
+    "requirements": [
+      "Define makeTally() with a local count variable starting at 0.",
+      "makeTally() returns a function that increments count by 1 and returns the new value.",
+      "Create one tally with makeTally(), call it three times, and log each result."
+    ],
+    "starterCode": "function makeTally() {\n  // Declare a local count starting at 0, return a function that increments and returns it.\n}\n\nconst tally = makeTally();\nconsole.log(tally());\nconsole.log(tally());\nconsole.log(tally());\n",
+    "solutionCode": "function makeTally() {\n  let count = 0;\n  return function () {\n    count += 1;\n    return count;\n  };\n}\n\nconst tally = makeTally();\nconsole.log(tally());\nconsole.log(tally());\nconsole.log(tally());\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-make-tally", "label": "Defines makeTally()", "pattern": "function\\s+makeTally\\s*\\(", "mustMatch": true },
+      { "id": "returns-function", "label": "Returns a function", "pattern": "return\\s+function", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(tally());\nconsole.log(tally());\nconsole.log(tally());\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "4\n5\n6\n",
+    "outputCheckLabel": "three more tally() calls continue counting from where the first three left off"
+  },
+  "hints": [
+    "let count = 0; goes inside makeTally(), before the return.",
+    "The returned function should do count += 1; then return count;.",
+    "Each call to the returned function should give a number one higher than the last.",
+    "Calling tally() three times in a row should log 1, 2, then 3."
+  ],
+  "nextLessonId": "js-ch07-while-loop"
+}

@@ -1,0 +1,83 @@
+{
+  "id": "js-ch08-introducing-arrays",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.1",
+  "title": "Introducing Arrays",
+  "xp": 50,
+  "objective": "Create an array and read individual elements by index.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; this book chapter covers both arrays and objects — Code Forge splits them into separate chapters. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "An array stores a sequence of values in a single variable. You build one with square brackets, separating items with commas, like const crew = [\"Nyx\", \"Bram\", \"Fen\"]. An array can hold any type of value, and the items keep the order you gave them.",
+      "Each item has an index — a numbered position JavaScript uses to find it. Indexing starts at 0, so crew[0] is the first item and crew[1] is the second. Asking for an index that doesn't exist returns undefined instead of raising an error, which is a common source of quiet bugs — always double check an index is really in range.",
+      "Unlike some languages, JavaScript arrays do not support negative indices. crew[-1] does not give you the last item — it looks for a property literally named \"-1\" and returns undefined. To reach the last item, use crew[crew.length - 1], since .length always holds the current number of items."
+    ],
+    "rule": "Array indices start at 0. There is no negative indexing in JavaScript — use arr[arr.length - 1] to reach the last item."
+  },
+  "examples": [
+    {
+      "title": "Building a Roster",
+      "code": "const crew = [\"Nyx\", \"Bram\", \"Fen\"];\nconsole.log(crew[0]);\nconsole.log(crew[crew.length - 1]);",
+      "note": "crew[0] reads the first item. crew[crew.length - 1] reads the last item without needing to know the array's exact length in advance."
+    },
+    {
+      "title": "An Out-of-Range Index",
+      "code": "const crew = [\"Nyx\", \"Bram\"];\nconsole.log(crew[5]);",
+      "note": "There is no item at index 5, so JavaScript returns undefined rather than throwing an error."
+    }
+  ],
+  "checks": [
+    {
+      "id": "negative-index",
+      "question": "const arr = [10, 20, 30]; what does arr[-1] give you?",
+      "options": [
+        "30, the last item",
+        "10, the first item",
+        "undefined",
+        "A SyntaxError"
+      ],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — JavaScript has no negative indexing, so arr[-1] just looks for a property named \"-1\" and finds nothing.",
+        "incorrect": "JavaScript arrays don't support negative indices the way some other languages do. arr[-1] returns undefined."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Squad Report",
+    "brief": "Write squadReport(members) that logs the squad leader (the first member) and the rear guard (the last member).",
+    "requirements": [
+      "Define squadReport(members).",
+      "Log the first member.",
+      "Log the last member, found using members.length (not a hardcoded index)."
+    ],
+    "starterCode": "function squadReport(members) {\n  // Log the first member, then the last member.\n}\n\nsquadReport([\"Talia\", \"Rook\", \"Sable\"]);\n",
+    "solutionCode": "function squadReport(members) {\n  console.log(members[0]);\n  console.log(members[members.length - 1]);\n}\n\nsquadReport([\"Talia\", \"Rook\", \"Sable\"]);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines squadReport()", "pattern": "function\\s+squadReport\\s*\\(", "mustMatch": true },
+      { "id": "uses-length", "label": "Uses .length to find the last member", "pattern": "\\.length", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nsquadReport([\"Talia\", \"Rook\", \"Sable\"]);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Talia\nSable\n",
+    "outputCheckLabel": "squadReport([...]) logs the first member then the last member"
+  },
+  "hints": [
+    "members[0] reads the first item in the array.",
+    "The last item's index is one less than the array's length.",
+    "members[members.length - 1] works no matter how many members are passed in.",
+    "Log the first member on one line, then the last member on the next."
+  ],
+  "nextLessonId": "js-ch08-changing-an-array"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "js-ch10-nesting",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch10",
+  "number": "10.3",
+  "title": "Nested Objects & Arrays of Objects",
+  "xp": 50,
+  "objective": "Combine arrays and objects to model more complex, real data.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "An array of objects is useful when you have many similar records — each object describes one item, and the array holds all of them. A roster of apprentices, each with a name and a rank, is naturally an array of objects.",
+      "An object can also hold a nested object as one of its values, which is handy for grouping related details under one key — for example, an order object with a nested shipping object holding the address details.",
+      "Reaching into nested data just means chaining property access: apprentices[0].name reads the first apprentice's name, and order.shipping.city reaches two levels deep into a nested object."
+    ],
+    "rule": "Use an array of objects for many similar records, and a nested object when one record needs its own grouped sub-details."
+  },
+  "examples": [
+    {
+      "title": "An Array of Objects",
+      "code": "const apprentices = [\n  { name: \"Mira\", rank: 2 },\n  { name: \"Talia\", rank: 1 },\n];\nconsole.log(apprentices[0].name);\nconsole.log(apprentices[1].rank);",
+      "note": "apprentices[0] is the first object; .name reaches its property. Chaining index and property access gets you to any value in the structure."
+    },
+    {
+      "title": "A Nested Object",
+      "code": "const order = {\n  item: \"sword\",\n  shipping: {\n    city: \"Ember Hollow\",\n    express: true,\n  },\n};\nconsole.log(order.shipping.city);",
+      "note": "order.shipping is itself an object; chaining another .city reaches the value nested two levels deep."
+    }
+  ],
+  "checks": [
+    {
+      "id": "array-of-objects-access",
+      "question": "const crew = [{ name: \"Ada\" }, { name: \"Bram\" }]; — how do you read the second crew member's name?",
+      "options": ["crew.name[1]", "crew[1].name", "crew[1][\"name\"][0]", "crew.1.name"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — crew[1] gets the second object, and .name reads its property.",
+        "incorrect": "First index into the array to get the object (crew[1]), then read its property (.name)."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Squad Roster",
+    "brief": "Write squadLeader(squad) that takes an array of objects (each with name and rank), and returns the name of the member with rank 1.",
+    "requirements": [
+      "Define squadLeader(squad).",
+      "Loop through squad to find the object whose rank is 1.",
+      "Return that object's name."
+    ],
+    "starterCode": "function squadLeader(squad) {\n  // Find and return the name of the squad member whose rank is 1.\n}\n\nconst squad = [\n  { name: \"Mira\", rank: 2 },\n  { name: \"Talia\", rank: 1 },\n  { name: \"Rook\", rank: 3 },\n];\nconsole.log(squadLeader(squad));\n",
+    "solutionCode": "function squadLeader(squad) {\n  for (const member of squad) {\n    if (member.rank === 1) {\n      return member.name;\n    }\n  }\n  return undefined;\n}\n\nconst squad = [\n  { name: \"Mira\", rank: 2 },\n  { name: \"Talia\", rank: 1 },\n  { name: \"Rook\", rank: 3 },\n];\nconsole.log(squadLeader(squad));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines squadLeader()", "pattern": "function\\s+squadLeader\\s*\\(", "mustMatch": true },
+      { "id": "checks-rank", "label": "Checks member.rank", "pattern": "\\.rank\\b", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(squadLeader(squad));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Talia\n",
+    "outputCheckLabel": "squadLeader(squad) logs Talia"
+  },
+  "hints": [
+    "Loop through squad with for...of.",
+    "Check member.rank === 1 on each pass.",
+    "Once you find the match, return member.name immediately.",
+    "Talia has rank 1 in the sample squad, so she should be returned."
+  ],
+  "nextLessonId": "js-ch11-destructuring"
+}

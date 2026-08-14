@@ -1,0 +1,73 @@
+{
+  "id": "js-ch05-return-values",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch05",
+  "number": "5.2",
+  "title": "Return Values",
+  "xp": 50,
+  "objective": "Send a value back from a function with return and use it in the caller.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "Functions",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A function that only calls console.log() shows its output directly on screen — nothing comes back to the code that called it. return sends a value back instead, so the caller can store it, check it, or pass it somewhere else.",
+      "As soon as JavaScript executes a return statement, the function stops immediately — any code written after it in that function never runs, even if it's still inside the function body.",
+      "A function without an explicit return statement returns undefined, JavaScript's way of saying 'nothing.' Logging and returning solve different problems: logging is for showing a human something right now; returning is for handing a value to the rest of the program."
+    ],
+    "rule": "return sends a value back to the caller and immediately ends the function — code after it never runs."
+  },
+  "examples": [
+    {
+      "title": "Using a Returned Value",
+      "code": "function double(n) {\n  return n * 2;\n}\n\nconst result = double(4);\nconsole.log(result);",
+      "note": "double() hands back a value, which is stored in result and logged afterward — it never logs anything itself."
+    }
+  ],
+  "checks": [
+    {
+      "id": "no-return-value",
+      "question": "function greet() { console.log(\"hi\"); } — what does greet() return, since it has no return statement?",
+      "options": ["null", "0", "undefined", "It throws an error"],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — a function with no return statement returns undefined.",
+        "incorrect": "A function that never hits a return statement automatically returns undefined, not null or an error."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Temper the Blade",
+    "brief": "Write temperRating(hardness) that returns 'brittle' if hardness > 60, 'tempered' if hardness >= 30, otherwise 'soft'. Log the returned value for temperRating(45).",
+    "requirements": [
+      "Define temperRating(hardness).",
+      "Return 'brittle' for hardness > 60, 'tempered' for hardness >= 30, otherwise 'soft'.",
+      "Log temperRating(45)."
+    ],
+    "starterCode": "function temperRating(hardness) {\n  // Return the correct rating.\n}\n\nconsole.log(temperRating(45));\n",
+    "solutionCode": "function temperRating(hardness) {\n  if (hardness > 60) {\n    return \"brittle\";\n  } else if (hardness >= 30) {\n    return \"tempered\";\n  } else {\n    return \"soft\";\n  }\n}\n\nconsole.log(temperRating(45));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines temperRating()", "pattern": "function\\s+temperRating\\s*\\(", "mustMatch": true },
+      { "id": "uses-return", "label": "Uses return", "pattern": "\\breturn\\b", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(temperRating(45));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "tempered\n",
+    "outputCheckLabel": "temperRating(45) logs exactly: tempered"
+  },
+  "hints": [
+    "Check the highest threshold first: hardness > 60 gives 'brittle'.",
+    "hardness >= 30 (but not > 60) gives 'tempered'.",
+    "Anything else falls through to 'soft'.",
+    "temperRating(45) should return 'tempered', since 45 is at least 30 but not over 60."
+  ],
+  "nextLessonId": "js-ch05-default-params-and-arrows"
+}

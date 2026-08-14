@@ -1,0 +1,78 @@
+{
+  "id": "js-ch06-functions-calling-functions",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch06",
+  "number": "6.2",
+  "title": "Functions Calling Functions",
+  "xp": 50,
+  "objective": "Compose functions by calling one from inside another, and see that each call gets its own local scope.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "Functions",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter naming scope explicitly, building on the book's Functions chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A function's body can call any other function that's already defined, including ones you wrote yourself. This lets you break a problem into small, named pieces instead of writing one long function.",
+      "Each call — no matter which function it happens inside — gets its own fresh set of local variables. If sharpenBonus() calls computeRate(), computeRate() can't see sharpenBonus()'s local variables, and sharpenBonus() can't see computeRate()'s locals either. The only thing that crosses that boundary is whatever computeRate() returns.",
+      "This pattern — one function using another's return value — is how larger programs stay organized. Instead of one function doing everything, each function does one job and hands its result to whoever called it."
+    ],
+    "rule": "Calling one function from inside another does not share their local variables — only a return value crosses that boundary."
+  },
+  "examples": [
+    {
+      "title": "One Function Using Another's Result",
+      "code": "function computeRate(base) {\n  return base * 1.5;\n}\n\nfunction sharpenBonus(base) {\n  const rate = computeRate(base);\n  return rate + 10;\n}\n\nconsole.log(sharpenBonus(20));",
+      "note": "sharpenBonus() calls computeRate() and uses its return value, but never sees computeRate()'s local variable base as its own."
+    }
+  ],
+  "checks": [
+    {
+      "id": "scope-across-calls",
+      "question": "functionA() calls functionB(). Can functionA() read a local variable created inside functionB()?",
+      "options": [
+        "Yes, because functionA() called it.",
+        "No — only functionB()'s return value crosses back to functionA().",
+        "Only if the variable has the same name in both functions.",
+        "Yes, but only after functionB() finishes."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — locals stay inside the function that created them; only the return value comes back.",
+        "incorrect": "Locals never leak between functions, even when one calls the other. Only a return value crosses that boundary."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Bonus Calculator",
+    "brief": "Write computeRate(base) that returns base * 1.5, and sharpenBonus(base) that calls computeRate(base) and returns that result plus 10. Log sharpenBonus(20).",
+    "requirements": [
+      "Define computeRate(base) returning base * 1.5.",
+      "Define sharpenBonus(base) that calls computeRate(base) and returns the result plus 10.",
+      "Log sharpenBonus(20)."
+    ],
+    "starterCode": "function computeRate(base) {\n  // Return base * 1.5\n}\n\nfunction sharpenBonus(base) {\n  // Call computeRate(base) and return the result plus 10.\n}\n\nconsole.log(sharpenBonus(20));\n",
+    "solutionCode": "function computeRate(base) {\n  return base * 1.5;\n}\n\nfunction sharpenBonus(base) {\n  const rate = computeRate(base);\n  return rate + 10;\n}\n\nconsole.log(sharpenBonus(20));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-compute-rate", "label": "Defines computeRate()", "pattern": "function\\s+computeRate\\s*\\(", "mustMatch": true },
+      { "id": "calls-compute-rate", "label": "sharpenBonus calls computeRate", "pattern": "computeRate\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(sharpenBonus(20));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "40\n",
+    "outputCheckLabel": "sharpenBonus(20) logs 40"
+  },
+  "hints": [
+    "computeRate(20) should return 30 (20 * 1.5).",
+    "sharpenBonus() calls computeRate(base) and adds 10 to whatever it returns.",
+    "30 + 10 is 40.",
+    "Both functions use return, not console.log — the console.log() call at the bottom displays the final result."
+  ],
+  "nextLessonId": "js-ch06-closures"
+}

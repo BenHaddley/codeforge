@@ -1,0 +1,78 @@
+{
+  "id": "js-ch11-destructuring",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch11",
+  "number": "11.1",
+  "title": "Destructuring Arrays and Objects",
+  "xp": 50,
+  "objective": "Pull values out of an array or object into named variables in a single line.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge lesson covering a modern JS feature not broken out as its own book section. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Destructuring lets you unpack values from an array or object straight into named variables, instead of reading each one out by hand. const [first, second] = [\"Ada\", \"Bram\"] creates first and second in one line, matched by position.",
+      "Object destructuring works by property name instead of position: const { name, rank } = apprentice creates variables named name and rank, pulled from the matching properties on apprentice — the variable names must match the property names.",
+      "You can skip array elements you don't need with an empty slot (const [, second] = arr skips the first), and give an object-destructured variable a different local name with const { name: apprenticeName } = apprentice."
+    ],
+    "rule": "Array destructuring matches by position: const [a, b] = arr. Object destructuring matches by property name: const { key } = obj."
+  },
+  "examples": [
+    {
+      "title": "Destructuring an Array",
+      "code": "const point = [10, 20];\nconst [x, y] = point;\nconsole.log(x);\nconsole.log(y);",
+      "note": "x and y are created in one line, matched to point's elements by position."
+    },
+    {
+      "title": "Destructuring an Object",
+      "code": "const apprentice = { name: \"Mira\", rank: 2 };\nconst { name, rank } = apprentice;\nconsole.log(name);\nconsole.log(rank);",
+      "note": "name and rank are pulled out by matching property name, not position — order in the object doesn't matter."
+    }
+  ],
+  "checks": [
+    {
+      "id": "object-destructure-names",
+      "question": "const { rank, name } = { name: \"Bram\", rank: 3 }; — what does name equal, even though rank was written first?",
+      "options": ["undefined", "3", "\"Bram\"", "It causes an error"],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — object destructuring matches by property name, not by the order you list them, so name still gets \"Bram\".",
+        "incorrect": "Object destructuring doesn't care about order — it matches each variable to the property with the same name."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Unpack the Crate",
+    "brief": "Write describeItem(item) that destructures item's name and price properties, and returns a string in the form 'Name costs $price'.",
+    "requirements": [
+      "Define describeItem(item).",
+      "Use object destructuring to pull out name and price in one line.",
+      "Return `${name} costs $${price}`."
+    ],
+    "starterCode": "function describeItem(item) {\n  // Destructure name and price from item, then return the description.\n}\n\nconsole.log(describeItem({ name: \"Hammer\", price: 12 }));\n",
+    "solutionCode": "function describeItem(item) {\n  const { name, price } = item;\n  return `${name} costs $${price}`;\n}\n\nconsole.log(describeItem({ name: \"Hammer\", price: 12 }));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines describeItem()", "pattern": "function\\s+describeItem\\s*\\(", "mustMatch": true },
+      { "id": "uses-destructuring", "label": "Uses object destructuring", "pattern": "\\{\\s*name\\s*,\\s*price\\s*\\}", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(describeItem({ name: \"Hammer\", price: 12 }));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Hammer costs $12\n",
+    "outputCheckLabel": "describeItem({name:'Hammer',price:12}) logs 'Hammer costs $12'"
+  },
+  "hints": [
+    "const { name, price } = item; pulls both values out in one line.",
+    "Use a template literal to build the sentence: `${name} costs $${price}`.",
+    "Return the built string — don't log it inside the function.",
+    "The result for a Hammer priced at 12 should read exactly: Hammer costs $12"
+  ],
+  "nextLessonId": "js-ch11-spread-and-rest"
+}

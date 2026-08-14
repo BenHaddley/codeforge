@@ -48,12 +48,12 @@
       <!-- SCREEN 1: Lesson workspace (read + watch + practice + Paperclip in
            one continuous flow; the IDE stays put on the right) -->
       <section class="screen active" id="screen-lesson">
-        <div class="workspace-switch" id="workspaceSwitch" hidden>
+        <div class="workspace-switch" id="workspaceSwitch">
           <button class="classic-button active" id="wsTabLesson">Lesson</button>
           <button class="classic-button" id="wsTabCode">Code</button>
         </div>
         <div class="lesson-columns">
-          <div class="lesson-left pane">
+          <div class="lesson-left pane" id="lessonLeft">
             <div class="pane-title">
               <span>Lesson</span>
               <div class="tts-controls">
@@ -101,6 +101,8 @@
                 <button class="active" data-tab="output">Output</button>
                 <button data-tab="tests">Tests</button>
                 <button data-tab="hints">Hints</button>
+                <span class="tab-spacer"></span>
+                <button class="output-collapse-btn" id="outputCollapseBtn" aria-label="Collapse output panel">Hide</button>
               </div>
               <pre class="console" id="workspaceConsole">&gt; Ready. Run to see output, or Submit to check your solution.</pre>
               <div class="tests-panel" id="workspaceTests" hidden></div>

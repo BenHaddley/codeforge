@@ -1,0 +1,78 @@
+{
+  "id": "js-ch10-a-simple-object",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch10",
+  "number": "10.1",
+  "title": "A Simple Object",
+  "xp": 50,
+  "objective": "Create an object literal and read its properties with dot and bracket notation.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; this book chapter covers both arrays and objects — Code Forge splits them into separate chapters. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "An object groups related values together under named keys, instead of positions like an array. You create one with curly braces: a set of key: value pairs separated by commas, like const recruit = { name: \"Ada\", rank: \"apprentice\" };.",
+      "Dot notation is the usual way to read a property: recruit.name gives you \"Ada\". Bracket notation does the same thing with a string instead: recruit[\"name\"] — you need brackets when the key isn't known until the program runs, or isn't a valid identifier.",
+      "Reading a property that doesn't exist doesn't throw an error in JavaScript — it just gives you undefined, which is useful to know when you're debugging a typo in a property name."
+    ],
+    "rule": "Read a property with obj.key or obj[\"key\"] — a missing key gives undefined instead of an error."
+  },
+  "examples": [
+    {
+      "title": "Creating and Reading an Object",
+      "code": "const recruit = { name: \"Ada\", rank: \"apprentice\" };\nconsole.log(recruit.name);\nconsole.log(recruit[\"rank\"]);",
+      "note": "Dot notation and bracket notation both reach the same property."
+    },
+    {
+      "title": "A Missing Property",
+      "code": "const recruit = { name: \"Ada\" };\nconsole.log(recruit.rank);",
+      "note": "rank was never set on this object, so JavaScript gives back undefined instead of raising an error."
+    }
+  ],
+  "checks": [
+    {
+      "id": "missing-property",
+      "question": "const item = { label: \"Sword\" }; what does item.price evaluate to?",
+      "options": ["0", "null", "undefined", "It throws an error"],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — a missing property reads as undefined, not an error.",
+        "incorrect": "Reading a property that was never set doesn't throw in JavaScript — it gives undefined."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Smith Card",
+    "brief": "Write smithCard(name, rank) that builds an object with keys name and rank set from the arguments, then logs the name followed by the rank on the next line.",
+    "requirements": [
+      "Define smithCard(name, rank).",
+      "Build an object with a name key and a rank key.",
+      "Log the name, then log the rank on the next line."
+    ],
+    "starterCode": "function smithCard(name, rank) {\n  // Build an object with name and rank, then log each on its own line.\n}\n\nsmithCard(\"Ada\", \"apprentice\");\n",
+    "solutionCode": "function smithCard(name, rank) {\n  const card = { name: name, rank: rank };\n  console.log(card.name);\n  console.log(card.rank);\n}\n\nsmithCard(\"Ada\", \"apprentice\");\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines smithCard()", "pattern": "function\\s+smithCard\\s*\\(", "mustMatch": true },
+      { "id": "uses-object", "label": "Builds an object with a name key", "pattern": "\\{[^}]*name", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nsmithCard(\"Ada\", \"apprentice\");\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Ada\napprentice\n",
+    "outputCheckLabel": "smithCard('Ada', 'apprentice') logs Ada then apprentice"
+  },
+  "hints": [
+    "Build the object first: { name: name, rank: rank }.",
+    "You can store it in a variable, or build it inline — either works.",
+    "card.name reads the name property back out of the object.",
+    "Log name on one line, then rank on the next."
+  ],
+  "nextLessonId": "js-ch10-working-with-objects"
+}

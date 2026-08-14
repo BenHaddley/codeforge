@@ -1,0 +1,80 @@
+{
+  "id": "js-ch07-while-loop",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch07",
+  "number": "7.1",
+  "title": "The while Loop",
+  "xp": 50,
+  "objective": "Repeat code with a while loop until its condition becomes false.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "4",
+    "chapterTitle": "Conditionals and Loops",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; the conditional half of this book chapter is covered in Code Forge's Control Flow chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A while loop repeats a block of code for as long as its condition evaluates to true. Write while, a condition in parentheses, then a block in curly braces — the block runs again and again, re-checking the condition each time, until the condition is false.",
+      "Something inside the loop needs to eventually make the condition false, usually by changing a variable the condition depends on. If nothing does, the loop repeats forever and the program never moves on.",
+      "Use a while loop when you know the condition that should stop the repetition, but not necessarily how many times it will run."
+    ],
+    "rule": "while (condition) { ... } keeps running its block until condition becomes false — something inside the loop must eventually make that happen."
+  },
+  "examples": [
+    {
+      "title": "Countdown",
+      "code": "let count = 5;\nwhile (count > 0) {\n  console.log(count);\n  count -= 1;\n}\nconsole.log(\"FORGE!\");",
+      "note": "Each pass reduces count. Once it reaches 0, the condition is false and the loop ends."
+    }
+  ],
+  "checks": [
+    {
+      "id": "loop-stops",
+      "question": "Why does a countdown loop eventually stop?",
+      "options": [
+        "JavaScript automatically limits while loops to five passes.",
+        "The counter changes until the loop condition becomes false.",
+        "console.log() ends the loop.",
+        "It does not stop."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — the changing counter eventually makes the condition false.",
+        "incorrect": "Not quite. Look for the value that changes each pass."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Countdown",
+    "brief": "Write forgeCountdown(start) using a while loop. Log every number from start to 1, then log FORGE!.",
+    "requirements": [
+      "Define forgeCountdown(start).",
+      "Use a while loop.",
+      "Do not use a for loop.",
+      "Log each number from start down to 1.",
+      "Log FORGE! after the loop ends."
+    ],
+    "starterCode": "function forgeCountdown(start) {\n  // Write your while loop here.\n}\n\nforgeCountdown(5);\n",
+    "solutionCode": "function forgeCountdown(start) {\n  let count = start;\n  while (count > 0) {\n    console.log(count);\n    count -= 1;\n  }\n  console.log(\"FORGE!\");\n}\n\nforgeCountdown(5);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "uses-while", "label": "Uses while", "pattern": "\\bwhile\\b", "mustMatch": true },
+      { "id": "no-for", "label": "Does not use for", "pattern": "\\bfor\\s*\\(", "mustMatch": false }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nforgeCountdown(3);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "3\n2\n1\nFORGE!\n",
+    "outputCheckLabel": "forgeCountdown(3) logs 3, 2, 1, FORGE!"
+  },
+  "hints": [
+    "What value should change on every pass through the loop?",
+    "Your condition can stay true while the counter is greater than zero.",
+    "Log the counter, then subtract one from it.",
+    "FORGE! belongs after the loop has finished."
+  ],
+  "nextLessonId": "js-ch07-for-loop"
+}

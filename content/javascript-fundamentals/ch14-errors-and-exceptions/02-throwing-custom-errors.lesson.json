@@ -1,0 +1,80 @@
+{
+  "id": "js-ch14-throwing-custom-errors",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch14",
+  "number": "14.2",
+  "title": "Throwing Custom Errors",
+  "xp": 50,
+  "objective": "Signal your own error condition with throw, and catch it with catch (err).",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "N/A",
+    "chapterTitle": "N/A",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter; not aligned to a specific book chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Not every error comes from JavaScript itself — sometimes your own code needs to refuse to continue because a value doesn't make sense, like a negative price or a missing required field. The throw statement lets you raise your own error on purpose: throw new Error(\"message\").",
+      "new Error(\"message\") creates an Error object carrying that text. Throwing it immediately stops the current function — just like a built-in error would — and hands control to the nearest catch block, if one is wrapping the call.",
+      "Inside a catch (err) block, err.message holds the exact text you passed to new Error(...). This lets the code that catches the error report something specific and useful, instead of a generic failure."
+    ],
+    "rule": "throw new Error(\"message\") raises your own error; catch (err) receives it, with err.message holding the text you threw."
+  },
+  "examples": [
+    {
+      "title": "Refusing an Invalid Value",
+      "code": "function setVolume(level) {\n  if (level < 0 || level > 100) {\n    throw new Error(\"Volume must be between 0 and 100.\");\n  }\n  return level;\n}\n\ntry {\n  setVolume(150);\n} catch (err) {\n  console.log(err.message);\n}",
+      "note": "setVolume(150) throws before returning anything. The catch block receives that error and reads its message."
+    }
+  ],
+  "checks": [
+    {
+      "id": "err-message",
+      "question": "throw new Error(\"Out of range\") is caught by catch (err). What does err.message equal?",
+      "options": [
+        "\"Error\"",
+        "\"Out of range\"",
+        "undefined",
+        "It raises another error."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — err.message holds exactly the text passed to new Error(...).",
+        "incorrect": "err.message is the text you passed to new Error(...) when you threw it — here, \"Out of range\"."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Validated Deposit",
+    "brief": "Write deposit(amount) that throws new Error('Deposit must be positive.') if amount is 0 or negative, otherwise returns amount. Then write tryDeposit(amount) that calls deposit(amount) in a try block, returning the result on success or the caught error's message on failure.",
+    "requirements": [
+      "Define deposit(amount) that throws for amount <= 0, otherwise returns amount.",
+      "Define tryDeposit(amount) that calls deposit(amount) inside try/catch.",
+      "On success, tryDeposit returns deposit's return value.",
+      "On error, tryDeposit returns err.message."
+    ],
+    "starterCode": "function deposit(amount) {\n  // Throw new Error('Deposit must be positive.') for amount <= 0.\n}\n\nfunction tryDeposit(amount) {\n  // Call deposit(amount) in a try/catch and return the right value either way.\n}\n\nconsole.log(tryDeposit(50));\nconsole.log(tryDeposit(-10));\n",
+    "solutionCode": "function deposit(amount) {\n  if (amount <= 0) {\n    throw new Error(\"Deposit must be positive.\");\n  }\n  return amount;\n}\n\nfunction tryDeposit(amount) {\n  try {\n    return deposit(amount);\n  } catch (err) {\n    return err.message;\n  }\n}\n\nconsole.log(tryDeposit(50));\nconsole.log(tryDeposit(-10));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-deposit", "label": "Defines deposit()", "pattern": "function\\s+deposit\\s*\\(", "mustMatch": true },
+      { "id": "throws-error", "label": "Throws a new Error", "pattern": "throw\\s+new\\s+Error\\s*\\(", "mustMatch": true },
+      { "id": "defines-try-deposit", "label": "Defines tryDeposit() with try/catch", "pattern": "function\\s+tryDeposit\\s*\\([\\s\\S]*try\\s*\\{[\\s\\S]*catch\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(tryDeposit(50));\nconsole.log(tryDeposit(-10));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "50\nDeposit must be positive.\n",
+    "outputCheckLabel": "tryDeposit(50) returns 50; tryDeposit(-10) returns the thrown error's message"
+  },
+  "hints": [
+    "deposit(amount) should throw new Error('Deposit must be positive.') when amount is 0 or negative.",
+    "tryDeposit wraps the deposit(amount) call in try, and returns whatever it returns on success.",
+    "In the catch block, return err.message rather than the whole error object.",
+    "tryDeposit(50) should return 50; tryDeposit(-10) should return the string 'Deposit must be positive.'"
+  ],
+  "nextLessonId": "js-ch15-planning-the-project"
+}

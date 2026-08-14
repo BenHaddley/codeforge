@@ -1,0 +1,79 @@
+{
+  "id": "js-ch12-creating-and-using-a-class",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch12",
+  "number": "12.1",
+  "title": "Creating and Using a Class",
+  "xp": 50,
+  "objective": "Define a class, initialize it with a constructor, and call a method on an instance you create from it.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "6",
+    "chapterTitle": "Classes",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A class is a blueprint for creating objects that bundle data and behavior together. Once you define a class, you can create as many independent instances from it as you need with the new keyword, and each instance keeps its own copy of the data described by the blueprint.",
+      "Every class that stores data on its instances defines a constructor method. JavaScript calls it automatically whenever you write new ClassName(...), so it's the natural place to set up whatever information that instance needs to start with, using this.property = value.",
+      "Inside a class, this refers to the specific instance a method is being called on. JavaScript supplies it automatically based on which instance you called the method through — you never pass it in yourself."
+    ],
+    "rule": "Define a class with class ClassName { constructor(args) { this.prop = args; } }, then create an instance with new ClassName(...) and call its methods with dot notation."
+  },
+  "examples": [
+    {
+      "title": "Defining and Using a Class",
+      "code": "class Apprentice {\n  constructor(name, craft) {\n    this.name = name;\n    this.craft = craft;\n  }\n\n  introduce() {\n    console.log(`I am ${this.name}, training in ${this.craft}.`);\n  }\n}\n\nconst first = new Apprentice(\"Mira\", \"swordsmithing\");\nfirst.introduce();",
+      "note": "new Apprentice(\"Mira\", \"swordsmithing\") triggers the constructor automatically, storing both arguments on this. Calling first.introduce() then runs that method for this one instance."
+    }
+  ],
+  "checks": [
+    {
+      "id": "constructor-timing",
+      "question": "When does a class's constructor method run?",
+      "options": [
+        "Every time any method on the class is called.",
+        "Automatically, once, when you write new ClassName(...).",
+        "Only if you call it by name yourself.",
+        "It never runs automatically."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — new ClassName(...) automatically calls the constructor exactly once, to set up that new instance.",
+        "incorrect": "The constructor runs automatically and exactly once, triggered by new ClassName(...) — you never call it directly."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Badge",
+    "brief": "Write a Badge class whose constructor takes a rank and stores it, with a method describe() that returns 'Rank: <rank>'.",
+    "requirements": [
+      "Define class Badge with a constructor that takes rank and stores it as this.rank.",
+      "Define a describe() method that returns 'Rank: <rank>'.",
+      "Create a Badge instance and call describe() on it."
+    ],
+    "starterCode": "class Badge {\n  constructor(rank) {\n    // Store rank on this.\n  }\n\n  describe() {\n    // Return 'Rank: <rank>'.\n  }\n}\n\nconst badge = new Badge(\"Gold\");\nconsole.log(badge.describe());\n",
+    "solutionCode": "class Badge {\n  constructor(rank) {\n    this.rank = rank;\n  }\n\n  describe() {\n    return `Rank: ${this.rank}`;\n  }\n}\n\nconst badge = new Badge(\"Gold\");\nconsole.log(badge.describe());\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-class", "label": "Defines class Badge", "pattern": "class\\s+Badge\\b", "mustMatch": true },
+      { "id": "has-constructor", "label": "Has a constructor storing rank", "pattern": "constructor\\s*\\(\\s*rank\\s*\\)", "mustMatch": true },
+      { "id": "has-describe", "label": "Defines describe()", "pattern": "describe\\s*\\(\\s*\\)", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconst _cfBadge = new Badge(\"Gold\");\nconsole.log(_cfBadge.describe());\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Rank: Gold\n",
+    "outputCheckLabel": "new Badge('Gold').describe() returns 'Rank: Gold'"
+  },
+  "hints": [
+    "The constructor's parameter and the property name can both be called rank — this.rank = rank; stores it.",
+    "describe() returns a template literal: `Rank: ${this.rank}`.",
+    "this inside describe() refers to whichever Badge instance describe() was called on.",
+    "new Badge('Gold').describe() should return exactly 'Rank: Gold'."
+  ],
+  "nextLessonId": "js-ch12-working-with-instances"
+}

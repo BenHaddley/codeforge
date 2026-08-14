@@ -1,0 +1,73 @@
+{
+  "id": "js-ch05-defining-functions",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch05",
+  "number": "5.1",
+  "title": "Defining and Calling Functions",
+  "xp": 50,
+  "objective": "Define a function with the function keyword and call it with the right arguments.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "Functions",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A function is a named block of code you can run again and again without rewriting it. You create one with the function keyword, a name, parentheses, and a body wrapped in curly braces: function greet() { ... }. The code inside the braces only runs when the function is called.",
+      "The names inside the parentheses in a function declaration are parameters — placeholders for values the function needs. When you call the function, the values you provide in its parentheses are arguments, and they get matched to the parameters in order.",
+      "Defining a function does not run it. Nothing inside the body executes until the function is called by name, with parentheses, somewhere else in the program."
+    ],
+    "rule": "function name(parameters) { ... } creates a function; name(arguments) is what actually runs it."
+  },
+  "examples": [
+    {
+      "title": "Define, Then Call",
+      "code": "function strikeAnvil(times) {\n  console.log(\"Striking \" + times + \" times.\");\n}\n\nstrikeAnvil(3);",
+      "note": "Nothing logs until the last line calls strikeAnvil with an argument."
+    }
+  ],
+  "checks": [
+    {
+      "id": "parameter-vs-argument",
+      "question": "function greet(name) { ... } — what is name called inside the function declaration?",
+      "options": ["An argument", "A parameter", "A variable declaration", "A return value"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — name is a parameter, a placeholder filled in by whatever argument is passed when the function is called.",
+        "incorrect": "The placeholder written inside a function's own parentheses is called a parameter; the actual value passed at call time is the argument."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Strike the Anvil",
+    "brief": "Write strikeAnvil(times) that logs the exact text 'Striking ' followed by times followed by ' times.'",
+    "requirements": [
+      "Define strikeAnvil(times).",
+      "Use console.log to output the message.",
+      "Match the exact text, including the trailing period."
+    ],
+    "starterCode": "function strikeAnvil(times) {\n  // Log the message here.\n}\n\nstrikeAnvil(3);\n",
+    "solutionCode": "function strikeAnvil(times) {\n  console.log(\"Striking \" + times + \" times.\");\n}\n\nstrikeAnvil(3);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines strikeAnvil()", "pattern": "function\\s+strikeAnvil\\s*\\(", "mustMatch": true },
+      { "id": "uses-console-log", "label": "Uses console.log", "pattern": "console\\.log", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nstrikeAnvil(3);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Striking 3 times.\n",
+    "outputCheckLabel": "strikeAnvil(3) logs exactly: Striking 3 times."
+  },
+  "hints": [
+    "function strikeAnvil(times) { ... } defines the function; times is the parameter.",
+    "Use + to join the pieces: \"Striking \" + times + \" times.\"",
+    "console.log(...) prints the message.",
+    "strikeAnvil(3) should log exactly: Striking 3 times."
+  ],
+  "nextLessonId": "js-ch05-return-values"
+}

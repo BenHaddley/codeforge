@@ -1,0 +1,78 @@
+{
+  "id": "js-ch05-default-params-and-arrows",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch05",
+  "number": "5.3",
+  "title": "Default Parameters & Arrow Functions",
+  "xp": 50,
+  "objective": "Give a parameter a default value, and write a function using arrow syntax.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "5",
+    "chapterTitle": "Functions",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A parameter can have a default value, written as name = value inside the function's parentheses. Any call that leaves that argument out uses the default instead, so you only need to pass something when you want a value other than the default.",
+      "Arrow functions are a shorter way to write a function: (parameters) => expression evaluates and returns expression automatically, with no function keyword and no explicit return needed for a single expression. For a body with multiple statements, use curly braces and an explicit return: (parameters) => { statements; return value; }.",
+      "Arrow functions are especially common for short functions — you'll see them constantly once loops and arrays introduce methods that take a function as an argument. For now, know that const double = (n) => n * 2; and function double(n) { return n * 2; } do the same job."
+    ],
+    "rule": "A default parameter (name = value) fills in when an argument is left out; an arrow function (params) => expression is a shorter way to write a function that returns a single expression."
+  },
+  "examples": [
+    {
+      "title": "Default Parameter",
+      "code": "function forgeOrder(metal, quantity = 1) {\n  console.log(metal + \" x\" + quantity);\n}\n\nforgeOrder(\"steel\");\nforgeOrder(\"iron\", 5);",
+      "note": "The first call uses the default quantity of 1. The second call overrides it with 5."
+    },
+    {
+      "title": "Arrow Function Shorthand",
+      "code": "const square = (n) => n * n;\nconsole.log(square(6));",
+      "note": "square is a full function, just written without the function keyword — n * n is returned automatically."
+    }
+  ],
+  "checks": [
+    {
+      "id": "arrow-call",
+      "question": "const triple = (n) => n * 3; — what does triple(4) return?",
+      "options": ["7", "12", "NaN", "undefined"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — triple(4) evaluates 4 * 3 and returns 12 automatically.",
+        "incorrect": "triple(4) runs n * 3 with n as 4, which is 12 — an arrow function with a single expression returns it automatically."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Order",
+    "brief": "Write an arrow function forgeOrder = (metal, quantity = 1) => ... that returns metal followed by ' x' followed by quantity, e.g. 'steel x1'.",
+    "requirements": [
+      "Define forgeOrder as an arrow function assigned to a const.",
+      "Give quantity a default value of 1.",
+      "Return metal followed by ' x' followed by quantity."
+    ],
+    "starterCode": "const forgeOrder = (metal, quantity = 1) => {\n  // Return the formatted string.\n};\n\nconsole.log(forgeOrder(\"steel\"));\nconsole.log(forgeOrder(\"iron\", 5));\n",
+    "solutionCode": "const forgeOrder = (metal, quantity = 1) => {\n  return metal + \" x\" + quantity;\n};\n\nconsole.log(forgeOrder(\"steel\"));\nconsole.log(forgeOrder(\"iron\", 5));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "uses-arrow", "label": "Uses arrow function syntax", "pattern": "=>", "mustMatch": true },
+      { "id": "has-default", "label": "Gives quantity a default of 1", "pattern": "quantity\\s*=\\s*1", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(forgeOrder(\"steel\"));\nconsole.log(forgeOrder(\"iron\", 5));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "steel x1\niron x5\n",
+    "outputCheckLabel": "forgeOrder('steel') and forgeOrder('iron', 5) return 'steel x1' then 'iron x5'"
+  },
+  "hints": [
+    "quantity = 1 inside the parentheses gives it a default value.",
+    "Use + to join metal, ' x', and quantity together.",
+    "forgeOrder('steel') should return 'steel x1' since quantity defaults to 1.",
+    "forgeOrder('iron', 5) should return 'iron x5'."
+  ],
+  "nextLessonId": "js-ch06-block-scope"
+}

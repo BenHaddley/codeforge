@@ -1,0 +1,75 @@
+{
+  "id": "js-ch15-building-the-classes",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch15",
+  "number": "15.2",
+  "title": "Building the Classes",
+  "xp": 75,
+  "objective": "Build a Worker class and an Order class that interact with each other and report their own state.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "N/A",
+    "chapterTitle": "N/A",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge capstone combining classes, arrays, and loops into a console-based simulation. All prose and code are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "With FoundrySettings ready, the next step is the objects that actually do the work: a Worker and an Order. A Worker has energy and a count of items completed; an Order has an id and an effort cost — how much energy it takes to finish.",
+      "A completeOrder(order) method should subtract order.effort from the worker's energy, but never let energy drop below zero — a worker at -3 energy doesn't mean anything, so clamp it to 0 with Math.max(0, ...). A separate isExhausted() method just checks whether energy has reached zero, keeping the 'can this worker keep going?' question in one place instead of repeating the comparison everywhere.",
+      "Notice that Worker and Order don't need to inherit from each other — they just happen to interact. That's fine. Inheritance is for when one class truly is a specialized version of another, not just because two classes are used together."
+    ],
+    "rule": "Give every stateful object a method to change its state (completeOrder) and a method to ask about its state (isExhausted) — don't scatter that logic elsewhere."
+  },
+  "examples": [
+    {
+      "title": "A Worker Completing an Order",
+      "code": "class Worker {\n  constructor(name, energy) {\n    this.name = name;\n    this.energy = energy;\n    this.itemsCompleted = 0;\n  }\n\n  completeOrder(order) {\n    this.energy = Math.max(0, this.energy - order.effort);\n    this.itemsCompleted += 1;\n  }\n\n  isExhausted() {\n    return this.energy <= 0;\n  }\n}\n\nclass Order {\n  constructor(id, effort) {\n    this.id = id;\n    this.effort = effort;\n  }\n}\n\nconst worker = new Worker(\"Rin\", 10);\nconst order = new Order(1, 4);\nworker.completeOrder(order);\nconsole.log(worker.energy);\nconsole.log(worker.itemsCompleted);",
+      "note": "Math.max(0, ...) stops energy from going negative, and isExhausted() reads cleanly wherever it's used."
+    }
+  ],
+  "checks": [
+    {
+      "id": "energy-clamp",
+      "question": "A Worker has 3 energy left and completes an Order with effort 5. What should worker.energy be afterward?",
+      "options": ["-2", "0", "5", "3"],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — Math.max(0, 3 - 5) clamps the result to 0 instead of going negative.",
+        "incorrect": "Without clamping, 3 - 5 would be -2, which doesn't make sense for energy — Math.max(0, ...) prevents that."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Worker and Order Classes",
+    "brief": "Define a Worker class and an Order class. Worker should track energy and items completed; completing an order should reduce energy (never below 0) and increase the completed count.",
+    "requirements": [
+      "Define class Order with a constructor(id, effort) storing both as properties.",
+      "Define class Worker with a constructor(name, energy) storing name, energy, and itemsCompleted starting at 0.",
+      "Worker needs a completeOrder(order) method that reduces energy by order.effort (clamped to a minimum of 0) and increments itemsCompleted.",
+      "Worker needs an isExhausted() method that returns true when energy is 0 or less."
+    ],
+    "starterCode": "class Order {\n  constructor(id, effort) {\n    // Store id and effort.\n  }\n}\n\nclass Worker {\n  constructor(name, energy) {\n    // Store name, energy, and itemsCompleted starting at 0.\n  }\n\n  completeOrder(order) {\n    // Reduce energy by order.effort, clamped at 0, then increment itemsCompleted.\n  }\n\n  isExhausted() {\n    // Return true when energy is 0 or less.\n  }\n}\n\nconst worker = new Worker(\"Rin\", 10);\nworker.completeOrder(new Order(1, 4));\nconsole.log(worker.energy);\nconsole.log(worker.itemsCompleted);\nconsole.log(worker.isExhausted());\n",
+    "solutionCode": "class Order {\n  constructor(id, effort) {\n    this.id = id;\n    this.effort = effort;\n  }\n}\n\nclass Worker {\n  constructor(name, energy) {\n    this.name = name;\n    this.energy = energy;\n    this.itemsCompleted = 0;\n  }\n\n  completeOrder(order) {\n    this.energy = Math.max(0, this.energy - order.effort);\n    this.itemsCompleted += 1;\n  }\n\n  isExhausted() {\n    return this.energy <= 0;\n  }\n}\n\nconst worker = new Worker(\"Rin\", 10);\nworker.completeOrder(new Order(1, 4));\nconsole.log(worker.energy);\nconsole.log(worker.itemsCompleted);\nconsole.log(worker.isExhausted());\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-order", "label": "Defines class Order", "pattern": "class\\s+Order\\b", "mustMatch": true },
+      { "id": "defines-worker", "label": "Defines class Worker", "pattern": "class\\s+Worker\\b", "mustMatch": true },
+      { "id": "uses-math-max", "label": "Clamps energy with Math.max", "pattern": "Math\\.max\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconst _cfWorker = new Worker(\"Rin\", 10);\n_cfWorker.completeOrder(new Order(1, 4));\nconsole.log(_cfWorker.energy);\nconsole.log(_cfWorker.itemsCompleted);\nconsole.log(_cfWorker.isExhausted());\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "6\n1\nfalse\n",
+    "outputCheckLabel": "Worker(\"Rin\", 10) completing Order(1, 4) leaves energy 6, itemsCompleted 1, isExhausted() false"
+  },
+  "hints": [
+    "Order's constructor just needs to store its two arguments — nothing more.",
+    "Worker's constructor sets itemsCompleted to 0 directly, not from an argument.",
+    "completeOrder should read: this.energy = Math.max(0, this.energy - order.effort);",
+    "isExhausted() is a one-line comparison: return this.energy <= 0;"
+  ],
+  "nextLessonId": "js-ch15-the-final-simulation"
+}

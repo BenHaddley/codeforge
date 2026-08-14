@@ -1,0 +1,83 @@
+{
+  "id": "js-ch04-else-if-and-switch",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch04",
+  "number": "4.2",
+  "title": "else if Chains & switch",
+  "xp": 50,
+  "objective": "Handle more than two outcomes with else if, and check one value against many possibilities with switch.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "4",
+    "chapterTitle": "Conditionals and Loops",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only; the loop half of this book chapter is covered in Code Forge's Loops chapter. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "else if lets you check additional conditions when the first if is false. JavaScript tests each condition top to bottom and runs the block under the first one that's true, then skips the rest of the chain entirely.",
+      "Order matters in an else if chain, because the first matching condition wins. A broad condition placed too early can shadow a more specific one written after it.",
+      "When you're checking one single value against many exact possibilities, a switch statement can read more clearly than a long else if chain. Each case checks the switch value for strict equality against one possibility; break stops it from falling into the next case, and default covers anything that didn't match."
+    ],
+    "rule": "An else if chain runs at most one block — the first condition, top to bottom, that's true. switch does the same thing for checking one value against many exact cases."
+  },
+  "examples": [
+    {
+      "title": "Grading a Blade",
+      "code": "let quality = 72;\n\nif (quality >= 90) {\n  console.log(\"Masterwork\");\n} else if (quality >= 70) {\n  console.log(\"Fine\");\n} else {\n  console.log(\"Scrap\");\n}",
+      "note": "72 fails the first check but passes the second, so 'Fine' logs and the rest of the chain is skipped."
+    },
+    {
+      "title": "Checking One Value with switch",
+      "code": "let rank = \"apprentice\";\n\nswitch (rank) {\n  case \"apprentice\":\n    console.log(\"Still learning.\");\n    break;\n  case \"smith\":\n    console.log(\"Fully trained.\");\n    break;\n  default:\n    console.log(\"Unknown rank.\");\n}",
+      "note": "switch compares rank against each case with strict equality. break stops execution from falling into the next case."
+    }
+  ],
+  "checks": [
+    {
+      "id": "switch-break",
+      "question": "In a switch statement, what does break do?",
+      "options": [
+        "Ends the entire program.",
+        "Stops execution from falling into the next case.",
+        "Skips the current case entirely.",
+        "Is required before every case."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — without break, execution would continue running the code in the next case too.",
+        "incorrect": "break exits the switch once a matching case has run, so it doesn't fall through to the next one."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Grade the Blade",
+    "brief": "Write gradeBlade(quality) that logs 'Masterwork' for quality >= 90, 'Fine' for quality >= 70, 'Serviceable' for quality >= 50, otherwise 'Scrap'.",
+    "requirements": [
+      "Define function gradeBlade(quality).",
+      "Use an else if chain to check the thresholds in order.",
+      "Log the exact required message for each case."
+    ],
+    "starterCode": "function gradeBlade(quality) {\n  // Log the correct grade based on quality.\n}\n\ngradeBlade(72);\n",
+    "solutionCode": "function gradeBlade(quality) {\n  if (quality >= 90) {\n    console.log(\"Masterwork\");\n  } else if (quality >= 70) {\n    console.log(\"Fine\");\n  } else if (quality >= 50) {\n    console.log(\"Serviceable\");\n  } else {\n    console.log(\"Scrap\");\n  }\n}\n\ngradeBlade(72);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines gradeBlade()", "pattern": "function\\s+gradeBlade\\s*\\(", "mustMatch": true },
+      { "id": "uses-else-if", "label": "Uses else if", "pattern": "else\\s+if\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\ngradeBlade(72);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "Fine\n",
+    "outputCheckLabel": "gradeBlade(72) logs exactly: Fine"
+  },
+  "hints": [
+    "Check the highest threshold first: quality >= 90.",
+    "Each else if only runs if every condition above it was false.",
+    "72 fails the >= 90 check but passes the >= 70 check.",
+    "The final else catches everything that didn't match any threshold."
+  ],
+  "nextLessonId": "js-ch04-ternary-operator"
+}

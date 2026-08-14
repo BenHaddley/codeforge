@@ -1,0 +1,79 @@
+{
+  "id": "js-ch08-sorting-and-slicing",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch08",
+  "number": "8.4",
+  "title": "Sorting and Slicing",
+  "xp": 50,
+  "objective": "Sort an array with .sort(), reverse it with .reverse(), and pull out a sub-array with .slice().",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "array.sort() rearranges an array in place and, with no arguments, sorts it as strings — which works fine for words but silently gives the wrong order for numbers, since '10' sorts before '9' as text. To sort numbers correctly, pass a compare function: array.sort((a, b) => a - b) sorts ascending, and (b - a) sorts descending.",
+      "array.reverse() flips the current order of an array in place — first becomes last and last becomes first. It doesn't sort anything; it just reverses whatever order was already there.",
+      "array.slice(start, end) returns a brand-new array containing the elements from start up to, but not including, end — the original array is left completely unchanged. Leaving off end means 'to the end of the array'."
+    ],
+    "rule": "sort() and reverse() both change the original array in place; slice() returns a new array and leaves the original untouched."
+  },
+  "examples": [
+    {
+      "title": "Sorting Numbers Correctly",
+      "code": "const scores = [40, 5, 100, 25];\nscores.sort((a, b) => a - b);\nconsole.log(scores);",
+      "note": "Without the compare function, sort() would treat these as text and produce [100, 25, 40, 5] — wrong for numbers. (a, b) => a - b sorts them ascending instead: [5, 25, 40, 100]."
+    },
+    {
+      "title": "Slicing Without Mutating",
+      "code": "const party = [\"Ada\", \"Bram\", \"Cole\", \"Dax\"];\nconst front = party.slice(0, 2);\nconsole.log(front);\nconsole.log(party);",
+      "note": "front gets a new array with just the first two names; party itself is completely unchanged."
+    }
+  ],
+  "checks": [
+    {
+      "id": "sort-numbers",
+      "question": "const nums = [10, 2, 33]; nums.sort(); console.log(nums); — what prints, without a compare function?",
+      "options": ["[2, 10, 33]", "[10, 2, 33]", "[10, 2, 33] sorted as text: [10, 2, 33]", "[10, 2, 33] sorted as text: [10, 33, 2]"],
+      "correctIndex": 3,
+      "feedback": {
+        "correct": "Correct — without a compare function, sort() compares elements as text, so '10' comes before '2' and '33', giving [10, 33, 2].",
+        "incorrect": "Without a compare function, sort() treats numbers as text. Compare '10', '2', and '33' as strings character by character."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Leaderboard",
+    "brief": "Write topTwo(scores) that returns a new array containing the two highest scores, sorted descending, without changing the original array's order.",
+    "requirements": [
+      "Define topTwo(scores).",
+      "Make a sorted copy (e.g. with slice()) so the original array isn't mutated.",
+      "Sort the copy descending using a compare function.",
+      "Return the first two elements of the sorted copy using slice()."
+    ],
+    "starterCode": "function topTwo(scores) {\n  // Return a new array with the two highest scores, descending, without mutating scores.\n}\n\nconst scores = [12, 47, 3, 90, 21];\nconsole.log(topTwo(scores));\nconsole.log(scores);\n",
+    "solutionCode": "function topTwo(scores) {\n  const sorted = scores.slice().sort((a, b) => b - a);\n  return sorted.slice(0, 2);\n}\n\nconst scores = [12, 47, 3, 90, 21];\nconsole.log(topTwo(scores));\nconsole.log(scores);\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines topTwo()", "pattern": "function\\s+topTwo\\s*\\(", "mustMatch": true },
+      { "id": "uses-slice", "label": "Uses .slice()", "pattern": "\\.slice\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(topTwo(scores));\nconsole.log(scores);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "90,47\n12,47,3,90,21\n",
+    "outputCheckLabel": "topTwo(scores) returns [90, 47] and leaves scores in its original order"
+  },
+  "hints": [
+    "scores.slice() with no arguments makes a full copy, so sorting it won't touch the original scores array.",
+    "Sort the copy with (a, b) => b - a for descending order.",
+    "sorted.slice(0, 2) grabs the first two elements of the now-sorted copy.",
+    "The original scores array should still print in its original order afterward."
+  ],
+  "nextLessonId": "js-ch09-foreach-and-map"
+}

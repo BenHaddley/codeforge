@@ -6,7 +6,7 @@
 // navigating away. Content is fetched from content/*.json; nothing here
 // hardcodes lesson text.
 const CONTENT_BASE = '../content/python-fundamentals/';
-const DEFAULT_LESSON_ID = 'py-ch07-while-loops';
+const DEFAULT_LESSON_ID = 'py-ch01-what-is-python';
 
 const params = new URLSearchParams(location.search);
 window.CF_LESSON_ID = params.get('lesson') || DEFAULT_LESSON_ID;
@@ -18,7 +18,7 @@ let hintIndex = 0;
 let quizIndex = 0;
 let quizAnswered = false;
 let lastSubmitResult = null;
-let lastQuizCorrect = null;
+let lastQuizCorrect = true;
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -172,6 +172,7 @@ function updateTtsButtons() {
   const state = TTS.getState();
   const toggleBtn = document.getElementById('ttsToggleBtn');
   const stopBtn = document.getElementById('ttsStopBtn');
+  toggleBtn.disabled = false; // only the brief "waiting for first audio" window disables it
   toggleBtn.textContent = state === 'speaking' ? '⏸' : state === 'paused' ? '▶' : '🔊';
   toggleBtn.title = state === 'speaking' ? 'Pause narration' : state === 'paused' ? 'Resume narration (Ctrl+L)' : 'Listen (Ctrl+L)';
   stopBtn.hidden = state === 'idle';
@@ -189,8 +190,20 @@ function wireTts() {
   toggleBtn.addEventListener('click', () => {
     const state = TTS.getState();
     if (state === 'idle') {
+      // The first click has to wait for the voice model (an ~90MB one-time
+      // download) before any audio exists at all — TTS.getState() reports
+      // 'speaking' immediately, so showing the normal pause icon here would
+      // look identical to real playback with nothing audible yet. Show an
+      // explicit loading state until onParagraphStart actually fires, i.e.
+      // audio genuinely starts.
+      toggleBtn.textContent = '⏳';
+      toggleBtn.title = 'Loading voice model...';
+      toggleBtn.disabled = true;
+      stopBtn.hidden = false;
+      setStatus('Loading voice model...');
       TTS.speak(buildTtsParagraphs(), {
         onParagraphStart: (i) => {
+          toggleBtn.disabled = false;
           clearTtsHighlight();
           const el = document.querySelector(`#lessonText [data-tts-index="${i}"]`);
           if (el) {
@@ -201,14 +214,17 @@ function wireTts() {
           setStatus('Reading lesson aloud...');
         },
         onEnd: () => {
+          toggleBtn.disabled = false;
           resetTtsUi();
           setStatus('Narration finished');
         },
         onFailure: (message) => {
+          toggleBtn.disabled = false;
           resetTtsUi();
           setStatus(message || 'Narration failed.');
         },
       });
+      return;
     } else if (state === 'speaking') {
       TTS.pause();
       setStatus('Narration paused');
@@ -234,9 +250,54 @@ function wireTts() {
   });
 }
 
+// Text wrap is on in the editor (see .editor-shell textarea in editor.css),
+// so a long logical line can span several visual rows — a plain 1-number-
+// per-newline gutter would drift out of alignment the moment that happens.
+// This hidden mirror renders each line with the textarea's exact font/
+// width/padding to measure how tall it actually wraps to, so the gutter can
+// give that line's number a matching-height row instead of a fixed one.
+let lineMirrorEl = null;
+function getLineMirror(textarea) {
+  if (!lineMirrorEl) {
+    lineMirrorEl = document.createElement('div');
+    Object.assign(lineMirrorEl.style, {
+      position: 'absolute',
+      visibility: 'hidden',
+      left: '-9999px',
+      top: '0',
+      whiteSpace: 'pre-wrap',
+      wordBreak: 'break-word',
+      paddingTop: '0',
+      paddingBottom: '0',
+      border: '0',
+    });
+    document.body.appendChild(lineMirrorEl);
+  }
+  const cs = getComputedStyle(textarea);
+  Object.assign(lineMirrorEl.style, {
+    fontFamily: cs.fontFamily,
+    fontSize: cs.fontSize,
+    fontWeight: cs.fontWeight,
+    lineHeight: cs.lineHeight,
+    letterSpacing: cs.letterSpacing,
+    paddingLeft: cs.paddingLeft,
+    paddingRight: cs.paddingRight,
+    boxSizing: cs.boxSizing,
+    tabSize: cs.tabSize,
+    width: textarea.clientWidth + 'px',
+  });
+  return lineMirrorEl;
+}
+
 function updateLines(textarea, lineNumbersEl) {
-  const count = textarea.value.split('\n').length;
-  lineNumbersEl.textContent = Array.from({ length: count }, (_, i) => i + 1).join('\n');
+  const mirror = getLineMirror(textarea);
+  const rows = textarea.value.split('\n').map((lineText, i) => {
+    mirror.textContent = lineText === '' ? ' ' : lineText;
+    const height = mirror.getBoundingClientRect().height;
+    return `<span style="height:${height}px">${i + 1}</span>`;
+  });
+  lineNumbersEl.innerHTML = rows.join('');
+  lineNumbersEl.scrollTop = textarea.scrollTop;
 }
 
 function refreshEditor() {
@@ -275,7 +336,7 @@ function renderTests(result) {
 }
 
 function renderHints() {
-  const hints = lesson.hints;
+  const hints = lesson.hints || [];
   const seen = hints.slice(0, hintIndex + 1);
   const el = document.getElementById('workspaceHints');
   el.innerHTML = seen.map((h, i) => `<div class="hint-row"><b>Hint ${i + 1}:</b> ${escapeHtml(h)}</div>`).join('') ||
@@ -333,6 +394,20 @@ function setupWorkspace() {
     updateLines(editor, lineNumbers);
     ProgressStore.setDraft(lesson.id, editor.value);
   });
+  // Wrapped lines can make the editor taller than its viewport; the gutter
+  // has no scrollbar of its own (see .line-numbers overflow:hidden in
+  // editor.css) and just follows the textarea's scroll position instead.
+  editor.addEventListener('scroll', () => {
+    lineNumbers.scrollTop = editor.scrollTop;
+  });
+  // Anything that changes the editor's width changes where wrapped lines
+  // break, which changes their measured height — window resizes, but also
+  // dragging lessonColResizer (panel-resizer.js), which a plain window
+  // 'resize' listener wouldn't catch since the browser window itself never
+  // resizes in that case.
+  if (typeof ResizeObserver === 'function') {
+    new ResizeObserver(() => updateLines(editor, lineNumbers)).observe(editor);
+  }
 
   const run = async () => {
     ProgressStore.setDraft(lesson.id, editor.value);
@@ -398,7 +473,12 @@ function setupWorkspace() {
   });
 
   document.querySelector('.workspace-output .tabs').addEventListener('click', (e) => {
-    if (e.target.matches('button')) activateTab(e.target.dataset.tab);
+    if (e.target.matches('button[data-tab]')) activateTab(e.target.dataset.tab);
+  });
+  document.getElementById('outputCollapseBtn').addEventListener('click', () => {
+    const output = document.querySelector('.workspace-output');
+    const collapsed = output.classList.toggle('collapsed');
+    document.getElementById('outputCollapseBtn').textContent = collapsed ? 'Show' : 'Hide';
   });
 
   document.addEventListener('keydown', (e) => {
@@ -416,13 +496,22 @@ function setupWorkspace() {
   // editor never loses state.
   const switchEl = document.getElementById('workspaceSwitch');
   if (switchEl) {
+    let currentPane = 'lesson';
+    const lessonLeft = document.getElementById('lessonLeft');
+    const lessonRight = document.getElementById('lessonRight');
+    const resizer = document.getElementById('lessonColResizer');
     const setPane = (name) => {
-      document.getElementById('lessonScroll').closest('.lesson-left').style.display = name === 'lesson' ? '' : 'none';
-      document.getElementById('lessonRight').style.display = name === 'code' ? '' : 'none';
+      currentPane = name;
+      const narrow = typeof window.matchMedia === 'function' && window.matchMedia('(max-width:1050px)').matches;
+      lessonLeft.style.display = !narrow || name === 'lesson' ? '' : 'none';
+      lessonRight.style.display = !narrow || name === 'code' ? '' : 'none';
+      if (resizer) resizer.style.display = narrow ? 'none' : '';
       switchEl.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b.id === (name === 'lesson' ? 'wsTabLesson' : 'wsTabCode')));
     };
     document.getElementById('wsTabLesson').addEventListener('click', () => setPane('lesson'));
     document.getElementById('wsTabCode').addEventListener('click', () => setPane('code'));
+    window.addEventListener('resize', () => setPane(currentPane));
+    setPane(currentPane);
   }
 }
 
@@ -435,7 +524,7 @@ function showCompletionDialog(newlyCompleted, totalXp) {
     <div class="completion-dialog pane" role="dialog" aria-modal="true" aria-labelledby="completionTitle">
       <div class="pane-title">Quest Complete</div>
       <div class="pane-body">
-        <p id="completionTitle" class="completion-title">${escapeHtml(lesson.title)} — complete!</p>
+        <p id="completionTitle" class="completion-title">${escapeHtml(lesson.title)} - complete!</p>
         ${newlyCompleted ? `<p class="completion-xp">+${lesson.xp} XP earned <span class="completion-total">(${totalXp} total)</span></p>` : '<p class="completion-xp">Already completed — no additional XP.</p>'}
         <div class="completion-actions">
           ${lesson.checks && lesson.checks.length ? '<button class="classic-button" id="completionQuizBtn">Knowledge Check →</button>' : ''}
@@ -580,6 +669,15 @@ function findLessonRef(trackData, lessonId) {
 
 async function init() {
   setStatus('Loading lesson...');
+  // Fire first, before anything else: this is a large (~90MB), lesson-
+  // independent download, so starting it before the (small, fast) lesson
+  // JSON fetches lets it run the whole time the learner is reading rather
+  // than only after page setup finishes.
+  TTS.warmup((p) => {
+    if (p && p.status === 'progress' && typeof p.progress === 'number') {
+      setStatus(`Downloading voice model... ${Math.round(p.progress)}%`);
+    }
+  });
   track = await loadJSON(CONTENT_BASE + 'track.json');
   const ref = findLessonRef(track, window.CF_LESSON_ID);
   if (!ref) {
@@ -588,6 +686,7 @@ async function init() {
   }
   chapter = ref.chapter;
   lesson = await loadJSON(CONTENT_BASE + ref.lesson.path);
+  ProgressStore.touchLesson(lesson.id);
 
   CourseDrawer.init(track, lesson.id, (newLessonId) => {
     location.search = `?lesson=${encodeURIComponent(newLessonId)}`;

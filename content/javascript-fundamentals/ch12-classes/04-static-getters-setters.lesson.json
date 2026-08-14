@@ -1,0 +1,80 @@
+{
+  "id": "js-ch12-static-getters-setters",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch12",
+  "number": "12.4",
+  "title": "Static Methods, Getters, and Setters",
+  "xp": 50,
+  "objective": "Define a static factory method, and a getter/setter pair that guards how a property can be set.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "6",
+    "chapterTitle": "Classes",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A static method belongs to the class itself, not to any instance. You call it as ClassName.method(...), never on an instance, which makes it a natural place for a factory function — one that builds and returns a new instance for you, often with some setup already applied.",
+      "A getter looks like a plain property from the outside (instance.value, no parentheses) but actually runs a method behind the scenes whenever it's read. Write one with get propertyName() { return ...; } inside a class.",
+      "A setter is the write-side equivalent: instance.value = x looks like plain assignment, but runs a set propertyName(x) { ... } method instead. This lets you validate or adjust a value on the way in — for example, refusing to let it go below zero — without the code that assigns it looking any different from a normal property assignment."
+    ],
+    "rule": "static makes a method belong to the class itself; get/set let instance.property reads and writes run real code behind ordinary-looking property syntax."
+  },
+  "examples": [
+    {
+      "title": "A Static Factory and a Guarded Setter",
+      "code": "class Battery {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this._level = 0;\n  }\n\n  get level() {\n    return this._level;\n  }\n\n  set level(value) {\n    this._level = Math.max(0, Math.min(this.capacity, value));\n  }\n\n  static empty(capacity) {\n    return new Battery(capacity);\n  }\n}\n\nconst pack = Battery.empty(100);\npack.level = 150;\nconsole.log(pack.level);",
+      "note": "Battery.empty(100) is a static factory — called on the class, not an instance. Setting level to 150 runs the setter, which clamps it down to 100 (the capacity), so the getter reads back 100."
+    }
+  ],
+  "checks": [
+    {
+      "id": "static-call-target",
+      "question": "class Robot { static build() { return new Robot(); } } — how do you call build()?",
+      "options": [
+        "new Robot().build()",
+        "Robot.build()",
+        "build()",
+        "this.build()"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — a static method belongs to the class itself, so you call it as ClassName.method(), never on an instance.",
+        "incorrect": "static methods live on the class itself, not on any instance — call it as Robot.build()."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Battery Pack",
+    "brief": "Write a Battery class: constructor(capacity) storing capacity and an internal level starting at 0; a level getter/setter where the setter clamps the value between 0 and capacity; and a static full(capacity) method returning a new Battery already set to its capacity. Then write runBatteryDemo(capacity) that creates a battery with Battery.full(capacity), tries setting level to capacity + 50, and logs the resulting level.",
+    "requirements": [
+      "Define class Battery with constructor(capacity) storing capacity and an internal level (starting at 0).",
+      "Define a level getter and a level setter that clamps the assigned value between 0 and capacity.",
+      "Define a static full(capacity) method that returns a new Battery with level already set to capacity.",
+      "Define runBatteryDemo(capacity) using Battery.full(capacity), setting level to capacity + 50, then logging level."
+    ],
+    "starterCode": "class Battery {\n  constructor(capacity) {\n    // Store capacity; start an internal level at 0.\n  }\n\n  get level() {\n    // Return the internal level.\n  }\n\n  set level(value) {\n    // Clamp value between 0 and capacity before storing it.\n  }\n\n  static full(capacity) {\n    // Return a new Battery already set to its capacity.\n  }\n}\n\nfunction runBatteryDemo(capacity) {\n  // Create a full battery, try overcharging it, log the result.\n}\n",
+    "solutionCode": "class Battery {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this._level = 0;\n  }\n\n  get level() {\n    return this._level;\n  }\n\n  set level(value) {\n    this._level = Math.max(0, Math.min(this.capacity, value));\n  }\n\n  static full(capacity) {\n    const battery = new Battery(capacity);\n    battery.level = capacity;\n    return battery;\n  }\n}\n\nfunction runBatteryDemo(capacity) {\n  const pack = Battery.full(capacity);\n  pack.level = capacity + 50;\n  console.log(pack.level);\n}\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-getter", "label": "Defines a level getter", "pattern": "get\\s+level\\s*\\(\\s*\\)", "mustMatch": true },
+      { "id": "defines-setter", "label": "Defines a level setter", "pattern": "set\\s+level\\s*\\(", "mustMatch": true },
+      { "id": "defines-static", "label": "Defines a static full() method", "pattern": "static\\s+full\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nrunBatteryDemo(100);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "100\n",
+    "outputCheckLabel": "runBatteryDemo(100) logs 100 (overcharge attempt clamped by the setter)"
+  },
+  "hints": [
+    "The setter should use Math.max(0, Math.min(this.capacity, value)) to clamp value into range.",
+    "static full(capacity) can build a Battery and then use its own setter (battery.level = capacity) to fill it.",
+    "Battery.full(capacity) is called on the class itself, not with new Battery.full(...).",
+    "capacity + 50 exceeds the capacity, so the setter should clamp it back down to exactly capacity — 100 for this test."
+  ],
+  "nextLessonId": "js-ch13-export-and-import"
+}

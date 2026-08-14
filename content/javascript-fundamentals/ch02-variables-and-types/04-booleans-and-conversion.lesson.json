@@ -1,0 +1,78 @@
+{
+  "id": "js-ch02-booleans-and-conversion",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.4",
+  "title": "Booleans & Type Conversion",
+  "xp": 50,
+  "objective": "Use true/false values and recognize which values JavaScript treats as truthy or falsy.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "2",
+    "chapterTitle": "The Basics",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A boolean is either true or false — there are only ever these two values, and comparisons produce one of them. You write them without quotes; they're not strings.",
+      "JavaScript will treat almost any value as a boolean when it needs to, in a condition, using a rule called truthy/falsy. Exactly six values count as falsy: 0, \"\" (empty string), null, undefined, NaN, and false itself. Every other value — including \"0\" as a string, or an empty array — counts as truthy.",
+      "Boolean(value), String(value), and Number(value) explicitly convert a value to that type on demand, rather than relying on JavaScript to guess. Boolean(0) is false, Boolean(\"\") is false, Boolean(\"hello\") is true."
+    ],
+    "rule": "Only 0, \"\", null, undefined, NaN, and false are falsy — everything else, including \"0\" and empty arrays, is truthy."
+  },
+  "examples": [
+    {
+      "title": "Falsy Values",
+      "code": "console.log(Boolean(0));\nconsole.log(Boolean(\"\"));\nconsole.log(Boolean(\"0\"));\nconsole.log(Boolean(\"hello\"));",
+      "note": "The number 0 and the empty string are falsy, but the string \"0\" (a non-empty string) is truthy, along with any other non-empty string."
+    }
+  ],
+  "checks": [
+    {
+      "id": "truthy-string-zero",
+      "question": "What does Boolean(\"0\") evaluate to?",
+      "options": [
+        "false, because \"0\" looks like zero.",
+        "true, because \"0\" is a non-empty string.",
+        "It throws an error.",
+        "undefined"
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — \"0\" is a non-empty string, so it's truthy even though it looks like the number zero.",
+        "incorrect": "Only the number 0 and the empty string \"\" are falsy — the string \"0\" has a character in it, so it's truthy."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Truthy Check",
+    "brief": "Write describeValue(value) that logs true if Boolean(value) is true, and false otherwise.",
+    "requirements": [
+      "Define describeValue(value).",
+      "Use Boolean(value) to determine truthiness.",
+      "Log the resulting boolean."
+    ],
+    "starterCode": "function describeValue(value) {\n  // Log whether value is truthy or falsy using Boolean().\n}\n\ndescribeValue(0);\ndescribeValue(\"hello\");\n",
+    "solutionCode": "function describeValue(value) {\n  console.log(Boolean(value));\n}\n\ndescribeValue(0);\ndescribeValue(\"hello\");\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines describeValue()", "pattern": "function\\s+describeValue\\s*\\(", "mustMatch": true },
+      { "id": "uses-boolean", "label": "Uses Boolean()", "pattern": "Boolean\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\ndescribeValue(0);\ndescribeValue(\"hello\");\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "false\ntrue\n",
+    "outputCheckLabel": "describeValue(0) then describeValue('hello') log false then true"
+  },
+  "hints": [
+    "Boolean(value) converts value to true or false directly.",
+    "0 is falsy, so describeValue(0) should log false.",
+    "\"hello\" is a non-empty string, so it's truthy.",
+    "Log the result of Boolean(value), not value itself."
+  ],
+  "nextLessonId": "js-ch03-arithmetic-operators"
+}

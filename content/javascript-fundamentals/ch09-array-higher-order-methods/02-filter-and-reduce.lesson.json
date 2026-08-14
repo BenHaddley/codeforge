@@ -1,0 +1,79 @@
+{
+  "id": "js-ch09-filter-and-reduce",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch09",
+  "number": "9.2",
+  "title": "filter and reduce",
+  "xp": 50,
+  "objective": "Use filter to keep only matching elements, and reduce to collapse an array into a single value.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter covering idiomatic array methods beyond the book's core coverage. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Array.prototype.filter() runs a callback once per element and builds a new array containing only the elements where the callback returned true. Elements where it returned false are left out entirely — the new array can be shorter than the original, or even empty.",
+      "Array.prototype.reduce() is the most flexible of the three: it walks through the array carrying an accumulator value forward, calling (accumulator, currentElement) => newAccumulator at each step, and returns whatever the accumulator ends up as after the last element. The second argument to reduce() is the accumulator's starting value.",
+      "A common reduce() use is summing an array: numbers.reduce((total, n) => total + n, 0) starts total at 0, adds each number to it in turn, and returns the final total — no loop or extra variable needed."
+    ],
+    "rule": "filter() keeps only the elements a callback approves of; reduce() folds the whole array down into one accumulated value."
+  },
+  "examples": [
+    {
+      "title": "Keeping Only What Matches",
+      "code": "const scores = [45, 90, 62, 88, 30];\nconst passing = scores.filter((score) => score >= 60);\nconsole.log(passing);",
+      "note": "filter() keeps only the scores where the callback returned true — three of the five scores pass."
+    },
+    {
+      "title": "Folding an Array into One Value",
+      "code": "const prices = [10, 20, 30];\nconst total = prices.reduce((sum, price) => sum + price, 0);\nconsole.log(total);",
+      "note": "sum starts at 0 (the second argument to reduce) and accumulates every price in turn, ending at 60."
+    }
+  ],
+  "checks": [
+    {
+      "id": "filter-keeps-matches",
+      "question": "const nums = [1, 2, 3, 4]; nums.filter(n => n % 2 === 0) returns?",
+      "options": ["[2, 4]", "[1, 3]", "10", "[1, 2, 3, 4]"],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct — filter() keeps only the elements where the callback returned true, here the even numbers.",
+        "incorrect": "filter() builds a new array of only the elements that satisfy the callback — n % 2 === 0 is true only for even numbers."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Total the Evens",
+    "brief": "Write sumEvens(numbers) that returns the sum of only the even numbers in the array, using filter and reduce together (not a loop).",
+    "requirements": [
+      "Define sumEvens(numbers).",
+      "Use .filter() to keep only even numbers.",
+      "Use .reduce() to sum the filtered numbers, and return the total."
+    ],
+    "starterCode": "function sumEvens(numbers) {\n  // Filter to only even numbers, then reduce to their sum.\n}\n\nconsole.log(sumEvens([1, 2, 3, 4, 5, 6]));\n",
+    "solutionCode": "function sumEvens(numbers) {\n  return numbers.filter((n) => n % 2 === 0).reduce((total, n) => total + n, 0);\n}\n\nconsole.log(sumEvens([1, 2, 3, 4, 5, 6]));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines sumEvens()", "pattern": "function\\s+sumEvens\\s*\\(", "mustMatch": true },
+      { "id": "uses-filter", "label": "Uses .filter()", "pattern": "\\.filter\\s*\\(", "mustMatch": true },
+      { "id": "uses-reduce", "label": "Uses .reduce()", "pattern": "\\.reduce\\s*\\(", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(sumEvens([1, 2, 3, 4, 5, 6]));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "12\n",
+    "outputCheckLabel": "sumEvens([1, 2, 3, 4, 5, 6]) returns 12"
+  },
+  "hints": [
+    "First filter to keep only numbers where n % 2 === 0.",
+    "Then reduce the filtered array to a running total, starting at 0.",
+    "You can chain them directly: numbers.filter(...).reduce(...).",
+    "sumEvens([1, 2, 3, 4, 5, 6]) should return 12 (2 + 4 + 6)."
+  ],
+  "nextLessonId": "js-ch10-a-simple-object"
+}

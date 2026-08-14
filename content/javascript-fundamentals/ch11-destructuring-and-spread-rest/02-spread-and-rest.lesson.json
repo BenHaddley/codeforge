@@ -1,0 +1,78 @@
+{
+  "id": "js-ch11-spread-and-rest",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch11",
+  "number": "11.2",
+  "title": "Spread and Rest Operators",
+  "xp": 50,
+  "objective": "Use the ... operator to expand a value into individual elements, or to gather several arguments into one array.",
+  "sourceAlignment": {
+    "type": "original",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "3",
+    "chapterTitle": "Compound Data Types",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Original Code Forge chapter covering modern spread/rest syntax beyond the book's core coverage. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "The ... operator looks the same in every spot you use it, but it does one of two opposite things depending on where it appears: it either spreads a collection out into individual values, or gathers individual values into one collection.",
+      "As spread, ... expands an array or object into its individual elements. [...arr] copies an array into a brand-new one. [...arr1, ...arr2] merges two arrays into one. {...obj1, ...obj2} merges two objects into one, with obj2's properties overwriting obj1's if any keys collide.",
+      "As rest, ... does the opposite: it gathers any remaining function arguments into a single array. function total(first, ...rest) {} — calling total(1, 2, 3, 4) gives first the value 1, and rest becomes the array [2, 3, 4]. The rest parameter must be the last one in the function's parameter list."
+    ],
+    "rule": "... spreads a collection apart into individual values, or gathers individual values together into one array — spread expands, rest collects."
+  },
+  "examples": [
+    {
+      "title": "Spreading Arrays and Objects",
+      "code": "const base = [1, 2];\nconst extended = [...base, 3, 4];\nconsole.log(extended);\n\nconst defaults = { volume: 50, muted: false };\nconst settings = { ...defaults, volume: 80 };\nconsole.log(settings);",
+      "note": "extended copies base's values and adds two more. settings starts from defaults but volume: 80 overwrites the default volume."
+    },
+    {
+      "title": "Gathering Extra Arguments",
+      "code": "function total(first, ...rest) {\n  console.log(first, rest);\n}\n\ntotal(1, 2, 3, 4);",
+      "note": "first takes the value 1; every argument after it is gathered into the rest array, [2, 3, 4]."
+    }
+  ],
+  "checks": [
+    {
+      "id": "object-spread-merge",
+      "question": "const a = { x: 1, y: 2 }; const b = { y: 9, z: 3 }; const merged = { ...a, ...b }; — what is merged.y?",
+      "options": ["1", "2", "9", "undefined"],
+      "correctIndex": 2,
+      "feedback": {
+        "correct": "Correct — b is spread after a, so b's y: 9 overwrites a's y: 2.",
+        "incorrect": "When two spread objects share a key, the one spread LATER wins — here that's b, so y ends up 9."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Merge and Count",
+    "brief": "Write mergeSettings(defaults, overrides) that returns a new object combining both, with overrides winning on shared keys. Then write countExtras(first, ...rest) that returns how many arguments came after the first one.",
+    "requirements": [
+      "Define mergeSettings(defaults, overrides) using object spread, with overrides applied after defaults.",
+      "Define countExtras(first, ...rest) using a rest parameter.",
+      "countExtras should return rest.length."
+    ],
+    "starterCode": "function mergeSettings(defaults, overrides) {\n  // Return a new object: defaults, with overrides applied on top.\n}\n\nfunction countExtras(first, ...rest) {\n  // Return how many arguments came after first.\n}\n\nconsole.log(mergeSettings({ volume: 50, muted: false }, { volume: 80 }));\nconsole.log(countExtras(\"a\", \"b\", \"c\", \"d\"));\n",
+    "solutionCode": "function mergeSettings(defaults, overrides) {\n  return { ...defaults, ...overrides };\n}\n\nfunction countExtras(first, ...rest) {\n  return rest.length;\n}\n\nconsole.log(mergeSettings({ volume: 50, muted: false }, { volume: 80 }));\nconsole.log(countExtras(\"a\", \"b\", \"c\", \"d\"));\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-merge", "label": "Defines mergeSettings() using object spread", "pattern": "\\{\\s*\\.\\.\\.defaults\\s*,\\s*\\.\\.\\.overrides\\s*\\}", "mustMatch": true },
+      { "id": "defines-count-extras", "label": "Defines countExtras() with a rest parameter", "pattern": "function\\s+countExtras\\s*\\(\\s*first\\s*,\\s*\\.\\.\\.rest\\s*\\)", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(JSON.stringify(mergeSettings({ volume: 50, muted: false }, { volume: 80 })));\nconsole.log(countExtras(\"a\", \"b\", \"c\", \"d\"));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "{\"volume\":80,\"muted\":false}\n3\n",
+    "outputCheckLabel": "mergeSettings applies overrides on top of defaults; countExtras counts the arguments after the first"
+  },
+  "hints": [
+    "{ ...defaults, ...overrides } spreads defaults first, then overrides on top, so overrides wins on shared keys.",
+    "function countExtras(first, ...rest) collects everything after first into the rest array automatically.",
+    "rest.length tells you how many extra arguments were passed.",
+    "countExtras('a', 'b', 'c', 'd') should return 3 — three arguments came after 'a'."
+  ],
+  "nextLessonId": "js-ch12-creating-and-using-a-class"
+}

@@ -1,0 +1,85 @@
+{
+  "id": "js-ch02-strings",
+  "trackId": "javascript-fundamentals",
+  "chapterId": "ch02",
+  "number": "2.2",
+  "title": "Strings",
+  "xp": 50,
+  "objective": "Build and transform text with template literals, concatenation, and string methods.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "JavaScript Crash Course",
+    "author": "Nick Morgan",
+    "publisher": "No Starch Press",
+    "chapter": "2",
+    "chapterTitle": "The Basics",
+    "url": "https://nostarch.com/javascript-crash-course",
+    "note": "Alignment metadata only. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A string is text wrapped in quotes. Single quotes and double quotes both work the same way — pick one style and stay consistent. You can join strings together with the + operator, called concatenation, but you have to add spaces yourself.",
+      "Backticks create a template literal, which lets you drop a variable directly into the middle of a string with ${}. `Hello, ${name}!` inserts whatever name currently holds, without any + signs at all — this is the normal way to build a message out of pieces in JavaScript.",
+      "Strings come with built-in methods you call with a dot: name.toUpperCase() returns an all-caps copy, name.toLowerCase() returns a lowercase copy, and name.trim() removes whitespace from both ends. None of these change the original string — they return a new one."
+    ],
+    "rule": "Use a template literal — `text ${variable} more text` — to build a string out of pieces; it's clearer than chaining + concatenation."
+  },
+  "examples": [
+    {
+      "title": "Template Literals",
+      "code": "const smith = \"Ada\";\nconst swords = 3;\nconsole.log(`${smith} forged ${swords} swords today.`);",
+      "note": "${smith} and ${swords} are replaced with their values automatically, including converting the number to text."
+    },
+    {
+      "title": "String Methods",
+      "code": "const raw = \"  ember  \";\nconsole.log(raw.trim().toUpperCase());",
+      "note": "trim() removes the surrounding spaces first, then toUpperCase() capitalizes the result — neither changes raw itself."
+    }
+  ],
+  "checks": [
+    {
+      "id": "method-returns-copy",
+      "question": "What does name.toUpperCase() do to the variable name itself?",
+      "options": [
+        "Permanently changes name to uppercase.",
+        "Returns a new uppercase string; name is unchanged unless reassigned.",
+        "Deletes name.",
+        "Throws an error unless name is already uppercase."
+      ],
+      "correctIndex": 1,
+      "feedback": {
+        "correct": "Correct — string methods return a new string instead of modifying the original.",
+        "incorrect": "String methods don't change the string in place — they hand back a new one."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Forge Banner",
+    "brief": "Write forgeBanner(smithName) that logs the smith's name in uppercase, followed by the exact text ' FORGE', using a template literal.",
+    "requirements": [
+      "Define forgeBanner(smithName).",
+      "Convert smithName to uppercase using a string method.",
+      "Use a template literal to build the final message, ending in the exact text ' FORGE'.",
+      "Log the result."
+    ],
+    "starterCode": "function forgeBanner(smithName) {\n  // Uppercase smithName, then build ' FORGE' onto it with a template literal.\n}\n\nforgeBanner(\"ada\");\n",
+    "solutionCode": "function forgeBanner(smithName) {\n  const banner = `${smithName.toUpperCase()} FORGE`;\n  console.log(banner);\n}\n\nforgeBanner(\"ada\");\n",
+    "timeoutMs": 5000,
+    "requirementChecks": [
+      { "id": "defines-function", "label": "Defines forgeBanner()", "pattern": "function\\s+forgeBanner\\s*\\(", "mustMatch": true },
+      { "id": "uses-uppercase", "label": "Uses .toUpperCase()", "pattern": "\\.toUpperCase\\s*\\(\\s*\\)", "mustMatch": true },
+      { "id": "uses-template-literal", "label": "Uses a template literal", "pattern": "`", "mustMatch": true }
+    ],
+    "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nforgeBanner(\"ada\");\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
+    "expectedOutput": "ADA FORGE\n",
+    "outputCheckLabel": "forgeBanner('ada') logs exactly: ADA FORGE"
+  },
+  "hints": [
+    "smithName.toUpperCase() gives you an uppercase copy of the name.",
+    "A template literal looks like `${smithName.toUpperCase()} FORGE` — the expression inside ${} runs first.",
+    "Store the combined string in a variable, then log that variable.",
+    "The final output for 'ada' should read exactly: ADA FORGE"
+  ],
+  "nextLessonId": "js-ch02-numbers"
+}
