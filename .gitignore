@@ -1,0 +1,7 @@
+# Secrets — never commit real provider keys
+.env
+
+# Editor / OS noise
+.obsidian/
+.DS_Store
+node_modules/

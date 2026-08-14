@@ -1,0 +1,19 @@
+{
+  "name": "codeforge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Code Forge — Win98-styled coding school with the Paperclip AI tutor. Zero-dependency Node server: static site + POST /api/paperclip.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "test:paperclip": "node server/paperclip/self-test.js",
+    "test:browser": "node test/browser-flow.js"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  },
+  "license": "UNLICENSED"
+}
