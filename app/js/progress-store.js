@@ -9,6 +9,9 @@ const ProgressStore = (() => {
   function setDraft(lessonId, code) {
     localStorage.setItem(key(lessonId, 'draft'), code);
   }
+  function hasDraft(lessonId) {
+    return localStorage.getItem(key(lessonId, 'draft')) !== null;
+  }
   function getNotes(lessonId) {
     return localStorage.getItem(key(lessonId, 'notes')) || '';
   }
@@ -18,10 +21,28 @@ const ProgressStore = (() => {
   function isComplete(lessonId) {
     return localStorage.getItem(key(lessonId, 'complete')) === '1';
   }
+  function getCompletedAt(lessonId) {
+    return parseInt(localStorage.getItem(key(lessonId, 'completedAt')) || '0', 10);
+  }
   function incrementAttempts(lessonId) {
     const n = parseInt(localStorage.getItem(key(lessonId, 'attempts')) || '0', 10) + 1;
     localStorage.setItem(key(lessonId, 'attempts'), String(n));
     return n;
+  }
+  function getAttempts(lessonId) {
+    return parseInt(localStorage.getItem(key(lessonId, 'attempts')) || '0', 10);
+  }
+  function touchLesson(lessonId) {
+    const now = Date.now();
+    localStorage.setItem(key(lessonId, 'openedAt'), String(now));
+    localStorage.setItem('codeforge:lastLessonId', lessonId);
+    return now;
+  }
+  function getLastOpened(lessonId) {
+    return parseInt(localStorage.getItem(key(lessonId, 'openedAt')) || '0', 10);
+  }
+  function getLastLessonId() {
+    return localStorage.getItem('codeforge:lastLessonId') || '';
   }
   function getTotalXp() {
     return parseInt(localStorage.getItem('codeforge:xp') || '0', 10);
@@ -30,6 +51,7 @@ const ProgressStore = (() => {
     const alreadyComplete = isComplete(lessonId);
     if (!alreadyComplete) {
       localStorage.setItem(key(lessonId, 'complete'), '1');
+      localStorage.setItem(key(lessonId, 'completedAt'), String(Date.now()));
       localStorage.setItem('codeforge:xp', String(getTotalXp() + xp));
     }
     return { newlyCompleted: !alreadyComplete, totalXp: getTotalXp() };
@@ -57,7 +79,8 @@ const ProgressStore = (() => {
   }
 
   return {
-    getDraft, setDraft, getNotes, setNotes, isComplete, incrementAttempts,
+    getDraft, setDraft, hasDraft, getNotes, setNotes, isComplete, getCompletedAt,
+    incrementAttempts, getAttempts, touchLesson, getLastOpened, getLastLessonId,
     getTotalXp, markComplete, touchStreak, getStreak,
   };
 })();

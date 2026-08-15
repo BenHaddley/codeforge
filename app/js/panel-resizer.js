@@ -1,6 +1,6 @@
-// Draggable Win95-style gutters for the two-column screens. Each resizer
-// controls the width of whichever panel is passed as `panel` — width is
-// persisted per screen so a learner's preferred split survives reload.
+// Draggable Win95-style gutters for two-column screens. The LessonWorkspace
+// stores its left-column width as a percentage so it can default to a true
+// 50/50 split and scale with the window.
 const PanelResizer = (() => {
   function attach(resizerId, panelId, storageKey, { min = 280, max = 900, side = 'after' } = {}) {
     const resizer = document.getElementById(resizerId);
@@ -37,8 +37,51 @@ const PanelResizer = (() => {
     });
   }
 
-  attach('lessonColResizer', 'lessonRight', 'codeforge:panelWidth:lesson', { min: 320, max: 900, side: 'after' });
-  attach('practiceColResizer', 'practiceLeft', 'codeforge:panelWidth:practice', { min: 260, max: 720, side: 'before' });
+  function attachPercent(resizerId, panelId, storageKey, { minPct = 35, maxPct = 70, defaultPct = 50 } = {}) {
+    const resizer = document.getElementById(resizerId);
+    const panel = document.getElementById(panelId);
+    if (!resizer || !panel || !resizer.parentElement) return;
 
-  return { attach };
+    const clamp = (pct) => Math.max(minPct, Math.min(maxPct, pct));
+    const apply = (pct) => {
+      const value = clamp(pct);
+      panel.style.flexBasis = `${value}%`;
+      panel.style.width = `${value}%`;
+      return value;
+    };
+
+    const saved = parseFloat(localStorage.getItem(storageKey) || '');
+    apply(Number.isFinite(saved) && saved >= minPct && saved <= maxPct ? saved : defaultPct);
+
+    let bounds = null;
+    let currentPct = defaultPct;
+
+    function onMove(e) {
+      if (!bounds || bounds.width <= 0) return;
+      currentPct = apply(((e.clientX - bounds.left) / bounds.width) * 100);
+    }
+    function onUp() {
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      resizer.classList.remove('dragging');
+      localStorage.setItem(storageKey, String(Math.round(currentPct * 10) / 10));
+    }
+
+    resizer.addEventListener('pointerdown', (e) => {
+      bounds = resizer.parentElement.getBoundingClientRect();
+      currentPct = parseFloat(panel.style.flexBasis) || defaultPct;
+      resizer.classList.add('dragging');
+      document.addEventListener('pointermove', onMove);
+      document.addEventListener('pointerup', onUp);
+      e.preventDefault();
+    });
+    resizer.addEventListener('dblclick', () => {
+      currentPct = apply(defaultPct);
+      localStorage.setItem(storageKey, String(defaultPct));
+    });
+  }
+
+  attachPercent('lessonColResizer', 'lessonLeft', 'codeforge:panelWidth:lesson', { minPct: 35, maxPct: 70, defaultPct: 50 });
+
+  return { attach, attachPercent };
 })();

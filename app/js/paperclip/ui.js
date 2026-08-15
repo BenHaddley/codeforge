@@ -1,7 +1,8 @@
-// Paperclip panel UI — a Win98-native-looking docked window with one text
-// input, conversation above it, and classic bevels. No chatbot styling.
+// Paperclip panel UI — a Win95-native-looking lesson pane with one text input,
+// conversation above it, and classic bevels. No chatbot styling.
 const PaperclipUI = (() => {
   const COLLAPSED_KEY = 'codeforge:paperclip:collapsed';
+  const OLD_HEIGHT_KEY = 'codeforge:paperclip:paneHeight';
 
   let els = null;
   let onSend = null;
@@ -11,7 +12,7 @@ const PaperclipUI = (() => {
   const FALLBACK_ERRORS = {
     network: 'Paperclip could not connect to the tutor service.\n\nYour code and lesson progress are safe.\nTry again in a moment.',
     timeout: 'The tutor service took too long to respond.\n\nYour code and lesson progress are safe.\nTry again in a moment.',
-    rate_limited: 'Paperclip is busy right now.\n\nWait a moment, then try again.',
+    rate_limited: "You've hit the shared free-tier request limit.\n\nThis resets within a minute — it's not broken, just busy. Wait a moment, then try again.",
     invalid_key: 'Paperclip is temporarily unavailable.\n\nYour lesson and code have not been affected.',
     provider_unavailable: 'Paperclip is temporarily unavailable.\n\nYour lesson and code have not been affected.',
     malformed: 'The tutor service returned an unreadable response.\n\nTry again in a moment.',
@@ -36,6 +37,10 @@ const PaperclipUI = (() => {
       sendBtn: document.getElementById('paperclipSendBtn'),
       debugLine: document.getElementById('paperclipDebug'),
     };
+
+    // The tutor is no longer a bottom dock; clear any saved dock height so an
+    // older browser session cannot stretch the in-column lesson pane.
+    localStorage.removeItem(OLD_HEIGHT_KEY);
 
     els.sendBtn.addEventListener('click', () => submit());
     els.input.addEventListener('keydown', (e) => {
@@ -120,6 +125,7 @@ const PaperclipUI = (() => {
     els.pane.classList.toggle('collapsed', collapsed);
     els.toggle.textContent = collapsed ? '▲' : '▼';
     localStorage.setItem(COLLAPSED_KEY, collapsed ? '1' : '0');
+    els.pane.style.height = '';
   }
 
   function toggleCollapsed() {

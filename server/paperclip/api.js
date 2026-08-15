@@ -15,7 +15,7 @@ const limiter = new RateLimiter({
 
 const ERROR_MESSAGES = {
   invalid_key: 'The tutor service rejected its API key. Contact the site operator.',
-  rate_limited: 'The tutor service is busy right now. Wait a moment and try again.',
+  rate_limited: "You've hit the shared free-tier request limit for Paperclip — this resets within a minute. It's not broken, just busy; wait a moment and try again.",
   provider_unavailable: 'The tutor service is temporarily unavailable. Your lesson and code have not been affected.',
   timeout: 'The tutor service took too long to respond. Try again in a moment.',
   malformed: 'The tutor service returned an unreadable response. Try again.',
@@ -54,7 +54,8 @@ async function handlePaperclipRequest(body, meta) {
   if (chain.length === 0) {
     return fail('provider_unavailable', `no provider configured for PAPERCLIP_PROVIDER=${config.paperclip.provider}`);
   }
-  if (config.paperclip.provider !== 'mock' && !config.paperclip.apiKey) {
+  // Local inference and the mock provider need no hosted API key.
+  if (!['mock', 'local'].includes(config.paperclip.provider) && !config.paperclip.apiKey) {
     return fail('invalid_key', 'PAPERCLIP_API_KEY is not set on the server');
   }
 
@@ -66,13 +67,19 @@ async function handlePaperclipRequest(body, meta) {
       history: body.context.history || [],
       studentMessage: body.studentMessage.trim(),
     });
+    // Local models are slow (seconds per token on CPU/limited VRAM), so
+    // give them a generous ceiling; hosted providers keep the strict default.
+    const timeoutMs =
+      config.paperclip.provider === 'local'
+        ? Math.max(config.paperclip.timeoutMs, 300000)
+        : config.paperclip.timeoutMs;
     const result = await chatWithChain(
       chain,
       {
         messages,
         maxTokens: config.paperclip.maxOutputTokens,
         temperature: 0.4,
-        timeoutMs: config.paperclip.timeoutMs,
+        timeoutMs,
       },
       (entry) => { used = entry; }
     );

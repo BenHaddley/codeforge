@@ -1,0 +1,107 @@
+/* Homepage dashboard. Reuses win98.css's .pane/.pane-title/.classic-button
+   as the "Win95Panel"/"Win95Button" primitives; everything below is the
+   dashboard-specific content inside those panels.
+
+   Layout trick: panels sit in ONE flex-wrap row in this DOM order —
+   Welcome, Continue Learning, Featured Course, Forge Status, Recent
+   Lessons, Quick Launch. At full width each panel is ~50% wide, so
+   flex-wrap naturally pairs them two-per-row (Welcome+Continue,
+   Featured+Status, Recent+QuickLaunch) which is exactly the left/right
+   column split. Below the breakpoint each panel goes full-width, so the
+   same DOM order becomes the single-column stacking order — no separate
+   mobile reordering needed. */
+
+/* The dashboard needs more room than the single-column doc pages. */
+.app-window.home-window{width:min(1180px,97vw)}
+
+.home-dashboard{display:flex;flex-wrap:wrap;align-items:flex-start;gap:11px;padding:6px}
+.home-panel{flex:1 1 100%;min-width:0}
+@media (min-width:860px){
+  .home-panel{flex:1 1 calc(50% - 6px);max-width:calc(50% - 6px)}
+}
+
+.home-panel .pane-body{padding:12px}
+
+/* Welcome */
+.welcome-row{display:flex;align-items:center;gap:16px}
+.welcome-row .welcome-text{flex:1;min-width:0}
+.welcome-row h1{margin:0 0 8px;font-size:22px;color:var(--blue)}
+.welcome-row p{margin:0;font-size:13px;line-height:1.5}
+.streak-risk-banner{margin-top:10px!important;padding:6px 10px;background:#fff3b0;border:2px groove #fff;font-weight:bold;color:#5c4a00}
+.crt-icon{flex:0 0 auto}
+
+/* Featured course */
+.featured-row{display:flex;gap:14px;align-items:flex-start}
+.featured-icon{flex:0 0 84px;height:84px;background:#fff;border:2px inset #fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-family:"Courier New",monospace;font-weight:bold;color:var(--blue)}
+.featured-body{flex:1;min-width:0}
+.featured-body h2{margin:0 0 6px;font-size:17px;color:var(--blue)}
+.featured-body p{margin:0 0 12px;font-size:13px;line-height:1.5}
+.featured-actions{display:flex;gap:8px}
+
+/* Buttons: reuse .classic-button. .default = Win95 dialog "default button"
+   treatment — a square outline outside the bevel, not a color change. */
+.classic-button.default{outline:1px solid #000;outline-offset:2px}
+.classic-button:focus-visible{outline:1px dotted #000;outline-offset:-4px}
+.classic-button[disabled]{color:#808080;text-shadow:1px 1px 0 #fff;cursor:default}
+
+/* Recent lessons list */
+.win95-list{border:2px inset #fff;background:#fff}
+.win95-list-row{display:flex;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid #d4d4d4;text-decoration:none;color:#000}
+.win95-list-row:last-child{border-bottom:none}
+.win95-list-row:hover{background:#e8e8f8}
+.win95-list-icon{flex:0 0 20px;text-align:center;font-size:14px}
+.win95-list-title{flex:1;min-width:0;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.win95-list-state{color:#555;font-size:11px;margin-left:6px}
+.win95-list-action{flex:0 0 auto;color:var(--link);font-size:12px;font-weight:bold}
+
+/* Search */
+.search-panel .pane-body{position:relative}
+.lesson-search-input{width:100%;height:30px;background:#fff;border:2px inset #fff;padding:2px 8px;font-family:Tahoma,"MS Sans Serif",Arial,sans-serif;font-size:13px}
+.lesson-search-results{position:absolute;left:16px;right:16px;top:44px;z-index:5;max-height:280px;overflow-y:auto;box-shadow:2px 2px 6px rgba(0,0,0,.3)}
+
+/* Continue learning */
+.continue-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
+.code-preview{flex:0 0 150px;background:#000;color:#3fd15e;font-family:"Courier New",monospace;font-size:12px;line-height:1.5;padding:10px;border:2px inset #fff;white-space:pre}
+.continue-body{flex:1;min-width:0}
+.continue-body h2{margin:0 0 4px;font-size:16px;color:var(--blue)}
+.continue-body .lesson-meta{font-size:12px;color:#333;margin:0 0 8px}
+.continue-actions{display:flex;gap:8px}
+
+/* Progress bar: recessed track, flat fill — no gradients/blur */
+.win95-progress{display:flex;align-items:center;gap:8px}
+.win95-progress-track{flex:1;height:16px;background:#fff;border:2px inset #fff}
+.win95-progress-fill{height:100%;background:var(--blue)}
+.win95-progress-pct{font-size:12px;font-weight:bold;min-width:34px;text-align:right}
+
+/* Forge status */
+.status-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #e0e0e0}
+.status-icon{flex:0 0 20px;text-align:center;font-size:14px}
+.status-label{flex:1;font-size:13px}
+.status-value{font-weight:bold;font-size:13px}
+.quest-row{margin-top:10px;padding-top:12px;border-top:2px groove #fff}
+.quest-row .status-row{border-bottom:none;padding-bottom:2px}
+.quest-desc{font-size:12px;color:#444;margin:0 0 8px 30px}
+.quest-progress{margin-left:30px}
+
+/* Quick launch */
+.quicklaunch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:640px){
+  .quicklaunch-grid{grid-template-columns:repeat(2,1fr)}
+}
+.quicklaunch-btn{background:var(--silver);border:2px solid;border-color:#fff #000 #000 #fff;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;text-align:center;color:#000;text-decoration:none}
+.quicklaunch-btn .ql-icon{font-size:26px}
+.quicklaunch-btn:hover{background:#d8d8d8}
+.quicklaunch-btn:active{border-color:#000 #fff #fff #000;transform:translate(1px,1px)}
+.quicklaunch-btn:focus-visible{outline:1px dotted #000;outline-offset:-4px}
+
+/* Achievements */
+.achievements-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media (max-width:640px){
+  .achievements-grid{grid-template-columns:repeat(2,1fr)}
+}
+.badge{border:2px inset #fff;background:#fff;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;text-align:center}
+.badge .badge-icon{font-size:24px}
+.badge.badge-earned{background:#fffbe0}
+.badge.badge-locked{opacity:.55}
+.badge.badge-locked .badge-icon{filter:grayscale(1)}
+#achievementsCount{font-weight:normal;font-size:12px;opacity:.85}

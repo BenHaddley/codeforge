@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Certificate — Codeforge</title>
+<meta name="description" content="Print or save a completion certificate for a finished Code Forge track.">
+<link rel="stylesheet" href="app/css/win98.css">
+<link rel="stylesheet" href="app/css/accessibility.css">
+<link rel="stylesheet" href="app/css/site.css">
+<link rel="stylesheet" href="app/css/certificate.css">
+</head>
+<body>
+
+<div class="desktop no-print">
+  <main class="app-window site-window" aria-label="Code Forge — Certificate">
+    <header class="titlebar">
+      <div class="title-left"><span class="app-icon">⚒</span><strong>Code Forge</strong><span class="title-sub">— Certificate</span></div>
+      <div class="window-controls" aria-hidden="true"><button>_</button><button>□</button><button>×</button></div>
+    </header>
+
+    <nav class="menubar" aria-label="Application menu">
+      <button>File</button><button>Edit</button><button>View</button><button>Help</button>
+    </nav>
+
+    <section class="toolbar" aria-label="Site navigation">
+      <a class="tool" href="index.html"><span>🏠</span><b>Home</b></a>
+      <a class="tool" href="library.html"><span>📚</span><b>Library</b></a>
+      <a class="tool" href="quests.html"><span>🗺</span><b>Quests</b></a>
+      <a class="tool" href="app/lesson.html"><span>▶</span><b>Lessons</b></a>
+      <div class="brandmark"><span class="anvil">⚒</span><span>CODE<br>FORGE</span></div>
+    </section>
+
+    <section class="site-body">
+      <section class="pane doc-pane">
+        <div class="pane-title">Completion Certificate</div>
+        <div class="pane-body doc-scroll" id="certificateStatus">
+          <p>Checking your progress...</p>
+        </div>
+      </section>
+    </section>
+
+    <footer class="statusbar statusbar-2">
+      <div>Ready</div><div id="clock">--:--</div>
+    </footer>
+  </main>
+</div>
+
+<div class="certificate-sheet" id="certificateSheet" hidden>
+  <div class="certificate-border">
+    <div class="certificate-seal">⚒</div>
+    <p class="certificate-kicker">CODE FORGE</p>
+    <h1 class="certificate-heading">Certificate of Completion</h1>
+    <p class="certificate-lede">This certifies that</p>
+    <p class="certificate-name" id="certName">Learner</p>
+    <p class="certificate-lede">has successfully completed</p>
+    <p class="certificate-track" id="certTrack">Track Title</p>
+    <div class="certificate-meta">
+      <span id="certLessonCount"></span>
+      <span id="certXp"></span>
+      <span id="certDate"></span>
+    </div>
+    <p class="certificate-footer">Code Forge — an independent, self-directed learning workspace</p>
+  </div>
+</div>
+
+<div class="certificate-controls no-print" id="certificateControls" hidden>
+  <label for="learnerNameInput">Name on certificate</label>
+  <input type="text" id="learnerNameInput" class="certificate-name-input" placeholder="Your name" maxlength="80">
+  <button class="classic-button default" id="printCertBtn">Print / Save as PDF</button>
+  <a class="classic-button" href="index.html">Back to Home</a>
+</div>
+
+<script src="app/js/progress-store.js"></script>
+<script src="app/js/accessibility.js"></script>
+<script src="app/js/certificate.js"></script>
+<script src="app/js/app.js"></script>
+</body>
+</html>

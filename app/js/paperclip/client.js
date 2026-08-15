@@ -106,7 +106,7 @@ const Paperclip = (() => {
     const map = {
       network: 'Paperclip could not connect to the tutor service.\n\nYour code and lesson progress are safe.\nTry again in a moment.',
       timeout: 'The tutor service took too long to respond.\n\nYour code and lesson progress are safe.\nTry again in a moment.',
-      rate_limited: 'Paperclip is busy right now.\n\nWait a moment, then try again.',
+      rate_limited: "You've hit the shared free-tier request limit.\n\nThis resets within a minute — it's not broken, just busy. Wait a moment, then try again.",
     };
     return map[kind] || 'Paperclip is temporarily unavailable.\n\nYour lesson and code have not been affected.';
   }

@@ -210,13 +210,13 @@ async function main() {
   const serverA = await startServer(SUCCESS_PORT);
   servers.push(serverA);
   console.log(`- success-path server on :${SUCCESS_PORT}`);
-  let failures = (await runFlow(`http://127.0.0.1:${SUCCESS_PORT}/app/lesson.html`, 'success path')).failures;
+  let failures = (await runFlow(`http://127.0.0.1:${SUCCESS_PORT}/app/lesson.html?lesson=py-ch07-while-loops`, 'success path')).failures;
   await stopServer(serverA);
 
   const serverB = await startServer(FAIL_PORT, { PAPERCLIP_MOCK_FAILURE: '1' });
   servers.push(serverB);
   console.log(`- failing-provider server on :${FAIL_PORT}`);
-  failures = failures.concat(await runErrorPath(`http://127.0.0.1:${FAIL_PORT}/app/lesson.html`));
+  failures = failures.concat(await runErrorPath(`http://127.0.0.1:${FAIL_PORT}/app/lesson.html?lesson=py-ch07-while-loops`));
   await stopServer(serverB);
 
   if (failures.length) {

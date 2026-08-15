@@ -12,12 +12,13 @@
 <link rel="stylesheet" href="css/screens.css">
 <link rel="stylesheet" href="css/paperclip.css">
 <link rel="stylesheet" href="css/win98-window.css">
+<link rel="stylesheet" href="css/accessibility.css">
 </head>
 <body>
 <div class="desktop">
   <main class="app-window" aria-label="Code Forge lesson application">
     <header class="titlebar">
-      <div class="title-left"><span class="app-icon">⚒</span><strong>Code Forge</strong><span class="title-sub">— Python Fundamentals</span></div>
+      <div class="title-left"><span class="app-icon">⚒</span><strong>Code Forge</strong><span class="title-sub" id="titleSub">— Python Fundamentals</span></div>
       <div class="window-controls" aria-hidden="true"><button>_</button><button>□</button><button>×</button></div>
     </header>
 
@@ -25,7 +26,7 @@
       <button id="courseBtn" class="menu-course-btn">☰ Course</button>
       <a href="../index.html" style="color:inherit;text-decoration:none;padding:3px 10px;">Home</a>
       <button>File</button>
-      <button>Help</button>
+      <button id="helpMenuBtn">Help</button>
       <div class="toolbar-right">
         <span class="badge">⚡ <span id="xp">0</span> XP</span>
         <span class="badge">🔥 <span id="streak">0</span> day streak</span>
@@ -37,7 +38,7 @@
     <aside class="course-drawer" id="courseDrawer" aria-label="Course navigation">
       <div class="pane-title">Course <button id="drawerCloseBtn" aria-label="close">×</button></div>
       <div class="pane-body">
-        <select class="classic-select" aria-label="Track"><option>Python Fundamentals</option></select>
+        <select class="classic-select" id="drawerTrackSelect" aria-label="Track"></select>
         <div class="tree" id="drawerTree" role="tree"></div>
       </div>
     </aside>
@@ -57,6 +58,7 @@
             <div class="pane-title">
               <span>Lesson</span>
               <div class="tts-controls">
+                <select id="ttsVoiceSelect" class="tts-voice-select" aria-label="Narration voice" title="Narration voice"></select>
                 <button id="ttsToggleBtn" class="tts-btn" aria-label="Listen to lesson" title="Listen (Ctrl+L)">🔊</button>
                 <button id="ttsStopBtn" class="tts-btn" aria-label="Stop narration" title="Stop narration" hidden>⏹</button>
               </div>
@@ -85,7 +87,10 @@
           </div>
           <div class="col-resizer" id="lessonColResizer" aria-hidden="true"></div>
           <div class="lesson-right pane" id="lessonRight">
-            <div class="pane-title">main.py</div>
+            <div class="pane-title">
+              <span id="editorFileName">main.py</span>
+              <span class="save-indicator" id="saveIndicator" aria-live="polite"></span>
+            </div>
             <div class="editor-shell">
               <div class="line-numbers" id="previewLineNumbers" aria-hidden="true"></div>
               <textarea id="previewEditor" spellcheck="false" aria-label="Python code editor"></textarea>
@@ -149,6 +154,7 @@
                 </div>
               </div>
             </div>
+            <div class="new-achievements" id="newAchievements" hidden></div>
             <div class="results-actions">
               <button class="classic-button" id="backToCourseBtn">Back to Course</button>
               <button class="classic-button" id="retryBtn">Retry</button>
@@ -160,12 +166,14 @@
     </div>
 
     <footer class="statusbar statusbar-4">
-      <div id="statusText">Ready</div><div>Python 3 · Pyodide</div><div id="statusLesson">—</div><div id="clock">--:--</div>
+      <div id="statusText">Ready</div><div id="statusLanguage">Python 3 · Pyodide</div><div id="statusLesson">—</div><div id="clock">--:--</div>
     </footer>
   </main>
 </div>
 
 <script src="js/progress-store.js"></script>
+<script src="js/accessibility.js"></script>
+<script src="js/achievements.js"></script>
 <script src="js/tts.js"></script>
 <script src="js/youtube-player.js"></script>
 <script src="js/course-drawer.js"></script>

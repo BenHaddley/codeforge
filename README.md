@@ -32,7 +32,11 @@ workspace (`app/lesson.html`) fetches its content as JSON, which most
 browsers block over `file://` — use a local server for that page.
 
 `Run` and `Submit` in the lesson workspace load [Pyodide](https://pyodide.org)
-from a CDN into a Web Worker, so those require internet access.
+from a CDN into a Web Worker, so those require internet access. The Listen
+button works the same way in either mode — it's fully client-side (no
+server, no API key; see [wiki/09-TextToSpeech.md](wiki/09-TextToSpeech.md)),
+so it also works on a plain static host like GitHub Pages. Only Paperclip
+needs the Node server.
 
 ## Paperclip — the AI tutor
 

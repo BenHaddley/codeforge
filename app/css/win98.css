@@ -35,6 +35,9 @@ button,select,textarea,input{font:inherit}
 .pane{background:var(--silver);border:2px solid;border-color:#fff #404040 #404040 #fff;min-height:0}
 .pane-title{height:28px;background:var(--blue);color:#fff;font-weight:bold;padding:3px 5px;display:flex;align-items:center;justify-content:space-between;font-size:14px}
 .pane-title button{height:20px;width:21px}
+.save-indicator{font-size:11px;font-weight:normal;opacity:0;transition:opacity .2s;margin-left:8px}
+.save-indicator.show{opacity:1}
+.tts-voice-select{height:22px;font-size:11px;background:#fff;border:2px inset #fff;padding:0 2px;max-width:120px}
 .pane-muted{margin-left:auto;margin-right:6px;font-weight:normal;font-size:11px;color:#ddd}
 .pane-body{background:var(--silver);padding:6px}
 

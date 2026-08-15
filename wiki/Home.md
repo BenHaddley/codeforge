@@ -15,14 +15,22 @@ it by reading every source file.
 5. [Execution & Grading](05-Execution.md) — the Pyodide worker, timeout/warmup, test harness
 6. [Content Format](06-Content.md) — `track.json` / `*.lesson.json` schema, how to add a lesson
 7. [Dev Log](07-DevLog.md) — session-by-session record of what changed and why
+8. [Paperclip](08-Paperclip.md) — the embedded AI tutor, server-side provider abstraction
+9. [Text-to-Speech](09-TextToSpeech.md) — the Listen button, fully client-side via Kokoro (WASM), no server
 
 ## Quick facts
 
-- No build step, no dependencies to install. Static HTML/CSS/JS.
-- Marketing pages (`index.html`, `library.html`, `quests.html`) + the app
-  (`app/lesson.html`) share the same Win98 CSS shell but are otherwise
-  independent — the marketing pages don't load any lesson JS.
-- One lesson exists today: `python-fundamentals` → ch07 → *While Loops*.
-- Run locally: `python3 -m http.server 8934` from the repo root, then open
-  `http://localhost:8934/`. `app/lesson.html` needs the server (it `fetch`es
-  JSON, which `file://` blocks); the marketing pages don't.
+- No build step for the frontend. The Node server is only needed for
+  Paperclip AI/provider routes; static hosting still serves the UI.
+- `index.html` is now a real progress dashboard: it loads `track.json`,
+  `ProgressStore`, saved drafts, opened lessons, XP, streak and completion
+  state. It is not placeholder marketing copy.
+- `library.html` and `quests.html` still use the shared Win98 site shell.
+- `app/lesson.html` is one merged LessonWorkspace: lesson/video/assignment/
+  Paperclip on the left, IDE/output/tests on the right, with mobile tabs
+  only below the responsive breakpoint.
+- `content/python-fundamentals/track.json` now references the published
+  Python Fundamentals lesson set across chapters 1-15.
+- Run locally with AI/server routes: `node server/server.js`, then open
+  `http://localhost:8787/`. Static-only demos can use
+  `python3 -m http.server`, but Paperclip will be unavailable.

@@ -1,9 +1,19 @@
 // Evaluates a Submit attempt against a lesson's assignment: static
 // requirement checks against the source text, plus a behavioral check via
-// a test harness executed in the Pyodide worker.
+// a test harness executed in that track's language Worker (Pyodide for
+// Python, js-worker.js for JavaScript — see runner-client.js).
 const Grading = (() => {
-  function checkRequirements(code, requirementChecks) {
-    const codeNoComments = code.replace(/#.*$/gm, '');
+  // Each language comments differently, so stripping comments before
+  // matching requirementChecks (so a pattern can't "pass" just because it
+  // appears inside a comment) needs a per-language rule.
+  const COMMENT_PATTERNS = {
+    python: /#.*$/gm,
+    javascript: /\/\/.*$/gm,
+  };
+
+  function checkRequirements(code, requirementChecks, language) {
+    const commentPattern = COMMENT_PATTERNS[language] || COMMENT_PATTERNS.python;
+    const codeNoComments = code.replace(commentPattern, '');
     return (requirementChecks || []).map((rc) => {
       const matched = new RegExp(rc.pattern).test(codeNoComments);
       const passed = rc.mustMatch ? matched : !matched;
@@ -23,9 +33,9 @@ const Grading = (() => {
     }
   }
 
-  async function submit(code, assignment) {
-    const requirementResults = checkRequirements(code, assignment.requirementChecks);
-    const runResult = await RunnerClient.run(code + (assignment.testHarness || ''), {
+  async function submit(code, assignment, { runner = RunnerClient, language = 'python' } = {}) {
+    const requirementResults = checkRequirements(code, assignment.requirementChecks, language);
+    const runResult = await runner.run(code + (assignment.testHarness || ''), {
       timeoutMs: assignment.timeoutMs || 8000,
     });
     const captured = runResult.ok ? extractCapturedOutput(runResult.output) : null;
@@ -37,7 +47,12 @@ const Grading = (() => {
       timedOut: runResult.timedOut,
       executed: runResult.ok,
       requirementResults,
-      outputCheck: { label: assignment.outputCheckLabel, passed: outputPassed },
+      outputCheck: {
+        label: assignment.outputCheckLabel,
+        passed: outputPassed,
+        expected: assignment.expectedOutput,
+        actual: captured,
+      },
       rawOutput: runResult.output,
     };
   }

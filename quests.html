@@ -6,6 +6,7 @@
 <title>Quests — Codeforge</title>
 <meta name="description" content="Quest tracks: original coding challenges paired to books and videos, with XP, levels, and progress tracking.">
 <link rel="stylesheet" href="app/css/win98.css">
+<link rel="stylesheet" href="app/css/accessibility.css">
 <link rel="stylesheet" href="app/css/site.css">
 </head>
 <body>
@@ -41,11 +42,23 @@
             in your browser.
           </p>
 
-          <a class="track-card" href="app/lesson.html">
-            <b>Python Fundamentals</b>
-            <p class="track-meta">Companion track · Python Crash Course, 3rd Ed. · Eric Matthes · No Starch Press</p>
-            <p>Chapter 7 in progress: User Input &amp; While Loops. More chapters ship as they're built.</p>
-          </a>
+          <div class="track-card">
+            <a class="track-card-link" href="app/lesson.html?track=python-fundamentals">
+              <b>Python Fundamentals</b>
+              <p class="track-meta">Companion track · Python Crash Course, 3rd Ed. · Eric Matthes · No Starch Press</p>
+              <p>15 chapters, 56 lessons published — Getting Started through a text-based capstone project.</p>
+            </a>
+            <a class="track-cert-link" data-track="python-fundamentals" href="certificate.html?track=python-fundamentals" hidden>🏆 View Certificate</a>
+          </div>
+
+          <div class="track-card">
+            <a class="track-card-link" href="app/lesson.html?track=javascript-fundamentals">
+              <b>JavaScript Fundamentals</b>
+              <p class="track-meta">Companion track · JavaScript Crash Course · Nick Morgan · No Starch Press</p>
+              <p>15 chapters, 42 lessons published — Getting Started through a console-based capstone project.</p>
+            </a>
+            <a class="track-cert-link" data-track="javascript-fundamentals" href="certificate.html?track=javascript-fundamentals" hidden>🏆 View Certificate</a>
+          </div>
           <p style="font-size:13px;">See the <a href="https://github.com/BenHaddley/codeforge">GitHub repo</a> for the current roadmap.</p>
 
           <p style="margin-top:24px;font-size:12px;color:#555;">
@@ -61,6 +74,9 @@
   </main>
 </div>
 
+<script src="app/js/progress-store.js"></script>
+<script src="app/js/accessibility.js"></script>
+<script src="app/js/quest-certificates.js"></script>
 <script src="app/js/app.js"></script>
 </body>
 </html>

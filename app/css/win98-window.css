@@ -67,3 +67,16 @@
   gap:7px;
   margin-top:10px;
 }
+
+.shortcut-list{display:flex;flex-direction:column;gap:6px}
+.shortcut-row{display:flex;align-items:center;gap:10px}
+.shortcut-row kbd{
+  flex:0 0 auto;
+  background:#fff;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  padding:2px 6px;
+  font-family:"Courier New",monospace;
+  font-size:12px;
+  white-space:nowrap;
+}
+.shortcut-row span{font-size:13px}

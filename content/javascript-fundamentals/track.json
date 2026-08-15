@@ -1,6 +1,7 @@
 {
   "id": "javascript-fundamentals",
   "title": "JavaScript Fundamentals",
+  "language": "javascript",
   "version": 1,
   "description": "Learn JavaScript by reading, watching focused demonstrations, and completing real assignments in the Code Forge IDE.",
   "chapters": [

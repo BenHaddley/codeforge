@@ -1,6 +1,13 @@
 // The "Course" button in the top bar opens this as a temporary slide-in
 // panel rather than a permanently-docked sidebar — see wiki/04-LessonPlayer.md.
 const CourseDrawer = (() => {
+  // No server-side track discovery on a static site, so the switcher's
+  // options are just listed here — add a line when a new track.json lands.
+  const AVAILABLE_TRACKS = [
+    { id: 'python-fundamentals', title: 'Python Fundamentals' },
+    { id: 'javascript-fundamentals', title: 'JavaScript Fundamentals' },
+  ];
+
   let track = null;
   let currentLessonId = null;
   // Which chapter folder is open. Independent of currentLessonId so the
@@ -13,6 +20,14 @@ const CourseDrawer = (() => {
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function renderTrackSelect() {
+    const select = document.getElementById('drawerTrackSelect');
+    if (!select) return;
+    select.innerHTML = AVAILABLE_TRACKS
+      .map((t) => `<option value="${escapeHtml(t.id)}"${t.id === track.id ? ' selected' : ''}>${escapeHtml(t.title)}</option>`)
+      .join('');
   }
 
   function render() {
@@ -65,7 +80,16 @@ const CourseDrawer = (() => {
     const currentChapter = track.chapters.find((ch) => (ch.lessons || []).some((l) => l.id === lessonId));
     expandedChapterId = currentChapter ? currentChapter.id : null;
     onSelect = selectHandler;
+    renderTrackSelect();
     render();
+    const trackSelect = document.getElementById('drawerTrackSelect');
+    if (trackSelect) {
+      trackSelect.addEventListener('change', () => {
+        if (trackSelect.value === track.id) return;
+        close();
+        location.search = `?track=${encodeURIComponent(trackSelect.value)}`;
+      });
+    }
     document.getElementById('courseBtn').addEventListener('click', open);
     document.getElementById('drawerCloseBtn').addEventListener('click', close);
     document.getElementById('drawerBackdrop').addEventListener('click', close);

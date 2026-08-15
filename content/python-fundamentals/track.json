@@ -1,6 +1,7 @@
 {
   "id": "python-fundamentals",
   "title": "Python Fundamentals",
+  "language": "python",
   "version": 2,
   "description": "Learn Python by reading, listening, watching focused demonstrations and completing real assignments in the Code Forge IDE.",
   "chapters": [

@@ -1,0 +1,30 @@
+/* Opt-in high-contrast/larger-text overrides — see app/js/accessibility.js.
+   Scoped entirely under [data-a11y="1"] so the default Win95 look is
+   completely unaffected unless the learner turns this on. */
+html[data-a11y="1"] body{font-size:15px}
+html[data-a11y="1"] .lesson-scroll,
+html[data-a11y="1"] .doc-scroll{font-size:16px;line-height:1.6}
+html[data-a11y="1"] .lesson-scroll p,
+html[data-a11y="1"] .doc-scroll p{font-size:16px}
+
+/* Higher-contrast text: pure black on white/silver instead of the softer
+   grays used for secondary copy (source notes, meta text, etc). */
+html[data-a11y="1"] .source-note,
+html[data-a11y="1"] .lesson-meta,
+html[data-a11y="1"] .track-meta,
+html[data-a11y="1"] .example-note{color:#000!important}
+
+/* Thicker bevels read more clearly at a glance. */
+html[data-a11y="1"] .pane,
+html[data-a11y="1"] .classic-button,
+html[data-a11y="1"] .win95-list,
+html[data-a11y="1"] .editor-shell{border-width:3px}
+
+/* A visibly stronger focus ring than the default 1px dotted line. */
+html[data-a11y="1"] a:focus-visible,
+html[data-a11y="1"] button:focus-visible,
+html[data-a11y="1"] input:focus-visible,
+html[data-a11y="1"] select:focus-visible,
+html[data-a11y="1"] textarea:focus-visible{outline:3px solid #000!important;outline-offset:2px}
+
+.a11y-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding-top:12px;border-top:2px groove #fff}

@@ -14,7 +14,7 @@ never gets rewritten per page. Palette and component vocabulary follow
 | `.menubar` | File/Edit/View/... row — decorative except the Home `<a>` on `lesson.html` |
 | `.toolbar` | Icon+label buttons (`.tool`); `.separator` divides groups; `.brandmark` is the anvil logo pinned right |
 | `.pane` / `.pane-title` / `.pane-body` | The bevelled sub-window unit everything else lives in |
-| `.tree` / `.tree-row` / `.tree-children` | Curriculum tree in the Lessons pane |
+| `.tree` / `.tree-row` / `.tree-children` | Curriculum tree in the slide-in course drawer |
 | `.statusbar` + `.statusbar-4` / `.statusbar-2` | Bottom bar; pick the modifier matching how many cells the page needs |
 
 `.tool` is used for both `<button>` (lesson toolbar actions) and `<a>`
@@ -31,18 +31,21 @@ third bevel direction — everything reuses these two.
 
 ## Layout files that build on top of win98.css
 
-- **`layout.css`** — the `.workspace` 3-column grid (`.left-column /
-  .middle-column / .right-column`), the lesson-scroll/video-pane sizing,
-  and the `@media (max-width:1050px)` fallback that collapses the desktop
-  into a single scrolling column (drops `.left-column` entirely — the
-  tree nav is desktop-only for now).
+- **`site.css`** — shared outer layout for non-lesson pages.
+- **`home.css`** — homepage dashboard panels: Continue Learning, Featured
+  Course, Forge Status, Recent Lessons, Quick Launch and Win95 progress
+  bars/lists. It reuses `.pane`/`.classic-button` instead of inventing a
+  second card system.
+- **`layout.css`** — LessonWorkspace split pane: left lesson/Paperclip
+  column, draggable divider, right IDE/output column, completion dialog and
+  the mobile-only Lesson/Code tab fallback.
 - **`editor.css`** — `.editor-shell` (line-numbers + textarea grid),
-  `.console`, `.tabs`, `.quiz-pane`. `.quiz-pane` has `overflow:auto` —
-  added after testing showed longer quiz questions could overflow into
-  the status bar otherwise (see [07-DevLog.md](07-DevLog.md)).
-- **`site.css`** — single `.doc-pane` layout for the three marketing
-  pages: `.doc-scroll` for prose, `.track-card` for the quest-track link
-  box, `.badge`/`.badge-row` for the feature-pill list on the homepage.
+  `.console`, `.tabs`.
+- **`screens.css`** — internal quiz/results screens only. The old separate
+  practice screen CSS was removed when lesson and code merged into one page.
+- **`video-player.css`** — Win95-styled YouTube player frame and controls.
+- **`paperclip.css`** — the embedded Paperclip tutor pane inside the lesson
+  column.
 
 ## Known limitation
 

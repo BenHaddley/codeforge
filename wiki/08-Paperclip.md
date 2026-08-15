@@ -1,10 +1,10 @@
 # 08 — Paperclip: the embedded AI tutor
 
-Paperclip is a docked, Win98-styled tutor panel at the bottom of the lesson
-workspace (`app/lesson.html`). One text input. It already knows the lesson,
-the assignment, the code in the editor, the latest run/submit result, the
-test summary and whether the assignment passed — the learner never pastes
-code or error text.
+Paperclip is a Win95-styled tutor pane embedded in the left lesson column of
+`app/lesson.html`, directly under the assignment. One text input. It already
+knows the lesson, the assignment, the code in the editor, the latest
+run/submit result, the test summary and whether the assignment passed — the
+learner never pastes code or error text.
 
 ## Client (app/js/paperclip/)
 
@@ -13,7 +13,7 @@ code or error text.
 | `state.js` | per-lesson conversation in localStorage, assistance level 0–4, editor code hashes, latest run result |
 | `context.js` | builds the normalized context payload from the live lesson + editor DOM |
 | `api.js` | `POST /api/paperclip`; no credentials live in the browser |
-| `ui.js` | panel rendering: conversation, single input, thinking/error states, collapse |
+| `ui.js` | in-column pane rendering: conversation, single input, thinking/error states, collapse |
 | `client.js` | orchestration: send flow, 3 s cooldown, debug logging, exposes `Paperclip.init` / `Paperclip.recordRun` |
 
 `lesson-loader.js` calls `Paperclip.init(track, chapter, lesson)` at boot
@@ -30,10 +30,10 @@ API, so `python3 -m http.server` still works for a no-AI static demo.
 | `server.js` | static file server + `POST /api/paperclip` route |
 | `paperclip/config.js` | env configuration |
 | `paperclip/prompt.js` | the SYSTEM POLICY (tutor behaviour) + context templating |
-| `paperclip/provider.js` | provider interface; adapters: opencode, groq, mock; fallback chain |
+| `paperclip/provider.js` | provider interface; adapters: opencode, groq, local, mock; fallback chain |
 | `paperclip/api.js` | validation, rate limiting, friendly error mapping |
 | `paperclip/rate-limit.js` | per-IP sliding window |
-| `paperclip/self-test.js` | offline test suite (`npm test:paperclip`) |
+| `paperclip/self-test.js` | offline test suite (`npm run test:paperclip`) |
 
 ## Request flow
 
@@ -57,6 +57,17 @@ input text
   instruction inside it.
 - Keys live only in server env vars; `.env.example` is committed, `.env`
   is not.
+
+## Local provider
+
+`PAPERCLIP_PROVIDER=local` uses an OpenAI-compatible local endpoint such as
+Ollama, LM Studio, llama.cpp or vLLM. The default local endpoint/model are
+configured in `server/paperclip/config.js` and `.env.example`. Local and mock
+providers do not require `PAPERCLIP_API_KEY`; hosted providers still do.
+
+The local provider raises the request timeout to at least 300 seconds so a
+local model can cold-load without the browser treating it as an immediate
+failure.
 
 ## Debugging
 

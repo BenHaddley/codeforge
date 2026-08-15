@@ -6,12 +6,14 @@
 <title>Codeforge — Level Up Your Code</title>
 <meta name="description" content="Codeforge is a desktop-styled, quest-driven learning workspace for developers. Real code execution, real assignments, visible progress.">
 <link rel="stylesheet" href="app/css/win98.css">
+<link rel="stylesheet" href="app/css/accessibility.css">
 <link rel="stylesheet" href="app/css/site.css">
+<link rel="stylesheet" href="app/css/home.css">
 </head>
 <body>
 
 <div class="desktop">
-  <main class="app-window site-window" aria-label="Code Forge">
+  <main class="app-window site-window home-window" aria-label="Code Forge">
     <header class="titlebar">
       <div class="title-left"><span class="app-icon">⚒</span><strong>Code Forge</strong></div>
       <div class="window-controls" aria-hidden="true"><button>_</button><button>□</button><button>×</button></div>
@@ -30,52 +32,143 @@
     </section>
 
     <section class="site-body">
-      <section class="pane doc-pane">
-        <div class="pane-title">Code Forge — Home</div>
-        <div class="pane-body doc-scroll">
-          <h1>Stop watching. Start forging.</h1>
-          <p>
-            Code Forge is a desktop-software-styled coding school. Every lesson stays
-            in one workspace: read the explanation, watch a focused demonstration,
-            answer a quick check, then write and run real code against real tests —
-            no lecture halls, no passive video.
-          </p>
-          <a class="classic-button" href="app/lesson.html">Launch: Python Fundamentals →</a>
+      <div class="home-dashboard">
 
-          <h2>How it works</h2>
-          <div class="badge-row">
-            <span class="badge">Read &amp; listen</span>
-            <span class="badge">Inspect an example</span>
-            <span class="badge">Watch a clip</span>
-            <span class="badge">Predict</span>
-            <span class="badge">Build in the IDE</span>
-            <span class="badge">Run</span>
-            <span class="badge">Submit against tests</span>
-            <span class="badge">Earn XP</span>
+        <!-- Welcome -->
+        <section class="pane home-panel">
+          <div class="pane-title">Welcome <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <div class="welcome-row">
+              <div class="welcome-text">
+                <h1 id="welcomeTitle">Welcome back to Code Forge</h1>
+                <p id="welcomeMessage">Loading your forge status...</p>
+                <p class="streak-risk-banner" id="streakRiskBanner" hidden></p>
+              </div>
+              <svg class="crt-icon" width="72" height="72" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="10" y="8" width="52" height="40" fill="#c0c0c0" stroke="#000" stroke-width="2"/>
+                <rect x="16" y="14" width="40" height="28" fill="#000"/>
+                <text x="20" y="33" font-family="Courier New, monospace" font-size="13" fill="#3fd15e">&gt;_</text>
+                <rect x="28" y="48" width="16" height="8" fill="#808080" stroke="#000" stroke-width="2"/>
+                <rect x="18" y="56" width="36" height="6" fill="#c0c0c0" stroke="#000" stroke-width="2"/>
+              </svg>
+            </div>
           </div>
+        </section>
 
-          <h2>What Code Forge is not</h2>
-          <ul>
-            <li>Not a mirror of Boot.dev.</li>
-            <li>Not a copy of Python Crash Course — companion tracks cite the book and write original material.</li>
-            <li>Not a passive video course — video is reinforcement, not the lesson.</li>
-            <li>Not a fake IDE — assignments run for real in the browser via Pyodide.</li>
-          </ul>
+        <!-- Search Lessons -->
+        <section class="pane home-panel search-panel">
+          <div class="pane-title">Search Lessons <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <input type="search" id="lessonSearchInput" class="lesson-search-input" placeholder="Search lessons by title or topic..." aria-label="Search lessons" autocomplete="off">
+            <div class="win95-list lesson-search-results" id="lessonSearchResults" hidden></div>
+          </div>
+        </section>
 
-          <p style="margin-top:24px;font-size:12px;color:#555;">
-            Code Forge is an independent, self-hosted project — not affiliated with boot.dev, No Starch Press, or any other platform.
-            <br><a href="https://github.com/BenHaddley/codeforge">View on GitHub</a>
-          </p>
-        </div>
-      </section>
+        <!-- Continue Learning -->
+        <section class="pane home-panel">
+          <div class="pane-title">Continue Learning <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <div class="continue-row">
+              <pre class="code-preview" id="continuePreview"></pre>
+              <div class="continue-body">
+                <h2 id="continueTitle"></h2>
+                <p class="lesson-meta" id="continueMeta"></p>
+                <div class="win95-progress">
+                  <div class="win95-progress-track"><div class="win95-progress-fill" id="continueProgressFill"></div></div>
+                  <span class="win95-progress-pct" id="continueProgressPct"></span>
+                </div>
+              </div>
+            </div>
+            <div class="continue-actions">
+              <a class="classic-button default" id="resumeLessonBtn" href="app/lesson.html">Resume Lesson</a>
+              <a class="classic-button" id="viewLessonBtn" href="app/lesson.html">View Lesson</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Featured Course -->
+        <section class="pane home-panel">
+          <div class="pane-title">Featured Course <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <div class="featured-row">
+              <div class="featured-icon" id="featuredIcon" aria-hidden="true"></div>
+              <div class="featured-body">
+                <h2 id="featuredTitle"></h2>
+                <p id="featuredDesc"></p>
+                <div class="featured-actions">
+                  <a class="classic-button default" id="featuredLaunchBtn" href="app/lesson.html">Launch Course</a>
+                  <a class="classic-button" id="featuredSyllabusBtn" href="quests.html">View Syllabus</a>
+                  <a class="classic-button" id="featuredCertBtn" href="certificate.html" hidden>🏆 View Certificate</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- All Courses -->
+        <section class="pane home-panel">
+          <div class="pane-title">All Courses <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <div class="win95-list" id="allCoursesList"></div>
+          </div>
+        </section>
+
+        <!-- Your Forge Status -->
+        <section class="pane home-panel">
+          <div class="pane-title">Your Forge Status <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <div class="status-row"><span class="status-icon">⭐</span><span class="status-label">XP</span><span class="status-value" id="statusXp"></span></div>
+            <div class="status-row"><span class="status-icon">🔥</span><span class="status-label">Streak</span><span class="status-value" id="statusStreak"></span></div>
+            <div class="status-row"><span class="status-icon">📋</span><span class="status-label">Lessons Completed</span><span class="status-value" id="statusLessonsCompleted"></span></div>
+            <div class="quest-row">
+              <div class="status-row"><span class="status-icon">🚩</span><span class="status-label">Current Quest</span><span class="status-value" id="questTitle"></span></div>
+              <p class="quest-desc" id="questDesc"></p>
+              <div class="win95-progress quest-progress">
+                <div class="win95-progress-track"><div class="win95-progress-fill" id="questProgressFill"></div></div>
+                <span class="win95-progress-pct" id="questFraction"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Recent Lessons -->
+        <section class="pane home-panel">
+          <div class="pane-title">Recent Lessons <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <div class="win95-list" id="recentLessonsList"></div>
+          </div>
+        </section>
+
+        <!-- Achievements -->
+        <section class="pane home-panel">
+          <div class="pane-title"><span>Achievements <span id="achievementsCount"></span></span> <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <div class="achievements-grid" id="achievementsGrid"></div>
+          </div>
+        </section>
+
+        <!-- Quick Launch -->
+        <section class="pane home-panel">
+          <div class="pane-title">Quick Launch <button aria-label="close">×</button></div>
+          <div class="pane-body">
+            <div class="quicklaunch-grid" id="quickLaunchGrid"></div>
+          </div>
+        </section>
+
+      </div>
     </section>
 
     <footer class="statusbar statusbar-2">
-      <div>Ready</div><div id="clock">--:--</div>
+      <div id="homeStatusText">Loading course data...</div><div id="clock">--:--</div>
     </footer>
   </main>
 </div>
 
+<script src="app/js/progress-store.js"></script>
+<script src="app/js/accessibility.js"></script>
+<script src="app/js/lesson-search.js"></script>
+<script src="app/js/achievements.js"></script>
+<script src="app/js/home.js"></script>
 <script src="app/js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,50 @@
+/* .desktop{display:flex} in site.css ties in specificity with [hidden]'s
+   UA display:none — this rule breaks the tie so hiding the app chrome
+   behind a rendered certificate actually works. */
+.desktop[hidden]{display:none}
+
+/* Certificate sheet: deliberately breaks from the Win95 chrome — this is
+   the one thing in Code Forge meant to be printed or saved as a keepsake,
+   so it reads like an actual certificate, not a desktop app screen. */
+.certificate-sheet{display:flex;justify-content:center;padding:40px 16px;background:#008080;min-height:100vh;box-sizing:border-box}
+.certificate-sheet[hidden]{display:none}
+
+.certificate-border{
+  width:min(800px,100%);
+  background:#fffdf5;
+  border:10px double #8a6d1f;
+  padding:48px 56px;
+  text-align:center;
+  font-family:Georgia,"Times New Roman",serif;
+  color:#2b2308;
+  box-shadow:0 6px 24px rgba(0,0,0,.35);
+}
+.certificate-seal{font-size:40px;margin-bottom:6px}
+.certificate-kicker{letter-spacing:6px;font-size:13px;font-weight:bold;color:#8a6d1f;margin:0 0 18px}
+.certificate-heading{font-size:32px;margin:0 0 22px;color:#3a2f0b}
+.certificate-lede{font-size:14px;color:#555;margin:0 0 6px}
+.certificate-name{font-size:28px;font-style:italic;margin:0 0 18px;border-bottom:1px solid #8a6d1f;display:inline-block;padding:0 10px 6px;min-width:60%}
+.certificate-track{font-size:22px;font-weight:bold;margin:0 0 24px;color:#3a2f0b}
+.certificate-meta{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;font-size:13px;color:#555;border-top:1px solid #d8cda0;padding-top:16px;margin-bottom:18px}
+.certificate-footer{font-size:11px;color:#8a7c4a;margin:0}
+
+.certificate-controls{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+  padding:16px;
+  background:var(--silver);
+  border-top:2px solid #fff;
+}
+.certificate-controls[hidden]{display:none}
+.certificate-controls label{font-size:13px}
+.certificate-name-input{height:29px;background:#fff;border:2px inset #fff;padding:2px 8px;font-family:Tahoma,"MS Sans Serif",Arial,sans-serif;font-size:13px;min-width:220px}
+
+@media print{
+  .no-print{display:none!important}
+  .certificate-sheet{background:#fff;padding:0;min-height:0}
+  .certificate-border{box-shadow:none;border-width:6px}
+  body{background:#fff}
+}

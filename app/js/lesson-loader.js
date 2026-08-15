@@ -5,11 +5,36 @@
 // routes; passing the assignment opens the completion dialog instead of
 // navigating away. Content is fetched from content/*.json; nothing here
 // hardcodes lesson text.
-const CONTENT_BASE = '../content/python-fundamentals/';
-const DEFAULT_LESSON_ID = 'py-ch01-what-is-python';
+// Multi-track routing: which content directory and which lesson to open
+// when the URL doesn't say. Add a new track's default lesson here when it
+// gets a track.json — everything else (content base, runner, editor
+// filename/status-bar language) follows from track.json's own "language"
+// field once the track loads, so nothing else needs a per-track entry.
+const DEFAULT_TRACK_ID = 'python-fundamentals';
+const TRACK_DEFAULT_LESSON = {
+  'python-fundamentals': 'py-ch01-what-is-python',
+  'javascript-fundamentals': 'js-ch01-what-is-javascript',
+};
 
 const params = new URLSearchParams(location.search);
-window.CF_LESSON_ID = params.get('lesson') || DEFAULT_LESSON_ID;
+const TRACK_ID = params.get('track') || DEFAULT_TRACK_ID;
+const CONTENT_BASE = `../content/${TRACK_ID}/`;
+window.CF_LESSON_ID = params.get('lesson') || TRACK_DEFAULT_LESSON[TRACK_ID] || TRACK_DEFAULT_LESSON[DEFAULT_TRACK_ID];
+
+// Every internal navigation (next-lesson buttons, the course drawer,
+// "back to course") needs to carry the current track forward, or picking a
+// lesson from a JS track's drawer would silently reopen it against the
+// Python content base.
+function lessonUrl(lessonId) {
+  return `?track=${encodeURIComponent(TRACK_ID)}&lesson=${encodeURIComponent(lessonId)}`;
+}
+
+// Picks which Worker-backed client actually executes a track's code —
+// RunnerClient (Pyodide) for Python, JsRunnerClient for JavaScript. See
+// runner-client.js.
+function currentRunner() {
+  return track && track.language === 'javascript' ? JsRunnerClient : RunnerClient;
+}
 
 let track = null;
 let chapter = null;
@@ -67,8 +92,19 @@ function showScreen(name) {
 
 // ---------- Lesson workspace screen ----------
 
+const LANGUAGE_UI = {
+  python: { fileName: 'main.py', statusLabel: 'Python 3 · Pyodide', editorAriaLabel: 'Python code editor' },
+  javascript: { fileName: 'main.js', statusLabel: 'JavaScript · V8', editorAriaLabel: 'JavaScript code editor' },
+};
+
 function renderLessonScreen() {
   document.title = `Code Forge — ${lesson.title}`;
+  const titleSub = document.getElementById('titleSub');
+  if (titleSub) titleSub.textContent = `— ${track.title}`;
+  const languageUi = LANGUAGE_UI[track.language] || LANGUAGE_UI.python;
+  document.getElementById('editorFileName').textContent = languageUi.fileName;
+  document.getElementById('statusLanguage').textContent = languageUi.statusLabel;
+  document.getElementById('previewEditor').setAttribute('aria-label', languageUi.editorAriaLabel);
   const src = lesson.sourceAlignment;
   // Book-companion/original(-synthesis) lessons carry a book chapter number;
   // video-companion lessons (no book coverage for the topic) carry a video
@@ -186,6 +222,18 @@ function resetTtsUi() {
 function wireTts() {
   const toggleBtn = document.getElementById('ttsToggleBtn');
   const stopBtn = document.getElementById('ttsStopBtn');
+  const voiceSelect = document.getElementById('ttsVoiceSelect');
+
+  function renderVoiceOptions() {
+    voiceSelect.innerHTML = TTS.VOICES.map((v) => `<option value="${v.id}">${escapeHtml(v.label)}</option>`).join('');
+    voiceSelect.value = TTS.getVoice();
+  }
+  renderVoiceOptions();
+  // Native-vs-Kokoro engine detection can still be pending at this point
+  // (voiceschanged is async in some browsers) — re-render once it settles
+  // so the select reflects whichever voice list actually ended up in use.
+  TTS.ready.then(renderVoiceOptions);
+  voiceSelect.addEventListener('change', () => TTS.setVoice(voiceSelect.value));
 
   toggleBtn.addEventListener('click', () => {
     const state = TTS.getState();
@@ -316,6 +364,36 @@ function activateTab(name) {
   document.getElementById('workspaceHints').hidden = name !== 'hints';
 }
 
+// One-line plain-language explanations for the exception types beginners
+// hit most often, keyed by the track's language. Matched against the last
+// line of a traceback, not the whole output, so it doesn't misfire on an
+// exception name a learner printed themselves.
+const FRIENDLY_ERRORS = {
+  python: [
+    [/NameError/, "A name isn't defined yet — check for a typo, or that you defined it before using it."],
+    [/IndentationError/, 'Python cares about whitespace — a line is indented more or less than the block around it expects.'],
+    [/TypeError/, "An operation got a value of a type it doesn't support — e.g. adding a number and a string directly."],
+    [/SyntaxError/, "Python couldn't parse this — often a missing colon, bracket, or quote."],
+    [/ZeroDivisionError/, 'Division by zero — check what the divisor could be before dividing.'],
+    [/IndexError/, "A list/string index is out of range — check the collection's actual length."],
+    [/KeyError/, "A dictionary key doesn't exist — check the key is spelled right and was actually added."],
+    [/AttributeError/, "That object doesn't have the method/attribute you called — check the type of the value."],
+    [/ValueError/, 'A value has the right type but an invalid value — e.g. int() on text that’s not a number.'],
+  ],
+  javascript: [
+    [/ReferenceError/, "A name isn't defined yet — check for a typo, or that it's declared before use."],
+    [/TypeError/, "An operation was used on a value of the wrong type — e.g. calling something that isn't a function."],
+    [/SyntaxError/, 'JavaScript could not parse this — often a missing bracket, brace, or quote.'],
+    [/RangeError/, 'A value is outside what was expected — e.g. an array length or recursion depth.'],
+  ],
+};
+function friendlyErrorHint(output, language) {
+  const rules = FRIENDLY_ERRORS[language] || FRIENDLY_ERRORS.python;
+  const lastLine = String(output || '').trim().split('\n').pop() || '';
+  const match = rules.find(([pattern]) => pattern.test(lastLine));
+  return match ? `\n> Tip: ${match[1]}` : '';
+}
+
 function setConsole(text) {
   const el = document.getElementById('workspaceConsole');
   el.textContent = text;
@@ -326,11 +404,27 @@ function setConsole(text) {
 function renderTests(result) {
   const rows = [];
   result.requirementResults.forEach((r, i) => rows.push({ n: i + 1, pass: r.passed, label: r.label }));
-  rows.push({ n: rows.length + 1, pass: result.outputCheck.passed, label: result.outputCheck.label });
+  rows.push({
+    n: rows.length + 1,
+    pass: result.outputCheck.passed,
+    label: result.outputCheck.label,
+    // Only the behavioral output check has a meaningful expected/actual
+    // diff — a failed requirementCheck is a regex match on source, there's
+    // nothing to diff there.
+    diff: !result.outputCheck.passed ? { expected: result.outputCheck.expected, actual: result.outputCheck.actual } : null,
+  });
   rows.push({ n: rows.length + 1, pass: result.executed, label: 'Program executes without an exception' });
   const testsEl = document.getElementById('workspaceTests');
   testsEl.innerHTML = rows
-    .map((r) => `<div class="test-row ${r.pass ? 'pass' : 'fail'}"><span class="test-badge">${r.pass ? 'PASS' : 'FAIL'}</span><span>Test ${r.n} — ${escapeHtml(r.label)}</span></div>`)
+    .map((r) => {
+      const row = `<div class="test-row ${r.pass ? 'pass' : 'fail'}"><span class="test-badge">${r.pass ? 'PASS' : 'FAIL'}</span><span>Test ${r.n} — ${escapeHtml(r.label)}</span></div>`;
+      if (!r.diff) return row;
+      const fmt = (v) => (v === null || v === undefined ? '(no output captured)' : escapeHtml(v));
+      return `${row}<div class="test-diff">
+        <div class="test-diff-row"><span class="test-diff-label">Expected:</span><pre>${fmt(r.diff.expected)}</pre></div>
+        <div class="test-diff-row"><span class="test-diff-label">Actual:</span><pre>${fmt(r.diff.actual)}</pre></div>
+      </div>`;
+    })
     .join('');
   activateTab('tests');
 }
@@ -343,6 +437,120 @@ function renderHints() {
     '<div class="hint-row">No hints for this lesson.</div>';
   if (hintIndex < hints.length) hintIndex += 1;
   activateTab('hints');
+}
+
+// ---------- Keyboard shortcut cheat sheet ----------
+
+const KEYBOARD_SHORTCUTS = [
+  ['Ctrl + Enter', 'Run'],
+  ['Ctrl + Shift + Enter', 'Submit'],
+  ['Ctrl + L', 'Listen / Pause narration'],
+  ['?', 'Show this shortcut list'],
+];
+
+function showShortcutsDialog() {
+  const rows = KEYBOARD_SHORTCUTS.map(
+    ([keys, desc]) => `<div class="shortcut-row"><kbd>${escapeHtml(keys)}</kbd><span>${escapeHtml(desc)}</span></div>`
+  ).join('');
+  Win98Window.create({
+    title: 'Keyboard Shortcuts',
+    width: 340,
+    bodyHtml: `<div class="shortcut-list">${rows}</div>`,
+  });
+}
+
+function wireHelp() {
+  const helpBtn = document.getElementById('helpMenuBtn');
+  if (helpBtn) helpBtn.addEventListener('click', showShortcutsDialog);
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== '?') return;
+    const target = e.target;
+    // Don't hijack '?' typed into an actual text field (editor, Paperclip
+    // input, etc.) — only treat it as the shortcut when focus is on the
+    // page body / a non-editable control.
+    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+    e.preventDefault();
+    showShortcutsDialog();
+  });
+}
+
+// ---------- Profile: progress export/import ----------
+
+// No accounts/cloud sync — this is the escape hatch: everything lives in
+// this browser's localStorage, so losing the profile (new device, cleared
+// data) means losing it for good unless the learner saves a copy.
+function exportProgressFile() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('codeforge:')) data[key] = localStorage.getItem(key);
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `codeforge-progress-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  setStatus('Progress exported.');
+}
+
+function importProgressFile(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    let data;
+    try {
+      data = JSON.parse(reader.result);
+    } catch (err) {
+      setStatus('Import failed — not a valid progress file.');
+      return;
+    }
+    const keys = Object.keys(data).filter((k) => k.startsWith('codeforge:'));
+    if (!keys.length) {
+      setStatus('Import failed — no Code Forge progress found in that file.');
+      return;
+    }
+    keys.forEach((k) => localStorage.setItem(k, data[k]));
+    setStatus(`Imported ${keys.length} progress entries — reloading...`);
+    setTimeout(() => location.reload(), 800);
+  };
+  reader.readAsText(file);
+}
+
+function showProfileDialog() {
+  const win = Win98Window.create({
+    title: 'Profile',
+    width: 360,
+    bodyHtml: `
+      <p>No accounts yet — progress lives only in this browser. Export a
+      backup before switching devices or clearing browser data, and import
+      it to restore.</p>
+      <div class="win98-float-actions">
+        <button type="button" class="classic-button" id="profileExportBtn">Export Progress</button>
+        <button type="button" class="classic-button" id="profileImportBtn">Import Progress</button>
+      </div>
+      <input type="file" id="profileImportFile" accept="application/json" hidden>
+      <div class="a11y-toggle-row">
+        <label for="a11yToggle">High-contrast, larger text</label>
+        <input type="checkbox" id="a11yToggle">
+      </div>
+    `,
+  });
+  win.el.querySelector('#profileExportBtn').addEventListener('click', exportProgressFile);
+  const fileInput = win.el.querySelector('#profileImportFile');
+  win.el.querySelector('#profileImportBtn').addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) importProgressFile(fileInput.files[0]);
+  });
+  const a11yToggle = win.el.querySelector('#a11yToggle');
+  a11yToggle.checked = Accessibility.isEnabled();
+  a11yToggle.addEventListener('change', () => {
+    Accessibility.setEnabled(a11yToggle.checked);
+  });
+}
+
+function wireProfile() {
+  const btn = document.querySelector('.profile-btn');
+  if (btn) btn.addEventListener('click', showProfileDialog);
 }
 
 // ---------- Program input popup ----------
@@ -386,6 +594,16 @@ function promptForStdin() {
   });
 }
 
+let saveIndicatorTimer = null;
+function flashSaveIndicator() {
+  const el = document.getElementById('saveIndicator');
+  if (!el) return;
+  el.textContent = 'Saved';
+  el.classList.add('show');
+  clearTimeout(saveIndicatorTimer);
+  saveIndicatorTimer = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
 function setupWorkspace() {
   const editor = document.getElementById('previewEditor');
   const lineNumbers = document.getElementById('previewLineNumbers');
@@ -393,6 +611,7 @@ function setupWorkspace() {
   editor.addEventListener('input', () => {
     updateLines(editor, lineNumbers);
     ProgressStore.setDraft(lesson.id, editor.value);
+    flashSaveIndicator();
   });
   // Wrapped lines can make the editor taller than its viewport; the gutter
   // has no scrollbar of its own (see .line-numbers overflow:hidden in
@@ -428,9 +647,10 @@ function setupWorkspace() {
 
     setStatus('Running code...');
     setConsole('> Running code...\n');
-    const result = await RunnerClient.run(editor.value, { timeoutMs: 8000, stdinLines });
+    const result = await currentRunner().run(editor.value, { timeoutMs: 8000, stdinLines });
     Paperclip.recordRun({ ...result, output: result.output, timedOut: result.timedOut, source: 'run' });
-    setConsole(`> Running code...\n\n${result.output || '(no output)'}\n> ${result.timedOut ? 'Execution timed out.' : result.ok ? 'Program finished.' : 'Program stopped with an error.'}`);
+    const hint = result.ok ? '' : friendlyErrorHint(result.output, track.language);
+    setConsole(`> Running code...\n\n${result.output || '(no output)'}\n> ${result.timedOut ? 'Execution timed out.' : result.ok ? 'Program finished.' : 'Program stopped with an error.'}${hint}`);
     setStatus(result.timedOut ? 'Run timed out' : result.ok ? 'Run complete' : 'Run failed');
   };
 
@@ -439,7 +659,10 @@ function setupWorkspace() {
     setStatus('Testing assignment...');
     setConsole('> Running assignment tests...\n');
     ProgressStore.incrementAttempts(lesson.id);
-    const result = await Grading.submit(editor.value, lesson.assignment);
+    const result = await Grading.submit(editor.value, lesson.assignment, {
+      runner: currentRunner(),
+      language: track.language || 'python',
+    });
     lastSubmitResult = result;
     Paperclip.recordRun({ ...result, output: result.rawOutput, source: 'submit' });
 
@@ -447,6 +670,10 @@ function setupWorkspace() {
     for (const r of result.requirementResults) lines.push(`${r.passed ? '[PASS]' : '[FAIL]'} ${r.label}`);
     lines.push(`${result.outputCheck.passed ? '[PASS]' : '[FAIL]'} ${result.outputCheck.label}`);
     lines.push(`${result.executed ? '[PASS]' : '[FAIL]'} Program executes without an exception`);
+    if (!result.executed) {
+      const hint = friendlyErrorHint(result.rawOutput, track.language);
+      if (hint) lines.push(hint.trim());
+    }
     if (!result.passed) lines.push('', result.timedOut ? result.rawOutput : 'Fix the failed requirement and submit again.');
     setConsole(lines.join('\n'));
     renderTests(result);
@@ -543,7 +770,7 @@ function showCompletionDialog(newlyCompleted, totalXp) {
   const nextBtn = document.getElementById('completionNextBtn');
   nextBtn.addEventListener('click', () => {
     if (lesson.nextLessonId) {
-      location.search = `?lesson=${encodeURIComponent(lesson.nextLessonId)}`;
+      location.search = lessonUrl(lesson.nextLessonId);
     } else {
       close();
       setStatus('This is the newest lesson — more chapters are on the way.');
@@ -640,13 +867,31 @@ function renderResultsScreen() {
   document.getElementById('resultsNeedsWork').innerHTML = needsWork.length
     ? needsWork.map((t) => `<li>${escapeHtml(t)}</li>`).join('')
     : '<li>Nothing — great work!</li>';
+
+  const newAchievements = document.getElementById('newAchievements');
+  if (newAchievements) {
+    if (result.passed) {
+      Achievements.checkForNew().then((fresh) => {
+        if (!fresh.length) {
+          newAchievements.hidden = true;
+          return;
+        }
+        newAchievements.hidden = false;
+        newAchievements.innerHTML = fresh
+          .map((b) => `<div class="new-achievement-row"><span class="badge-icon">${b.icon}</span><span><b>New Achievement: ${escapeHtml(b.title)}</b><br>${escapeHtml(b.desc)}</span></div>`)
+          .join('');
+      });
+    } else {
+      newAchievements.hidden = true;
+    }
+  }
 }
 
 function wireResultsScreen() {
   document.getElementById('retryBtn').addEventListener('click', () => showScreen('lesson'));
   document.getElementById('nextLessonBtn').addEventListener('click', () => {
     if (lesson.nextLessonId) {
-      location.search = `?lesson=${encodeURIComponent(lesson.nextLessonId)}`;
+      location.search = lessonUrl(lesson.nextLessonId);
     } else {
       setStatus('This is the newest lesson — more chapters are on the way.');
     }
@@ -689,13 +934,15 @@ async function init() {
   ProgressStore.touchLesson(lesson.id);
 
   CourseDrawer.init(track, lesson.id, (newLessonId) => {
-    location.search = `?lesson=${encodeURIComponent(newLessonId)}`;
+    location.search = lessonUrl(newLessonId);
   });
 
   renderLessonScreen();
   setupWorkspace();
   wireQuizScreen();
   wireResultsScreen();
+  wireHelp();
+  wireProfile();
   Paperclip.init(track, chapter, lesson);
 
   const startScreen = ['lesson', 'quiz', 'results'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'lesson';
@@ -705,7 +952,7 @@ async function init() {
   ProgressStore.touchStreak();
   updateXpDisplay();
   updateStreakDisplay();
-  RunnerClient.warmup();
+  currentRunner().warmup();
   setStatus('Ready');
 }
 

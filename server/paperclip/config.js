@@ -33,6 +33,11 @@ const config = {
     groqModel: envStr('PAPERCLIP_GROQ_MODEL', 'llama-3.3-70b-versatile'),
     groqApiKey: envStr('PAPERCLIP_GROQ_API_KEY', ''),
 
+    // Local inference (Ollama / LM Studio / llama.cpp / vLLM) via their
+    // OpenAI-compatible endpoints. No API key required.
+    localBaseUrl: envStr('PAPERCLIP_LOCAL_BASE_URL', 'http://127.0.0.1:11434/v1'),
+    localModel: envStr('PAPERCLIP_LOCAL_MODEL', 'qwen2.5-coder:14b'),
+
     timeoutMs: envInt('PAPERCLIP_TIMEOUT_MS', 30000),
     maxOutputTokens: envInt('PAPERCLIP_MAX_OUTPUT_TOKENS', 600),
     maxMessageLength: envInt('PAPERCLIP_MAX_MESSAGE_LENGTH', 2000),

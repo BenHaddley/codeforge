@@ -2,18 +2,18 @@ html,body{overflow:hidden}
 .desktop{height:100%}
 .app-window{height:100%;min-height:640px}
 
-/* Lesson screen: two large columns — reading on the left, a starter/preview
-   editor on the right. Run/Submit here hand off to the Practice screen;
-   see wiki/04-LessonPlayer.md for why this editor has no output console. */
-.lesson-columns{display:flex;gap:0;flex:1;min-height:0}
-.lesson-left{flex:1 1 auto;min-width:280px;display:flex;flex-direction:column;min-height:0}
-.lesson-right{flex:0 0 auto;width:460px;min-width:320px;max-width:75%;display:flex;flex-direction:column;min-height:0}
+/* LessonWorkspace: one continuous page. The lesson, video, assignment and
+   Paperclip scroll on the left; the IDE stays visible on the right. */
+.workspace-switch{display:none;flex:0 0 auto;gap:6px;margin:0 0 5px}
+.lesson-columns{display:flex;gap:0;flex:1;min-height:0;width:100%}
+.lesson-left{flex:0 0 50%;width:50%;min-width:280px;display:flex;flex-direction:column;min-height:0}
+.lesson-right{flex:1 1 0;min-width:320px;display:flex;flex-direction:column;min-height:0;position:sticky;top:0;align-self:stretch}
 
 /* Draggable Win95-style gutter — see app/js/panel-resizer.js. Sizes the
    panel that follows it in source order (the right-hand panel). */
 .col-resizer{flex:0 0 7px;width:7px;margin:0 4px;cursor:col-resize;background:var(--silver);border-left:1px solid #fff;border-right:1px solid #808080}
 .col-resizer:hover,.col-resizer.dragging{background:#a4a4a4}
-.lesson-scroll{flex:1;overflow:auto;background:#fff;padding:22px}
+.lesson-scroll{flex:1;overflow:auto;background:#fff;padding:18px;border-top:2px inset #fff}
 .lesson-scroll h1{color:var(--blue);font-size:26px;margin:0 0 12px}
 .lesson-scroll h2{color:var(--blue);font-size:16px;margin:20px 0 8px}
 .lesson-scroll p{font-size:15px;line-height:1.5}
@@ -21,23 +21,51 @@ html,body{overflow:hidden}
 .tts-para.tts-active{background:#fff3b0;outline:1px dashed #d4b106;outline-offset:2px}
 .tts-controls{display:flex;align-items:center;gap:4px}
 .lesson-scroll code{font-family:"Courier New",monospace}
-.lesson-scroll pre{background:#f3f3f3;border:2px inset #fff;padding:10px;overflow:auto;line-height:1.35}
-.classic-callout,.assignment-box{background:#eee;border:2px groove #fff;padding:10px;margin:12px 0}
+.lesson-scroll pre{background:#fff;border:2px inset #fff;padding:10px;overflow:auto;line-height:1.35}
+.classic-callout,.assignment-box,.example-block,.video-section{background:#eee;border:2px groove #fff;padding:10px;margin:14px 0}
 .assignment-box ul{margin:6px 0 0 18px;padding:0}
-.practice-cta{margin-top:20px;text-align:right}
+.example-bar,.video-section-bar{height:28px;margin:-10px -10px 10px;background:var(--blue);color:#fff;font-weight:bold;padding:3px 5px;display:flex;align-items:center;justify-content:space-between;font-size:13px}
+.example-code{margin:0;background:#fff;color:#000;font-family:"Courier New",monospace;font-size:13px;line-height:1.45;white-space:pre}
+.example-note{font-size:12px!important;margin:8px 0 0;color:#333}
+.practice-cta{display:none}
 
-.lesson-right .editor-shell{flex:1}
+.lesson-right .editor-shell{flex:1 1 auto;min-height:260px}
 .editor-toolbar{flex:0 0 auto;display:flex;justify-content:center;gap:8px;padding:8px;background:var(--silver);border-top:1px solid #808080}
+.workspace-output{flex:0 0 32%;min-height:160px;max-height:38%;display:flex;flex-direction:column;background:var(--silver);border-top:2px ridge #fff}
+.workspace-output.collapsed{flex:0 0 auto;min-height:0}
+.workspace-output.collapsed .console,.workspace-output.collapsed .tests-panel,.workspace-output.collapsed .hints-panel{display:none!important}
+.workspace-output .tabs{border-bottom:1px solid #808080}
+.workspace-output .tab-spacer{flex:1}
+.output-collapse-btn{margin-left:auto}
+.tests-panel,.hints-panel{margin:5px;flex:1;min-height:0;overflow:auto;background:#fff;border:2px inset #fff;padding:8px;font-size:13px;line-height:1.45}
+.test-row,.hint-row{display:flex;gap:8px;align-items:flex-start;border-bottom:1px dotted #aaa;padding:5px 2px}
+.test-row:last-child,.hint-row:last-child{border-bottom:0}
+.test-row.pass{color:#006000}.test-row.fail{color:#800000}
+.test-diff{margin:0 0 8px 50px;padding:6px 8px;background:#f8f8f8;border:1px dashed #aaa}
+.test-diff-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:4px}
+.test-diff-row:last-child{margin-bottom:0}
+.test-diff-label{flex:0 0 62px;font-weight:bold;color:#333}
+.test-diff-row pre{margin:0;font-family:"Courier New",monospace;font-size:12px;white-space:pre-wrap;word-break:break-word;color:#000}
+.test-badge{display:inline-block;min-width:42px;font-family:"Courier New",monospace;font-weight:bold}
+.dialog-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1500;display:flex;align-items:center;justify-content:center;padding:16px}
+.completion-dialog{width:min(460px,92vw);box-shadow:3px 3px 0 #404040}
+.completion-dialog .pane-body{background:var(--silver);padding:14px}
+.completion-title{font-size:15px;font-weight:bold;margin:0 0 10px}
+.completion-xp{background:#fff;border:2px inset #fff;padding:10px;margin:0 0 12px;font-weight:bold;color:#006000}
+.completion-total{color:#000;font-weight:normal}
+.completion-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
 
 @media (max-width:1050px){
   html,body{overflow:auto}
   .desktop{height:auto;min-height:100%}
   .app-window{min-height:100vh}
-  .lesson-columns,.practice-columns{display:block}
-  .lesson-left,.lesson-right,.practice-left,.practice-right{margin-bottom:8px;width:auto!important}
+  .workspace-switch{display:flex}
+  .lesson-columns{display:block}
+  .lesson-left,.lesson-right{margin-bottom:8px;width:auto!important;flex-basis:auto!important;position:static}
   .col-resizer{display:none}
-  .lesson-scroll{height:420px}
-  .lesson-right .editor-shell{height:420px}
+  .lesson-scroll{height:auto;max-height:none;overflow:visible}
+  .lesson-right .editor-shell{height:48vh;min-height:320px}
+  .workspace-output{height:220px;max-height:none}
   .cfvp-frame{width:100%}
   .brandmark{display:none}
   .statusbar-4{grid-template-columns:1fr 120px 80px 80px}

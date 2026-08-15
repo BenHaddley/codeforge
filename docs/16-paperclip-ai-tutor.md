@@ -26,7 +26,7 @@ POST /api/paperclip
 server/paperclip/
   api.js        request validation, rate limiting, error mapping
   prompt.js     SYSTEM POLICY (the tutor's behaviour) + context templating
-  provider.js   provider interface + adapters (opencode, groq, mock)
+  provider.js   provider interface + adapters (opencode, groq, local, mock)
   config.js     environment configuration
   rate-limit.js per-IP sliding window
       │
@@ -102,10 +102,11 @@ The full policy is the `SYSTEM_POLICY` constant in
 ## Provider abstraction
 
 `server/paperclip/provider.js` defines a single chat interface. Adapters:
-`opencode` (OpenCode Zen, OpenAI-compatible), `groq`, and `mock` (offline
-deterministic stand-in used by the self-test and browser smoke tests). A
-fallback chain tries the primary then the optional fallback provider and
-stops on the first success.
+`opencode` (OpenCode Zen, OpenAI-compatible), `groq`, `local` (any local
+OpenAI-compatible server: Ollama, LM Studio, llama.cpp, vLLM — no key
+needed), and `mock` (offline deterministic stand-in used by the self-test
+and browser smoke tests). A fallback chain tries the primary then the
+optional fallback provider and stops on the first success.
 
 Configuration (see `.env.example`):
 
@@ -117,6 +118,19 @@ PAPERCLIP_FALLBACK_PROVIDER=groq
 PAPERCLIP_FALLBACK_MODEL=llama-3.3-70b-versatile
 PAPERCLIP_GROQ_API_KEY=...
 ```
+
+Free, fully local alternative (no hosted key, runs entirely on this
+machine; tested against Ollama + `qwen2.5-coder:14b`):
+
+```text
+PAPERCLIP_PROVIDER=local
+PAPERCLIP_LOCAL_BASE_URL=http://127.0.0.1:11434/v1
+PAPERCLIP_LOCAL_MODEL=qwen2.5-coder:14b
+```
+
+The request timeout is raised automatically for the local provider
+(local models take seconds to generate); raise `PAPERCLIP_TIMEOUT_MS` if
+your machine is slower.
 
 Switching models or providers never touches the tutor logic.
 

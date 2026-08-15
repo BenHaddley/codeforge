@@ -1,18 +1,17 @@
-/* Paperclip — the embedded AI tutor, styled as a native Win98 docked
-   window: silver chrome, beveled borders, tiny blue titlebar. One text
-   input, conversation above it. No rounded SaaS cards, no gradients beyond
-   the standard blue titlebar. */
+/* Paperclip — the embedded AI tutor, styled as a native Win95 pane inside the
+   lesson column. Silver chrome, beveled borders, tiny blue titlebar. No
+   rounded SaaS cards, no floating bottom dock. */
 
 .paperclip-pane{
-  flex:0 0 auto;
   display:flex;
   flex-direction:column;
   background:var(--silver);
-  border-top:2px ridge #fff;
-  max-height:46vh;
-  min-height:0;
+  border:2px solid;
+  border-color:#fff #404040 #404040 #fff;
+  margin:16px 0 4px;
+  min-height:280px;
 }
-.paperclip-pane.collapsed{max-height:none}
+.paperclip-pane.collapsed{min-height:0}
 
 .paperclip-titlebar{
   height:26px;
@@ -42,14 +41,17 @@
 .paperclip-status{font-weight:normal;font-size:11px;color:#cfd8ff}
 
 .paperclip-body{
-  flex:1;
+  flex:1 1 auto;
   min-height:0;
+  overflow:hidden;
   display:flex;
   flex-direction:column;
   padding:5px;
   gap:5px;
 }
 .paperclip-pane.collapsed .paperclip-body{display:none}
+.paperclip-pane.collapsed .paperclip-hint{display:none}
+.paperclip-hint{background:#ffffe1;border:2px inset #fff;margin:5px;padding:5px;font-size:12px;color:#333}
 
 .paperclip-conversation{
   flex:1;
@@ -118,5 +120,5 @@
 .paperclip-debug:empty{display:none}
 
 @media (max-width:1050px){
-  .paperclip-pane{max-height:38vh}
+  .paperclip-pane{min-height:260px}
 }

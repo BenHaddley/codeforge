@@ -127,6 +127,28 @@ class GroqProvider {
   }
 }
 
+// Local inference via Ollama / LM Studio / llama.cpp / vLLM. All expose an
+// OpenAI-compatible chat completions endpoint, so the same client works;
+// local servers typically ignore the Authorization header.
+class LocalProvider {
+  constructor(cfg) {
+    this.name = 'local';
+    this.model = cfg.localModel;
+    this.baseUrl = cfg.localBaseUrl;
+  }
+  async chat({ messages, maxTokens, temperature, timeoutMs }) {
+    return openAiCompatibleChat({
+      baseUrl: this.baseUrl,
+      apiKey: 'local',
+      model: this.model,
+      messages,
+      maxTokens,
+      temperature,
+      timeoutMs,
+    });
+  }
+}
+
 // Deterministic stand-in used for development and tests: no network, no
 // key. It summarises the workspace context it received so a developer can
 // verify that lesson/code/run state is actually reaching the tutor, then
@@ -183,12 +205,14 @@ function extractSummary(contextText) {
 // Factory + fallback chain
 // ---------------------------------------------------------------------------
 
-function buildProvider(name, cfg, modelOverride) {
+function buildProvider(name, cfg) {
   switch (name) {
     case 'opencode':
       return new OpenCodeProvider(cfg);
     case 'groq':
       return new GroqProvider(cfg);
+    case 'local':
+      return new LocalProvider(cfg);
     case 'mock':
       return new MockProvider(cfg);
     default:
