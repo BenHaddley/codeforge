@@ -37,6 +37,18 @@
       "note": "Because var ignores block boundaries, status is still readable after the if block ends — this works, but it's exactly the kind of leak let/const prevent."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — variable scope",
+      "startSeconds": 10904,
+      "endSeconds": 11229,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=10904&end=11229&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "let-vs-var-scope",
@@ -67,8 +79,18 @@
     "solutionCode": "function readyCheck(level) {\n  if (level >= 10) {\n    const message = \"Ready\";\n    console.log(message);\n  } else {\n    console.log(\"Not ready\");\n  }\n}\n\nreadyCheck(12);\nreadyCheck(4);\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines readyCheck()", "pattern": "function\\s+readyCheck\\s*\\(", "mustMatch": true },
-      { "id": "uses-const", "label": "Uses const", "pattern": "\\bconst\\b", "mustMatch": true }
+      {
+        "id": "defines-function",
+        "label": "Defines readyCheck()",
+        "pattern": "function\\s+readyCheck\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-const",
+        "label": "Uses const",
+        "pattern": "\\bconst\\b",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nreadyCheck(12);\nreadyCheck(4);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "Ready\nNot ready\n",

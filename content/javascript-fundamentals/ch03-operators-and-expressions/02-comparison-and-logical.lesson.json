@@ -37,11 +37,28 @@
       "note": "The forge is ready when it's hot enough but not dangerously hot — true in this case."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — strict equality",
+      "startSeconds": 8567,
+      "endSeconds": 8800,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=8567&end=8800&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "strict-equality",
       "question": "What does 5 === \"5\" evaluate to?",
-      "options": ["true", "false", "\"5\"", "undefined"],
+      "options": [
+        "true",
+        "false",
+        "\"5\"",
+        "undefined"
+      ],
       "correctIndex": 1,
       "feedback": {
         "correct": "Correct — === checks type as well as value, and a number is never strictly equal to a string.",
@@ -61,8 +78,18 @@
     "solutionCode": "function isReady(temperature) {\n  console.log(temperature >= 1200 && temperature <= 1500);\n}\n\nisReady(1300);\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines isReady()", "pattern": "function\\s+isReady\\s*\\(", "mustMatch": true },
-      { "id": "uses-and", "label": "Uses &&", "pattern": "&&", "mustMatch": true }
+      {
+        "id": "defines-function",
+        "label": "Defines isReady()",
+        "pattern": "function\\s+isReady\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-and",
+        "label": "Uses &&",
+        "pattern": "&&",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nisReady(1300);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "true\n",

@@ -32,6 +32,18 @@
       "note": "Battery.empty(100) is a static factory — called on the class, not an instance. Setting level to 150 runs the setter, which clamps it down to 100 (the capacity), so the getter reads back 100."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — getters and setters",
+      "startSeconds": 20894,
+      "endSeconds": 21691,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=20894&end=21691&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "static-call-target",
@@ -62,9 +74,24 @@
     "solutionCode": "class Battery {\n  constructor(capacity) {\n    this.capacity = capacity;\n    this._level = 0;\n  }\n\n  get level() {\n    return this._level;\n  }\n\n  set level(value) {\n    this._level = Math.max(0, Math.min(this.capacity, value));\n  }\n\n  static full(capacity) {\n    const battery = new Battery(capacity);\n    battery.level = capacity;\n    return battery;\n  }\n}\n\nfunction runBatteryDemo(capacity) {\n  const pack = Battery.full(capacity);\n  pack.level = capacity + 50;\n  console.log(pack.level);\n}\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-getter", "label": "Defines a level getter", "pattern": "get\\s+level\\s*\\(\\s*\\)", "mustMatch": true },
-      { "id": "defines-setter", "label": "Defines a level setter", "pattern": "set\\s+level\\s*\\(", "mustMatch": true },
-      { "id": "defines-static", "label": "Defines a static full() method", "pattern": "static\\s+full\\s*\\(", "mustMatch": true }
+      {
+        "id": "defines-getter",
+        "label": "Defines a level getter",
+        "pattern": "get\\s+level\\s*\\(\\s*\\)",
+        "mustMatch": true
+      },
+      {
+        "id": "defines-setter",
+        "label": "Defines a level setter",
+        "pattern": "set\\s+level\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "defines-static",
+        "label": "Defines a static full() method",
+        "pattern": "static\\s+full\\s*\\(",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nrunBatteryDemo(100);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "100\n",

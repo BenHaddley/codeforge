@@ -37,6 +37,18 @@
       "note": "switch compares rank against each case with strict equality. break stops execution from falling into the next case."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — switch statements",
+      "startSeconds": 6528,
+      "endSeconds": 7415,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=6528&end=7415&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "switch-break",
@@ -66,8 +78,18 @@
     "solutionCode": "function gradeBlade(quality) {\n  if (quality >= 90) {\n    console.log(\"Masterwork\");\n  } else if (quality >= 70) {\n    console.log(\"Fine\");\n  } else if (quality >= 50) {\n    console.log(\"Serviceable\");\n  } else {\n    console.log(\"Scrap\");\n  }\n}\n\ngradeBlade(72);\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines gradeBlade()", "pattern": "function\\s+gradeBlade\\s*\\(", "mustMatch": true },
-      { "id": "uses-else-if", "label": "Uses else if", "pattern": "else\\s+if\\s*\\(", "mustMatch": true }
+      {
+        "id": "defines-function",
+        "label": "Defines gradeBlade()",
+        "pattern": "function\\s+gradeBlade\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-else-if",
+        "label": "Uses else if",
+        "pattern": "else\\s+if\\s*\\(",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\ngradeBlade(72);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "Fine\n",

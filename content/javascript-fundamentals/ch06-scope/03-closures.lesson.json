@@ -37,11 +37,28 @@
       "note": "a and b each have their own closed-over count — calling a() twice doesn't affect b() at all, so b() still starts at 1."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — closures",
+      "startSeconds": 24488,
+      "endSeconds": 25149,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=24488&end=25149&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "closure-memory",
       "question": "const c = makeCounter(); c(); c(); — what does the second c() call return, given makeCounter() from the examples above?",
-      "options": ["1", "2", "0", "undefined"],
+      "options": [
+        "1",
+        "2",
+        "0",
+        "undefined"
+      ],
       "correctIndex": 1,
       "feedback": {
         "correct": "Correct — the first call sets count to 1, and the closure remembers that, so the second call increments it to 2.",
@@ -61,8 +78,18 @@
     "solutionCode": "function makeTally() {\n  let count = 0;\n  return function () {\n    count += 1;\n    return count;\n  };\n}\n\nconst tally = makeTally();\nconsole.log(tally());\nconsole.log(tally());\nconsole.log(tally());\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-make-tally", "label": "Defines makeTally()", "pattern": "function\\s+makeTally\\s*\\(", "mustMatch": true },
-      { "id": "returns-function", "label": "Returns a function", "pattern": "return\\s+function", "mustMatch": true }
+      {
+        "id": "defines-make-tally",
+        "label": "Defines makeTally()",
+        "pattern": "function\\s+makeTally\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "returns-function",
+        "label": "Returns a function",
+        "pattern": "return\\s+function",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(tally());\nconsole.log(tally());\nconsole.log(tally());\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "4\n5\n6\n",

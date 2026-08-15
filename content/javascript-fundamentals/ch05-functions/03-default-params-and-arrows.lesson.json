@@ -37,11 +37,28 @@
       "note": "square is a full function, just written without the function keyword — n * n is returned automatically."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — arrow functions",
+      "startSeconds": 17558,
+      "endSeconds": 18039,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=17558&end=18039&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "arrow-call",
       "question": "const triple = (n) => n * 3; — what does triple(4) return?",
-      "options": ["7", "12", "NaN", "undefined"],
+      "options": [
+        "7",
+        "12",
+        "NaN",
+        "undefined"
+      ],
       "correctIndex": 1,
       "feedback": {
         "correct": "Correct — triple(4) evaluates 4 * 3 and returns 12 automatically.",
@@ -61,8 +78,18 @@
     "solutionCode": "const forgeOrder = (metal, quantity = 1) => {\n  return metal + \" x\" + quantity;\n};\n\nconsole.log(forgeOrder(\"steel\"));\nconsole.log(forgeOrder(\"iron\", 5));\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "uses-arrow", "label": "Uses arrow function syntax", "pattern": "=>", "mustMatch": true },
-      { "id": "has-default", "label": "Gives quantity a default of 1", "pattern": "quantity\\s*=\\s*1", "mustMatch": true }
+      {
+        "id": "uses-arrow",
+        "label": "Uses arrow function syntax",
+        "pattern": "=>",
+        "mustMatch": true
+      },
+      {
+        "id": "has-default",
+        "label": "Gives quantity a default of 1",
+        "pattern": "quantity\\s*=\\s*1",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(forgeOrder(\"steel\"));\nconsole.log(forgeOrder(\"iron\", 5));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "steel x1\niron x5\n",

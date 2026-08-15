@@ -32,6 +32,18 @@
       "note": "ScoutRobot extends Robot. super(name) reuses Robot's setup, range is a new property, scan() is a new method, and report() overrides the parent's version entirely."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — inheritance and super",
+      "startSeconds": 19912,
+      "endSeconds": 20894,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=19912&end=20894&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "super-call",
@@ -58,16 +70,31 @@
       "ScoutRobot must define scan() and override report().",
       "Define runScoutDemo(name, range) that creates a ScoutRobot and calls report() then scan()."
     ],
-    "starterCode": "class Robot {\n  constructor(name) {\n    // Store name.\n  }\n\n  report() {\n    // Log: <name> reporting for duty.\n  }\n}\n\nclass ScoutRobot extends Robot {\n  constructor(name, range) {\n    // Call super(name), store range.\n  }\n\n  scan() {\n    // Log: <name> scans <range> meters ahead.\n  }\n\n  report() {\n    // Log: <name> (scout) reporting \u2014 range <range>m.\n  }\n}\n\nfunction runScoutDemo(name, range) {\n  // Create a ScoutRobot, call report() then scan().\n}\n",
-    "solutionCode": "class Robot {\n  constructor(name) {\n    this.name = name;\n  }\n\n  report() {\n    console.log(`${this.name} reporting for duty.`);\n  }\n}\n\nclass ScoutRobot extends Robot {\n  constructor(name, range) {\n    super(name);\n    this.range = range;\n  }\n\n  scan() {\n    console.log(`${this.name} scans ${this.range} meters ahead.`);\n  }\n\n  report() {\n    console.log(`${this.name} (scout) reporting \u2014 range ${this.range}m.`);\n  }\n}\n\nfunction runScoutDemo(name, range) {\n  const scout = new ScoutRobot(name, range);\n  scout.report();\n  scout.scan();\n}\n",
+    "starterCode": "class Robot {\n  constructor(name) {\n    // Store name.\n  }\n\n  report() {\n    // Log: <name> reporting for duty.\n  }\n}\n\nclass ScoutRobot extends Robot {\n  constructor(name, range) {\n    // Call super(name), store range.\n  }\n\n  scan() {\n    // Log: <name> scans <range> meters ahead.\n  }\n\n  report() {\n    // Log: <name> (scout) reporting — range <range>m.\n  }\n}\n\nfunction runScoutDemo(name, range) {\n  // Create a ScoutRobot, call report() then scan().\n}\n",
+    "solutionCode": "class Robot {\n  constructor(name) {\n    this.name = name;\n  }\n\n  report() {\n    console.log(`${this.name} reporting for duty.`);\n  }\n}\n\nclass ScoutRobot extends Robot {\n  constructor(name, range) {\n    super(name);\n    this.range = range;\n  }\n\n  scan() {\n    console.log(`${this.name} scans ${this.range} meters ahead.`);\n  }\n\n  report() {\n    console.log(`${this.name} (scout) reporting — range ${this.range}m.`);\n  }\n}\n\nfunction runScoutDemo(name, range) {\n  const scout = new ScoutRobot(name, range);\n  scout.report();\n  scout.scan();\n}\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "extends-robot", "label": "ScoutRobot extends Robot", "pattern": "class\\s+ScoutRobot\\s+extends\\s+Robot\\b", "mustMatch": true },
-      { "id": "calls-super", "label": "Calls super(name)", "pattern": "super\\s*\\(", "mustMatch": true },
-      { "id": "defines-scan", "label": "Defines scan()", "pattern": "scan\\s*\\(\\s*\\)\\s*\\{", "mustMatch": true }
+      {
+        "id": "extends-robot",
+        "label": "ScoutRobot extends Robot",
+        "pattern": "class\\s+ScoutRobot\\s+extends\\s+Robot\\b",
+        "mustMatch": true
+      },
+      {
+        "id": "calls-super",
+        "label": "Calls super(name)",
+        "pattern": "super\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "defines-scan",
+        "label": "Defines scan()",
+        "pattern": "scan\\s*\\(\\s*\\)\\s*\\{",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nrunScoutDemo(\"Pathfinder\", 40);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
-    "expectedOutput": "Pathfinder (scout) reporting \u2014 range 40m.\nPathfinder scans 40 meters ahead.\n",
+    "expectedOutput": "Pathfinder (scout) reporting — range 40m.\nPathfinder scans 40 meters ahead.\n",
     "outputCheckLabel": "runScoutDemo('Pathfinder', 40) logs the overridden report(), then scan()"
   },
   "hints": [

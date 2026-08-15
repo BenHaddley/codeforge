@@ -32,6 +32,18 @@
       "note": "new Apprentice(\"Mira\", \"swordsmithing\") triggers the constructor automatically, storing both arguments on this. Calling first.introduce() then runs that method for this one instance."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — classes",
+      "startSeconds": 19060,
+      "endSeconds": 19912,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=19060&end=19912&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "constructor-timing",
@@ -61,9 +73,24 @@
     "solutionCode": "class Badge {\n  constructor(rank) {\n    this.rank = rank;\n  }\n\n  describe() {\n    return `Rank: ${this.rank}`;\n  }\n}\n\nconst badge = new Badge(\"Gold\");\nconsole.log(badge.describe());\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-class", "label": "Defines class Badge", "pattern": "class\\s+Badge\\b", "mustMatch": true },
-      { "id": "has-constructor", "label": "Has a constructor storing rank", "pattern": "constructor\\s*\\(\\s*rank\\s*\\)", "mustMatch": true },
-      { "id": "has-describe", "label": "Defines describe()", "pattern": "describe\\s*\\(\\s*\\)", "mustMatch": true }
+      {
+        "id": "defines-class",
+        "label": "Defines class Badge",
+        "pattern": "class\\s+Badge\\b",
+        "mustMatch": true
+      },
+      {
+        "id": "has-constructor",
+        "label": "Has a constructor storing rank",
+        "pattern": "constructor\\s*\\(\\s*rank\\s*\\)",
+        "mustMatch": true
+      },
+      {
+        "id": "has-describe",
+        "label": "Defines describe()",
+        "pattern": "describe\\s*\\(\\s*\\)",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconst _cfBadge = new Badge(\"Gold\");\nconsole.log(_cfBadge.describe());\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "Rank: Gold\n",

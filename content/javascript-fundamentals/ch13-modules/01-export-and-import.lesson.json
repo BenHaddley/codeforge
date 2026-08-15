@@ -37,6 +37,18 @@
       "note": "The commented lines show the real import syntax you'd use across two files; Code Forge runs everything as one file, so greet is defined directly above and called on the last line."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — ES6 modules",
+      "startSeconds": 27252,
+      "endSeconds": 27619,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=27252&end=27619&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "export-keyword",
@@ -65,8 +77,18 @@
     "solutionCode": "function square(n) {\n  return n * n;\n}\n\nconsole.log(square(6));\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines square(n)", "pattern": "function\\s+square\\s*\\(", "mustMatch": true },
-      { "id": "no-import-export", "label": "Does not use import/export in the graded code", "pattern": "\\b(import|export)\\b", "mustMatch": false }
+      {
+        "id": "defines-function",
+        "label": "Defines square(n)",
+        "pattern": "function\\s+square\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "no-import-export",
+        "label": "Does not use import/export in the graded code",
+        "pattern": "\\b(import|export)\\b",
+        "mustMatch": false
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(square(6));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "36\n",

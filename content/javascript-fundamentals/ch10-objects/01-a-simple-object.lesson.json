@@ -37,11 +37,28 @@
       "note": "rank was never set on this object, so JavaScript gives back undefined instead of raising an error."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — objects",
+      "startSeconds": 18039,
+      "endSeconds": 19060,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=18039&end=19060&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "missing-property",
       "question": "const item = { label: \"Sword\" }; what does item.price evaluate to?",
-      "options": ["0", "null", "undefined", "It throws an error"],
+      "options": [
+        "0",
+        "null",
+        "undefined",
+        "It throws an error"
+      ],
       "correctIndex": 2,
       "feedback": {
         "correct": "Correct — a missing property reads as undefined, not an error.",
@@ -61,8 +78,18 @@
     "solutionCode": "function smithCard(name, rank) {\n  const card = { name: name, rank: rank };\n  console.log(card.name);\n  console.log(card.rank);\n}\n\nsmithCard(\"Ada\", \"apprentice\");\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines smithCard()", "pattern": "function\\s+smithCard\\s*\\(", "mustMatch": true },
-      { "id": "uses-object", "label": "Builds an object with a name key", "pattern": "\\{[^}]*name", "mustMatch": true }
+      {
+        "id": "defines-function",
+        "label": "Defines smithCard()",
+        "pattern": "function\\s+smithCard\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-object",
+        "label": "Builds an object with a name key",
+        "pattern": "\\{[^}]*name",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nsmithCard(\"Ada\", \"apprentice\");\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "Ada\napprentice\n",

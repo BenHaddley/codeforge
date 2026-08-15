@@ -32,11 +32,28 @@
       "note": "Nothing logs until the last line calls strikeAnvil with an argument."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — functions",
+      "startSeconds": 10172,
+      "endSeconds": 10904,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=10172&end=10904&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "parameter-vs-argument",
       "question": "function greet(name) { ... } — what is name called inside the function declaration?",
-      "options": ["An argument", "A parameter", "A variable declaration", "A return value"],
+      "options": [
+        "An argument",
+        "A parameter",
+        "A variable declaration",
+        "A return value"
+      ],
       "correctIndex": 1,
       "feedback": {
         "correct": "Correct — name is a parameter, a placeholder filled in by whatever argument is passed when the function is called.",
@@ -56,8 +73,18 @@
     "solutionCode": "function strikeAnvil(times) {\n  console.log(\"Striking \" + times + \" times.\");\n}\n\nstrikeAnvil(3);\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines strikeAnvil()", "pattern": "function\\s+strikeAnvil\\s*\\(", "mustMatch": true },
-      { "id": "uses-console-log", "label": "Uses console.log", "pattern": "console\\.log", "mustMatch": true }
+      {
+        "id": "defines-function",
+        "label": "Defines strikeAnvil()",
+        "pattern": "function\\s+strikeAnvil\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-console-log",
+        "label": "Uses console.log",
+        "pattern": "console\\.log",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nstrikeAnvil(3);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "Striking 3 times.\n",

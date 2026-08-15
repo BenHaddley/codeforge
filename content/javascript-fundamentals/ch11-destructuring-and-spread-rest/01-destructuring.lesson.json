@@ -37,11 +37,28 @@
       "note": "name and rank are pulled out by matching property name, not position — order in the object doesn't matter."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — destructuring",
+      "startSeconds": 21691,
+      "endSeconds": 22209,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=21691&end=22209&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "object-destructure-names",
       "question": "const { rank, name } = { name: \"Bram\", rank: 3 }; — what does name equal, even though rank was written first?",
-      "options": ["undefined", "3", "\"Bram\"", "It causes an error"],
+      "options": [
+        "undefined",
+        "3",
+        "\"Bram\"",
+        "It causes an error"
+      ],
       "correctIndex": 2,
       "feedback": {
         "correct": "Correct — object destructuring matches by property name, not by the order you list them, so name still gets \"Bram\".",
@@ -61,8 +78,18 @@
     "solutionCode": "function describeItem(item) {\n  const { name, price } = item;\n  return `${name} costs $${price}`;\n}\n\nconsole.log(describeItem({ name: \"Hammer\", price: 12 }));\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines describeItem()", "pattern": "function\\s+describeItem\\s*\\(", "mustMatch": true },
-      { "id": "uses-destructuring", "label": "Uses object destructuring", "pattern": "\\{\\s*name\\s*,\\s*price\\s*\\}", "mustMatch": true }
+      {
+        "id": "defines-function",
+        "label": "Defines describeItem()",
+        "pattern": "function\\s+describeItem\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-destructuring",
+        "label": "Uses object destructuring",
+        "pattern": "\\{\\s*name\\s*,\\s*price\\s*\\}",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(describeItem({ name: \"Hammer\", price: 12 }));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "Hammer costs $12\n",

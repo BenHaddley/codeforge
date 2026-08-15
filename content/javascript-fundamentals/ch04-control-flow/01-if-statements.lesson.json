@@ -32,6 +32,18 @@
       "note": "temperature is 1200, so the condition is false and the else block runs instead."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — if statements",
+      "startSeconds": 4561,
+      "endSeconds": 5516,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=4561&end=5516&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "if-else-runs-one",
@@ -61,8 +73,18 @@
     "solutionCode": "function heatCheck(temperature) {\n  if (temperature >= 1200) {\n    console.log(\"Ready to forge.\");\n  } else {\n    console.log(\"Keep heating.\");\n  }\n}\n\nheatCheck(900);\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines heatCheck()", "pattern": "function\\s+heatCheck\\s*\\(", "mustMatch": true },
-      { "id": "uses-if", "label": "Uses if", "pattern": "\\bif\\s*\\(", "mustMatch": true }
+      {
+        "id": "defines-function",
+        "label": "Defines heatCheck()",
+        "pattern": "function\\s+heatCheck\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-if",
+        "label": "Uses if",
+        "pattern": "\\bif\\s*\\(",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nheatCheck(900);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "Keep heating.\n",

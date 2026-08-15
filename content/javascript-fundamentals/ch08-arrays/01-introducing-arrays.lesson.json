@@ -37,6 +37,18 @@
       "note": "There is no item at index 5, so JavaScript returns undefined rather than throwing an error."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — arrays",
+      "startSeconds": 12207,
+      "endSeconds": 12692,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=12207&end=12692&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "negative-index",
@@ -66,8 +78,18 @@
     "solutionCode": "function squadReport(members) {\n  console.log(members[0]);\n  console.log(members[members.length - 1]);\n}\n\nsquadReport([\"Talia\", \"Rook\", \"Sable\"]);\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-function", "label": "Defines squadReport()", "pattern": "function\\s+squadReport\\s*\\(", "mustMatch": true },
-      { "id": "uses-length", "label": "Uses .length to find the last member", "pattern": "\\.length", "mustMatch": true }
+      {
+        "id": "defines-function",
+        "label": "Defines squadReport()",
+        "pattern": "function\\s+squadReport\\s*\\(",
+        "mustMatch": true
+      },
+      {
+        "id": "uses-length",
+        "label": "Uses .length to find the last member",
+        "pattern": "\\.length",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nsquadReport([\"Talia\", \"Rook\", \"Sable\"]);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "Talia\nSable\n",

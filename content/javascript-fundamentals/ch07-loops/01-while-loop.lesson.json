@@ -32,6 +32,18 @@
       "note": "Each pass reduces count. Once it reaches 0, the condition is false and the loop ends."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — while loops",
+      "startSeconds": 8800,
+      "endSeconds": 9294,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=8800&end=9294&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "loop-stops",
@@ -63,8 +75,18 @@
     "solutionCode": "function forgeCountdown(start) {\n  let count = start;\n  while (count > 0) {\n    console.log(count);\n    count -= 1;\n  }\n  console.log(\"FORGE!\");\n}\n\nforgeCountdown(5);\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "uses-while", "label": "Uses while", "pattern": "\\bwhile\\b", "mustMatch": true },
-      { "id": "no-for", "label": "Does not use for", "pattern": "\\bfor\\s*\\(", "mustMatch": false }
+      {
+        "id": "uses-while",
+        "label": "Uses while",
+        "pattern": "\\bwhile\\b",
+        "mustMatch": true
+      },
+      {
+        "id": "no-for",
+        "label": "Does not use for",
+        "pattern": "\\bfor\\s*\\(",
+        "mustMatch": false
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nforgeCountdown(3);\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "3\n2\n1\nFORGE!\n",

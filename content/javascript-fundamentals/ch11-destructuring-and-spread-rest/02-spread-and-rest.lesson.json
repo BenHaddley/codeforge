@@ -37,11 +37,28 @@
       "note": "first takes the value 1; every argument after it is gathered into the rest array, [2, 3, 4]."
     }
   ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "lfmg-EJ8gm4",
+      "creator": "Bro Code",
+      "title": "JavaScript Full Course for free — spread and rest operators",
+      "startSeconds": 12692,
+      "endSeconds": 13471,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/lfmg-EJ8gm4?start=12692&end=13471&rel=0"
+    }
+  ],
   "checks": [
     {
       "id": "object-spread-merge",
       "question": "const a = { x: 1, y: 2 }; const b = { y: 9, z: 3 }; const merged = { ...a, ...b }; — what is merged.y?",
-      "options": ["1", "2", "9", "undefined"],
+      "options": [
+        "1",
+        "2",
+        "9",
+        "undefined"
+      ],
       "correctIndex": 2,
       "feedback": {
         "correct": "Correct — b is spread after a, so b's y: 9 overwrites a's y: 2.",
@@ -61,8 +78,18 @@
     "solutionCode": "function mergeSettings(defaults, overrides) {\n  return { ...defaults, ...overrides };\n}\n\nfunction countExtras(first, ...rest) {\n  return rest.length;\n}\n\nconsole.log(mergeSettings({ volume: 50, muted: false }, { volume: 80 }));\nconsole.log(countExtras(\"a\", \"b\", \"c\", \"d\"));\n",
     "timeoutMs": 5000,
     "requirementChecks": [
-      { "id": "defines-merge", "label": "Defines mergeSettings() using object spread", "pattern": "\\{\\s*\\.\\.\\.defaults\\s*,\\s*\\.\\.\\.overrides\\s*\\}", "mustMatch": true },
-      { "id": "defines-count-extras", "label": "Defines countExtras() with a rest parameter", "pattern": "function\\s+countExtras\\s*\\(\\s*first\\s*,\\s*\\.\\.\\.rest\\s*\\)", "mustMatch": true }
+      {
+        "id": "defines-merge",
+        "label": "Defines mergeSettings() using object spread",
+        "pattern": "\\{\\s*\\.\\.\\.defaults\\s*,\\s*\\.\\.\\.overrides\\s*\\}",
+        "mustMatch": true
+      },
+      {
+        "id": "defines-count-extras",
+        "label": "Defines countExtras() with a rest parameter",
+        "pattern": "function\\s+countExtras\\s*\\(\\s*first\\s*,\\s*\\.\\.\\.rest\\s*\\)",
+        "mustMatch": true
+      }
     ],
     "testHarness": "\n\n// ---- Code Forge validation ----\nlet _cfBuf = \"\";\nconst _cfLog = console.log;\nconsole.log = (...args) => { _cfBuf += args.map(String).join(\" \") + \"\\n\"; };\nconsole.log(JSON.stringify(mergeSettings({ volume: 50, muted: false }, { volume: 80 })));\nconsole.log(countExtras(\"a\", \"b\", \"c\", \"d\"));\nconsole.log = _cfLog;\nconsole.log(\"__CF_TEST_OUTPUT__\");\nconsole.log(JSON.stringify(_cfBuf));\n",
     "expectedOutput": "{\"volume\":80,\"muted\":false}\n3\n",
