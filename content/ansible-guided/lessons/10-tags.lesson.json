@@ -1,0 +1,153 @@
+{
+  "id": "ans-guide-10-tags",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "10",
+  "title": "Select Work with Tags",
+  "xp": 75,
+  "objective": "Apply tags so operators can run intentional subsets without duplicating playbooks.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 10 - Tags",
+    "creator": "LearnLinuxTV",
+    "videoId": "gH_A-0zYLyw",
+    "url": "https://www.youtube.com/watch?v=gH_A-0zYLyw",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Tags label related tasks so an operator can select or skip a subset at runtime. They are useful for maintenance workflows such as packages, configuration, or deployment.",
+      "The always tag marks setup or safety checks that should accompany tagged runs. Use it sparingly: unexpected work under always makes scoped execution harder to reason about.",
+      "Tags are an execution interface and should have stable names. List available tags before depending on them in automation or CI."
+    ],
+    "rule": "Tags narrow an existing playbook; they should not create a second hidden workflow."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Update package metadata\n  ansible.builtin.apt:\n    update_cache: true\n  tags:\n    - packages\n    - maintenance",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "gH_A-0zYLyw",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 10 - Tags",
+      "startSeconds": 34,
+      "endSeconds": 560,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/gH_A-0zYLyw?start=34&end=560&rel=0",
+      "checkpoints": [
+        {
+          "id": "introduce-tags",
+          "title": "Introduce tags",
+          "seconds": 34
+        },
+        {
+          "id": "use-the-always-tag",
+          "title": "Use the always tag",
+          "seconds": 95
+        },
+        {
+          "id": "tag-related-tasks",
+          "title": "Tag related tasks",
+          "seconds": 250
+        },
+        {
+          "id": "run-one-tagged-subset",
+          "title": "Run one tagged subset",
+          "seconds": 340
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "tags-concept",
+      "question": "Which command previews the tags exposed by a playbook?",
+      "options": [
+        "ansible-playbook site.yml --list-tags",
+        "ansible all --delete-tags",
+        "git tag site.yml",
+        "ssh --tags"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "tags-practice",
+      "question": "Which practice best supports this lesson’s objective: “Apply tags so operators can run intentional subsets without duplicating playbooks.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Tag Maintenance Work",
+    "brief": "Add packages and maintenance tags to an update task.",
+    "fileName": "10-tags.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Update package metadata\n",
+    "solutionCode": "- name: Update package metadata\n  ansible.builtin.apt:\n    update_cache: true\n  tags:\n    - packages\n    - maintenance\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "apt",
+        "label": "Includes apt",
+        "pattern": "ansible\\.builtin\\.apt",
+        "mustMatch": true
+      },
+      {
+        "id": "packages",
+        "label": "Includes packages",
+        "pattern": "-\\s+packages",
+        "mustMatch": true
+      },
+      {
+        "id": "maintenance",
+        "label": "Includes maintenance",
+        "pattern": "-\\s+maintenance",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Compare tagged execution",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Add tags to two harmless debug tasks.",
+      "Run ansible-playbook --list-tags.",
+      "Run only one tag and observe which task is skipped."
+    ],
+    "verify": "ansible-playbook site.yml --list-tags",
+    "success": "The requested tag runs without executing the unrelated tagged task."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-11-managing-files"
+}

@@ -61,36 +61,6 @@
         "correct": "Correct—the module logs in over Ansible’s connection transport and executes Python; it is not an ICMP echo.",
         "incorrect": "Ansible ping is a connection-and-module test. Check inventory, credentials, SSH, and remote Python."
       }
-    },
-    {
-      "id": "ping-is-not-icmp",
-      "question": "The ansible.builtin.ping module reports UNREACHABLE for web01. What should you investigate first?",
-      "options": [
-        "SSH connectivity and inventory connection variables",
-        "The remote ICMP firewall rule only",
-        "Whether nginx is installed",
-        "YAML handlers"
-      ],
-      "correctIndex": 0,
-      "feedback": {
-        "correct": "Correct—the module logs in over Ansible’s connection transport and executes Python; it is not an ICMP echo.",
-        "incorrect": "Ansible ping is a connection-and-module test. Check inventory, credentials, SSH, and remote Python."
-      }
-    },
-    {
-      "id": "ping-is-not-icmp",
-      "question": "The ansible.builtin.ping module reports UNREACHABLE for web01. What should you investigate first?",
-      "options": [
-        "SSH connectivity and inventory connection variables",
-        "The remote ICMP firewall rule only",
-        "Whether nginx is installed",
-        "YAML handlers"
-      ],
-      "correctIndex": 0,
-      "feedback": {
-        "correct": "Correct—the module logs in over Ansible’s connection transport and executes Python; it is not an ICMP echo.",
-        "incorrect": "Ansible ping is a connection-and-module test. Check inventory, credentials, SSH, and remote Python."
-      }
     }
   ],
   "assignment": {

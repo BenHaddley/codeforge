@@ -1,0 +1,158 @@
+{
+  "id": "ans-guide-12-managing-services",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "12",
+  "title": "Manage Services and Configuration Changes",
+  "xp": 75,
+  "objective": "Declare service state and connect configuration changes to safe restarts.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 12 - Managing Services",
+    "creator": "LearnLinuxTV",
+    "videoId": "soeBHGAMkoQ",
+    "url": "https://www.youtube.com/watch?v=soeBHGAMkoQ",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "The service module declares whether a service should be started, stopped, restarted, and enabled. Starting an already-running service should not create a change.",
+      "Configuration edits should use a file-aware module such as template, copy, or lineinfile. Each edit must be narrow enough to rerun without appending duplicate lines.",
+      "A restart belongs in a handler when it is required only after configuration changes. Handlers coalesce repeated notifications and run after the play’s normal tasks."
+    ],
+    "rule": "Notify a restart from the configuration task; do not restart a healthy service on every run."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Ensure nginx is running\n  ansible.builtin.service:\n    name: nginx\n    state: started\n    enabled: true",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "soeBHGAMkoQ",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 12 - Managing Services",
+      "startSeconds": 45,
+      "endSeconds": 1245,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/soeBHGAMkoQ?start=45&end=1245&rel=0",
+      "checkpoints": [
+        {
+          "id": "declare-service-state",
+          "title": "Declare service state",
+          "seconds": 60
+        },
+        {
+          "id": "start-and-enable-a-service",
+          "title": "Start and enable a service",
+          "seconds": 180
+        },
+        {
+          "id": "use-the-service-module",
+          "title": "Use the service module",
+          "seconds": 273
+        },
+        {
+          "id": "restart-after-a-change",
+          "title": "Restart after a change",
+          "seconds": 413
+        },
+        {
+          "id": "make-idempotent-file-edits",
+          "title": "Make idempotent file edits",
+          "seconds": 600
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "managing-services-concept",
+      "question": "When should a notified handler normally run?",
+      "options": [
+        "After a notifying task reports changed",
+        "Before inventory loads",
+        "On every play regardless of change",
+        "Only after Git push"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "managing-services-practice",
+      "question": "Which practice best supports this lesson’s objective: “Declare service state and connect configuration changes to safe restarts.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Declare Service State",
+    "brief": "Ensure nginx is started and enabled.",
+    "fileName": "12-managing-services.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Ensure nginx is running\n",
+    "solutionCode": "- name: Ensure nginx is running\n  ansible.builtin.service:\n    name: nginx\n    state: started\n    enabled: true\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "service",
+        "label": "Includes service",
+        "pattern": "ansible\\.builtin\\.service",
+        "mustMatch": true
+      },
+      {
+        "id": "started",
+        "label": "Includes started",
+        "pattern": "state\\s*:\\s*started",
+        "mustMatch": true
+      },
+      {
+        "id": "enabled",
+        "label": "Includes enabled",
+        "pattern": "enabled\\s*:\\s*true",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Inspect service behavior",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Install nginx with the package module.",
+      "Apply the started-state task twice.",
+      "Make a controlled configuration change and observe its handler."
+    ],
+    "verify": "ansible webservers -b -m ansible.builtin.service -a \"name=nginx state=started\"",
+    "success": "Nginx is started on both webservers and unchanged on the repeated run."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-13-users-and-bootstrap"
+}

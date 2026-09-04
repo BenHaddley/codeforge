@@ -86,11 +86,12 @@ Files created in `labs/ansible/workspace/` persist on the host. The training
 password in its inventory is deliberately trivial and safe only because target
 SSH ports are never published. See [docs/17-ansible-lab.md](docs/17-ansible-lab.md).
 
-The Ansible curriculum has two routes through shared lessons: the complete
-book-aligned track and an 18-step LearnLinuxTV guided video path. Video lessons
-include caption controls, timestamped follow-along checkpoints, prediction and
-troubleshooting questions, and lab missions. Core missions can verify inventory
-connectivity, package idempotence, and nginx state against the disposable lab.
+The Ansible curriculum has two complementary routes: the complete book-aligned
+track and a purpose-built 18-step LearnLinuxTV guided video course. Every guided
+episode has original teaching material, caption-aligned checkpoints, prediction
+and troubleshooting questions, a distinct assignment, and a terminal mission.
+Core missions can verify inventory connectivity, package idempotence, and nginx
+state against the disposable lab.
 
 ## Structure
 

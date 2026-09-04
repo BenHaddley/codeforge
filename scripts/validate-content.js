@@ -24,9 +24,12 @@ for (const entry of fs.readdirSync(CONTENT, { withFileTypes: true })) {
   catch (error) { problem(errors, trackFile, `invalid JSON (${error.message})`); continue; }
 
   const ids = new Set();
+  const trackVideoIds = new Set();
+  let trackLessonCount = 0;
   for (const chapter of track.chapters || []) {
     for (const ref of chapter.lessons || []) {
       lessonCount += 1;
+      trackLessonCount += 1;
       if (ids.has(ref.id)) problem(errors, trackFile, `duplicate lesson id ${ref.id}`);
       ids.add(ref.id);
       const lessonFile = path.resolve(path.dirname(trackFile), ref.path);
@@ -52,14 +55,24 @@ for (const entry of fs.readdirSync(CONTENT, { withFileTypes: true })) {
       }
       for (const video of lesson.videos || []) {
         videoCount += 1;
+        trackVideoIds.add(video.videoId);
         if (!video.videoId || !(video.endSeconds > video.startSeconds)) problem(errors, lessonFile, 'video has an invalid id or time window');
         if (!String(video.embedUrl || '').includes('youtube-nocookie.com')) problem(errors, lessonFile, 'video must use a privacy-enhanced embed URL');
         for (const checkpoint of video.checkpoints || []) {
           if (!checkpoint.id || !checkpoint.title || checkpoint.seconds < video.startSeconds || checkpoint.seconds > video.endSeconds) problem(errors, lessonFile, `invalid video checkpoint ${checkpoint.id || '(unnamed)'}`);
         }
       }
+      if (track.id === 'ansible-guided') {
+        if ((lesson.explanation?.paragraphs || []).length < 3) problem(errors, lessonFile, 'guided lesson needs at least three teaching paragraphs');
+        if ((lesson.checks || []).length < 2) problem(errors, lessonFile, 'guided lesson needs at least two knowledge checks');
+        if ((lesson.videos?.[0]?.checkpoints || []).length < 4) problem(errors, lessonFile, 'guided lesson needs at least four video checkpoints');
+        if (!lesson.lab?.steps?.length) problem(errors, lessonFile, 'guided lesson needs a terminal mission');
+      }
       if (lesson.lab?.checkId && !LAB_CHECKS.has(lesson.lab.checkId)) problem(errors, lessonFile, `unknown lab check ${lesson.lab.checkId}`);
     }
+  }
+  if (track.id === 'ansible-guided' && (trackLessonCount !== 18 || trackVideoIds.size !== 18)) {
+    problem(errors, trackFile, `guided path must contain 18 lessons and 18 unique videos (found ${trackLessonCount}/${trackVideoIds.size})`);
   }
 }
 

@@ -11,7 +11,7 @@
     "dev": "node server/server.js",
     "test:paperclip": "node server/paperclip/self-test.js",
     "test:browser": "node test/browser-flow.js",
-    "content:ansible": "node scripts/build-ansible-curriculum.js && node scripts/enhance-ansible-core.js && node scripts/inject-ansible-videos.js",
+    "content:ansible": "node scripts/build-ansible-curriculum.js && node scripts/enhance-ansible-core.js && node scripts/inject-ansible-videos.js && node scripts/build-ansible-guided.js",
     "content:validate": "node scripts/validate-content.js",
     "content:smoke": "node scripts/smoke-deployed-content.js",
     "lab:build": "docker build -t codeforge-ansible-target:local labs/ansible/target && docker build -t codeforge-ansible-controller:local labs/ansible/controller",

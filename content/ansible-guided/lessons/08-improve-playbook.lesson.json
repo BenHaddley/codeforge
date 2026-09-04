@@ -1,0 +1,158 @@
+{
+  "id": "ans-guide-08-improve-playbook",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "8",
+  "title": "Remove Duplication from Playbooks",
+  "xp": 75,
+  "objective": "Replace distribution-specific duplication with portable modules, variables, and lists.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting Started with Ansible 08 - Improving your Playbook",
+    "creator": "LearnLinuxTV",
+    "videoId": "JJ-aoyydfVU",
+    "url": "https://www.youtube.com/watch?v=JJ-aoyydfVU",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A working playbook can still be expensive to maintain. Repeated tasks drift apart when a package name, state, or option changes in only one copy.",
+      "The generic package module selects the host’s package backend, and variables isolate values that truly differ. A list or loop expresses repeated resources without repeating the surrounding task structure.",
+      "Refactoring should preserve outcomes. Preview the revised play, run it, and compare the final state before deleting the original implementation."
+    ],
+    "rule": "Abstract repeated mechanics, but keep meaningful platform differences visible."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Install baseline tools\n  ansible.builtin.package:\n    name:\n      - curl\n      - git\n    state: present",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "JJ-aoyydfVU",
+      "creator": "LearnLinuxTV",
+      "title": "Getting Started with Ansible 08 - Improving your Playbook",
+      "startSeconds": 45,
+      "endSeconds": 770,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/JJ-aoyydfVU?start=45&end=770&rel=0",
+      "checkpoints": [
+        {
+          "id": "find-repeated-package-tasks",
+          "title": "Find repeated package tasks",
+          "seconds": 60
+        },
+        {
+          "id": "compare-distribution-branches",
+          "title": "Compare distribution branches",
+          "seconds": 180
+        },
+        {
+          "id": "use-module-parameters",
+          "title": "Use module parameters",
+          "seconds": 280
+        },
+        {
+          "id": "introduce-variables",
+          "title": "Introduce variables",
+          "seconds": 430
+        },
+        {
+          "id": "adopt-the-generic-package-module",
+          "title": "Adopt the generic package module",
+          "seconds": 620
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "improve-playbook-concept",
+      "question": "Why prefer ansible.builtin.package when the operation is portable?",
+      "options": [
+        "It selects the platform package backend",
+        "It disables idempotence",
+        "It stores passwords",
+        "It ignores inventory"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "improve-playbook-practice",
+      "question": "Which practice best supports this lesson’s objective: “Replace distribution-specific duplication with portable modules, variables, and lists.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Consolidate Package Tasks",
+    "brief": "Install curl and git with one portable task.",
+    "fileName": "08-improve-playbook.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Install baseline tools\n",
+    "solutionCode": "- name: Install baseline tools\n  ansible.builtin.package:\n    name:\n      - curl\n      - git\n    state: present\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "package",
+        "label": "Includes package",
+        "pattern": "ansible\\.builtin\\.package",
+        "mustMatch": true
+      },
+      {
+        "id": "curl",
+        "label": "Includes curl",
+        "pattern": "-\\s+curl",
+        "mustMatch": true
+      },
+      {
+        "id": "git",
+        "label": "Includes git",
+        "pattern": "-\\s+git",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Refactor safely",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Run the original package tasks in check mode.",
+      "Replace them with the portable list-based task.",
+      "Run twice and require changed=0 on the second execution."
+    ],
+    "verify": "ansible webservers -b -m ansible.builtin.package -a \"name=curl,git state=present\"",
+    "success": "Both tools are present and the repeated run is unchanged."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-09-target-specific-nodes"
+}

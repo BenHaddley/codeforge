@@ -1,0 +1,158 @@
+{
+  "id": "ans-guide-07-when-conditionals",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "7",
+  "title": "Choose Tasks with when Conditions",
+  "xp": 75,
+  "objective": "Use gathered facts to select distribution-appropriate tasks without hiding failures.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 07 - The 'when' Conditional",
+    "creator": "LearnLinuxTV",
+    "videoId": "BF7vIk9no14",
+    "url": "https://www.youtube.com/watch?v=BF7vIk9no14",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A when expression decides whether a task applies to the current host. Common gates compare gathered facts such as ansible_distribution or inspect a previously registered result.",
+      "A skipped task is not a failure; it means its condition evaluated false. This allows one play to express alternatives for different operating-system families while keeping each module call explicit.",
+      "Quote values, not the entire Jinja expression. Prefer a small number of readable conditions over a dense expression that obscures why a host receives a task."
+    ],
+    "rule": "Use facts to select valid desired state; do not use conditions merely to silence errors."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Install a web server on Debian-family hosts\n  ansible.builtin.apt:\n    name: nginx\n    state: present\n  when: ansible_os_family == \"Debian\"",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "BF7vIk9no14",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 07 - The 'when' Conditional",
+      "startSeconds": 45,
+      "endSeconds": 1225,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/BF7vIk9no14?start=45&end=1225&rel=0",
+      "checkpoints": [
+        {
+          "id": "why-conditional-tasks-matter",
+          "title": "Why conditional tasks matter",
+          "seconds": 75
+        },
+        {
+          "id": "inspect-distribution-facts",
+          "title": "Inspect distribution facts",
+          "seconds": 210
+        },
+        {
+          "id": "write-a-when-expression",
+          "title": "Write a when expression",
+          "seconds": 360
+        },
+        {
+          "id": "observe-skipped-hosts",
+          "title": "Observe skipped hosts",
+          "seconds": 720
+        },
+        {
+          "id": "apply-a-platform-specific-task",
+          "title": "Apply a platform-specific task",
+          "seconds": 1000
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "when-conditionals-concept",
+      "question": "What does skipped mean in a task result?",
+      "options": [
+        "The when condition was false",
+        "SSH always failed",
+        "The YAML was deleted",
+        "The task changed the host"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "when-conditionals-practice",
+      "question": "Which practice best supports this lesson’s objective: “Use gathered facts to select distribution-appropriate tasks without hiding failures.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Gate a Debian Task",
+    "brief": "Write a package task that runs only for the Debian OS family.",
+    "fileName": "07-when-conditionals.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Install a Debian package\n",
+    "solutionCode": "- name: Install a Debian package\n  ansible.builtin.apt:\n    name: nginx\n    state: present\n  when: ansible_os_family == \"Debian\"\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "apt",
+        "label": "Includes apt",
+        "pattern": "ansible\\.builtin\\.apt",
+        "mustMatch": true
+      },
+      {
+        "id": "when",
+        "label": "Includes when",
+        "pattern": "when\\s*:\\s*ansible_os_family",
+        "mustMatch": true
+      },
+      {
+        "id": "debian",
+        "label": "Includes debian",
+        "pattern": "Debian",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Run a fact-driven play",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Save the conditional task inside a webservers play.",
+      "Run ansible-playbook --check and note which hosts match.",
+      "Change Debian to RedHat and observe skipped results without applying changes."
+    ],
+    "verify": "ansible webservers -m ansible.builtin.setup -a \"filter=ansible_os_family\"",
+    "success": "Facts report Debian and explain which form of the conditional runs."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-08-improve-playbook"
+}

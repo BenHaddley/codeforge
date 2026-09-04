@@ -1,0 +1,153 @@
+{
+  "id": "ans-guide-01-introduction",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "1",
+  "title": "How Ansible Automation Works",
+  "xp": 75,
+  "objective": "Explain the control-node, managed-node, inventory, module, and playbook model.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 01 - Introduction",
+    "creator": "LearnLinuxTV",
+    "videoId": "3RiVKs8GHYQ",
+    "url": "https://www.youtube.com/watch?v=3RiVKs8GHYQ",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Ansible is an agentless automation system. You install Ansible on a control node, describe managed nodes in inventory, and connect to those nodes—normally over SSH—to inspect or converge their state.",
+      "A module performs one focused operation, such as managing a package or file. A playbook records an ordered, repeatable set of module calls in YAML so the same intent can be reviewed, versioned, and rerun.",
+      "Automation is valuable when it replaces inconsistent manual steps with declared outcomes. A good first question is not “what command do I want to run?” but “what state should every targeted system end in?”"
+    ],
+    "rule": "Keep automation on the control node; managed nodes do not need a permanent Ansible agent."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "architecture:\n  control_node: controller\n  inventory: inventory.yml\n  managed_nodes:\n    - web01\n    - web02\n    - db01\n  transport: ssh",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "3RiVKs8GHYQ",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 01 - Introduction",
+      "startSeconds": 45,
+      "endSeconds": 435,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/3RiVKs8GHYQ?start=45&end=435&rel=0",
+      "checkpoints": [
+        {
+          "id": "meet-ansible",
+          "title": "Meet Ansible",
+          "seconds": 45
+        },
+        {
+          "id": "understand-agentless-automation",
+          "title": "Understand agentless automation",
+          "seconds": 140
+        },
+        {
+          "id": "control-and-managed-nodes",
+          "title": "Control and managed nodes",
+          "seconds": 245
+        },
+        {
+          "id": "why-use-playbooks",
+          "title": "Why use playbooks",
+          "seconds": 350
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "introduction-concept",
+      "question": "Which machine needs the Ansible package installed for this course?",
+      "options": [
+        "The controller",
+        "Every managed node",
+        "Only web01",
+        "Only db01"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "introduction-practice",
+      "question": "Which practice best supports this lesson’s objective: “Explain the control-node, managed-node, inventory, module, and playbook model.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Model the Lab",
+    "brief": "Describe the Code Forge lab topology as YAML.",
+    "fileName": "01-introduction.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "architecture:\n",
+    "solutionCode": "architecture:\n  control_node: controller\n  inventory: inventory.yml\n  managed_nodes:\n    - web01\n    - web02\n    - db01\n  transport: ssh\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "controller",
+        "label": "Includes controller",
+        "pattern": "control_node\\s*:\\s*controller",
+        "mustMatch": true
+      },
+      {
+        "id": "inventory",
+        "label": "Includes inventory",
+        "pattern": "inventory\\s*:\\s*inventory\\.yml",
+        "mustMatch": true
+      },
+      {
+        "id": "ssh",
+        "label": "Includes ssh",
+        "pattern": "transport\\s*:\\s*ssh",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Inspect the prepared controller",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Open the Terminal tab and run ansible --version.",
+      "Print /workspace/inventory.yml and identify the two inventory groups.",
+      "Run ansible all --list-hosts and predict the three host names."
+    ],
+    "verify": "ansible --version && ansible all --list-hosts",
+    "success": "Ansible reports its version and lists web01, web02, and db01."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-02-ssh-setup"
+}

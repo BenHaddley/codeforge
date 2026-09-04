@@ -90,38 +90,4 @@ for (const [lessonId, videoId, title, startSeconds, endSeconds] of alignments) {
   fs.writeFileSync(lessonPath, `${JSON.stringify(lesson, null, 2)}\n`);
 }
 
-// A second, playlist-ordered route through the same lesson files. Progress is
-// intentionally shared because both paths teach and assess the same skills.
-const guidedDir = path.join(ROOT, 'content/ansible-guided');
-fs.mkdirSync(guidedDir, { recursive: true });
-const guidedLessonsDir = path.join(guidedDir, 'lessons');
-fs.mkdirSync(guidedLessonsDir, { recursive: true });
-const guidedLessons = alignments.map(([lessonId, videoId, videoTitle], index) => {
-  const sourcePath = references.get(lessonId);
-  const sourceLesson = JSON.parse(fs.readFileSync(path.join(COURSE, sourcePath), 'utf8'));
-  const guidedPath = `lessons/${String(index + 1).padStart(2, '0')}-${lessonId}.lesson.json`;
-  sourceLesson.trackId = 'ansible-guided';
-  sourceLesson.chapterId = 'guided-series';
-  sourceLesson.number = String(index + 1);
-  sourceLesson.nextLessonId = alignments[index + 1]?.[0] || null;
-  fs.writeFileSync(path.join(guidedDir, guidedPath), `${JSON.stringify(sourceLesson, null, 2)}\n`);
-  return {
-    id: lessonId,
-    number: String(index + 1),
-    title: sourceLesson.title,
-    videoTitle,
-    path: guidedPath,
-  };
-});
-const guidedTrack = {
-  id: 'ansible-guided',
-  title: 'Ansible Guided Video Path',
-  language: 'ansible',
-  version: 1,
-  description: 'Follow LearnLinuxTV’s Ansible playlist in order, pausing for original explanations, predictions, and Code Forge lab work.',
-  sourcePlaylist: PLAYLIST_URL,
-  chapters: [{ id: 'guided-series', number: 1, title: 'Getting Started with Ansible — Guided Series', lessons: guidedLessons }],
-};
-fs.writeFileSync(path.join(guidedDir, 'track.json'), `${JSON.stringify(guidedTrack, null, 2)}\n`);
-
-console.log(`Aligned ${alignments.length} Ansible lessons and built the playlist-ordered guided path.`);
+console.log(`Aligned ${alignments.length} book-track lessons with LearnLinuxTV video segments.`);

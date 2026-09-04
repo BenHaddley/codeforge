@@ -1,0 +1,158 @@
+{
+  "id": "ans-guide-02-ssh-setup",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "2",
+  "title": "SSH Trust and Connection Setup",
+  "xp": 75,
+  "objective": "Prepare secure, repeatable SSH access from a control node to managed nodes.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 02 - SSH Overview & Setup",
+    "creator": "LearnLinuxTV",
+    "videoId": "-Q4T9wLsvOQ",
+    "url": "https://www.youtube.com/watch?v=-Q4T9wLsvOQ",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Ansible usually transports module work over SSH, so connection reliability comes before playbooks. The controller must know the remote host, login user, authentication method, and host-key policy.",
+      "A public key may be installed on each managed node while its private half remains protected on the controller. An SSH agent can hold an unlocked key temporarily, avoiding repeated passphrase prompts without removing key protection.",
+      "Troubleshoot SSH directly before blaming Ansible. Confirm addressing, username, key permissions, host-key verification, and a successful interactive login, then test the same details through inventory."
+    ],
+    "rule": "If plain SSH cannot connect reliably, Ansible will not connect reliably either."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "ssh_access:\n  user: ansible\n  authentication: public_key\n  private_key_mode: \"0600\"\n  password_login: disabled\n  root_login: disabled",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "-Q4T9wLsvOQ",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 02 - SSH Overview & Setup",
+      "startSeconds": 45,
+      "endSeconds": 1705,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/-Q4T9wLsvOQ?start=45&end=1705&rel=0",
+      "checkpoints": [
+        {
+          "id": "openssh-components",
+          "title": "OpenSSH components",
+          "seconds": 58
+        },
+        {
+          "id": "create-an-ssh-key-pair",
+          "title": "Create an SSH key pair",
+          "seconds": 640
+        },
+        {
+          "id": "install-the-public-key",
+          "title": "Install the public key",
+          "seconds": 1200
+        },
+        {
+          "id": "test-key-based-login",
+          "title": "Test key-based login",
+          "seconds": 1380
+        },
+        {
+          "id": "use-an-ssh-agent",
+          "title": "Use an SSH agent",
+          "seconds": 1500
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "ssh-setup-concept",
+      "question": "Where should the private SSH key remain?",
+      "options": [
+        "Protected on the controller",
+        "Copied to every managed node",
+        "Committed to Git",
+        "Embedded in inventory"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "ssh-setup-practice",
+      "question": "Which practice best supports this lesson’s objective: “Prepare secure, repeatable SSH access from a control node to managed nodes.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Define an SSH Policy",
+    "brief": "Record a least-privilege SSH access policy.",
+    "fileName": "02-ssh-setup.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "ssh_access:\n",
+    "solutionCode": "ssh_access:\n  user: ansible\n  authentication: public_key\n  private_key_mode: \"0600\"\n  password_login: disabled\n  root_login: disabled\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-auth",
+        "label": "Includes key auth",
+        "pattern": "authentication\\s*:\\s*public_key",
+        "mustMatch": true
+      },
+      {
+        "id": "mode",
+        "label": "Includes mode",
+        "pattern": "private_key_mode\\s*:\\s*[\"\\']?0600",
+        "mustMatch": true
+      },
+      {
+        "id": "root",
+        "label": "Includes root",
+        "pattern": "root_login\\s*:\\s*disabled",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Trace the lab connection",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Run ssh -o BatchMode=yes ansible@web01 hostname.",
+      "Inspect the inventory variables used for the training connection.",
+      "Run ansible webservers -m ansible.builtin.ping."
+    ],
+    "verify": "ssh -o BatchMode=yes ansible@web01 hostname; ansible webservers -m ansible.builtin.ping",
+    "success": "Direct SSH reaches web01 and Ansible returns pong from both webservers."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-03-git-repository"
+}

@@ -1,0 +1,178 @@
+{
+  "id": "ans-guide-18-automation-solution",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "18",
+  "title": "Design a Complete Automation Solution",
+  "xp": 125,
+  "objective": "Combine Git, inventory, roles, tags, Vault, scheduling, and recovery into a maintainable operating model.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "An Inside Look at my Powerful Ansible Automation Solution",
+    "creator": "LearnLinuxTV",
+    "videoId": "NuuZ4CmiFQQ",
+    "url": "https://www.youtube.com/watch?v=NuuZ4CmiFQQ",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A mature automation solution is more than one playbook. Version-controlled branches, inventories, role composition, variables, tags, and encrypted secrets define how different machines reach their intended state.",
+      "Scheduled or boot-triggered execution can keep systems converged, but unattended automation needs bounded scope, locking, logs, safe failure behavior, and a recovery path. Reset or bootstrap modes should be explicit rather than hidden in ordinary runs.",
+      "Generic host names and reusable roles reduce accidental coupling to one machine. Document the entry point, credential source, supported platforms, and verification commands so another operator can understand the system without reverse engineering it."
+    ],
+    "rule": "Design automation as an observable operating system for change, including failure and recovery—not merely a successful playbook run."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "automation_solution:\n  source: git\n  entrypoint: provision.yml\n  inventory: explicit\n  roles: reusable\n  secrets: vault\n  scheduling: systemd_timer\n  locking: required\n  logs: retained\n  recovery: documented",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "NuuZ4CmiFQQ",
+      "creator": "LearnLinuxTV",
+      "title": "An Inside Look at my Powerful Ansible Automation Solution",
+      "startSeconds": 45,
+      "endSeconds": 2530,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/NuuZ4CmiFQQ?start=45&end=2530&rel=0",
+      "checkpoints": [
+        {
+          "id": "tour-the-repository-architecture",
+          "title": "Tour the repository architecture",
+          "seconds": 45
+        },
+        {
+          "id": "use-branches-and-reset-modes",
+          "title": "Use branches and reset modes",
+          "seconds": 180
+        },
+        {
+          "id": "control-execution-with-tags",
+          "title": "Control execution with tags",
+          "seconds": 600
+        },
+        {
+          "id": "compose-reusable-roles",
+          "title": "Compose reusable roles",
+          "seconds": 900
+        },
+        {
+          "id": "schedule-convergence",
+          "title": "Schedule convergence",
+          "seconds": 1020
+        },
+        {
+          "id": "observe-a-full-run",
+          "title": "Observe a full run",
+          "seconds": 1320
+        },
+        {
+          "id": "protect-secrets-with-vault",
+          "title": "Protect secrets with Vault",
+          "seconds": 1620
+        },
+        {
+          "id": "inspect-workstation-roles",
+          "title": "Inspect workstation roles",
+          "seconds": 1980
+        },
+        {
+          "id": "review-inventory-and-portability",
+          "title": "Review inventory and portability",
+          "seconds": 2280
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "automation-solution-concept",
+      "question": "What must accompany unattended scheduled automation?",
+      "options": [
+        "Locking, logs, bounded scope, and recovery",
+        "Plaintext passwords",
+        "Unlimited root shell commands",
+        "An unversioned local copy"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "automation-solution-practice",
+      "question": "Which practice best supports this lesson’s objective: “Combine Git, inventory, roles, tags, Vault, scheduling, and recovery into a maintainable operating model.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Write the Operating Contract",
+    "brief": "Define a maintainable and observable automation solution.",
+    "fileName": "18-automation-solution.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "automation_solution:\n",
+    "solutionCode": "automation_solution:\n  source: git\n  entrypoint: provision.yml\n  inventory: explicit\n  roles: reusable\n  secrets: vault\n  scheduling: systemd_timer\n  locking: required\n  logs: retained\n  recovery: documented\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "vault",
+        "label": "Includes vault",
+        "pattern": "secrets\\s*:\\s*vault",
+        "mustMatch": true
+      },
+      {
+        "id": "locking",
+        "label": "Includes locking",
+        "pattern": "locking\\s*:\\s*required",
+        "mustMatch": true
+      },
+      {
+        "id": "recovery",
+        "label": "Includes recovery",
+        "pattern": "recovery\\s*:\\s*documented",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Review the complete system",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Map the current /workspace entry points and inventory.",
+      "Identify what would prevent overlapping scheduled runs.",
+      "Write recovery and verification steps before proposing automation on a real workstation."
+    ],
+    "verify": "find . -maxdepth 3 -type f | sort",
+    "success": "The operating contract documents source, secrets, execution, observation, and recovery."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": null
+}

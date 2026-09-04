@@ -1,0 +1,158 @@
+{
+  "id": "ans-guide-09-target-specific-nodes",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "9",
+  "title": "Target Groups and Individual Nodes",
+  "xp": 75,
+  "objective": "Design inventory groups and host patterns that make deployment scope obvious.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 09 - Targeting Specific Nodes",
+    "creator": "LearnLinuxTV",
+    "videoId": "EraC1AuWEF8",
+    "url": "https://www.youtube.com/watch?v=EraC1AuWEF8",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Inventory groups turn changing host addresses into stable operational roles such as webservers and databases. Plays should target those roles instead of a broad all pattern when only one tier needs a change.",
+      "Patterns can select a group, one host, an intersection, or an exclusion. The --limit option further narrows a playbook run without rewriting its hosts declaration.",
+      "Host variables describe real per-host differences. If the same value appears on many hosts, move it to group_vars rather than duplicating exceptions."
+    ],
+    "rule": "Make the smallest correct target set visible before executing a change."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Configure only the web tier\n  hosts: webservers\n  become: true\n  tasks:\n    - name: Show the selected host\n      ansible.builtin.debug:\n        var: inventory_hostname",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "EraC1AuWEF8",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 09 - Targeting Specific Nodes",
+      "startSeconds": 45,
+      "endSeconds": 1280,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/EraC1AuWEF8?start=45&end=1280&rel=0",
+      "checkpoints": [
+        {
+          "id": "create-inventory-groups",
+          "title": "Create inventory groups",
+          "seconds": 130
+        },
+        {
+          "id": "add-host-variables",
+          "title": "Add host variables",
+          "seconds": 180
+        },
+        {
+          "id": "target-a-group-in-a-play",
+          "title": "Target a group in a play",
+          "seconds": 300
+        },
+        {
+          "id": "narrow-the-run",
+          "title": "Narrow the run",
+          "seconds": 540
+        },
+        {
+          "id": "verify-the-selected-nodes",
+          "title": "Verify the selected nodes",
+          "seconds": 900
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "target-specific-nodes-concept",
+      "question": "What is the safest way to test a web-tier play on one node?",
+      "options": [
+        "Use --limit web01",
+        "Change hosts to all",
+        "Delete web02",
+        "Disable inventory"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "target-specific-nodes-practice",
+      "question": "Which practice best supports this lesson’s objective: “Design inventory groups and host patterns that make deployment scope obvious.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Target the Web Tier",
+    "brief": "Write a play that reports each selected webserver hostname.",
+    "fileName": "09-target-specific-nodes.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Inspect the web tier\n",
+    "solutionCode": "- name: Inspect the web tier\n  hosts: webservers\n  tasks:\n    - name: Show selected host\n      ansible.builtin.debug:\n        var: inventory_hostname\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "hosts",
+        "label": "Includes hosts",
+        "pattern": "hosts\\s*:\\s*webservers",
+        "mustMatch": true
+      },
+      {
+        "id": "debug",
+        "label": "Includes debug",
+        "pattern": "ansible\\.builtin\\.debug",
+        "mustMatch": true
+      },
+      {
+        "id": "hostname",
+        "label": "Includes hostname",
+        "pattern": "inventory_hostname",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Prove targeting before changes",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Run ansible webservers --list-hosts.",
+      "Run the lesson play with --limit web01.",
+      "Run it again without the limit and compare host counts."
+    ],
+    "verify": "ansible webservers --list-hosts && ansible webservers --limit web01 --list-hosts",
+    "success": "The group selects two hosts and the limit selects only web01."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-10-tags"
+}

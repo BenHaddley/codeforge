@@ -1,0 +1,164 @@
+{
+  "id": "ans-guide-06-first-playbook",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "6",
+  "title": "Write and Run Your First Playbook",
+  "xp": 75,
+  "objective": "Translate an ad-hoc package operation into a named, repeatable YAML play.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 06 - Writing our first Playbook",
+    "creator": "LearnLinuxTV",
+    "videoId": "VANub3AhZpI",
+    "url": "https://www.youtube.com/watch?v=VANub3AhZpI",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A playbook binds a host pattern to ordered tasks. Each task has a descriptive name and invokes a module that declares the required state.",
+      "YAML indentation expresses structure, so align play-level keys and nest module arguments consistently. Use fully qualified module names even when short names work; they make intent unambiguous.",
+      "The play recap separates ok, changed, unreachable, failed, rescued, ignored, and skipped outcomes. Run the play twice: the second recap is the simplest first check that your automation converges cleanly."
+    ],
+    "rule": "A healthy state-setting playbook succeeds twice and reports changed=0 on the second run."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Configure web servers\n  hosts: webservers\n  become: true\n  tasks:\n    - name: Install nginx\n      ansible.builtin.package:\n        name: nginx\n        state: present",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "VANub3AhZpI",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 06 - Writing our first Playbook",
+      "startSeconds": 45,
+      "endSeconds": 1225,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/VANub3AhZpI?start=45&end=1225&rel=0",
+      "checkpoints": [
+        {
+          "id": "create-the-playbook-file",
+          "title": "Create the playbook file",
+          "seconds": 101
+        },
+        {
+          "id": "write-the-play-anatomy",
+          "title": "Write the play anatomy",
+          "seconds": 150
+        },
+        {
+          "id": "run-ansible-playbook",
+          "title": "Run ansible-playbook",
+          "seconds": 365
+        },
+        {
+          "id": "read-the-recap",
+          "title": "Read the recap",
+          "seconds": 430
+        },
+        {
+          "id": "prove-idempotence",
+          "title": "Prove idempotence",
+          "seconds": 600
+        },
+        {
+          "id": "diagnose-a-bad-package",
+          "title": "Diagnose a bad package",
+          "seconds": 680
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "first-playbook-concept",
+      "question": "Why run a successful playbook a second time?",
+      "options": [
+        "To verify idempotence",
+        "To duplicate every package",
+        "To bypass inventory",
+        "To remove task names"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "first-playbook-practice",
+      "question": "Which practice best supports this lesson’s objective: “Translate an ad-hoc package operation into a named, repeatable YAML play.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Build the Web Playbook",
+    "brief": "Install nginx on webservers with an elevated, named task.",
+    "fileName": "webservers.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Configure web servers\n  hosts: webservers\n",
+    "solutionCode": "- name: Configure web servers\n  hosts: webservers\n  become: true\n  tasks:\n    - name: Install nginx\n      ansible.builtin.package:\n        name: nginx\n        state: present\n    - name: Start nginx\n      ansible.builtin.service:\n        name: nginx\n        state: started\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "hosts",
+        "label": "Includes hosts",
+        "pattern": "hosts\\s*:\\s*webservers",
+        "mustMatch": true
+      },
+      {
+        "id": "package",
+        "label": "Includes package",
+        "pattern": "ansible\\.builtin\\.package",
+        "mustMatch": true
+      },
+      {
+        "id": "become",
+        "label": "Includes become",
+        "pattern": "become\\s*:\\s*true",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "checkId": "web-tier",
+    "title": "Converge the web tier",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Save the editor solution as /workspace/webservers.yml.",
+      "Preview it with --check --diff.",
+      "Run it twice and compare the recaps."
+    ],
+    "verify": "ansible-playbook webservers.yml && ansible-playbook webservers.yml",
+    "success": "The second run succeeds with changed=0."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-07-when-conditionals"
+}

@@ -1,0 +1,158 @@
+{
+  "id": "ans-guide-11-managing-files",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "11",
+  "title": "Manage Files and Downloads",
+  "xp": 75,
+  "objective": "Choose copy, file, get_url, and related modules while setting ownership and permissions explicitly.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 11 - Managing Files",
+    "creator": "LearnLinuxTV",
+    "videoId": "teEhLgHpGgo",
+    "url": "https://www.youtube.com/watch?v=teEhLgHpGgo",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "The copy module transfers controlled content from the project or writes inline content. The file module manages paths, directories, links, ownership, modes, and absence without relying on shell commands.",
+      "Downloads and archives deserve purpose-built modules such as get_url and unarchive. Checksums make external artifacts verifiable instead of trusting a filename or transport alone.",
+      "File permissions are part of desired state. Quote modes such as \"0644\" so YAML does not reinterpret them, and grant only the access the service or user requires."
+    ],
+    "rule": "Manage a file’s content, owner, group, and mode as one reviewed contract."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Install the managed banner\n  ansible.builtin.copy:\n    content: \"Managed by Code Forge\\n\"\n    dest: /etc/motd\n    owner: root\n    group: root\n    mode: \"0644\"",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "teEhLgHpGgo",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 11 - Managing Files",
+      "startSeconds": 45,
+      "endSeconds": 1220,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/teEhLgHpGgo?start=45&end=1220&rel=0",
+      "checkpoints": [
+        {
+          "id": "create-managed-content",
+          "title": "Create managed content",
+          "seconds": 60
+        },
+        {
+          "id": "set-destination-and-mode",
+          "title": "Set destination and mode",
+          "seconds": 300
+        },
+        {
+          "id": "use-copy",
+          "title": "Use copy",
+          "seconds": 315
+        },
+        {
+          "id": "download-an-artifact",
+          "title": "Download an artifact",
+          "seconds": 840
+        },
+        {
+          "id": "verify-the-remote-file",
+          "title": "Verify the remote file",
+          "seconds": 1000
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "managing-files-concept",
+      "question": "Why should a YAML file mode usually be quoted?",
+      "options": [
+        "To preserve the intended mode value",
+        "To make it executable",
+        "To bypass become",
+        "To disable ownership"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "managing-files-practice",
+      "question": "Which practice best supports this lesson’s objective: “Choose copy, file, get_url, and related modules while setting ownership and permissions explicitly.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Manage a Login Banner",
+    "brief": "Copy an explicit managed banner to /etc/motd with safe permissions.",
+    "fileName": "11-managing-files.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Install the managed banner\n",
+    "solutionCode": "- name: Install the managed banner\n  ansible.builtin.copy:\n    content: \"Managed by Code Forge\\n\"\n    dest: /etc/motd\n    owner: root\n    group: root\n    mode: \"0644\"\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "copy",
+        "label": "Includes copy",
+        "pattern": "ansible\\.builtin\\.copy",
+        "mustMatch": true
+      },
+      {
+        "id": "dest",
+        "label": "Includes dest",
+        "pattern": "dest\\s*:\\s*/etc/motd",
+        "mustMatch": true
+      },
+      {
+        "id": "mode",
+        "label": "Includes mode",
+        "pattern": "mode\\s*:\\s*[\"\\']0644",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Manage and inspect a file",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Place the task in a webservers play with become.",
+      "Run the play twice.",
+      "Use stat to verify ownership and mode on web01."
+    ],
+    "verify": "ansible web01 -b -m ansible.builtin.stat -a \"path=/etc/motd\"",
+    "success": "The file exists with mode 0644 and the second play run is unchanged."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-12-managing-services"
+}

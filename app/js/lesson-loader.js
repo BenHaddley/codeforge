@@ -15,7 +15,7 @@ const TRACK_DEFAULT_LESSON = {
   'python-fundamentals': 'py-ch01-what-is-python',
   'javascript-fundamentals': 'js-ch01-what-is-javascript',
   'ansible-for-devops': 'ans-ch01-inventory-first-command',
-  'ansible-guided': 'ans-ch01-control-node',
+  'ansible-guided': 'ans-guide-01-introduction',
 };
 
 const params = new URLSearchParams(location.search);
@@ -32,8 +32,8 @@ function lessonUrl(lessonId) {
 }
 
 // Navigation follows the active track's order rather than a lesson file's
-// baked-in nextLessonId. This lets the book path and guided video path reuse
-// the same lesson content while progressing in different sequences.
+// baked-in nextLessonId. This keeps every course aligned with the order in its
+// own track manifest, including the playlist-ordered guided path.
 function nextTrackLessonId() {
   if (!track || !lesson) return null;
   const ordered = track.chapters.flatMap((item) => item.lessons || []);

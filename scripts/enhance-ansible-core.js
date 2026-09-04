@@ -31,6 +31,7 @@ update('ans-ch03-ad-hoc', (lesson) => {
     verify: 'ansible all --list-hosts && ansible webservers -m ansible.builtin.ping',
     success: 'The inventory lists web01, web02, and db01; both webservers return SUCCESS.',
   };
+  lesson.checks = lesson.checks.filter((check) => check.id !== 'ping-is-not-icmp');
   lesson.checks.push({
     id: 'ping-is-not-icmp',
     question: 'The ansible.builtin.ping module reports UNREACHABLE for web01. What should you investigate first?',
@@ -57,6 +58,7 @@ update('ans-ch03-modules-async', (lesson) => {
     verify: 'ansible webservers -b -m ansible.builtin.package -a "name=curl state=present"',
     success: 'The second successful run reports changed=false for both webservers.',
   };
+  lesson.checks = lesson.checks.filter((check) => check.id !== 'idempotent-second-run');
   lesson.checks.push({
     id: 'idempotent-second-run',
     question: 'A package is already present and the same state-aware task runs again. What is the healthy result?',
@@ -71,7 +73,9 @@ update('ans-ch03-modules-async', (lesson) => {
 
 update('ans-ch04-playbooks', (lesson) => {
   lesson.assignment.fileName = 'webservers.yml';
-  lesson.assignment.requirements.push('The play must use become: true for package and service changes.');
+  const becomeRequirement = 'The play must use become: true for package and service changes.';
+  lesson.assignment.requirements = lesson.assignment.requirements.filter((requirement) => requirement !== becomeRequirement);
+  lesson.assignment.requirements.push(becomeRequirement);
   if (!lesson.assignment.requirementChecks.some((item) => item.id === 'become')) {
     lesson.assignment.requirementChecks.push({ id: 'become', label: 'Enables privilege escalation', pattern: 'become\\s*:\\s*true', mustMatch: true });
   }
@@ -88,6 +92,7 @@ update('ans-ch04-playbooks', (lesson) => {
     verify: 'ansible-playbook webservers.yml && ansible-playbook webservers.yml && ansible webservers -b -m ansible.builtin.service -a "name=nginx state=started"',
     success: 'The second playbook run reports changed=0 and nginx is started on web01 and web02.',
   };
+  lesson.checks = lesson.checks.filter((check) => check.id !== 'undefined-package');
   lesson.checks.push({
     id: 'undefined-package',
     question: 'A play fails with “No package matching ngnix is available.” What is the most direct fix?',

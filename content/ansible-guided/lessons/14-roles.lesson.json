@@ -1,0 +1,158 @@
+{
+  "id": "ans-guide-14-roles",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "14",
+  "title": "Organize Automation with Roles",
+  "xp": 75,
+  "objective": "Extract coherent tasks, handlers, files, templates, and defaults into a reusable role.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 14 - Roles",
+    "creator": "LearnLinuxTV",
+    "videoId": "tq9sCeQNVYc",
+    "url": "https://www.youtube.com/watch?v=tq9sCeQNVYc",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A role packages one responsibility behind a conventional directory structure. Ansible discovers tasks/main.yml, handlers/main.yml, defaults/main.yml, files, templates, and metadata without custom loading code.",
+      "The calling play becomes a readable composition of roles. Public configuration belongs in defaults because callers can override it; hard-to-override internal constants belong in vars only when necessary.",
+      "Extract a role when a unit of configuration has a clear purpose and reuse boundary—not simply because a playbook has become long. Roles should remain testable and independently understandable."
+    ],
+    "rule": "One role should own one coherent system responsibility and expose intentional defaults."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "roles:\n  webserver:\n    tasks: tasks/main.yml\n    handlers: handlers/main.yml\n    defaults: defaults/main.yml\n    templates: templates/",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "tq9sCeQNVYc",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 14 - Roles",
+      "startSeconds": 45,
+      "endSeconds": 1145,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/tq9sCeQNVYc?start=45&end=1145&rel=0",
+      "checkpoints": [
+        {
+          "id": "why-roles-help",
+          "title": "Why roles help",
+          "seconds": 60
+        },
+        {
+          "id": "create-the-role-structure",
+          "title": "Create the role structure",
+          "seconds": 180
+        },
+        {
+          "id": "inspect-the-roles-directory",
+          "title": "Inspect the roles directory",
+          "seconds": 300
+        },
+        {
+          "id": "move-tasks-into-the-role",
+          "title": "Move tasks into the role",
+          "seconds": 480
+        },
+        {
+          "id": "call-the-role-from-site-yml",
+          "title": "Call the role from site.yml",
+          "seconds": 780
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "roles-concept",
+      "question": "Where should user-overridable role settings normally live?",
+      "options": [
+        "defaults/main.yml",
+        "vars/main.yml only",
+        "tasks/main.yml comments",
+        "The private SSH key"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "roles-practice",
+      "question": "Which practice best supports this lesson’s objective: “Extract coherent tasks, handlers, files, templates, and defaults into a reusable role.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Design a Role Layout",
+    "brief": "Record the conventional locations for tasks, handlers, defaults, and templates.",
+    "fileName": "14-roles.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "roles:\n  webserver:\n",
+    "solutionCode": "roles:\n  webserver:\n    tasks: tasks/main.yml\n    handlers: handlers/main.yml\n    defaults: defaults/main.yml\n    templates: templates/\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "tasks",
+        "label": "Includes tasks",
+        "pattern": "tasks\\s*:\\s*tasks/main\\.yml",
+        "mustMatch": true
+      },
+      {
+        "id": "handlers",
+        "label": "Includes handlers",
+        "pattern": "handlers\\s*:\\s*handlers/main\\.yml",
+        "mustMatch": true
+      },
+      {
+        "id": "defaults",
+        "label": "Includes defaults",
+        "pattern": "defaults\\s*:\\s*defaults/main\\.yml",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Scaffold a webserver role",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Run ansible-galaxy role init roles/webserver.",
+      "Move one package task into tasks/main.yml.",
+      "Create a small site.yml that applies the role to webservers."
+    ],
+    "verify": "ansible-playbook --syntax-check site.yml",
+    "success": "The site play parses and discovers the webserver role."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-15-host-vars-and-handlers"
+}

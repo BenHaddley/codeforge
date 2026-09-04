@@ -1,0 +1,178 @@
+{
+  "id": "ans-guide-17-semaphore",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "17",
+  "title": "Operate Ansible through Semaphore",
+  "xp": 125,
+  "objective": "Connect repositories, inventories, credentials, environments, and task templates in a controlled automation service.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Complete Ansible Semaphore Tutorial: From Installation to Automation",
+    "creator": "LearnLinuxTV",
+    "videoId": "CltoVfeRdoM",
+    "url": "https://www.youtube.com/watch?v=CltoVfeRdoM",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Semaphore provides a web interface and API around Ansible execution. Installation is only the first layer; useful automation requires a database, an application configuration, and a service process with protected access.",
+      "A project connects the execution ingredients: a version-controlled repository, inventory, key store, environment variables, and a task template that selects the playbook and launch options.",
+      "Central execution improves repeatability and visibility but also concentrates credentials and authority. Apply authentication, least privilege, TLS, backups, and audit-log retention before treating the service as production infrastructure."
+    ],
+    "rule": "A controller UI governs Ansible execution; it does not replace reviewed repositories or least privilege."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "semaphore_project:\n  repository: git\n  inventory: managed\n  credentials: key_store\n  environment: protected\n  execution: task_template\n  audit_logs: retained",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "CltoVfeRdoM",
+      "creator": "LearnLinuxTV",
+      "title": "Complete Ansible Semaphore Tutorial: From Installation to Automation",
+      "startSeconds": 45,
+      "endSeconds": 2850,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/CltoVfeRdoM?start=45&end=2850&rel=0",
+      "checkpoints": [
+        {
+          "id": "plan-the-installation",
+          "title": "Plan the installation",
+          "seconds": 60
+        },
+        {
+          "id": "create-the-service-account-and-database",
+          "title": "Create the service account and database",
+          "seconds": 180
+        },
+        {
+          "id": "configure-semaphore",
+          "title": "Configure Semaphore",
+          "seconds": 600
+        },
+        {
+          "id": "open-the-web-interface",
+          "title": "Open the web interface",
+          "seconds": 900
+        },
+        {
+          "id": "create-a-project",
+          "title": "Create a project",
+          "seconds": 1500
+        },
+        {
+          "id": "add-inventory-and-credentials",
+          "title": "Add inventory and credentials",
+          "seconds": 1720
+        },
+        {
+          "id": "create-a-task-template",
+          "title": "Create a task template",
+          "seconds": 1920
+        },
+        {
+          "id": "run-and-inspect-a-job",
+          "title": "Run and inspect a job",
+          "seconds": 2250
+        },
+        {
+          "id": "add-safer-web-access",
+          "title": "Add safer web access",
+          "seconds": 2700
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "semaphore-concept",
+      "question": "Which Semaphore object binds a playbook to launch settings?",
+      "options": [
+        "A task template",
+        "A managed-node agent",
+        "A shell alias",
+        "A Git tag alone"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "semaphore-practice",
+      "question": "Which practice best supports this lesson’s objective: “Connect repositories, inventories, credentials, environments, and task templates in a controlled automation service.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Model a Governed Project",
+    "brief": "Describe the required inputs and controls for a Semaphore project.",
+    "fileName": "17-semaphore.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "semaphore_project:\n",
+    "solutionCode": "semaphore_project:\n  repository: git\n  inventory: managed\n  credentials: key_store\n  environment: protected\n  execution: task_template\n  audit_logs: retained\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "repository",
+        "label": "Includes repository",
+        "pattern": "repository\\s*:\\s*git",
+        "mustMatch": true
+      },
+      {
+        "id": "credentials",
+        "label": "Includes credentials",
+        "pattern": "credentials\\s*:\\s*key_store",
+        "mustMatch": true
+      },
+      {
+        "id": "audit",
+        "label": "Includes audit",
+        "pattern": "audit_logs\\s*:\\s*retained",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Audit a controller design",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "List where repository, inventory, and credential data originate.",
+      "Identify which users may launch production templates.",
+      "Record backup and TLS requirements before installation."
+    ],
+    "verify": "printf \"Review the Semaphore design artifact in the editor.\\n\"",
+    "success": "The design separates source, targets, secrets, authorization, and audit history."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-18-automation-solution"
+}

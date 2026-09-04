@@ -1,0 +1,158 @@
+{
+  "id": "ans-guide-13-users-and-bootstrap",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "13",
+  "title": "Manage Users and Bootstrap Access",
+  "xp": 75,
+  "objective": "Create repeatable user, group, sudo, and SSH-key bootstrap state.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 13 - Adding Users & Bootstrapping",
+    "creator": "LearnLinuxTV",
+    "videoId": "P5iKWANifrU",
+    "url": "https://www.youtube.com/watch?v=P5iKWANifrU",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "The user module declares account properties such as name, groups, shell, and presence. Separate key installation and sudo policy into explicit tasks so access decisions remain reviewable.",
+      "Bootstrapping solves a transition problem: initial credentials establish the managed account, then automation configures stronger key-based access and removes dependence on the temporary path.",
+      "Never put plaintext login or become passwords in a committed inventory. Use Vault or an external credential store, and test the new access path before disabling the old one."
+    ],
+    "rule": "Create and verify the replacement access path before removing bootstrap credentials."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Create the deploy account\n  ansible.builtin.user:\n    name: deploy\n    groups: sudo\n    append: true\n    shell: /bin/bash\n    state: present",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "P5iKWANifrU",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 13 - Adding Users & Bootstrapping",
+      "startSeconds": 45,
+      "endSeconds": 1445,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/P5iKWANifrU?start=45&end=1445&rel=0",
+      "checkpoints": [
+        {
+          "id": "define-the-user-task",
+          "title": "Define the user task",
+          "seconds": 60
+        },
+        {
+          "id": "use-the-user-module",
+          "title": "Use the user module",
+          "seconds": 128
+        },
+        {
+          "id": "add-account-properties",
+          "title": "Add account properties",
+          "seconds": 360
+        },
+        {
+          "id": "build-a-bootstrap-play",
+          "title": "Build a bootstrap play",
+          "seconds": 920
+        },
+        {
+          "id": "remove-password-prompts-safely",
+          "title": "Remove password prompts safely",
+          "seconds": 1140
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "users-and-bootstrap-concept",
+      "question": "When should temporary bootstrap access be removed?",
+      "options": [
+        "After the managed key-based path is verified",
+        "Before creating the new user",
+        "Never",
+        "Before inventory exists"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "users-and-bootstrap-practice",
+      "question": "Which practice best supports this lesson’s objective: “Create repeatable user, group, sudo, and SSH-key bootstrap state.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Declare a Deploy User",
+    "brief": "Create a present deploy account with an explicit shell and supplemental sudo group.",
+    "fileName": "13-users-and-bootstrap.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Create the deploy account\n",
+    "solutionCode": "- name: Create the deploy account\n  ansible.builtin.user:\n    name: deploy\n    groups: sudo\n    append: true\n    shell: /bin/bash\n    state: present\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "user",
+        "label": "Includes user",
+        "pattern": "ansible\\.builtin\\.user",
+        "mustMatch": true
+      },
+      {
+        "id": "deploy",
+        "label": "Includes deploy",
+        "pattern": "name\\s*:\\s*deploy",
+        "mustMatch": true
+      },
+      {
+        "id": "append",
+        "label": "Includes append",
+        "pattern": "append\\s*:\\s*true",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Test account state safely",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Run the user task in check mode first.",
+      "Apply it to web01 only.",
+      "Use getent to inspect the created account, then rerun the play."
+    ],
+    "verify": "ansible web01 -b -m ansible.builtin.getent -a \"database=passwd key=deploy\"",
+    "success": "The deploy account exists on web01 and its repeated creation is unchanged."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-14-roles"
+}

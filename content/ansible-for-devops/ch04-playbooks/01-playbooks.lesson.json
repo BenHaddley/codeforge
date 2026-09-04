@@ -61,36 +61,6 @@
         "correct": "Correct—fix the invalid desired state, then rerun the idempotent play.",
         "incorrect": "Do not hide the failure. Correct the misspelled package name and rerun."
       }
-    },
-    {
-      "id": "undefined-package",
-      "question": "A play fails with “No package matching ngnix is available.” What is the most direct fix?",
-      "options": [
-        "Correct the package name to nginx and rerun",
-        "Add ignore_errors: true",
-        "Delete the inventory",
-        "Increase forks"
-      ],
-      "correctIndex": 0,
-      "feedback": {
-        "correct": "Correct—fix the invalid desired state, then rerun the idempotent play.",
-        "incorrect": "Do not hide the failure. Correct the misspelled package name and rerun."
-      }
-    },
-    {
-      "id": "undefined-package",
-      "question": "A play fails with “No package matching ngnix is available.” What is the most direct fix?",
-      "options": [
-        "Correct the package name to nginx and rerun",
-        "Add ignore_errors: true",
-        "Delete the inventory",
-        "Increase forks"
-      ],
-      "correctIndex": 0,
-      "feedback": {
-        "correct": "Correct—fix the invalid desired state, then rerun the idempotent play.",
-        "incorrect": "Do not hide the failure. Correct the misspelled package name and rerun."
-      }
     }
   ],
   "assignment": {
@@ -100,8 +70,6 @@
       "Target webservers.",
       "Install nginx present.",
       "Set the service started and enabled.",
-      "The play must use become: true for package and service changes.",
-      "The play must use become: true for package and service changes.",
       "The play must use become: true for package and service changes."
     ],
     "starterCode": "- name: Configure web servers\n  hosts: webservers\n  tasks:\n",

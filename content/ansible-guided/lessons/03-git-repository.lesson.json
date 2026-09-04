@@ -1,0 +1,153 @@
+{
+  "id": "ans-guide-03-git-repository",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "3",
+  "title": "Version-Control Your Automation",
+  "xp": 75,
+  "objective": "Use a safe Git workflow to preserve and review infrastructure changes.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 03 - Setting up the Git Repository",
+    "creator": "LearnLinuxTV",
+    "videoId": "FFaMqxpphjo",
+    "url": "https://www.youtube.com/watch?v=FFaMqxpphjo",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Infrastructure code needs the same history and review discipline as application code. A repository records inventories, playbooks, roles, documentation, and dependency declarations as a sequence of explainable changes.",
+      "The basic loop is clone, edit, inspect the diff, stage intentional files, commit with a useful message, and push when an external remote is appropriate. Never stage secret keys, plaintext vault passwords, or generated credentials.",
+      "Small commits make troubleshooting easier because each change has one purpose. Before every commit, use git status and git diff --staged to verify exactly what the repository will preserve."
+    ],
+    "rule": "Commit reviewed automation and documentation; keep credentials and generated secrets out of Git."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "git_workflow:\n  - clone\n  - edit\n  - review_diff\n  - stage\n  - commit\n  - push\nsecret_policy: never_commit",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "FFaMqxpphjo",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 03 - Setting up the Git Repository",
+      "startSeconds": 45,
+      "endSeconds": 925,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/FFaMqxpphjo?start=45&end=925&rel=0",
+      "checkpoints": [
+        {
+          "id": "create-the-repository",
+          "title": "Create the repository",
+          "seconds": 170
+        },
+        {
+          "id": "clone-it-locally",
+          "title": "Clone it locally",
+          "seconds": 384
+        },
+        {
+          "id": "stage-and-commit-changes",
+          "title": "Stage and commit changes",
+          "seconds": 600
+        },
+        {
+          "id": "push-the-reviewed-commit",
+          "title": "Push the reviewed commit",
+          "seconds": 698
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "git-repository-concept",
+      "question": "What should happen immediately before a commit?",
+      "options": [
+        "Review the staged diff",
+        "Delete the inventory",
+        "Run every task as root",
+        "Store the private key"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "git-repository-practice",
+      "question": "Which practice best supports this lesson’s objective: “Use a safe Git workflow to preserve and review infrastructure changes.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Write a Repository Policy",
+    "brief": "Define a reviewable Git workflow for infrastructure code.",
+    "fileName": "03-git-repository.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "git_workflow:\n",
+    "solutionCode": "git_workflow:\n  - edit\n  - test\n  - review_diff\n  - stage\n  - commit\nsecret_policy: never_commit\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "review",
+        "label": "Includes review",
+        "pattern": "-\\s+review_diff",
+        "mustMatch": true
+      },
+      {
+        "id": "commit",
+        "label": "Includes commit",
+        "pattern": "-\\s+commit",
+        "mustMatch": true
+      },
+      {
+        "id": "secret",
+        "label": "Includes secret",
+        "pattern": "secret_policy\\s*:\\s*never_commit",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Practice locally without pushing",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Run git status inside /workspace.",
+      "Create or edit a harmless README note.",
+      "Use git diff, but do not add credentials or push from the lab."
+    ],
+    "verify": "git status && git diff -- README.md",
+    "success": "Git shows only the intentional documentation change."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-04-ad-hoc-commands"
+}

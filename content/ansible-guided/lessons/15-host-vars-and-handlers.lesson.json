@@ -1,0 +1,163 @@
+{
+  "id": "ans-guide-15-host-vars-and-handlers",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "15",
+  "title": "Host Variables and Handlers",
+  "xp": 75,
+  "objective": "Place host-specific values deliberately and restart services only after relevant changes.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 15 - Host Variables and Handlers",
+    "creator": "LearnLinuxTV",
+    "videoId": "shBlQQZLU9M",
+    "url": "https://www.youtube.com/watch?v=shBlQQZLU9M",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "host_vars stores genuine per-host differences using a file named for the inventory host. Shared values should move to group_vars so the inventory model does not become a collection of duplicated exceptions.",
+      "A task’s notify entry names a handler. The handler runs only when its notifying task reports a change, and repeated notifications are normally combined into one execution.",
+      "Handler names form an interface between configuration and service lifecycle. Keep them descriptive and ensure the notified spelling exactly matches the handler name."
+    ],
+    "rule": "Variables describe differences; handlers react to changes."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Install nginx configuration\n  ansible.builtin.template:\n    src: nginx.conf.j2\n    dest: /etc/nginx/nginx.conf\n  notify: Restart nginx\n\nhandlers:\n  - name: Restart nginx\n    ansible.builtin.service:\n      name: nginx\n      state: restarted",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "shBlQQZLU9M",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 15 - Host Variables and Handlers",
+      "startSeconds": 45,
+      "endSeconds": 995,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/shBlQQZLU9M?start=45&end=995&rel=0",
+      "checkpoints": [
+        {
+          "id": "introduce-host-vars",
+          "title": "Introduce host_vars",
+          "seconds": 60
+        },
+        {
+          "id": "create-per-host-values",
+          "title": "Create per-host values",
+          "seconds": 180
+        },
+        {
+          "id": "resolve-host-variables",
+          "title": "Resolve host variables",
+          "seconds": 300
+        },
+        {
+          "id": "notify-a-change",
+          "title": "Notify a change",
+          "seconds": 660
+        },
+        {
+          "id": "define-the-handler",
+          "title": "Define the handler",
+          "seconds": 707
+        },
+        {
+          "id": "observe-handler-execution",
+          "title": "Observe handler execution",
+          "seconds": 900
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "host-vars-and-handlers-concept",
+      "question": "Why might a correctly declared handler not run?",
+      "options": [
+        "Its notifying task reported no change",
+        "Inventory always disables handlers",
+        "Handlers require GitHub",
+        "The service is enabled"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "host-vars-and-handlers-practice",
+      "question": "Which practice best supports this lesson’s objective: “Place host-specific values deliberately and restart services only after relevant changes.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Connect a Change to a Handler",
+    "brief": "Notify Restart nginx from a template task and define the matching handler.",
+    "fileName": "15-host-vars-and-handlers.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Install nginx configuration\n",
+    "solutionCode": "- name: Install nginx configuration\n  ansible.builtin.template:\n    src: nginx.conf.j2\n    dest: /etc/nginx/nginx.conf\n  notify: Restart nginx\n\nhandlers:\n  - name: Restart nginx\n    ansible.builtin.service:\n      name: nginx\n      state: restarted\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "notify",
+        "label": "Includes notify",
+        "pattern": "notify\\s*:\\s*Restart nginx",
+        "mustMatch": true
+      },
+      {
+        "id": "handlers",
+        "label": "Includes handlers",
+        "pattern": "handlers\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "restart",
+        "label": "Includes restart",
+        "pattern": "state\\s*:\\s*restarted",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Prove handler behavior",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Create a harmless managed file that notifies a debug handler.",
+      "Run the play and observe the handler.",
+      "Run it again without editing the file and confirm the handler is absent."
+    ],
+    "verify": "ansible-playbook site.yml",
+    "success": "The handler runs after the first change and not after an unchanged second run."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-16-templates"
+}

@@ -14,7 +14,7 @@
 //    background to refresh the cache, so it self-heals within one reload
 //    instead of getting permanently stuck the way a pure cache-first
 //    strategy would.
-const CACHE_VERSION = 'codeforge-v9';
+const CACHE_VERSION = 'codeforge-v10';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const MODEL_CACHE = `${CACHE_VERSION}-model`;
 const CONTENT_CACHE = `${CACHE_VERSION}-content`;

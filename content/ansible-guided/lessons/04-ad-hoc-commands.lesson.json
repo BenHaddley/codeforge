@@ -1,0 +1,159 @@
+{
+  "id": "ans-guide-04-ad-hoc-commands",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "4",
+  "title": "Inventory and Ad-Hoc Commands",
+  "xp": 75,
+  "objective": "Build inventory and safely run focused modules against explicit host patterns.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 04 - Running ad-hoc Commands",
+    "creator": "LearnLinuxTV",
+    "videoId": "4REljLsOnXk",
+    "url": "https://www.youtube.com/watch?v=4REljLsOnXk",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Inventory gives Ansible a named model of the fleet. Host patterns such as all, webservers, or web01 select which inventory members receive a module call.",
+      "An ad-hoc command is ideal for a quick inspection or one-time action. The ping module is not ICMP: it connects using Ansible’s transport and verifies that a small module can execute remotely.",
+      "Keep commands readable by placing stable defaults such as inventory location in ansible.cfg. Before a change, use --list-hosts or a narrow --limit so the target set is never a surprise."
+    ],
+    "rule": "Confirm the target pattern before running any fleet-wide change."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "all:\n  children:\n    webservers:\n      hosts:\n        web01:\n        web02:\n    databases:\n      hosts:\n        db01:",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "4REljLsOnXk",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 04 - Running ad-hoc Commands",
+      "startSeconds": 45,
+      "endSeconds": 1085,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/4REljLsOnXk?start=45&end=1085&rel=0",
+      "checkpoints": [
+        {
+          "id": "install-ansible",
+          "title": "Install Ansible",
+          "seconds": 80
+        },
+        {
+          "id": "create-inventory",
+          "title": "Create inventory",
+          "seconds": 128
+        },
+        {
+          "id": "run-the-ping-module",
+          "title": "Run the ping module",
+          "seconds": 350
+        },
+        {
+          "id": "configure-defaults",
+          "title": "Configure defaults",
+          "seconds": 664
+        },
+        {
+          "id": "gather-host-facts",
+          "title": "Gather host facts",
+          "seconds": 820
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "ad-hoc-commands-concept",
+      "question": "What does ansible all -m ansible.builtin.ping primarily test?",
+      "options": [
+        "Ansible transport and remote module execution",
+        "Only ICMP reachability",
+        "Whether nginx is running",
+        "GitHub access"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "ad-hoc-commands-practice",
+      "question": "Which practice best supports this lesson’s objective: “Build inventory and safely run focused modules against explicit host patterns.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Create the Lab Inventory",
+    "brief": "Define webservers and databases groups with all three lab hosts.",
+    "fileName": "04-ad-hoc-commands.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "all:\n  children:\n",
+    "solutionCode": "all:\n  children:\n    webservers:\n      hosts:\n        web01:\n        web02:\n    databases:\n      hosts:\n        db01:\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "web01",
+        "label": "Includes web01",
+        "pattern": "web01\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "web02",
+        "label": "Includes web02",
+        "pattern": "web02\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "db01",
+        "label": "Includes db01",
+        "pattern": "db01\\s*:",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "checkId": "inventory-connectivity",
+    "title": "Inspect the disposable fleet",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Run ansible all --list-hosts and predict the count.",
+      "Run ansible all -m ansible.builtin.ping.",
+      "Gather only distribution facts from webservers."
+    ],
+    "verify": "ansible all --list-hosts && ansible all -m ansible.builtin.ping",
+    "success": "All three hosts appear and return SUCCESS."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-05-privilege-escalation"
+}

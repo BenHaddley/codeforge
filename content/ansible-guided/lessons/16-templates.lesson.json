@@ -1,0 +1,163 @@
+{
+  "id": "ans-guide-16-templates",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "16",
+  "title": "Render Configuration with Templates",
+  "xp": 75,
+  "objective": "Render host-aware configuration from Jinja templates and validate it before activation.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 16 (Series Finale) - Templates",
+    "creator": "LearnLinuxTV",
+    "videoId": "s8F_YWGHeDM",
+    "url": "https://www.youtube.com/watch?v=s8F_YWGHeDM",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A template combines a version-controlled Jinja source file with variables and facts to produce host-specific configuration. The source remains readable while values vary by group, host, or environment.",
+      "The template module manages destination ownership and mode and reports a change only when rendered content differs. Notify a handler so a service reload follows a real configuration update.",
+      "Rendering valid text is not enough for critical services. Use the module’s validate option when supported, then add an external check after activation."
+    ],
+    "rule": "Render, validate, then notify—never activate an unchecked configuration change."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "- name: Render nginx site\n  ansible.builtin.template:\n    src: site.conf.j2\n    dest: /etc/nginx/conf.d/site.conf\n    mode: \"0644\"\n  notify: Reload nginx",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "s8F_YWGHeDM",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 16 (Series Finale) - Templates",
+      "startSeconds": 45,
+      "endSeconds": 850,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/s8F_YWGHeDM?start=45&end=850&rel=0",
+      "checkpoints": [
+        {
+          "id": "introduce-templates",
+          "title": "Introduce templates",
+          "seconds": 60
+        },
+        {
+          "id": "choose-a-configuration-source",
+          "title": "Choose a configuration source",
+          "seconds": 180
+        },
+        {
+          "id": "create-a-jinja-file",
+          "title": "Create a Jinja file",
+          "seconds": 281
+        },
+        {
+          "id": "insert-variables",
+          "title": "Insert variables",
+          "seconds": 420
+        },
+        {
+          "id": "render-with-template",
+          "title": "Render with template",
+          "seconds": 550
+        },
+        {
+          "id": "deploy-and-inspect",
+          "title": "Deploy and inspect",
+          "seconds": 720
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "templates-concept",
+      "question": "What file belongs in the role templates directory?",
+      "options": [
+        "The Jinja source such as site.conf.j2",
+        "A private SSH key",
+        "The rendered remote file only",
+        "The Docker socket"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "templates-practice",
+      "question": "Which practice best supports this lesson’s objective: “Render host-aware configuration from Jinja templates and validate it before activation.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Render a Managed Site",
+    "brief": "Use the template module to render a Jinja source with an explicit destination and mode.",
+    "fileName": "16-templates.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "- name: Render nginx site\n",
+    "solutionCode": "- name: Render nginx site\n  ansible.builtin.template:\n    src: site.conf.j2\n    dest: /etc/nginx/conf.d/site.conf\n    mode: \"0644\"\n  notify: Reload nginx\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "template",
+        "label": "Includes template",
+        "pattern": "ansible\\.builtin\\.template",
+        "mustMatch": true
+      },
+      {
+        "id": "source",
+        "label": "Includes source",
+        "pattern": "src\\s*:\\s*site\\.conf\\.j2",
+        "mustMatch": true
+      },
+      {
+        "id": "mode",
+        "label": "Includes mode",
+        "pattern": "mode\\s*:\\s*[\"\\']0644",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "title": "Render a host-aware file",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Create a template containing {{ inventory_hostname }}.",
+      "Render it to /tmp/codeforge-host on all nodes.",
+      "Fetch or inspect each file and compare the values."
+    ],
+    "verify": "ansible all -m ansible.builtin.command -a \"cat /tmp/codeforge-host\"",
+    "success": "Each managed node’s rendered file contains its own inventory hostname."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-17-semaphore"
+}

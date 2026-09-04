@@ -1,0 +1,159 @@
+{
+  "id": "ans-guide-05-privilege-escalation",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "5",
+  "title": "Privilege Escalation and Package State",
+  "xp": 75,
+  "objective": "Use become with state-aware modules and recognize idempotent results.",
+  "sourceAlignment": {
+    "type": "video-companion",
+    "title": "Getting started with Ansible 05 - Running elevated ad-hoc Commands",
+    "creator": "LearnLinuxTV",
+    "videoId": "FPU9_KDTa8A",
+    "url": "https://www.youtube.com/watch?v=FPU9_KDTa8A",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "note": "English captions informed topic alignment and timestamps. Lesson prose and exercises are original Code Forge material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Package changes normally require elevated privileges. Ansible’s become system requests that elevation explicitly rather than assuming every task should run as root.",
+      "State-aware package modules compare the requested state with the host. A first run may report changed=true; the same present-state request should report changed=false once the requirement is satisfied.",
+      "Read failures before adding flags. A permission error suggests missing escalation, while an unavailable-package error points to the package name or repository metadata—not to SSH."
+    ],
+    "rule": "Escalate only the work that needs it, and rerun state-aware work to prove idempotence."
+  },
+  "examples": [
+    {
+      "title": "Working design or automation artifact",
+      "code": "package_operation:\n  target: webservers\n  module: ansible.builtin.package\n  name: curl\n  state: present\n  become: true",
+      "note": "Read the structure, predict its effect, then adapt it in the assignment and terminal mission."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "FPU9_KDTa8A",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 05 - Running elevated ad-hoc Commands",
+      "startSeconds": 45,
+      "endSeconds": 1015,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/FPU9_KDTa8A?start=45&end=1015&rel=0",
+      "checkpoints": [
+        {
+          "id": "observe-permission-failure",
+          "title": "Observe permission failure",
+          "seconds": 87
+        },
+        {
+          "id": "add-become",
+          "title": "Add become",
+          "seconds": 200
+        },
+        {
+          "id": "install-a-package",
+          "title": "Install a package",
+          "seconds": 460
+        },
+        {
+          "id": "read-changed-false",
+          "title": "Read changed=false",
+          "seconds": 610
+        },
+        {
+          "id": "manage-package-state",
+          "title": "Manage package state",
+          "seconds": 780
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "privilege-escalation-concept",
+      "question": "What result should the second identical package-present operation report?",
+      "options": [
+        "changed=false",
+        "failed=true",
+        "unreachable=true",
+        "changed=true forever"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—this matches the demonstrated workflow and keeps the automation explicit.",
+        "incorrect": "Review the rule of thumb and the relevant video checkpoint before continuing."
+      }
+    },
+    {
+      "id": "privilege-escalation-practice",
+      "question": "Which practice best supports this lesson’s objective: “Use become with state-aware modules and recognize idempotent results.”?",
+      "options": [
+        "Preview scope, use state-aware modules, and verify the observed result.",
+        "Hide failures and assume the target state was reached.",
+        "Store credentials beside the playbook in plaintext.",
+        "Replace every module with an unreviewed shell command."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—safe automation combines explicit scope, desired state, and verification.",
+        "incorrect": "The reliable workflow makes scope, state, and verification visible."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Plan an Elevated Package Operation",
+    "brief": "Describe an idempotent curl installation.",
+    "fileName": "05-privilege-escalation.yml",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Express the requested state explicitly.",
+      "Include every named safety or behavior requirement."
+    ],
+    "starterCode": "package_operation:\n",
+    "solutionCode": "package_operation:\n  target: webservers\n  module: ansible.builtin.package\n  name: curl\n  state: present\n  become: true\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "module",
+        "label": "Includes module",
+        "pattern": "module\\s*:\\s*ansible\\.builtin\\.package",
+        "mustMatch": true
+      },
+      {
+        "id": "present",
+        "label": "Includes present",
+        "pattern": "state\\s*:\\s*present",
+        "mustMatch": true
+      },
+      {
+        "id": "become",
+        "label": "Includes become",
+        "pattern": "become\\s*:\\s*true",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "lab": {
+    "checkId": "package-idempotence",
+    "title": "Prove package idempotence",
+    "setup": "Start the disposable lab with npm run lab:up, then work from /workspace in the Terminal tab.",
+    "steps": [
+      "Try the curl package operation without -b and read the failure.",
+      "Repeat with -b so it succeeds.",
+      "Run the elevated command again and inspect changed."
+    ],
+    "verify": "ansible webservers -b -m ansible.builtin.package -a \"name=curl state=present\"",
+    "success": "The second elevated run reports changed=false on both webservers."
+  },
+  "hints": [
+    "Start from the complete example and preserve its indentation.",
+    "Use the checkpoint list to jump back to the demonstrated operation.",
+    "Run the narrowest possible check before applying a change."
+  ],
+  "nextLessonId": "ans-guide-06-first-playbook"
+}

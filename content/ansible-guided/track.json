@@ -2,140 +2,140 @@
   "id": "ansible-guided",
   "title": "Ansible Guided Video Path",
   "language": "ansible",
-  "version": 1,
-  "description": "Follow LearnLinuxTV’s Ansible playlist in order, pausing for original explanations, predictions, and Code Forge lab work.",
+  "version": 2,
+  "description": "Follow all 18 LearnLinuxTV videos with caption-aligned checkpoints, original explanations, predictions, assignments, troubleshooting, and hands-on lab missions.",
   "sourcePlaylist": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
   "chapters": [
     {
       "id": "guided-series",
       "number": 1,
-      "title": "Getting Started with Ansible — Guided Series",
+      "title": "Getting Started with Ansible — Complete Guided Series",
       "lessons": [
         {
-          "id": "ans-ch01-control-node",
+          "id": "ans-guide-01-introduction",
           "number": "1",
-          "title": "Control Nodes, Managed Nodes, and Installation",
+          "title": "How Ansible Automation Works",
           "videoTitle": "Getting started with Ansible 01 - Introduction",
-          "path": "lessons/01-ans-ch01-control-node.lesson.json"
+          "path": "lessons/01-introduction.lesson.json"
         },
         {
-          "id": "ans-ch11-access-least-privilege",
+          "id": "ans-guide-02-ssh-setup",
           "number": "2",
-          "title": "Secure Remote Access and Least Privilege",
+          "title": "SSH Trust and Connection Setup",
           "videoTitle": "Getting started with Ansible 02 - SSH Overview & Setup",
-          "path": "lessons/02-ans-ch11-access-least-privilege.lesson.json"
+          "path": "lessons/02-ssh-setup.lesson.json"
         },
         {
-          "id": "ans-ch12-ci-pipeline",
+          "id": "ans-guide-03-git-repository",
           "number": "3",
-          "title": "CI-Driven Automation",
+          "title": "Version-Control Your Automation",
           "videoTitle": "Getting started with Ansible 03 - Setting up the Git Repository",
-          "path": "lessons/03-ans-ch12-ci-pipeline.lesson.json"
+          "path": "lessons/03-git-repository.lesson.json"
         },
         {
-          "id": "ans-ch03-ad-hoc",
+          "id": "ans-guide-04-ad-hoc-commands",
           "number": "4",
-          "title": "Operate Fleets with Ad-Hoc Modules",
+          "title": "Inventory and Ad-Hoc Commands",
           "videoTitle": "Getting started with Ansible 04 - Running ad-hoc Commands",
-          "path": "lessons/04-ans-ch03-ad-hoc.lesson.json"
+          "path": "lessons/04-ad-hoc-commands.lesson.json"
         },
         {
-          "id": "ans-ch03-modules-async",
+          "id": "ans-guide-05-privilege-escalation",
           "number": "5",
-          "title": "State Modules, Async Jobs, and Operations",
+          "title": "Privilege Escalation and Package State",
           "videoTitle": "Getting started with Ansible 05 - Running elevated ad-hoc Commands",
-          "path": "lessons/05-ans-ch03-modules-async.lesson.json"
+          "path": "lessons/05-privilege-escalation.lesson.json"
         },
         {
-          "id": "ans-ch04-playbooks",
+          "id": "ans-guide-06-first-playbook",
           "number": "6",
-          "title": "Design an Idempotent Playbook",
+          "title": "Write and Run Your First Playbook",
           "videoTitle": "Getting started with Ansible 06 - Writing our first Playbook",
-          "path": "lessons/06-ans-ch04-playbooks.lesson.json"
+          "path": "lessons/06-first-playbook.lesson.json"
         },
         {
-          "id": "ans-ch05-conditions-blocks",
+          "id": "ans-guide-07-when-conditionals",
           "number": "7",
-          "title": "Conditions, Results, Tags, Blocks, and Delegation",
+          "title": "Choose Tasks with when Conditions",
           "videoTitle": "Getting started with Ansible 07 - The 'when' Conditional",
-          "path": "lessons/07-ans-ch05-conditions-blocks.lesson.json"
+          "path": "lessons/07-when-conditionals.lesson.json"
         },
         {
-          "id": "ans-ch04-play-anatomy",
+          "id": "ans-guide-08-improve-playbook",
           "number": "8",
-          "title": "Play Anatomy and Execution Controls",
+          "title": "Remove Duplication from Playbooks",
           "videoTitle": "Getting Started with Ansible 08 - Improving your Playbook",
-          "path": "lessons/08-ans-ch04-play-anatomy.lesson.json"
+          "path": "lessons/08-improve-playbook.lesson.json"
         },
         {
-          "id": "ans-ch03-facts-patterns",
+          "id": "ans-guide-09-target-specific-nodes",
           "number": "9",
-          "title": "Host Patterns, Parallelism, and Facts",
+          "title": "Target Groups and Individual Nodes",
           "videoTitle": "Getting started with Ansible 09 - Targeting Specific Nodes",
-          "path": "lessons/09-ans-ch03-facts-patterns.lesson.json"
+          "path": "lessons/09-target-specific-nodes.lesson.json"
         },
         {
-          "id": "ans-ch05-advanced",
+          "id": "ans-guide-10-tags",
           "number": "10",
-          "title": "Variables, Handlers, Conditions, and Control",
+          "title": "Select Work with Tags",
           "videoTitle": "Getting started with Ansible 10 - Tags",
-          "path": "lessons/10-ans-ch05-advanced.lesson.json"
+          "path": "lessons/10-tags.lesson.json"
         },
         {
-          "id": "ans-ch04-application-stacks",
+          "id": "ans-guide-11-managing-files",
           "number": "11",
-          "title": "Application Stack Playbooks",
+          "title": "Manage Files and Downloads",
           "videoTitle": "Getting started with Ansible 11 - Managing Files",
-          "path": "lessons/11-ans-ch04-application-stacks.lesson.json"
+          "path": "lessons/11-managing-files.lesson.json"
         },
         {
-          "id": "ans-ch10-deployments",
+          "id": "ans-guide-12-managing-services",
           "number": "12",
-          "title": "Plan Safe Application Deployments",
+          "title": "Manage Services and Configuration Changes",
           "videoTitle": "Getting started with Ansible 12 - Managing Services",
-          "path": "lessons/12-ans-ch10-deployments.lesson.json"
+          "path": "lessons/12-managing-services.lesson.json"
         },
         {
-          "id": "ans-ch11-security",
+          "id": "ans-guide-13-users-and-bootstrap",
           "number": "13",
-          "title": "Automate Server Hardening",
+          "title": "Manage Users and Bootstrap Access",
           "videoTitle": "Getting started with Ansible 13 - Adding Users & Bootstrapping",
-          "path": "lessons/13-ans-ch11-security.lesson.json"
+          "path": "lessons/13-users-and-bootstrap.lesson.json"
         },
         {
-          "id": "ans-ch06-roles",
+          "id": "ans-guide-14-roles",
           "number": "14",
           "title": "Organize Automation with Roles",
           "videoTitle": "Getting started with Ansible 14 - Roles",
-          "path": "lessons/14-ans-ch06-roles.lesson.json"
+          "path": "lessons/14-roles.lesson.json"
         },
         {
-          "id": "ans-ch05-variables-facts-vault",
+          "id": "ans-guide-15-host-vars-and-handlers",
           "number": "15",
-          "title": "Variables, Facts, Precedence, and Vault",
+          "title": "Host Variables and Handlers",
           "videoTitle": "Getting started with Ansible 15 - Host Variables and Handlers",
-          "path": "lessons/15-ans-ch05-variables-facts-vault.lesson.json"
+          "path": "lessons/15-host-vars-and-handlers.lesson.json"
         },
         {
-          "id": "ans-ch06-role-anatomy-galaxy",
+          "id": "ans-guide-16-templates",
           "number": "16",
-          "title": "Role Anatomy and Galaxy Dependencies",
+          "title": "Render Configuration with Templates",
           "videoTitle": "Getting started with Ansible 16 (Series Finale) - Templates",
-          "path": "lessons/16-ans-ch06-role-anatomy-galaxy.lesson.json"
+          "path": "lessons/16-templates.lesson.json"
         },
         {
-          "id": "ans-ch12-controller",
+          "id": "ans-guide-17-semaphore",
           "number": "17",
-          "title": "Centralize Automation and CI/CD",
+          "title": "Operate Ansible through Semaphore",
           "videoTitle": "Complete Ansible Semaphore Tutorial: From Installation to Automation",
-          "path": "lessons/17-ans-ch12-controller.lesson.json"
+          "path": "lessons/17-semaphore.lesson.json"
         },
         {
-          "id": "ans-ch12-awx-governance",
+          "id": "ans-guide-18-automation-solution",
           "number": "18",
-          "title": "AWX Projects, Templates, Credentials, and RBAC",
+          "title": "Design a Complete Automation Solution",
           "videoTitle": "An Inside Look at my Powerful Ansible Automation Solution",
-          "path": "lessons/18-ans-ch12-awx-governance.lesson.json"
+          "path": "lessons/18-automation-solution.lesson.json"
         }
       ]
     }
