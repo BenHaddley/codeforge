@@ -1,0 +1,113 @@
+{
+  "id": "ans-ch12-controller",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "17",
+  "title": "Centralize Automation and CI/CD",
+  "xp": 100,
+  "objective": "Explain how automation controllers and CI systems run governed Ansible jobs.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "12",
+    "chapterTitle": "Automating Your Automation with Ansible Tower and CI/CD",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material. Uses the current generic term automation controller while retaining the book's AWX/Tower context."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "AWX and commercial automation controllers add a web interface, API, schedules, credentials, inventories, job templates, logs, notifications, and role-based access around ansible-playbook.",
+      "A job template binds a project revision, inventory, credentials, playbook, and launch policy. Centralized credentials should be injected at runtime and access should follow least privilege.",
+      "CI tools such as Jenkins can lint, test, and launch playbooks after changes. The same pattern applies across modern CI platforms: version control triggers a repeatable pipeline and preserves auditable results."
+    ],
+    "rule": "Keep automation in version control; let controllers supply governed execution, credentials, and audit history."
+  },
+  "examples": [
+    {
+      "title": "Job Template Model",
+      "code": "job_template:\n  project: infrastructure\n  inventory: staging\n  playbook: site.yml\n  ask_limit_on_launch: true",
+      "note": "This is a conceptual configuration artifact, not an exported AWX schema."
+    }
+  ],
+  "checks": [
+    {
+      "id": "controller",
+      "question": "What does an automation controller add around playbooks?",
+      "options": [
+        "Governed execution, credentials, scheduling, and audit history",
+        "A replacement for version control",
+        "A new YAML syntax",
+        "A hypervisor"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Controllers operationalize playbooks; they do not replace their source."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Define a Safe Job Template",
+    "brief": "Model a staging site.yml job that asks for a host limit at launch.",
+    "requirements": [
+      "Set project, inventory, playbook, and ask_limit_on_launch."
+    ],
+    "starterCode": "job_template:\n  project: infrastructure\n",
+    "solutionCode": "job_template:\n  project: infrastructure\n  inventory: staging\n  playbook: site.yml\n  ask_limit_on_launch: true\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "inventory",
+        "label": "Uses staging inventory",
+        "pattern": "inventory\\s*:\\s*staging",
+        "mustMatch": true
+      },
+      {
+        "id": "playbook",
+        "label": "Runs site.yml",
+        "pattern": "playbook\\s*:\\s*site\\.yml",
+        "mustMatch": true
+      },
+      {
+        "id": "limit",
+        "label": "Prompts for a limit",
+        "pattern": "ask_limit_on_launch\\s*:\\s*true",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Job model uses valid course-style YAML"
+  },
+  "hints": [
+    "All settings nest under job_template.",
+    "The launch safeguard is a boolean."
+  ],
+  "nextLessonId": "ans-ch12-awx-governance",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  },
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "CltoVfeRdoM",
+      "creator": "LearnLinuxTV",
+      "title": "Complete Ansible Semaphore Tutorial: From Installation to Automation",
+      "startSeconds": 55,
+      "endSeconds": 2850,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/CltoVfeRdoM?start=55&end=2850&rel=0",
+      "checkpoints": [
+        {
+          "id": "follow-along",
+          "title": "Start the hands-on walkthrough",
+          "seconds": 55
+        }
+      ]
+    }
+  ]
+}

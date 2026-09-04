@@ -1,8 +1,8 @@
 {
   "id": "ans-ch04-playbooks",
-  "trackId": "ansible-for-devops",
-  "chapterId": "ch04",
-  "number": "4.1",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "6",
   "title": "Design an Idempotent Playbook",
   "xp": 100,
   "objective": "Structure plays, tasks, variables, pre-tasks, and handlers for repeatable configuration.",
@@ -148,7 +148,7 @@
     "Use separate package and service tasks.",
     "enabled belongs under service."
   ],
-  "nextLessonId": "ans-ch04-play-anatomy",
+  "nextLessonId": "ans-ch05-conditions-blocks",
   "videoAlignment": {
     "playlist": "Getting started with Ansible",
     "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",

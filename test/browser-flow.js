@@ -203,6 +203,26 @@ async function runErrorPath(url) {
   return failures;
 }
 
+async function runGuidedContentFlow(baseUrl) {
+  const failures = [];
+  const trackUrl = `${baseUrl}/content/ansible-guided/track.json`;
+  const track = await (await fetch(trackUrl)).json();
+  const lessons = track.chapters.flatMap((chapter) => chapter.lessons || []);
+  for (const lesson of lessons) {
+    try {
+      const response = await fetch(new URL(lesson.path, trackUrl));
+      const body = response.ok ? await response.json() : null;
+      if (!body || body.id !== lesson.id || !body.explanation?.paragraphs?.length || !body.assignment) {
+        failures.push(`guided lesson ${lesson.number} has no complete content`);
+      }
+    } catch (error) {
+      failures.push(`guided lesson ${lesson.number} failed to load — ${error.message}`);
+    }
+  }
+  if (!failures.length) console.log(`  PASS  all ${lessons.length} guided lesson documents load`);
+  return failures;
+}
+
 async function main() {
   console.log('Paperclip browser-flow tests (jsdom + mock provider)\n');
   const servers = [];
@@ -211,6 +231,7 @@ async function main() {
   servers.push(serverA);
   console.log(`- success-path server on :${SUCCESS_PORT}`);
   let failures = (await runFlow(`http://127.0.0.1:${SUCCESS_PORT}/app/lesson.html?lesson=py-ch07-while-loops`, 'success path')).failures;
+  failures = failures.concat(await runGuidedContentFlow(`http://127.0.0.1:${SUCCESS_PORT}`));
   await stopServer(serverA);
 
   const serverB = await startServer(FAIL_PORT, { PAPERCLIP_MOCK_FAILURE: '1' });

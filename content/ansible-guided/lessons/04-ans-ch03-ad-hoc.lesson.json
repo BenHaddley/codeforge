@@ -1,8 +1,8 @@
 {
   "id": "ans-ch03-ad-hoc",
-  "trackId": "ansible-for-devops",
-  "chapterId": "ch03",
-  "number": "3.1",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "4",
   "title": "Operate Fleets with Ad-Hoc Modules",
   "xp": 75,
   "objective": "Choose safe modules and target groups for one-off fleet operations.",
@@ -136,7 +136,7 @@
     "Use fully qualified collection names.",
     "Each value begins ansible.builtin."
   ],
-  "nextLessonId": "ans-ch03-facts-patterns",
+  "nextLessonId": "ans-ch03-modules-async",
   "videoAlignment": {
     "playlist": "Getting started with Ansible",
     "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",

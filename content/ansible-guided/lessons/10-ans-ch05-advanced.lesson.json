@@ -1,0 +1,113 @@
+{
+  "id": "ans-ch05-advanced",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "10",
+  "title": "Variables, Handlers, Conditions, and Control",
+  "xp": 100,
+  "objective": "Control playbook behavior with variables, facts, conditions, tags, blocks, delegation, and secrets.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "5",
+    "chapterTitle": "Ansible Playbooks - Beyond the Basics",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Variables can come from plays, inventory, host_vars, group_vars, facts, registered results, prompts, and extra vars. Precedence resolves conflicts, but simple ownership is easier to reason about than relying on overrides.",
+      "Jinja expressions and when clauses make tasks conditional. register captures results; changed_when and failed_when refine semantics. Blocks group work and can provide rescue and always paths, while tags select subsets.",
+      "Vault encrypts secrets at rest, not during use. Delegation and local actions move a task to another host; wait_for coordinates availability. Environment values should be scoped as narrowly as practical."
+    ],
+    "rule": "Make conditions explicit, keep secret values encrypted, and avoid clever precedence chains."
+  },
+  "examples": [
+    {
+      "title": "Conditional Notification",
+      "code": "- name: Configure service\n  hosts: app\n  tasks:\n    - name: Render config\n      ansible.builtin.template:\n        src: app.conf.j2\n        dest: /etc/app.conf\n      when: app_enabled\n      notify: Restart app",
+      "note": "A boolean variable gates the task; a change notifies the handler."
+    }
+  ],
+  "checks": [
+    {
+      "id": "vault",
+      "question": "What does Ansible Vault primarily protect?",
+      "options": [
+        "Secrets stored in files",
+        "All SSH traffic",
+        "Hosts from package updates",
+        "Runtime memory"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Vault encrypts sensitive data stored with automation content."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Gate a Template Task",
+    "brief": "Create a template task that runs when app_enabled and notifies Restart app.",
+    "requirements": [
+      "Use template, when, and notify."
+    ],
+    "starterCode": "- name: Configure app\n  hosts: app\n  tasks:\n",
+    "solutionCode": "- name: Configure app\n  hosts: app\n  tasks:\n    - name: Render config\n      ansible.builtin.template:\n        src: app.conf.j2\n        dest: /etc/app.conf\n      when: app_enabled\n      notify: Restart app\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "template",
+        "label": "Uses template",
+        "pattern": "ansible\\.builtin\\.template\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "when",
+        "label": "Checks app_enabled",
+        "pattern": "when\\s*:\\s*app_enabled",
+        "mustMatch": true
+      },
+      {
+        "id": "notify",
+        "label": "Notifies the handler",
+        "pattern": "notify\\s*:\\s*Restart app",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Task uses valid course-style YAML structure"
+  },
+  "hints": [
+    "when and notify align with the module name.",
+    "Do not quote a simple boolean variable expression."
+  ],
+  "nextLessonId": "ans-ch04-application-stacks",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  },
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "gH_A-0zYLyw",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 10 - Tags",
+      "startSeconds": 45,
+      "endSeconds": 560,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/gH_A-0zYLyw?start=45&end=560&rel=0",
+      "checkpoints": [
+        {
+          "id": "follow-along",
+          "title": "Start the hands-on walkthrough",
+          "seconds": 45
+        }
+      ]
+    }
+  ]
+}

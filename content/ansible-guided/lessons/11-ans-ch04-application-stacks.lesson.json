@@ -1,0 +1,102 @@
+{
+  "id": "ans-ch04-application-stacks",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "11",
+  "title": "Application Stack Playbooks",
+  "xp": 75,
+  "objective": "Sequence repositories, packages, configuration, applications, and services.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "4",
+    "chapterTitle": "Ansible Playbooks"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Application servers typically need repositories, runtimes, source or release artifacts, configuration, service units, and health checks. Each layer should use a state-aware module.",
+      "LAMP and search stacks add databases, PHP or Java, dependency managers, templates, and application-specific installation commands. Variables keep versions and paths out of task logic."
+    ],
+    "rule": "Operational rule: Sequence repositories, packages, configuration, applications, and services."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "stack:\n  repositories: configured\n  packages: present\n  configuration: templated\n  application: deployed\n  service: started\n  health_check: passed",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "teEhLgHpGgo",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 11 - Managing Files",
+      "startSeconds": 45,
+      "endSeconds": 1220,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/teEhLgHpGgo?start=45&end=1220&rel=0",
+      "checkpoints": [
+        {
+          "id": "follow-along",
+          "title": "Start the hands-on walkthrough",
+          "seconds": 45
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "ans-ch04-application-stacks-check",
+      "question": "Which statement best matches “Application Stack Playbooks”?",
+      "options": [
+        "Sequence repositories, packages, configuration, applications, and services.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Application Stack Playbooks",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "stack:\n",
+    "solutionCode": "stack:\n  repositories: configured\n  packages: present\n  configuration: templated\n  application: deployed\n  service: started\n  health_check: passed\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "health_check\\s*:\\s*passed",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch10-deployments",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  }
+}

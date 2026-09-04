@@ -1,8 +1,8 @@
 {
   "id": "ans-ch03-modules-async",
-  "trackId": "ansible-for-devops",
-  "chapterId": "ch03",
-  "number": "3.3",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "5",
   "title": "State Modules, Async Jobs, and Operations",
   "xp": 75,
   "objective": "Choose state-aware modules and control long-running fleet work.",

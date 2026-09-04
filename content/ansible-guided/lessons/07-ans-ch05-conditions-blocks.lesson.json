@@ -1,0 +1,102 @@
+{
+  "id": "ans-ch05-conditions-blocks",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "7",
+  "title": "Conditions, Results, Tags, Blocks, and Delegation",
+  "xp": 75,
+  "objective": "Control task outcomes and orchestration flow explicitly.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "5",
+    "chapterTitle": "Playbooks Beyond the Basics"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "register captures module results for when expressions. changed_when and failed_when refine outcome semantics; ignore_errors should be rare because it discards useful control flow.",
+      "Blocks group tasks and support rescue and always behavior. Tags select subsets, delegate_to moves one task, run_once limits execution, and wait_for coordinates service readiness."
+    ],
+    "rule": "Operational rule: Control task outcomes and orchestration flow explicitly."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "control:\n  result_source: register\n  gate: when\n  recovery: rescue\n  selection: tags\n  remote_coordination: delegate_to",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "BF7vIk9no14",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 07 - The 'when' Conditional",
+      "startSeconds": 45,
+      "endSeconds": 1225,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/BF7vIk9no14?start=45&end=1225&rel=0",
+      "checkpoints": [
+        {
+          "id": "follow-along",
+          "title": "Start the hands-on walkthrough",
+          "seconds": 45
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "ans-ch05-conditions-blocks-check",
+      "question": "Which statement best matches “Conditions, Results, Tags, Blocks, and Delegation”?",
+      "options": [
+        "Control task outcomes and orchestration flow explicitly.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Conditions, Results, Tags, Blocks, and Delegation",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "control:\n",
+    "solutionCode": "control:\n  result_source: register\n  gate: when\n  recovery: rescue\n  selection: tags\n  remote_coordination: delegate_to\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "recovery\\s*:\\s*rescue",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch04-play-anatomy",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  }
+}

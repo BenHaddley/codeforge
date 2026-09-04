@@ -94,15 +94,23 @@ for (const [lessonId, videoId, title, startSeconds, endSeconds] of alignments) {
 // intentionally shared because both paths teach and assess the same skills.
 const guidedDir = path.join(ROOT, 'content/ansible-guided');
 fs.mkdirSync(guidedDir, { recursive: true });
+const guidedLessonsDir = path.join(guidedDir, 'lessons');
+fs.mkdirSync(guidedLessonsDir, { recursive: true });
 const guidedLessons = alignments.map(([lessonId, videoId, videoTitle], index) => {
   const sourcePath = references.get(lessonId);
   const sourceLesson = JSON.parse(fs.readFileSync(path.join(COURSE, sourcePath), 'utf8'));
+  const guidedPath = `lessons/${String(index + 1).padStart(2, '0')}-${lessonId}.lesson.json`;
+  sourceLesson.trackId = 'ansible-guided';
+  sourceLesson.chapterId = 'guided-series';
+  sourceLesson.number = String(index + 1);
+  sourceLesson.nextLessonId = alignments[index + 1]?.[0] || null;
+  fs.writeFileSync(path.join(guidedDir, guidedPath), `${JSON.stringify(sourceLesson, null, 2)}\n`);
   return {
     id: lessonId,
     number: String(index + 1),
     title: sourceLesson.title,
     videoTitle,
-    path: `../ansible-for-devops/${sourcePath}`,
+    path: guidedPath,
   };
 });
 const guidedTrack = {

@@ -1,0 +1,102 @@
+{
+  "id": "ans-ch11-access-least-privilege",
+  "trackId": "ansible-guided",
+  "chapterId": "guided-series",
+  "number": "2",
+  "title": "Secure Remote Access and Least Privilege",
+  "xp": 75,
+  "objective": "Harden accounts, SSH, sudo, file ownership, and permissions.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "11",
+    "chapterTitle": "Server Security and Ansible"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "SSH protects remote transport, but security still depends on identity and policy. Prefer keys, disable direct root login, remove unused accounts, and restrict sudo commands.",
+      "Least privilege applies to processes and files as well as people. Explicit owners, groups, and modes reduce accidental access; validate SSH configuration before reload."
+    ],
+    "rule": "Operational rule: Harden accounts, SSH, sudo, file ownership, and permissions."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "access_policy:\n  root_login: disabled\n  authentication: ssh_keys\n  sudo: restricted\n  file_permissions: explicit",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "-Q4T9wLsvOQ",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 02 - SSH Overview & Setup",
+      "startSeconds": 48,
+      "endSeconds": 1705,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/-Q4T9wLsvOQ?start=48&end=1705&rel=0",
+      "checkpoints": [
+        {
+          "id": "follow-along",
+          "title": "Start the hands-on walkthrough",
+          "seconds": 48
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "ans-ch11-access-least-privilege-check",
+      "question": "Which statement best matches “Secure Remote Access and Least Privilege”?",
+      "options": [
+        "Harden accounts, SSH, sudo, file ownership, and permissions.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Secure Remote Access and Least Privilege",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "access_policy:\n",
+    "solutionCode": "access_policy:\n  root_login: disabled\n  authentication: ssh_keys\n  sudo: restricted\n  file_permissions: explicit\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "root_login\\s*:\\s*disabled",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch12-ci-pipeline",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  }
+}
