@@ -10,6 +10,7 @@ const Achievements = (() => {
   const TRACKS = [
     { id: 'python-fundamentals', contentBase: `${ROOT_PREFIX}content/python-fundamentals/` },
     { id: 'javascript-fundamentals', contentBase: `${ROOT_PREFIX}content/javascript-fundamentals/` },
+    { id: 'ansible-for-devops', contentBase: `${ROOT_PREFIX}content/ansible-for-devops/` },
   ];
   const SEEN_KEY = 'codeforge:achievements:seen';
 
@@ -19,7 +20,7 @@ const Achievements = (() => {
     { id: 'halfway', icon: '🛠', title: 'Halfway to the Anvil', desc: 'Complete 25 lessons.', check: (s) => s.totalCompleted >= 25 },
     { id: 'chapter-complete', icon: '📖', title: 'Chapter Closer', desc: 'Finish every lesson in a chapter.', check: (s) => s.chapterComplete },
     { id: 'track-complete', icon: '🏆', title: 'Master Smith', desc: 'Complete every lesson in a track.', check: (s) => s.trackComplete },
-    { id: 'two-language', icon: '🌐', title: 'Two-Language Forge', desc: 'Complete a lesson in both Python and JavaScript.', check: (s) => s.tracksTouched >= 2 },
+    { id: 'two-language', icon: '🌐', title: 'Multi-Track Forge', desc: 'Complete a lesson in two different tracks.', check: (s) => s.tracksTouched >= 2 },
     { id: 'streak-3', icon: '📅', title: '3-Day Streak', desc: 'Return 3 days in a row.', check: (s) => s.streak >= 3 },
     { id: 'streak-7', icon: '🗓', title: 'Week-Long Forge', desc: 'Return 7 days in a row.', check: (s) => s.streak >= 7 },
     { id: 'xp-500', icon: '⭐', title: 'XP: 500', desc: 'Earn 500 XP.', check: (s) => s.xp >= 500 },

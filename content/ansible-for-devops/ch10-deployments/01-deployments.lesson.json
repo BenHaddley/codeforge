@@ -1,0 +1,113 @@
+{
+  "id": "ans-ch10-deployments",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch10",
+  "number": "10.1",
+  "title": "Plan Safe Application Deployments",
+  "xp": 125,
+  "objective": "Compare deployment strategies and encode controlled zero-downtime rollouts.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "10",
+    "chapterTitle": "Deployments with Ansible",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material covering single-server, rolling, load-balanced, Capistrano-style, and blue-green deployment patterns."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A single-server deployment can provision dependencies, fetch a versioned release, migrate data, and restart the app, but usually has downtime. Separate provisioning from frequent application release steps when their lifecycles differ.",
+      "Rolling deployments use serial to update only part of a fleet. Tasks delegate to a load balancer to drain a node, deploy and test it, then return it to service before moving on.",
+      "Capistrano-style releases use versioned directories and an atomic current symlink. Blue-green keeps two complete environments and switches traffic after validation. Any strategy needs health checks and a rollback target."
+    ],
+    "rule": "Never move traffic to a release until an automated health check passes."
+  },
+  "examples": [
+    {
+      "title": "Rolling Batch",
+      "code": "- name: Roll out application\n  hosts: app_servers\n  serial: 1\n  max_fail_percentage: 0\n  tasks:\n    - name: Deploy release\n      ansible.builtin.debug:\n        msg: Deploy and verify one node",
+      "note": "A batch size of one limits blast radius."
+    }
+  ],
+  "checks": [
+    {
+      "id": "serial",
+      "question": "What does serial control?",
+      "options": [
+        "How many hosts a play processes at once",
+        "Secret encryption strength",
+        "Inventory file format",
+        "Module version"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "serial batches target hosts during a play."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Limit a Rolling Deployment",
+    "brief": "Target app_servers one at a time and stop if any host fails.",
+    "requirements": [
+      "Set serial to 1 and max_fail_percentage to 0."
+    ],
+    "starterCode": "- name: Roll out application\n  hosts: app_servers\n",
+    "solutionCode": "- name: Roll out application\n  hosts: app_servers\n  serial: 1\n  max_fail_percentage: 0\n  tasks:\n    - name: Verify deployment plan\n      ansible.builtin.debug:\n        msg: Deploy one host at a time\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "hosts",
+        "label": "Targets app servers",
+        "pattern": "hosts\\s*:\\s*app_servers",
+        "mustMatch": true
+      },
+      {
+        "id": "serial",
+        "label": "Uses one-host batches",
+        "pattern": "serial\\s*:\\s*1",
+        "mustMatch": true
+      },
+      {
+        "id": "fail",
+        "label": "Stops on any failure",
+        "pattern": "max_fail_percentage\\s*:\\s*0",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Deployment plan uses valid course-style YAML"
+  },
+  "hints": [
+    "serial belongs at play level.",
+    "Set the allowed failure percentage to zero."
+  ],
+  "nextLessonId": "ans-ch10-release-patterns",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  },
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "soeBHGAMkoQ",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 12 - Managing Services",
+      "startSeconds": 45,
+      "endSeconds": 1245,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/soeBHGAMkoQ?start=45&end=1245&rel=0",
+      "checkpoints": [
+        {
+          "id": "follow-along",
+          "title": "Start the hands-on walkthrough",
+          "seconds": 45
+        }
+      ]
+    }
+  ]
+}

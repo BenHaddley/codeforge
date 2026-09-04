@@ -1,0 +1,398 @@
+{
+  "id": "ansible-for-devops",
+  "title": "Ansible for DevOps",
+  "language": "ansible",
+  "version": 3,
+  "description": "Learn infrastructure automation through original Code Forge lessons aligned with Jeff Geerling's Ansible for DevOps, 2nd Edition.",
+  "chapters": [
+    {
+      "id": "ch01",
+      "number": 1,
+      "title": "Getting Started with Ansible",
+      "lessons": [
+        {
+          "id": "ans-ch01-inventory-first-command",
+          "number": "1.1",
+          "title": "Inventory and Your First Command",
+          "path": "ch01-getting-started/01-inventory-first-command.lesson.json"
+        },
+        {
+          "id": "ans-ch01-control-node",
+          "number": "1.2",
+          "title": "Control Nodes, Managed Nodes, and Installation",
+          "path": "ch01-getting-started/1-2-control-nodes-managed-nodes-and-installation.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch02",
+      "number": 2,
+      "title": "Local Infrastructure Development: Ansible and Vagrant",
+      "lessons": [
+        {
+          "id": "ans-ch02-local-lab",
+          "number": "2.1",
+          "title": "Build a Reproducible Local Lab",
+          "path": "ch02-local-infrastructure/01-local-lab.lesson.json"
+        },
+        {
+          "id": "ans-ch02-vagrant-lifecycle",
+          "number": "2.2",
+          "title": "Vagrant Lifecycle and Provisioning",
+          "path": "ch02-local-infrastructure/2-2-vagrant-lifecycle-and-provisioning.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch03",
+      "number": 3,
+      "title": "Ad-Hoc Commands",
+      "lessons": [
+        {
+          "id": "ans-ch03-ad-hoc",
+          "number": "3.1",
+          "title": "Operate Fleets with Ad-Hoc Modules",
+          "path": "ch03-ad-hoc-commands/01-ad-hoc.lesson.json"
+        },
+        {
+          "id": "ans-ch03-facts-patterns",
+          "number": "3.2",
+          "title": "Host Patterns, Parallelism, and Facts",
+          "path": "ch03-ad-hoc-commands/3-2-host-patterns-parallelism-and-facts.lesson.json"
+        },
+        {
+          "id": "ans-ch03-modules-async",
+          "number": "3.3",
+          "title": "State Modules, Async Jobs, and Operations",
+          "path": "ch03-ad-hoc-commands/3-3-state-modules-async-jobs-and-operations.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch04",
+      "number": 4,
+      "title": "Ansible Playbooks",
+      "lessons": [
+        {
+          "id": "ans-ch04-playbooks",
+          "number": "4.1",
+          "title": "Design an Idempotent Playbook",
+          "path": "ch04-playbooks/01-playbooks.lesson.json"
+        },
+        {
+          "id": "ans-ch04-play-anatomy",
+          "number": "4.2",
+          "title": "Play Anatomy and Execution Controls",
+          "path": "ch04-playbooks/4-2-play-anatomy-and-execution-controls.lesson.json"
+        },
+        {
+          "id": "ans-ch04-application-stacks",
+          "number": "4.3",
+          "title": "Application Stack Playbooks",
+          "path": "ch04-playbooks/4-3-application-stack-playbooks.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch05",
+      "number": 5,
+      "title": "Playbooks Beyond the Basics",
+      "lessons": [
+        {
+          "id": "ans-ch05-advanced",
+          "number": "5.1",
+          "title": "Variables, Handlers, Conditions, and Control",
+          "path": "ch05-advanced-playbooks/01-advanced.lesson.json"
+        },
+        {
+          "id": "ans-ch05-variables-facts-vault",
+          "number": "5.2",
+          "title": "Variables, Facts, Precedence, and Vault",
+          "path": "ch05-advanced-playbooks/5-2-variables-facts-precedence-and-vault.lesson.json"
+        },
+        {
+          "id": "ans-ch05-conditions-blocks",
+          "number": "5.3",
+          "title": "Conditions, Results, Tags, Blocks, and Delegation",
+          "path": "ch05-advanced-playbooks/5-3-conditions-results-tags-blocks-and-delegation.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch06",
+      "number": 6,
+      "title": "Roles, Includes, and Imports",
+      "lessons": [
+        {
+          "id": "ans-ch06-roles",
+          "number": "6.1",
+          "title": "Organize Automation with Roles",
+          "path": "ch06-roles/01-roles.lesson.json"
+        },
+        {
+          "id": "ans-ch06-imports-includes",
+          "number": "6.2",
+          "title": "Static Imports and Dynamic Includes",
+          "path": "ch06-roles/6-2-static-imports-and-dynamic-includes.lesson.json"
+        },
+        {
+          "id": "ans-ch06-role-anatomy-galaxy",
+          "number": "6.3",
+          "title": "Role Anatomy and Galaxy Dependencies",
+          "path": "ch06-roles/6-3-role-anatomy-and-galaxy-dependencies.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch07",
+      "number": 7,
+      "title": "Plugins and Content Collections",
+      "lessons": [
+        {
+          "id": "ans-ch07-collections",
+          "number": "7.1",
+          "title": "Extend Ansible with Plugins and Collections",
+          "path": "ch07-collections/01-collections.lesson.json"
+        },
+        {
+          "id": "ans-ch07-filter-plugins",
+          "number": "7.2",
+          "title": "Build a Jinja Filter Plugin",
+          "path": "ch07-collections/7-2-build-a-jinja-filter-plugin.lesson.json"
+        },
+        {
+          "id": "ans-ch07-collection-anatomy",
+          "number": "7.3",
+          "title": "Collection Anatomy and Distribution",
+          "path": "ch07-collections/7-3-collection-anatomy-and-distribution.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch08",
+      "number": 8,
+      "title": "Inventories",
+      "lessons": [
+        {
+          "id": "ans-ch08-inventories",
+          "number": "8.1",
+          "title": "Model Static and Dynamic Infrastructure",
+          "path": "ch08-inventories/01-inventories.lesson.json"
+        },
+        {
+          "id": "ans-ch08-vars-environments",
+          "number": "8.2",
+          "title": "Environment Inventory and Variable Layout",
+          "path": "ch08-inventories/8-2-environment-inventory-and-variable-layout.lesson.json"
+        },
+        {
+          "id": "ans-ch08-dynamic-inventory",
+          "number": "8.3",
+          "title": "Cloud and Custom Dynamic Inventory",
+          "path": "ch08-inventories/8-3-cloud-and-custom-dynamic-inventory.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch09",
+      "number": 9,
+      "title": "Ansible Cookbooks",
+      "lessons": [
+        {
+          "id": "ans-ch09-cookbooks",
+          "number": "9.1",
+          "title": "Compose Production Infrastructure",
+          "path": "ch09-cookbooks/01-cookbooks.lesson.json"
+        },
+        {
+          "id": "ans-ch09-ha-logging",
+          "number": "9.2",
+          "title": "Highly Available Systems and Central Logging",
+          "path": "ch09-cookbooks/9-2-highly-available-systems-and-central-logging.lesson.json"
+        },
+        {
+          "id": "ans-ch09-storage-workstations",
+          "number": "9.3",
+          "title": "Distributed Storage and Workstation Automation",
+          "path": "ch09-cookbooks/9-3-distributed-storage-and-workstation-automation.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch10",
+      "number": 10,
+      "title": "Deployments with Ansible",
+      "lessons": [
+        {
+          "id": "ans-ch10-deployments",
+          "number": "10.1",
+          "title": "Plan Safe Application Deployments",
+          "path": "ch10-deployments/01-deployments.lesson.json"
+        },
+        {
+          "id": "ans-ch10-release-patterns",
+          "number": "10.2",
+          "title": "Release Directories and Blue-Green Environments",
+          "path": "ch10-deployments/10-2-release-directories-and-blue-green-environments.lesson.json"
+        },
+        {
+          "id": "ans-ch10-rolling-load-balancer",
+          "number": "10.3",
+          "title": "Rolling Deployments Behind a Load Balancer",
+          "path": "ch10-deployments/10-3-rolling-deployments-behind-a-load-balancer.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch11",
+      "number": 11,
+      "title": "Server Security and Ansible",
+      "lessons": [
+        {
+          "id": "ans-ch11-security",
+          "number": "11.1",
+          "title": "Automate Server Hardening",
+          "path": "ch11-security/01-security.lesson.json"
+        },
+        {
+          "id": "ans-ch11-access-least-privilege",
+          "number": "11.2",
+          "title": "Secure Remote Access and Least Privilege",
+          "path": "ch11-security/11-2-secure-remote-access-and-least-privilege.lesson.json"
+        },
+        {
+          "id": "ans-ch11-patching-firewalls-mac",
+          "number": "11.3",
+          "title": "Patching, Firewalls, Logs, and Mandatory Controls",
+          "path": "ch11-security/11-3-patching-firewalls-logs-and-mandatory-controls.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch12",
+      "number": 12,
+      "title": "Automation Controller and CI/CD",
+      "lessons": [
+        {
+          "id": "ans-ch12-controller",
+          "number": "12.1",
+          "title": "Centralize Automation and CI/CD",
+          "path": "ch12-controller-cicd/01-controller.lesson.json"
+        },
+        {
+          "id": "ans-ch12-awx-governance",
+          "number": "12.2",
+          "title": "AWX Projects, Templates, Credentials, and RBAC",
+          "path": "ch12-controller-cicd/12-2-awx-projects-templates-credentials-and-rbac.lesson.json"
+        },
+        {
+          "id": "ans-ch12-ci-pipeline",
+          "number": "12.3",
+          "title": "CI-Driven Automation",
+          "path": "ch12-controller-cicd/12-3-ci-driven-automation.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch13",
+      "number": 13,
+      "title": "Testing and CI for Ansible Content",
+      "lessons": [
+        {
+          "id": "ans-ch13-testing",
+          "number": "13.1",
+          "title": "Test and Lint Ansible Content",
+          "path": "ch13-testing/01-testing.lesson.json"
+        },
+        {
+          "id": "ans-ch13-static-runtime-checks",
+          "number": "13.2",
+          "title": "Debugging, Assertions, Lint, and Check Mode",
+          "path": "ch13-testing/13-2-debugging-assertions-lint-and-check-mode.lesson.json"
+        },
+        {
+          "id": "ans-ch13-molecule-ci",
+          "number": "13.3",
+          "title": "Molecule, Idempotence, and Functional CI",
+          "path": "ch13-testing/13-3-molecule-idempotence-and-functional-ci.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch14",
+      "number": 14,
+      "title": "Automating HTTPS and TLS Certificates",
+      "lessons": [
+        {
+          "id": "ans-ch14-tls",
+          "number": "14.1",
+          "title": "Automate Certificates and HTTPS",
+          "path": "ch14-tls/01-tls.lesson.json"
+        },
+        {
+          "id": "ans-ch14-self-signed-acme",
+          "number": "14.2",
+          "title": "Self-Signed Certificates and ACME",
+          "path": "ch14-tls/14-2-self-signed-certificates-and-acme.lesson.json"
+        },
+        {
+          "id": "ans-ch14-nginx-proxy",
+          "number": "14.3",
+          "title": "Nginx TLS Termination and Reverse Proxying",
+          "path": "ch14-tls/14-3-nginx-tls-termination-and-reverse-proxying.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "ch15",
+      "number": 15,
+      "title": "Docker and Ansible",
+      "lessons": [
+        {
+          "id": "ans-ch15-docker",
+          "number": "15.1",
+          "title": "Build and Manage Containers",
+          "path": "ch15-docker/01-docker.lesson.json"
+        },
+        {
+          "id": "ans-ch15-multicontainer-app",
+          "number": "15.2",
+          "title": "Multi-Container Application State",
+          "path": "ch15-docker/15-2-multi-container-application-state.lesson.json"
+        },
+        {
+          "id": "ans-ch15-docker-connection",
+          "number": "15.3",
+          "title": "Containers as Managed Nodes",
+          "path": "ch15-docker/15-3-containers-as-managed-nodes.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "appendix-a",
+      "number": "A",
+      "title": "Using Ansible on Windows Workstations",
+      "lessons": [
+        {
+          "id": "ans-appa-windows",
+          "number": "A.1",
+          "title": "Choose a Windows Control-Node Setup",
+          "path": "appendix-a-windows/01-windows.lesson.json"
+        }
+      ]
+    },
+    {
+      "id": "appendix-b",
+      "number": "B",
+      "title": "Best Practices and Conventions",
+      "lessons": [
+        {
+          "id": "ans-appb-practices",
+          "number": "B.1",
+          "title": "Apply Sustainable Ansible Practices",
+          "path": "appendix-b-practices/01-practices.lesson.json"
+        }
+      ]
+    }
+  ]
+}

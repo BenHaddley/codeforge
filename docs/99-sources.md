@@ -32,6 +32,15 @@ Public chapter list for the 2024 course:
 
 The product plan uses those timestamps only to configure the external YouTube embed. No video is included in this archive.
 
+## LearnLinuxTV Ansible playlist
+
+`https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70`
+
+The Ansible track uses the playlist's English captions to align original Code
+Forge explanations and exercises with the demonstrated workflow. Lessons embed
+focused windows from the original YouTube videos; captions and video files are
+not checked into this repository.
+
 ## Boot.dev research
 
 The user-provided `bootdev-notes.zip` was used as product research for reusable mechanics such as course → chapter → lesson → exercise, browser code execution, progress, profiles, playgrounds, projects, gamification and an embedded hint-oriented tutor concept. The plan in this archive uses Code Forge's own structure, branding and content.

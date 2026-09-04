@@ -6,6 +6,8 @@ const CourseDrawer = (() => {
   const AVAILABLE_TRACKS = [
     { id: 'python-fundamentals', title: 'Python Fundamentals' },
     { id: 'javascript-fundamentals', title: 'JavaScript Fundamentals' },
+    { id: 'ansible-for-devops', title: 'Ansible for DevOps' },
+    { id: 'ansible-guided', title: 'Ansible Guided Video Path' },
   ];
 
   let track = null;

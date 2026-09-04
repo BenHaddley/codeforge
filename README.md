@@ -14,11 +14,13 @@ No build step. Two options:
 
 ```bash
 cp .env.example .env        # set PAPERCLIP_API_KEY (see below)
+npm install
 node server/server.js
 # then open http://localhost:8787/
 ```
 
-Zero npm dependencies — Node 18+ is all that is required.
+Node 18+ is required. The server uses a small WebSocket dependency for the
+optional Ansible lab terminal.
 
 **Static only** (no AI):
 
@@ -64,8 +66,31 @@ flow offline with no key for development. Full design:
 npm run test:paperclip       # offline server self-test (no deps)
 npm install                  # dev deps for the browser-flow test
 npm run test:browser         # jsdom browser-flow test (mock provider, offline)
+npm run content:validate     # validate lesson schemas, links, clips and checkpoints
 # open /app/lesson.html?paperclipDebug=1 to inspect the exact context sent
 ```
+
+## Ansible lab
+
+Ansible lessons expose a Terminal tab backed by a disposable Docker lab:
+one controller plus `web01`, `web02`, and `db01` on an internal network.
+
+```bash
+npm run lab:up       # build/start the lab
+npm run dev          # serve Code Forge + the terminal WebSocket
+npm run lab:down     # stop/remove lab containers
+npm run lab:reset    # discard container state and rebuild
+```
+
+Files created in `labs/ansible/workspace/` persist on the host. The training
+password in its inventory is deliberately trivial and safe only because target
+SSH ports are never published. See [docs/17-ansible-lab.md](docs/17-ansible-lab.md).
+
+The Ansible curriculum has two routes through shared lessons: the complete
+book-aligned track and an 18-step LearnLinuxTV guided video path. Video lessons
+include caption controls, timestamped follow-along checkpoints, prediction and
+troubleshooting questions, and lab missions. Core missions can verify inventory
+connectivity, package idempotence, and nginx state against the disposable lab.
 
 ## Structure
 
@@ -76,6 +101,7 @@ app/js/                                  shell + lesson-player logic
 app/js/paperclip/                        Paperclip client (context, state, ui, api, client)
 app/css/                                 win98.css (chrome) / layout.css (grid) / editor.css / site.css / paperclip.css
 server/                                  zero-dependency Node server: static files + /api/paperclip
+labs/ansible/                            disposable controller + three managed nodes
 content/python-fundamentals/             track.json + per-lesson JSON — the actual curriculum data
 docs/                                    product/design/architecture docs and the UI reference image
 ```
@@ -93,8 +119,9 @@ lesson matching the JSON shape in `content/`. See
   (`app/js/pyodide-worker.js` + `runner-client.js`) with a timeout that
   kills and respawns the worker so a learner's infinite loop can't freeze
   the page.
-- Milestone 4 (While Loops vertical slice) is the one lesson currently in
-  `content/`: `python-fundamentals` → Chapter 7 → While Loops.
+- Three complete curricula are published: Python Fundamentals, JavaScript
+  Fundamentals, and Ansible for DevOps, plus a playlist-ordered guided route
+  through the Ansible material.
 - Paperclip (embedded AI tutor) is built: docked Win98 panel, structured
   lesson/editor/run/test context, server-side provider abstraction with a
   free OpenCode Zen model, per-lesson conversation memory, and

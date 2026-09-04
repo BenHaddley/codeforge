@@ -12,6 +12,8 @@
 const AVAILABLE_TRACKS = [
   { id: 'python-fundamentals', contentBase: 'content/python-fundamentals/' },
   { id: 'javascript-fundamentals', contentBase: 'content/javascript-fundamentals/' },
+  { id: 'ansible-for-devops', contentBase: 'content/ansible-for-devops/' },
+  { id: 'ansible-guided', contentBase: 'content/ansible-guided/' },
 ];
 
 function escapeHtml(s) {
@@ -145,7 +147,7 @@ function renderStreakBanner() {
 }
 
 function renderFeaturedCourse(track, trackId, completed, total, activeLesson) {
-  document.getElementById('featuredIcon').textContent = track.language === 'javascript' ? 'JS' : 'Py';
+  document.getElementById('featuredIcon').textContent = track.language === 'javascript' ? 'JS' : track.language === 'ansible' ? 'An' : 'Py';
   document.getElementById('featuredTitle').textContent = track.title;
   document.getElementById('featuredDesc').textContent = `${track.description} Published progress: ${completed} of ${total} lessons complete.`;
   document.getElementById('featuredLaunchBtn').href = activeLesson.route;
@@ -241,7 +243,7 @@ function renderAllCourses(states) {
     .map(({ trackMeta, track, lessons }) => {
       const completed = countCompleted(lessons);
       const total = lessons.length;
-      const icon = track.language === 'javascript' ? 'JS' : track.language === 'python' ? 'Py' : '#';
+      const icon = track.language === 'javascript' ? 'JS' : track.language === 'python' ? 'Py' : track.language === 'ansible' ? 'An' : '#';
       const target = completed === total && total > 0 ? lessons[0] : lessons.find((l) => !l.progress.complete) || lessons[0];
       const label = completed === 0 ? 'Start' : completed === total ? 'Review' : 'Continue';
       return `<a class="win95-list-row" href="${escapeHtml(target.route)}">

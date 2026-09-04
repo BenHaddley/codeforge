@@ -1,0 +1,102 @@
+{
+  "id": "ans-ch03-facts-patterns",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch03",
+  "number": "3.2",
+  "title": "Host Patterns, Parallelism, and Facts",
+  "xp": 75,
+  "objective": "Target precise host sets and inspect facts without changing systems.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "3",
+    "chapterTitle": "Ad-Hoc Commands"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Inventory patterns select groups, intersections, exclusions, or individual hosts. Ansible fans module work across a configurable number of forks, so verify the pattern before a broad operation.",
+      "The setup module gathers hardware, network, platform, and runtime facts. Filter fact output when investigating one property instead of flooding the terminal."
+    ],
+    "rule": "Operational rule: Target precise host sets and inspect facts without changing systems."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "inspection:\n  target: webservers\n  module: ansible.builtin.setup\n  filter: ansible_distribution*",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "EraC1AuWEF8",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 09 - Targeting Specific Nodes",
+      "startSeconds": 45,
+      "endSeconds": 1280,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/EraC1AuWEF8?start=45&end=1280&rel=0",
+      "checkpoints": [
+        {
+          "id": "follow-along",
+          "title": "Start the hands-on walkthrough",
+          "seconds": 45
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "ans-ch03-facts-patterns-check",
+      "question": "Which statement best matches “Host Patterns, Parallelism, and Facts”?",
+      "options": [
+        "Target precise host sets and inspect facts without changing systems.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Host Patterns, Parallelism, and Facts",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "inspection:\n",
+    "solutionCode": "inspection:\n  target: webservers\n  module: ansible.builtin.setup\n  filter: ansible_distribution*\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "module\\s*:\\s*ansible\\.builtin\\.setup",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch03-modules-async",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  }
+}

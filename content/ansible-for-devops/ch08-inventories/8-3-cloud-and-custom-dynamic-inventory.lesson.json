@@ -1,0 +1,79 @@
+{
+  "id": "ans-ch08-dynamic-inventory",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch08",
+  "number": "8.3",
+  "title": "Cloud and Custom Dynamic Inventory",
+  "xp": 75,
+  "objective": "Discover ephemeral hosts and construct reliable groups from metadata.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "8",
+    "chapterTitle": "Inventories"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Cloud inventory plugins query provider APIs and group instances from tags, regions, states, and other metadata. Cache settings balance freshness against API load.",
+      "Multiple sources can combine static and dynamic hosts. add_host and group_by create in-memory groups; a custom inventory source must implement the documented list and host behavior."
+    ],
+    "rule": "Operational rule: Discover ephemeral hosts and construct reliable groups from metadata."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "dynamic_inventory:\n  source_of_truth: cloud_api\n  grouping: durable_tags\n  credentials: external_secret\n  cache: bounded",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "ans-ch08-dynamic-inventory-check",
+      "question": "Which statement best matches “Cloud and Custom Dynamic Inventory”?",
+      "options": [
+        "Discover ephemeral hosts and construct reliable groups from metadata.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Cloud and Custom Dynamic Inventory",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "dynamic_inventory:\n",
+    "solutionCode": "dynamic_inventory:\n  source_of_truth: cloud_api\n  grouping: durable_tags\n  credentials: external_secret\n  cache: bounded\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "grouping\\s*:\\s*durable_tags",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch09-cookbooks"
+}

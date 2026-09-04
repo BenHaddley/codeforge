@@ -1,0 +1,89 @@
+{
+  "id": "ans-appb-practices",
+  "trackId": "ansible-for-devops",
+  "chapterId": "appendix-b",
+  "number": "B.1",
+  "title": "Apply Sustainable Ansible Practices",
+  "xp": 100,
+  "objective": "Apply clear naming, role organization, YAML conventions, local dependencies, concurrency, and configuration practices.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "Appendix B",
+    "chapterTitle": "Ansible Best Practices and Conventions",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Readable automation uses descriptive play and task names, comments for intent, and related variables near their responsibility. Roles bundle logical configuration, with consumer settings in defaults and internal constants used sparingly in vars.",
+      "Structured YAML module arguments are easier to review than dense key=value shorthand. Block scalars preserve multiline values, while folded scalars join wrapped text. Consistent formatting enables reliable linting.",
+      "Install pinned Galaxy dependencies inside the project, review community content, tune forks deliberately for larger fleets, and commit ansible.cfg so important behavior is visible and shared. Controllers help govern organization-wide execution."
+    ],
+    "rule": "Optimize infrastructure code for the next operator who must review, test, and safely rerun it."
+  },
+  "examples": [
+    {
+      "title": "Project Defaults",
+      "code": "standards:\n  named_tasks: true\n  structured_module_args: true\n  local_dependencies: true\n  config_in_version_control: true",
+      "note": "A small policy file makes review expectations explicit."
+    }
+  ],
+  "checks": [
+    {
+      "id": "structured",
+      "question": "Why prefer structured module arguments?",
+      "options": [
+        "They are easier to read, diff, and lint",
+        "They bypass validation",
+        "They always run faster",
+        "They remove the need for modules"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Structure improves maintainability and review."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Declare Team Standards",
+    "brief": "Enable named tasks, structured arguments, local dependencies, and version-controlled configuration.",
+    "requirements": [
+      "Set all four standards to true."
+    ],
+    "starterCode": "standards:\n  named_tasks: true\n",
+    "solutionCode": "standards:\n  named_tasks: true\n  structured_module_args: true\n  local_dependencies: true\n  config_in_version_control: true\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "structured",
+        "label": "Requires structured arguments",
+        "pattern": "structured_module_args\\s*:\\s*true",
+        "mustMatch": true
+      },
+      {
+        "id": "deps",
+        "label": "Keeps dependencies local",
+        "pattern": "local_dependencies\\s*:\\s*true",
+        "mustMatch": true
+      },
+      {
+        "id": "config",
+        "label": "Versions configuration",
+        "pattern": "config_in_version_control\\s*:\\s*true",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Standards use valid course-style YAML"
+  },
+  "hints": [
+    "Each standard is a boolean.",
+    "Align all keys beneath standards."
+  ],
+  "nextLessonId": null
+}

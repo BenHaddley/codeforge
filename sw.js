@@ -14,7 +14,7 @@
 //    background to refresh the cache, so it self-heals within one reload
 //    instead of getting permanently stuck the way a pure cache-first
 //    strategy would.
-const CACHE_VERSION = 'codeforge-v2';
+const CACHE_VERSION = 'codeforge-v8';
 const SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const MODEL_CACHE = `${CACHE_VERSION}-model`;
 const CONTENT_CACHE = `${CACHE_VERSION}-content`;
@@ -51,6 +51,7 @@ const SHELL_PATHS = [
   'app/js/course-drawer.js',
   'app/js/panel-resizer.js',
   'app/js/win98-window.js',
+  'app/js/lab-terminal.js',
   'app/js/runner-client.js',
   'app/js/grading.js',
   'app/js/lesson-loader.js',
@@ -144,6 +145,6 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   if (SHELL_URLS.includes(url.pathname)) {
-    event.respondWith(staleWhileRevalidate(request, SHELL_CACHE));
+    event.respondWith(networkFirst(request, SHELL_CACHE));
   }
 });

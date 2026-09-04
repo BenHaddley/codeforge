@@ -1,0 +1,79 @@
+{
+  "id": "ans-ch15-multicontainer-app",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch15",
+  "number": "15.2",
+  "title": "Multi-Container Application State",
+  "xp": 75,
+  "objective": "Coordinate application, database, network, and persistent storage resources.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "15",
+    "chapterTitle": "Docker and Ansible"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A containerized stack separates application and database processes, attaches them to a private network, and stores durable database state in a volume.",
+      "Ansible collection modules can build images and converge networks, volumes, and containers. Pin image versions, protect credentials, add health checks, and make dependency readiness explicit."
+    ],
+    "rule": "Operational rule: Coordinate application, database, network, and persistent storage resources."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "container_stack:\n  app_image: codeforge/flask:1.0\n  database_image: mysql:8.4\n  network: private\n  data: managed_volume\n  health_checks: required",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "ans-ch15-multicontainer-app-check",
+      "question": "Which statement best matches “Multi-Container Application State”?",
+      "options": [
+        "Coordinate application, database, network, and persistent storage resources.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Multi-Container Application State",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "container_stack:\n",
+    "solutionCode": "container_stack:\n  app_image: codeforge/flask:1.0\n  database_image: mysql:8.4\n  network: private\n  data: managed_volume\n  health_checks: required\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "data\\s*:\\s*managed_volume",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch15-docker-connection"
+}

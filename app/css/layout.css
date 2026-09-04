@@ -22,7 +22,13 @@ html,body{overflow:hidden}
 .tts-controls{display:flex;align-items:center;gap:4px}
 .lesson-scroll code{font-family:"Courier New",monospace}
 .lesson-scroll pre{background:#fff;border:2px inset #fff;padding:10px;overflow:auto;line-height:1.35}
-.classic-callout,.assignment-box,.example-block,.video-section{background:#eee;border:2px groove #fff;padding:10px;margin:14px 0}
+.classic-callout,.assignment-box,.example-block,.video-section,.lab-mission{background:#eee;border:2px groove #fff;padding:10px;margin:14px 0}
+.lab-mission{background:#fffbe6}
+.lab-mission-title{margin:-10px -10px 10px;padding:5px 8px;background:#006400;color:#fff;font-weight:bold}
+.lab-mission ol{padding-left:24px}
+.lab-mission li{margin:6px 0}
+.lab-command pre{overflow:auto;padding:7px;background:#000;color:#eee}
+.lab-actions{display:flex;gap:8px;flex-wrap:wrap}
 .assignment-box ul{margin:6px 0 0 18px;padding:0}
 .example-bar,.video-section-bar{height:28px;margin:-10px -10px 10px;background:var(--blue);color:#fff;font-weight:bold;padding:3px 5px;display:flex;align-items:center;justify-content:space-between;font-size:13px}
 .example-code{margin:0;background:#fff;color:#000;font-family:"Courier New",monospace;font-size:13px;line-height:1.45;white-space:pre}
@@ -33,7 +39,7 @@ html,body{overflow:hidden}
 .editor-toolbar{flex:0 0 auto;display:flex;justify-content:center;gap:8px;padding:8px;background:var(--silver);border-top:1px solid #808080}
 .workspace-output{flex:0 0 32%;min-height:160px;max-height:38%;display:flex;flex-direction:column;background:var(--silver);border-top:2px ridge #fff}
 .workspace-output.collapsed{flex:0 0 auto;min-height:0}
-.workspace-output.collapsed .console,.workspace-output.collapsed .tests-panel,.workspace-output.collapsed .hints-panel{display:none!important}
+.workspace-output.collapsed .console,.workspace-output.collapsed .tests-panel,.workspace-output.collapsed .hints-panel,.workspace-output.collapsed .lab-terminal{display:none!important}
 .workspace-output .tabs{border-bottom:1px solid #808080}
 .workspace-output .tab-spacer{flex:1}
 .output-collapse-btn{margin-left:auto}

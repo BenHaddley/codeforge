@@ -1,0 +1,150 @@
+{
+  "id": "ans-ch03-modules-async",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch03",
+  "number": "3.3",
+  "title": "State Modules, Async Jobs, and Operations",
+  "xp": 75,
+  "objective": "Choose state-aware modules and control long-running fleet work.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "3",
+    "chapterTitle": "Ad-Hoc Commands"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Package, service, user, file, copy, fetch, cron, and git modules describe resources idempotently. command and shell execute procedures and need extra care around changed status.",
+      "async starts long work with a time budget and poll controls whether Ansible waits. Background jobs require later status checks; logs remain essential for diagnosing distributed failures."
+    ],
+    "rule": "Operational rule: Choose state-aware modules and control long-running fleet work."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "operation:\n  module: ansible.builtin.package\n  state: present\n  async_seconds: 600\n  poll: 0",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "FPU9_KDTa8A",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 05 - Running elevated ad-hoc Commands",
+      "startSeconds": 45,
+      "endSeconds": 1015,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/FPU9_KDTa8A?start=45&end=1015&rel=0",
+      "checkpoints": [
+        {
+          "id": "permission-failure",
+          "title": "Observe the permission failure",
+          "seconds": 87
+        },
+        {
+          "id": "become",
+          "title": "Add privilege escalation",
+          "seconds": 200
+        },
+        {
+          "id": "package",
+          "title": "Install a package",
+          "seconds": 460
+        },
+        {
+          "id": "idempotence",
+          "title": "Read changed: false",
+          "seconds": 610
+        },
+        {
+          "id": "latest",
+          "title": "Manage package state",
+          "seconds": 780
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "ans-ch03-modules-async-check",
+      "question": "Which statement best matches “State Modules, Async Jobs, and Operations”?",
+      "options": [
+        "Choose state-aware modules and control long-running fleet work.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    },
+    {
+      "id": "idempotent-second-run",
+      "question": "A package is already present and the same state-aware task runs again. What is the healthy result?",
+      "options": [
+        "ok with changed=false",
+        "failed=true",
+        "changed=true every time",
+        "unreachable=true"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the desired state is already satisfied, so no change is required.",
+        "incorrect": "A state-aware module should report success without changing an already-correct host."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: State Modules, Async Jobs, and Operations",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "operation:\n",
+    "solutionCode": "operation:\n  module: ansible.builtin.package\n  state: present\n  async_seconds: 600\n  poll: 0\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "async_seconds\\s*:\\s*600",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure",
+    "fileName": "package-operation.yml"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch04-playbooks",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  },
+  "lab": {
+    "checkId": "package-idempotence",
+    "title": "Mission: prove privilege escalation and idempotence",
+    "setup": "Use the Terminal tab after the fleet inspection mission succeeds.",
+    "steps": [
+      "Predict the result, then try installing curl on webservers without --become.",
+      "Repeat with --become and confirm the package task succeeds.",
+      "Run the identical command again and inspect the changed field."
+    ],
+    "verify": "ansible webservers -b -m ansible.builtin.package -a \"name=curl state=present\"",
+    "success": "The second successful run reports changed=false for both webservers."
+  }
+}

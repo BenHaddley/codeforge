@@ -1,0 +1,79 @@
+{
+  "id": "ans-ch15-docker-connection",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch15",
+  "number": "15.3",
+  "title": "Containers as Managed Nodes",
+  "xp": 75,
+  "objective": "Use the Docker connection plugin and understand its tradeoffs.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "15",
+    "chapterTitle": "Docker and Ansible"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "ansible_connection docker executes against a running local container instead of SSH. It is useful for learning, targeted configuration, and some image-building workflows.",
+      "Prefer immutable images built from reviewed definitions for production. Configuration after container start increases drift; capture the resulting behavior in a reproducible image pipeline."
+    ],
+    "rule": "Operational rule: Use the Docker connection plugin and understand its tradeoffs."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "container_target:\n  ansible_connection: docker\n  ssh_required: false\n  production_preference: immutable_image\n  drift_check: required",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "ans-ch15-docker-connection-check",
+      "question": "Which statement best matches “Containers as Managed Nodes”?",
+      "options": [
+        "Use the Docker connection plugin and understand its tradeoffs.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Containers as Managed Nodes",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "container_target:\n",
+    "solutionCode": "container_target:\n  ansible_connection: docker\n  ssh_required: false\n  production_preference: immutable_image\n  drift_check: required\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "ansible_connection\\s*:\\s*docker",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-appa-windows"
+}

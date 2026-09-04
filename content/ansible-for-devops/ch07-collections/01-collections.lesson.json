@@ -1,0 +1,83 @@
+{
+  "id": "ans-ch07-collections",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch07",
+  "number": "7.1",
+  "title": "Extend Ansible with Plugins and Collections",
+  "xp": 100,
+  "objective": "Understand filter plugins, collection anatomy, FQCNs, distribution, and version constraints.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "7",
+    "chapterTitle": "Ansible Plugins and Content Collections",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Plugins extend how Ansible connects, filters values, looks up data, caches facts, and performs other engine-level work. A filter plugin is Python code that exposes a transformation to Jinja templates.",
+      "Collections bundle plugins, modules, roles, playbooks, documentation, and metadata beneath a namespace and name. Fully qualified collection names make module ownership explicit and avoid collisions.",
+      "A galaxy.yml manifest identifies a collection. requirements.yml can constrain versions from Galaxy or Automation Hub; pin compatible ranges and know the configured collection installation paths."
+    ],
+    "rule": "Use FQCNs in shared automation and constrain collection versions for reproducible installs."
+  },
+  "examples": [
+    {
+      "title": "Collection Requirement",
+      "code": "collections:\n  - name: community.general\n    version: '>=8.0.0,<9.0.0'",
+      "note": "A bounded range accepts compatible updates without crossing a major version."
+    }
+  ],
+  "checks": [
+    {
+      "id": "fqcn",
+      "question": "What does an FQCN clarify?",
+      "options": [
+        "The collection that owns a module or plugin",
+        "The SSH password",
+        "The inventory order",
+        "The Python version only"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "An FQCN includes namespace, collection, and content name."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Constrain a Collection",
+    "brief": "Require community.general versions from 8.0.0 up to but not including 9.0.0.",
+    "requirements": [
+      "Use collections, name, and a bounded version."
+    ],
+    "starterCode": "collections:\n",
+    "solutionCode": "collections:\n  - name: community.general\n    version: '>=8.0.0,<9.0.0'\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "name",
+        "label": "Names community.general",
+        "pattern": "name\\s*:\\s*community\\.general",
+        "mustMatch": true
+      },
+      {
+        "id": "range",
+        "label": "Constrains the major version",
+        "pattern": "version\\s*:\\s*['\"]?>=8\\.0\\.0,<9\\.0\\.0",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Collection requirements use valid course-style YAML"
+  },
+  "hints": [
+    "The version constraint can be quoted.",
+    "Separate the lower and upper bounds with a comma."
+  ],
+  "nextLessonId": "ans-ch07-filter-plugins"
+}

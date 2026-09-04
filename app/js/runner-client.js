@@ -79,3 +79,33 @@ const RunnerClient = createRunnerClient('js/pyodide-worker.js', {
   coldStartMessage: 'Execution timed out — the Python runtime is still downloading. Try again in a moment.',
 });
 const JsRunnerClient = createRunnerClient('js/js-worker.js');
+
+// Ansible content is declarative and cannot safely configure a learner's
+// machine from a browser. This local runner validates the YAML conventions
+// used by the course assignments; real ansible-playbook runs belong in the
+// disposable lab environments introduced later in the track.
+const AnsibleRunnerClient = (() => {
+  function validate(source) {
+    const code = source.replace(/\n# __CF_VALIDATE_YAML__[\s\S]*$/, '').trimEnd();
+    const lines = code.split('\n');
+    if (!code.trim()) return { ok: false, output: 'YAML validation error: the file is empty.', timedOut: false };
+    if (code.includes('\t')) return { ok: false, output: 'YAML validation error: use spaces instead of tabs.', timedOut: false };
+    for (let i = 0; i < lines.length; i += 1) {
+      const line = lines[i];
+      if (!line.trim() || line.trimStart().startsWith('#')) continue;
+      const indent = line.length - line.trimStart().length;
+      if (indent % 2 !== 0) return { ok: false, output: `YAML validation error on line ${i + 1}: use two-space indentation.`, timedOut: false };
+      const item = line.trimStart();
+      if (!item.startsWith('- ') && !item.includes(':')) {
+        return { ok: false, output: `YAML validation error on line ${i + 1}: expected a mapping key followed by a colon.`, timedOut: false };
+      }
+    }
+    const grading = source.includes('# __CF_VALIDATE_YAML__');
+    return {
+      ok: true,
+      output: grading ? '__CF_TEST_OUTPUT__\n"valid"' : 'YAML structure looks valid. No hosts were contacted.',
+      timedOut: false,
+    };
+  }
+  return { run: async (source) => validate(source), warmup() {} };
+})();

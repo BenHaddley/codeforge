@@ -1,0 +1,134 @@
+{
+  "id": "ans-ch01-inventory-first-command",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch01",
+  "number": "1.1",
+  "title": "Inventory and Your First Command",
+  "xp": 50,
+  "objective": "Understand Ansible's control-node model and describe a managed host in YAML inventory.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "publisher": "Midwestern Mac, LLC",
+    "chapter": "1",
+    "chapterTitle": "Getting Started with Ansible",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge lesson aligned to the chapter's concepts; no book prose is reproduced. Browser exercises validate YAML locally and never contact infrastructure."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Ansible automates remote systems from a control node. You describe the state you want, and Ansible connects to managed nodes—usually over SSH—to inspect them and apply only the changes they need.",
+      "An inventory answers the first practical question: which machines should Ansible manage? Hosts can stand alone or belong to groups such as webservers and databases. Grouping lets one command or play target a useful slice of your infrastructure.",
+      "Modern inventories can be written in YAML. The top-level all group can contain children, each child group can contain hosts, and host variables such as ansible_host can record the address Ansible should connect to.",
+      "Ansible is designed around idempotence: running a well-written task again should leave an already-correct system unchanged. That makes automation repeatable instead of turning every rerun into a risky special event."
+    ],
+    "rule": "Keep inventory focused on hosts and connection data; put the desired configuration in playbooks."
+  },
+  "examples": [
+    {
+      "title": "A Small YAML Inventory",
+      "code": "all:\n  children:\n    webservers:\n      hosts:\n        web01:\n          ansible_host: 192.0.2.10",
+      "note": "192.0.2.0/24 is reserved for documentation, so this example cannot accidentally identify a real public server."
+    },
+    {
+      "title": "Target the Group",
+      "code": "ansible webservers --inventory inventory.yml --module-name ping",
+      "note": "The ping module checks whether Ansible can connect and run Python on each target; it is not an ICMP network ping."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "inventory-purpose",
+      "question": "What is the main purpose of an Ansible inventory?",
+      "options": [
+        "To list managed hosts and organize them into targetable groups.",
+        "To install Ansible on every managed host.",
+        "To store the output of every playbook run.",
+        "To replace SSH with a proprietary agent."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the inventory defines the systems and groups Ansible can target.",
+        "incorrect": "Not quite. Inventory describes managed hosts and their grouping; it is not an installer, log, or agent."
+      }
+    },
+    {
+      "id": "idempotence",
+      "question": "What should happen when an idempotent task runs against a system that is already in the desired state?",
+      "options": [
+        "It should make no unnecessary change.",
+        "It should rebuild the system from scratch.",
+        "It should always report a fatal error.",
+        "It should remove the host from inventory."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Exactly. The desired state is already satisfied, so no change is needed.",
+        "incorrect": "Idempotence means repeated runs converge on the same desired state without needless changes."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Register the First Web Server",
+    "brief": "Complete a YAML inventory with a webservers group containing web01 at the documentation address 192.0.2.10.",
+    "requirements": [
+      "Define the top-level all group and a children mapping.",
+      "Create a webservers group with a hosts mapping.",
+      "Add web01 with ansible_host set to 192.0.2.10.",
+      "Use spaces, not tabs, and two-space indentation."
+    ],
+    "starterCode": "all:\n  children:\n    # Add the webservers group and its host here.\n",
+    "solutionCode": "all:\n  children:\n    webservers:\n      hosts:\n        web01:\n          ansible_host: 192.0.2.10\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "all-group",
+        "label": "Defines the all group",
+        "pattern": "(^|\\n)all\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "children",
+        "label": "Defines children",
+        "pattern": "(^|\\n)\\s+children\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "webservers",
+        "label": "Defines the webservers group",
+        "pattern": "(^|\\n)\\s+webservers\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "hosts",
+        "label": "Defines a hosts mapping",
+        "pattern": "(^|\\n)\\s+hosts\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "web01",
+        "label": "Adds the web01 host",
+        "pattern": "(^|\\n)\\s+web01\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "address",
+        "label": "Sets ansible_host to 192.0.2.10",
+        "pattern": "ansible_host\\s*:\\s*192\\.0\\.2\\.10",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Inventory uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Nest webservers two spaces beneath children.",
+    "Nest hosts beneath webservers, then web01 beneath hosts.",
+    "Host variables go beneath the hostname: ansible_host: 192.0.2.10."
+  ],
+  "nextLessonId": "ans-ch01-control-node"
+}

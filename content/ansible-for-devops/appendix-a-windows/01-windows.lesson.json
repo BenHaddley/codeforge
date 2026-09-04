@@ -1,0 +1,89 @@
+{
+  "id": "ans-appa-windows",
+  "trackId": "ansible-for-devops",
+  "chapterId": "appendix-a",
+  "number": "A.1",
+  "title": "Choose a Windows Control-Node Setup",
+  "xp": 75,
+  "objective": "Choose between WSL and a Linux VM for running Ansible from a Windows workstation.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "Appendix A",
+    "chapterTitle": "Using Ansible on Windows workstations",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Ansible's control node expects a Unix-like environment. On Windows, WSL provides a convenient Linux userspace with access to Windows files and networking.",
+      "When WSL is unavailable or stronger isolation is desirable, run an Ubuntu virtual machine, connect to it, install Ansible there, and keep project files in version control.",
+      "These choices concern the control node. Windows managed nodes are a separate topic and commonly use WinRM with Windows-specific modules."
+    ],
+    "rule": "Run the control node in a supported Linux environment and keep its setup reproducible."
+  },
+  "examples": [
+    {
+      "title": "Decision Record",
+      "code": "control_node:\n  host_os: windows\n  method: wsl\n  distribution: ubuntu\n  project_storage: version_control",
+      "note": "Record the chosen boundary so teammates reproduce it."
+    }
+  ],
+  "checks": [
+    {
+      "id": "wsl",
+      "question": "What does WSL provide for Ansible?",
+      "options": [
+        "A Linux userspace for the control node",
+        "A replacement for inventory",
+        "A Windows-only playbook syntax",
+        "A cloud account"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "WSL supplies the Unix-like control environment."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Record a WSL Setup",
+    "brief": "Model Windows with WSL, Ubuntu, and version-controlled project storage.",
+    "requirements": [
+      "Set all four decision fields."
+    ],
+    "starterCode": "control_node:\n  host_os: windows\n",
+    "solutionCode": "control_node:\n  host_os: windows\n  method: wsl\n  distribution: ubuntu\n  project_storage: version_control\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "method",
+        "label": "Uses WSL",
+        "pattern": "method\\s*:\\s*wsl",
+        "mustMatch": true
+      },
+      {
+        "id": "distro",
+        "label": "Uses Ubuntu",
+        "pattern": "distribution\\s*:\\s*ubuntu",
+        "mustMatch": true
+      },
+      {
+        "id": "storage",
+        "label": "Uses version control",
+        "pattern": "project_storage\\s*:\\s*version_control",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Control-node plan uses valid course-style YAML"
+  },
+  "hints": [
+    "All values nest under control_node.",
+    "Use the exact lower-case values from the brief."
+  ],
+  "nextLessonId": "ans-appb-practices"
+}

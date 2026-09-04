@@ -1,0 +1,95 @@
+{
+  "id": "ans-ch08-inventories",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch08",
+  "number": "8.1",
+  "title": "Model Static and Dynamic Infrastructure",
+  "xp": 100,
+  "objective": "Separate environments, scope variables, and combine static and dynamic inventory sources.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "8",
+    "chapterTitle": "Inventories",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material covering host_vars, group_vars, cloud plugins, add_host, group_by, and custom inventory."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Production inventories model application tiers and environments without embedding configuration procedure. Separate development, staging, and production sources reduce accidental cross-environment targeting.",
+      "host_vars stores host-specific facts and group_vars stores shared settings. Dynamic inventory plugins query cloud APIs such as AWS or DigitalOcean; constructed groups can classify returned hosts from tags and metadata.",
+      "Multiple sources can be combined. add_host and group_by create in-memory groups during a run, while a custom inventory must emit the documented JSON shape and support host details. Treat cloud credentials as secrets."
+    ],
+    "rule": "Separate environments and derive dynamic groups from durable metadata, not fragile hostnames."
+  },
+  "examples": [
+    {
+      "title": "Environment Groups",
+      "code": "all:\n  children:\n    production:\n      children:\n        webservers:\n        databases:",
+      "note": "A parent environment can contain application-tier child groups."
+    }
+  ],
+  "checks": [
+    {
+      "id": "dynamic",
+      "question": "Why use a dynamic inventory plugin?",
+      "options": [
+        "To discover changing infrastructure from its source of truth",
+        "To encrypt all variables",
+        "To execute handlers early",
+        "To replace playbooks"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Dynamic inventory queries a provider rather than relying on a stale host list."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Model Production Tiers",
+    "brief": "Create production with webservers and databases as child groups.",
+    "requirements": [
+      "Nest both tier groups beneath production children."
+    ],
+    "starterCode": "all:\n  children:\n    production:\n",
+    "solutionCode": "all:\n  children:\n    production:\n      children:\n        webservers:\n        databases:\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "prod",
+        "label": "Defines production",
+        "pattern": "production\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "web",
+        "label": "Defines webservers",
+        "pattern": "webservers\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "db",
+        "label": "Defines databases",
+        "pattern": "databases\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "children",
+        "label": "Uses nested children",
+        "pattern": "production\\s*:\\s*\\n\\s+children\\s*:",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Inventory uses valid course-style YAML"
+  },
+  "hints": [
+    "Production needs its own children key.",
+    "The two tiers align beneath that key."
+  ],
+  "nextLessonId": "ans-ch08-vars-environments"
+}

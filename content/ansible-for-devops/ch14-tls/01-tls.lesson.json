@@ -1,0 +1,89 @@
+{
+  "id": "ans-ch14-tls",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch14",
+  "number": "14.1",
+  "title": "Automate Certificates and HTTPS",
+  "xp": 125,
+  "objective": "Automate self-signed and publicly trusted certificates with idempotent web-server configuration.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "14",
+    "chapterTitle": "Automating HTTPS and TLS Certificates",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material covering self-signed certificates, Let's Encrypt roles, DNS, inventory, and Nginx proxying."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "TLS needs a private key, certificate, correct permissions, and web-server configuration. Self-signed certificates are useful in controlled labs but produce trust warnings unless their issuer is distributed as trusted.",
+      "ACME services such as Let's Encrypt validate domain control and issue publicly trusted certificates. Automation must account for DNS, reachable challenge paths, renewal, and safe secret handling. A reviewed Galaxy role can reduce duplication.",
+      "Nginx can terminate HTTPS and proxy traffic to an application. Templates should notify a reload handler and validate configuration before activation so a bad edit does not interrupt service."
+    ],
+    "rule": "Automate renewal and validate web-server configuration before every reload."
+  },
+  "examples": [
+    {
+      "title": "TLS File Intent",
+      "code": "tls:\n  certificate: /etc/ssl/certs/app.crt\n  private_key: /etc/ssl/private/app.key\n  key_mode: '0600'\n  renew: true",
+      "note": "Private keys require tighter permissions than public certificates."
+    }
+  ],
+  "checks": [
+    {
+      "id": "acme",
+      "question": "What must an ACME client prove?",
+      "options": [
+        "Control of the requested domain",
+        "Ownership of the server hardware",
+        "A specific Linux distribution",
+        "Root login is enabled"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Public CAs validate control over the domain name."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Describe TLS Assets",
+    "brief": "Set certificate and private-key paths, mode 0600, and automated renewal.",
+    "requirements": [
+      "Use separate certificate and key paths, restrictive mode, and renew true."
+    ],
+    "starterCode": "tls:\n  certificate: /etc/ssl/certs/app.crt\n",
+    "solutionCode": "tls:\n  certificate: /etc/ssl/certs/app.crt\n  private_key: /etc/ssl/private/app.key\n  key_mode: '0600'\n  renew: true\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key",
+        "label": "Sets the private-key path",
+        "pattern": "private_key\\s*:\\s*/etc/ssl/private/app\\.key",
+        "mustMatch": true
+      },
+      {
+        "id": "mode",
+        "label": "Uses mode 0600",
+        "pattern": "key_mode\\s*:\\s*['\"]?0600",
+        "mustMatch": true
+      },
+      {
+        "id": "renew",
+        "label": "Enables renewal",
+        "pattern": "renew\\s*:\\s*true",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "TLS plan uses valid course-style YAML"
+  },
+  "hints": [
+    "Private keys belong under /etc/ssl/private.",
+    "Quote permission modes to preserve leading zero."
+  ],
+  "nextLessonId": "ans-ch14-self-signed-acme"
+}

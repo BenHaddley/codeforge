@@ -14,9 +14,17 @@
 .cfvp-controls{display:flex;align-items:center;gap:8px;background:var(--silver);border-top:1px solid #000;padding:5px 6px}
 .cfvp-ctrl{width:28px;height:26px;background:var(--silver);border:2px solid;border-color:#fff #000 #000 #fff;font-size:13px;padding:0}
 .cfvp-ctrl:active{border-color:#000 #fff #fff #000}
+.cfvp-ctrl.active{border-color:#000 #fff #fff #000;background:#ddd;font-weight:bold}
+.cfvp-cc{font-family:Arial,sans-serif;font-size:10px;font-weight:bold}
 .cfvp-time{font-family:"Courier New",monospace;font-size:12px;min-width:36px;text-align:center}
 .cfvp-seek{flex:1;accent-color:#000080}
 .cfvp-volume{width:70px;accent-color:#000080}
 
 .cfvp-attribution{font-size:11px;color:#ccc;padding:4px 6px;background:#000}
+.cfvp-checkpoints{background:var(--silver);border-top:2px groove #fff;padding:6px}
+.cfvp-checkpoint-heading{font-size:12px;font-weight:bold;margin-bottom:4px}
+.cfvp-checkpoint{display:grid;grid-template-columns:18px 1fr auto;gap:5px;align-items:center;width:100%;padding:5px 6px;text-align:left;background:var(--silver);border:1px solid transparent;font:12px Arial,sans-serif;cursor:pointer}
+.cfvp-checkpoint:hover,.cfvp-checkpoint:focus{border:1px dotted #000;background:#fff}
+.cfvp-checkpoint.complete .cfvp-checkmark{color:#075b12;font-weight:bold}
+.cfvp-checkpoint time{font-family:"Courier New",monospace;color:#444}
 .cfvp-empty{display:flex;align-items:center;justify-content:center;height:200px;background:#000;color:#999;font-size:13px}

@@ -32,6 +32,30 @@ const ProgressStore = (() => {
   function getAttempts(lessonId) {
     return parseInt(localStorage.getItem(key(lessonId, 'attempts')) || '0', 10);
   }
+  function incrementQuizAttempts(lessonId) {
+    const n = parseInt(localStorage.getItem(key(lessonId, 'quizAttempts')) || '0', 10) + 1;
+    localStorage.setItem(key(lessonId, 'quizAttempts'), String(n));
+    return n;
+  }
+  function getVideoCheckpoints(lessonId) {
+    try {
+      return JSON.parse(localStorage.getItem(key(lessonId, 'videoCheckpoints')) || '[]');
+    } catch (_) {
+      return [];
+    }
+  }
+  function markVideoCheckpoint(lessonId, checkpointId) {
+    const completed = new Set(getVideoCheckpoints(lessonId));
+    completed.add(checkpointId);
+    localStorage.setItem(key(lessonId, 'videoCheckpoints'), JSON.stringify([...completed]));
+    return [...completed];
+  }
+  function markLabVerified(lessonId, checkId) {
+    localStorage.setItem(key(lessonId, 'labVerified'), checkId);
+  }
+  function isLabVerified(lessonId, checkId) {
+    return localStorage.getItem(key(lessonId, 'labVerified')) === checkId;
+  }
   function touchLesson(lessonId) {
     const now = Date.now();
     localStorage.setItem(key(lessonId, 'openedAt'), String(now));
@@ -80,7 +104,9 @@ const ProgressStore = (() => {
 
   return {
     getDraft, setDraft, hasDraft, getNotes, setNotes, isComplete, getCompletedAt,
-    incrementAttempts, getAttempts, touchLesson, getLastOpened, getLastLessonId,
+    incrementAttempts, getAttempts, incrementQuizAttempts, getVideoCheckpoints, markVideoCheckpoint,
+    markLabVerified, isLabVerified,
+    touchLesson, getLastOpened, getLastLessonId,
     getTotalXp, markComplete, touchStreak, getStreak,
   };
 })();

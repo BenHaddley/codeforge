@@ -3,7 +3,7 @@
 // Paperclip tutor API at POST /api/paperclip, which is the only place that
 // holds provider credentials.
 //
-// Zero dependencies: Node 18+ (global fetch) is all that is required.
+// Node 18+ (global fetch) plus ws for the optional lab terminal.
 //   node server/server.js
 //
 // For a production deployment, serve the static files from a CDN and run
@@ -17,6 +17,7 @@ const path = require('path');
 
 const config = require('./paperclip/config');
 const { handlePaperclipRequest } = require('./paperclip/api');
+const { attachLabTerminal, controllerRunning, verifyLab } = require('./lab-terminal');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -71,6 +72,32 @@ function log(entry) {
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
 
+  if (url.pathname === '/api/lab/status') {
+    sendJson(res, 200, { ok: true, running: controllerRunning() });
+    return;
+  }
+
+  if (url.pathname === '/api/lab/verify') {
+    if (req.method !== 'POST') {
+      sendJson(res, 405, { ok: false, passed: false, output: 'POST only' });
+      return;
+    }
+    const localClient = ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(req.socket.remoteAddress);
+    if (!localClient) {
+      sendJson(res, 403, { ok: false, passed: false, output: 'Lab verification is local-only.' });
+      return;
+    }
+    let body;
+    try { body = JSON.parse(await readBody(req, 8 * 1024)); }
+    catch (_) {
+      sendJson(res, 400, { ok: false, passed: false, output: 'Invalid request.' });
+      return;
+    }
+    const result = verifyLab(body.checkId);
+    sendJson(res, result.ok ? 200 : 409, result);
+    return;
+  }
+
   // ---- Paperclip API -----------------------------------------------------
   if (url.pathname === '/api/paperclip') {
     if (req.method !== 'POST') {
@@ -119,7 +146,10 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(200, {
       'Content-Type': MIME[ext] || 'application/octet-stream',
       'Content-Length': stat.size,
-      'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=3600',
+      // Code Forge is actively authored through this development server.
+      // Revalidate every local asset so edited lesson routes and curriculum
+      // JSON cannot be hidden behind an hour-old browser response cache.
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
     });
     if (req.method === 'HEAD') {
       res.end();
@@ -133,6 +163,8 @@ const server = http.createServer(async (req, res) => {
     stream.pipe(res);
   });
 });
+
+attachLabTerminal(server, { log });
 
 server.listen(config.port, config.host, () => {
   log(`Code Forge server running at http://${config.host}:${config.port}`);

@@ -1,0 +1,95 @@
+{
+  "id": "ans-ch13-testing",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch13",
+  "number": "13.1",
+  "title": "Test and Lint Ansible Content",
+  "xp": 125,
+  "objective": "Build a layered quality pipeline using linting, syntax checks, assertions, check mode, Molecule, CI, and functional tests.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "13",
+    "chapterTitle": "Testing and CI for Ansible Content",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Testing has layers. yamllint checks YAML style, ansible-playbook --syntax-check parses playbooks, and ansible-lint detects risky or non-idiomatic Ansible patterns. None proves the system works, but each gives fast feedback.",
+      "debug exposes values; assert and fail encode invariants. Check mode previews supported changes but is not a complete simulation. Molecule creates disposable instances, converges roles or playbooks, verifies outcomes, and tests idempotence.",
+      "CI runs the same checks on every change. GitHub Actions or another runner can install pinned tooling, lint, execute Molecule, and run testinfra or serverspec functional assertions against the resulting system."
+    ],
+    "rule": "Order checks from fast and static to slower and realistic, and test idempotence explicitly."
+  },
+  "examples": [
+    {
+      "title": "Quality Pipeline",
+      "code": "pipeline:\n  - yamllint\n  - syntax_check\n  - ansible_lint\n  - molecule_test\n  - functional_verify",
+      "note": "Fast failures come first; environment-backed verification comes last."
+    }
+  ],
+  "checks": [
+    {
+      "id": "molecule",
+      "question": "What does Molecule add beyond syntax checking?",
+      "options": [
+        "Disposable converge and verification scenarios",
+        "Secret storage only",
+        "Dynamic inventory only",
+        "A GUI editor"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Molecule exercises content in disposable environments."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Order the Quality Gates",
+    "brief": "Complete the pipeline from YAML linting through functional verification.",
+    "requirements": [
+      "Include all five gates in the demonstrated order."
+    ],
+    "starterCode": "pipeline:\n  - yamllint\n",
+    "solutionCode": "pipeline:\n  - yamllint\n  - syntax_check\n  - ansible_lint\n  - molecule_test\n  - functional_verify\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "syntax",
+        "label": "Runs syntax checking",
+        "pattern": "syntax_check",
+        "mustMatch": true
+      },
+      {
+        "id": "lint",
+        "label": "Runs ansible-lint",
+        "pattern": "ansible_lint",
+        "mustMatch": true
+      },
+      {
+        "id": "molecule",
+        "label": "Runs Molecule",
+        "pattern": "molecule_test",
+        "mustMatch": true
+      },
+      {
+        "id": "verify",
+        "label": "Runs functional verification",
+        "pattern": "functional_verify",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Pipeline uses valid course-style YAML"
+  },
+  "hints": [
+    "Static checks come before environment creation.",
+    "Functional verification is last."
+  ],
+  "nextLessonId": "ans-ch13-static-runtime-checks"
+}

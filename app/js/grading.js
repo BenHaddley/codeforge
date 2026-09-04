@@ -1,7 +1,7 @@
 // Evaluates a Submit attempt against a lesson's assignment: static
 // requirement checks against the source text, plus a behavioral check via
-// a test harness executed in that track's language Worker (Pyodide for
-// Python, js-worker.js for JavaScript — see runner-client.js).
+// a test harness executed by that track's runner (Pyodide for Python,
+// js-worker.js for JavaScript, or local YAML validation for Ansible).
 const Grading = (() => {
   // Each language comments differently, so stripping comments before
   // matching requirementChecks (so a pattern can't "pass" just because it
@@ -9,6 +9,7 @@ const Grading = (() => {
   const COMMENT_PATTERNS = {
     python: /#.*$/gm,
     javascript: /\/\/.*$/gm,
+    ansible: /#.*$/gm,
   };
 
   function checkRequirements(code, requirementChecks, language) {

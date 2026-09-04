@@ -36,12 +36,20 @@ const CFVideoPlayer = (() => {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
-  function mount(container, clip) {
+  function mount(container, clip, options = {}) {
     if (!clip) {
       container.innerHTML = '<div class="cfvp-empty">No video for this lesson.</div>';
       return;
     }
     const duration = Math.max(1, clip.endSeconds - clip.startSeconds);
+    const checkpoints = (clip.checkpoints || []).filter((item) => item.seconds >= clip.startSeconds && item.seconds <= clip.endSeconds);
+    const completed = new Set(options.completedCheckpoints || []);
+    const checkpointHtml = checkpoints.length
+      ? `<div class="cfvp-checkpoints" aria-label="Video checkpoints">
+          <div class="cfvp-checkpoint-heading">Follow-along checkpoints</div>
+          ${checkpoints.map((item, index) => `<button type="button" class="cfvp-checkpoint${completed.has(item.id) ? ' complete' : ''}" data-checkpoint-index="${index}"><span class="cfvp-checkmark">${completed.has(item.id) ? '✓' : '○'}</span><span>${escapeHtml(item.title)}</span><time>${formatTime(item.seconds - clip.startSeconds)}</time></button>`).join('')}
+        </div>`
+      : '';
     container.innerHTML = `
       <div class="cfvp-frame">
         <div class="cfvp-stage" id="cfvpStage">
@@ -56,14 +64,30 @@ const CFVideoPlayer = (() => {
           <span class="cfvp-time" id="cfvpDuration">${formatTime(duration)}</span>
           <button class="cfvp-ctrl" id="cfvpMute" aria-label="Mute or unmute">🔊</button>
           <input type="range" class="cfvp-volume" id="cfvpVolume" min="0" max="100" value="100">
+          <button class="cfvp-ctrl cfvp-cc" id="cfvpCaptions" aria-label="Toggle English captions" aria-pressed="false">CC</button>
           <button class="cfvp-ctrl" id="cfvpFullscreen" aria-label="Fullscreen">⛶</button>
         </div>
         <div class="cfvp-attribution">${escapeHtml(clip.creator)} — ${escapeHtml(clip.title)}</div>
+        ${checkpointHtml}
       </div>`;
 
     let player = null;
     let pollTimer = null;
     let started = false;
+    let pendingSeek = null;
+    let captionsEnabled = false;
+
+    function markCheckpoint(checkpoint) {
+      if (completed.has(checkpoint.id)) return;
+      completed.add(checkpoint.id);
+      const index = checkpoints.indexOf(checkpoint);
+      const button = container.querySelector(`[data-checkpoint-index="${index}"]`);
+      if (button) {
+        button.classList.add('complete');
+        button.querySelector('.cfvp-checkmark').textContent = '✓';
+      }
+      if (typeof options.onCheckpoint === 'function') options.onCheckpoint(checkpoint);
+    }
 
     function startPolling() {
       stopPolling();
@@ -74,6 +98,9 @@ const CFVideoPlayer = (() => {
           player.pauseVideo();
           return;
         }
+        checkpoints.forEach((checkpoint) => {
+          if (player.getCurrentTime() >= checkpoint.seconds) markCheckpoint(checkpoint);
+        });
         document.getElementById('cfvpCurrent').textContent = formatTime(t);
         document.getElementById('cfvpSeek').value = Math.round((t / duration) * 1000);
       }, 250);
@@ -105,6 +132,14 @@ const CFVideoPlayer = (() => {
           },
           events: {
             onReady: (e) => {
+              if (pendingSeek !== null) {
+                e.target.seekTo(pendingSeek, true);
+                pendingSeek = null;
+              }
+              if (captionsEnabled) {
+                e.target.loadModule('captions');
+                e.target.setOption('captions', 'track', { languageCode: 'en' });
+              }
               e.target.playVideo();
             },
             onStateChange: (e) => {
@@ -157,6 +192,34 @@ const CFVideoPlayer = (() => {
         player.mute();
         btn.textContent = '🔇';
       }
+    });
+    document.getElementById('cfvpCaptions').addEventListener('click', () => {
+      captionsEnabled = !captionsEnabled;
+      const btn = document.getElementById('cfvpCaptions');
+      btn.classList.toggle('active', captionsEnabled);
+      btn.setAttribute('aria-pressed', String(captionsEnabled));
+      if (!started) {
+        started = true;
+        ensurePlayer();
+      }
+      if (!player) return;
+      player.loadModule('captions');
+      player.setOption('captions', 'track', captionsEnabled ? { languageCode: 'en' } : {});
+    });
+    container.querySelectorAll('[data-checkpoint-index]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const checkpoint = checkpoints[Number(button.dataset.checkpointIndex)];
+        pendingSeek = checkpoint.seconds;
+        markCheckpoint(checkpoint);
+        if (!started) {
+          started = true;
+          ensurePlayer();
+        } else if (player) {
+          player.seekTo(checkpoint.seconds, true);
+          player.playVideo();
+          pendingSeek = null;
+        }
+      });
     });
     document.getElementById('cfvpFullscreen').addEventListener('click', () => {
       const stage = document.getElementById('cfvpStage').closest('.cfvp-frame');

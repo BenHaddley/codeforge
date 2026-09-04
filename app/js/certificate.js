@@ -6,6 +6,8 @@
   const TRACKS = {
     'python-fundamentals': { contentBase: 'content/python-fundamentals/' },
     'javascript-fundamentals': { contentBase: 'content/javascript-fundamentals/' },
+    'ansible-for-devops': { contentBase: 'content/ansible-for-devops/' },
+    'ansible-guided': { contentBase: 'content/ansible-guided/' },
   };
   const NAME_KEY = 'codeforge:learnerName';
 
@@ -35,6 +37,8 @@
         <ul>
           <li><a href="certificate.html?track=python-fundamentals">Python Fundamentals</a></li>
           <li><a href="certificate.html?track=javascript-fundamentals">JavaScript Fundamentals</a></li>
+          <li><a href="certificate.html?track=ansible-for-devops">Ansible for DevOps</a></li>
+          <li><a href="certificate.html?track=ansible-guided">Ansible Guided Video Path</a></li>
         </ul>
       `);
       return;

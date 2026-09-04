@@ -14,12 +14,14 @@ const DEFAULT_TRACK_ID = 'python-fundamentals';
 const TRACK_DEFAULT_LESSON = {
   'python-fundamentals': 'py-ch01-what-is-python',
   'javascript-fundamentals': 'js-ch01-what-is-javascript',
+  'ansible-for-devops': 'ans-ch01-inventory-first-command',
+  'ansible-guided': 'ans-ch01-control-node',
 };
 
 const params = new URLSearchParams(location.search);
 const TRACK_ID = params.get('track') || DEFAULT_TRACK_ID;
 const CONTENT_BASE = `../content/${TRACK_ID}/`;
-window.CF_LESSON_ID = params.get('lesson') || TRACK_DEFAULT_LESSON[TRACK_ID] || TRACK_DEFAULT_LESSON[DEFAULT_TRACK_ID];
+window.CF_LESSON_ID = params.get('lesson') || TRACK_DEFAULT_LESSON[TRACK_ID] || null;
 
 // Every internal navigation (next-lesson buttons, the course drawer,
 // "back to course") needs to carry the current track forward, or picking a
@@ -29,11 +31,22 @@ function lessonUrl(lessonId) {
   return `?track=${encodeURIComponent(TRACK_ID)}&lesson=${encodeURIComponent(lessonId)}`;
 }
 
-// Picks which Worker-backed client actually executes a track's code —
-// RunnerClient (Pyodide) for Python, JsRunnerClient for JavaScript. See
-// runner-client.js.
+// Navigation follows the active track's order rather than a lesson file's
+// baked-in nextLessonId. This lets the book path and guided video path reuse
+// the same lesson content while progressing in different sequences.
+function nextTrackLessonId() {
+  if (!track || !lesson) return null;
+  const ordered = track.chapters.flatMap((item) => item.lessons || []);
+  const index = ordered.findIndex((item) => item.id === lesson.id);
+  return index >= 0 && ordered[index + 1] ? ordered[index + 1].id : null;
+}
+
+// Picks the client that handles a track's editor content: Worker-backed
+// execution for Python/JavaScript or local YAML validation for Ansible.
 function currentRunner() {
-  return track && track.language === 'javascript' ? JsRunnerClient : RunnerClient;
+  if (track && track.language === 'javascript') return JsRunnerClient;
+  if (track && track.language === 'ansible') return AnsibleRunnerClient;
+  return RunnerClient;
 }
 
 let track = null;
@@ -95,6 +108,7 @@ function showScreen(name) {
 const LANGUAGE_UI = {
   python: { fileName: 'main.py', statusLabel: 'Python 3 · Pyodide', editorAriaLabel: 'Python code editor' },
   javascript: { fileName: 'main.js', statusLabel: 'JavaScript · V8', editorAriaLabel: 'JavaScript code editor' },
+  ansible: { fileName: 'inventory.yml', statusLabel: 'Ansible · YAML', editorAriaLabel: 'Ansible YAML editor' },
 };
 
 function renderLessonScreen() {
@@ -102,7 +116,8 @@ function renderLessonScreen() {
   const titleSub = document.getElementById('titleSub');
   if (titleSub) titleSub.textContent = `— ${track.title}`;
   const languageUi = LANGUAGE_UI[track.language] || LANGUAGE_UI.python;
-  document.getElementById('editorFileName').textContent = languageUi.fileName;
+  document.getElementById('terminalTab').hidden = track.language !== 'ansible';
+  document.getElementById('editorFileName').textContent = lesson.assignment?.fileName || languageUi.fileName;
   document.getElementById('statusLanguage').textContent = languageUi.statusLabel;
   document.getElementById('previewEditor').setAttribute('aria-label', languageUi.editorAriaLabel);
   const src = lesson.sourceAlignment;
@@ -148,6 +163,19 @@ function renderLessonScreen() {
     : '';
 
   const a = lesson.assignment;
+  const labHtml = lesson.lab
+    ? `<div class="lab-mission">
+        <div class="lab-mission-title">${escapeHtml(lesson.lab.title)}</div>
+        <p>${escapeHtml(lesson.lab.setup)}</p>
+        <ol>${lesson.lab.steps.map((step) => `<li>${escapeHtml(step)}</li>`).join('')}</ol>
+        <div class="lab-command"><b>Verify</b><pre><code>${escapeHtml(lesson.lab.verify)}</code></pre></div>
+        <p><b>Success:</b> ${escapeHtml(lesson.lab.success)}</p>
+        <div class="lab-actions">
+          <button type="button" class="classic-button" id="openLabTerminalBtn">Open Terminal</button>
+          ${lesson.lab.checkId ? '<button type="button" class="classic-button" id="verifyLabBtn">Verify Lab State</button>' : ''}
+        </div>
+      </div>`
+    : '';
   const assignmentHtml = `<div class="assignment-box">
     <h2>Assignment</h2>
     <b>${escapeHtml(a.title)}</b>
@@ -162,9 +190,18 @@ function renderLessonScreen() {
     rule +
     exampleHtml +
     videoHtml +
+    labHtml +
     assignmentHtml;
 
-  if (video) CFVideoPlayer.mount(document.getElementById('videoContainer'), video);
+  if (video) {
+    CFVideoPlayer.mount(document.getElementById('videoContainer'), video, {
+      completedCheckpoints: ProgressStore.getVideoCheckpoints(lesson.id),
+      onCheckpoint: (checkpoint) => {
+        ProgressStore.markVideoCheckpoint(lesson.id, checkpoint.id);
+        setStatus(`Video checkpoint complete: ${checkpoint.title}`);
+      },
+    });
+  }
 
   document.querySelectorAll('.example-copy-btn').forEach((copyBtn) => {
     copyBtn.addEventListener('click', () => {
@@ -190,6 +227,32 @@ function renderLessonScreen() {
       applyVideoHidden();
     });
   }
+
+  const openTerminal = document.getElementById('openLabTerminalBtn');
+  if (openTerminal) openTerminal.addEventListener('click', () => activateTab('terminal'));
+  const verifyLab = document.getElementById('verifyLabBtn');
+  if (verifyLab) verifyLab.addEventListener('click', async () => {
+    verifyLab.disabled = true;
+    verifyLab.textContent = 'Verifying...';
+    setStatus('Checking the disposable lab...');
+    try {
+      const response = await fetch('../api/lab/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ checkId: lesson.lab.checkId }),
+      });
+      const result = await response.json();
+      setConsole(`> Lab Verification\n\n${result.output}\n\n> ${result.passed ? 'PASS — observed state matches the mission.' : 'FAIL — complete the mission and try again.'}`);
+      setStatus(result.passed ? 'Lab verification passed' : 'Lab verification failed');
+      if (result.passed) ProgressStore.markLabVerified(lesson.id, lesson.lab.checkId);
+    } catch (_) {
+      setConsole('> Lab Verification\n\nThe local lab API is unavailable. Start Code Forge with npm run dev.');
+      setStatus('Lab verifier unavailable');
+    } finally {
+      verifyLab.disabled = false;
+      verifyLab.textContent = 'Verify Lab State';
+    }
+  });
 
   wireTts();
 }
@@ -362,6 +425,8 @@ function activateTab(name) {
   document.getElementById('workspaceConsole').hidden = name !== 'output';
   document.getElementById('workspaceTests').hidden = name !== 'tests';
   document.getElementById('workspaceHints').hidden = name !== 'hints';
+  document.getElementById('labTerminal').hidden = name !== 'terminal';
+  if (name === 'terminal' && window.CodeForgeTerminal) window.CodeForgeTerminal.connect();
 }
 
 // One-line plain-language explanations for the exception types beginners
@@ -385,6 +450,9 @@ const FRIENDLY_ERRORS = {
     [/TypeError/, "An operation was used on a value of the wrong type — e.g. calling something that isn't a function."],
     [/SyntaxError/, 'JavaScript could not parse this — often a missing bracket, brace, or quote.'],
     [/RangeError/, 'A value is outside what was expected — e.g. an array length or recursion depth.'],
+  ],
+  ansible: [
+    [/YAML validation error/, 'Check indentation, avoid tabs, and make sure mapping keys end with a colon.'],
   ],
 };
 function friendlyErrorHint(output, language) {
@@ -663,6 +731,11 @@ function setupWorkspace() {
       runner: currentRunner(),
       language: track.language || 'python',
     });
+    if (lesson.lab?.checkId) {
+      const labPassed = ProgressStore.isLabVerified(lesson.id, lesson.lab.checkId);
+      result.requirementResults.push({ id: 'lab-state', label: 'Disposable lab state verified', passed: labPassed });
+      result.passed = result.passed && labPassed;
+    }
     lastSubmitResult = result;
     Paperclip.recordRun({ ...result, output: result.rawOutput, source: 'submit' });
 
@@ -769,8 +842,9 @@ function showCompletionDialog(newlyCompleted, totalXp) {
   if (quizBtn) quizBtn.addEventListener('click', () => { close(); showScreen('quiz'); });
   const nextBtn = document.getElementById('completionNextBtn');
   nextBtn.addEventListener('click', () => {
-    if (lesson.nextLessonId) {
-      location.search = lessonUrl(lesson.nextLessonId);
+    const nextId = nextTrackLessonId();
+    if (nextId) {
+      location.search = lessonUrl(nextId);
     } else {
       close();
       setStatus('This is the newest lesson — more chapters are on the way.');
@@ -816,6 +890,7 @@ function wireQuizScreen() {
         return;
       }
       const idx = Number(picked.value);
+      ProgressStore.incrementQuizAttempts(lesson.id);
       const good = idx === check.correctIndex;
       if (!good) lastQuizCorrect = false;
       document.querySelectorAll('#quizOptions label').forEach((label) => {
@@ -890,8 +965,9 @@ function renderResultsScreen() {
 function wireResultsScreen() {
   document.getElementById('retryBtn').addEventListener('click', () => showScreen('lesson'));
   document.getElementById('nextLessonBtn').addEventListener('click', () => {
-    if (lesson.nextLessonId) {
-      location.search = lessonUrl(lesson.nextLessonId);
+    const nextId = nextTrackLessonId();
+    if (nextId) {
+      location.search = lessonUrl(nextId);
     } else {
       setStatus('This is the newest lesson — more chapters are on the way.');
     }
@@ -924,7 +1000,19 @@ async function init() {
     }
   });
   track = await loadJSON(CONTENT_BASE + 'track.json');
-  const ref = findLessonRef(track, window.CF_LESSON_ID);
+  // Track switching intentionally navigates with only ?track=<id>. Resolve
+  // that track's first published lesson from its own data instead of ever
+  // borrowing the Python default, which produced a blank “Lesson not found”
+  // workspace for newly added tracks when an older script was cached.
+  let ref = findLessonRef(track, window.CF_LESSON_ID);
+  if (!ref && !params.has('lesson')) {
+    const firstChapter = track.chapters.find((candidate) => (candidate.lessons || []).length);
+    const firstLesson = firstChapter && firstChapter.lessons[0];
+    if (firstLesson) {
+      window.CF_LESSON_ID = firstLesson.id;
+      ref = { chapter: firstChapter, lesson: firstLesson };
+    }
+  }
   if (!ref) {
     setStatus('Lesson not found');
     return;

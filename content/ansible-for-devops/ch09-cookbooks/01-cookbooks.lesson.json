@@ -1,0 +1,95 @@
+{
+  "id": "ans-ch09-cookbooks",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch09",
+  "number": "9.1",
+  "title": "Compose Production Infrastructure",
+  "xp": 125,
+  "objective": "Compose roles and plays for highly available systems, logging, storage, and workstation automation.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "9",
+    "chapterTitle": "Ansible Cookbooks",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original synthesis of the chapter's HA, ELK, GlusterFS, cloud, Vagrant, and macOS examples."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A production architecture is easier to automate when each tier has its own inventory group, play, and role. A site playbook imports the tier playbooks so the entire system can converge in a deliberate order.",
+      "Highly available stacks add load balancers, redundant application nodes, databases, and shared services. Logging pipelines centralize events; distributed storage introduces peer and quorum concerns. Cloud and local provisioners should feed the same configuration layer.",
+      "Workstation automation follows the same model: use localhost connection, package modules such as Homebrew integrations, and version-controlled dotfiles. Keep platform differences behind role variables and conditional task files."
+    ],
+    "rule": "Compose small tier roles into a site playbook; do not build one monolithic list of tasks."
+  },
+  "examples": [
+    {
+      "title": "Site Composition",
+      "code": "- name: Configure load balancers\n  hosts: load_balancers\n  roles:\n    - load_balancer\n- name: Configure application nodes\n  hosts: app_servers\n  roles:\n    - application",
+      "note": "Tier plays expose the architecture directly."
+    }
+  ],
+  "checks": [
+    {
+      "id": "site",
+      "question": "What is the role of a site playbook?",
+      "options": [
+        "Compose the plays that configure the whole system",
+        "Store every secret in plaintext",
+        "Replace inventory",
+        "Create a hypervisor"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "The site playbook is the orchestration entry point."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Compose Two Tiers",
+    "brief": "Create plays assigning load_balancer and application roles to their matching groups.",
+    "requirements": [
+      "Target load_balancers and app_servers with matching roles."
+    ],
+    "starterCode": "- name: Configure load balancers\n  hosts: load_balancers\n",
+    "solutionCode": "- name: Configure load balancers\n  hosts: load_balancers\n  roles:\n    - load_balancer\n- name: Configure application nodes\n  hosts: app_servers\n  roles:\n    - application\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "lbhost",
+        "label": "Targets load balancers",
+        "pattern": "hosts\\s*:\\s*load_balancers",
+        "mustMatch": true
+      },
+      {
+        "id": "lbrole",
+        "label": "Uses load_balancer role",
+        "pattern": "-\\s+load_balancer",
+        "mustMatch": true
+      },
+      {
+        "id": "apphost",
+        "label": "Targets app servers",
+        "pattern": "hosts\\s*:\\s*app_servers",
+        "mustMatch": true
+      },
+      {
+        "id": "approle",
+        "label": "Uses application role",
+        "pattern": "-\\s+application",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Site playbook uses valid course-style YAML"
+  },
+  "hints": [
+    "Each tier is a separate play.",
+    "roles is a list beneath its play."
+  ],
+  "nextLessonId": "ans-ch09-ha-logging"
+}

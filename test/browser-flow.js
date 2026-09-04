@@ -73,7 +73,7 @@ async function runFlow(url, title) {
     pretendToBeVisual: true,
     beforeParse(window) {
       window.Worker = class { constructor() {} postMessage() {} terminate() {} };
-      window.speechSynthesis = { speaking: false, cancel() {}, speak() {} };
+      window.speechSynthesis = { speaking: false, cancel() {}, speak() {}, getVoices: () => [], addEventListener() {}, removeEventListener() {} };
       const realFetch = fetch.bind(globalThis);
       // Node's fetch rejects AbortSignals from another realm; strip them
       // for the test (real browsers share one realm and work normally).
@@ -170,7 +170,7 @@ async function runErrorPath(url) {
     pretendToBeVisual: true,
     beforeParse(window) {
       window.Worker = class { constructor() {} postMessage() {} terminate() {} };
-      window.speechSynthesis = { speaking: false, cancel() {}, speak() {} };
+      window.speechSynthesis = { speaking: false, cancel() {}, speak() {}, getVoices: () => [], addEventListener() {}, removeEventListener() {} };
       const realFetch = fetch.bind(globalThis);
       window.fetch = (u, opts) => {
         const clean = { ...opts };

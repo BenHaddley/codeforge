@@ -106,12 +106,14 @@
                 <button class="active" data-tab="output">Output</button>
                 <button data-tab="tests">Tests</button>
                 <button data-tab="hints">Hints</button>
+                <button data-tab="terminal" id="terminalTab" hidden>Terminal</button>
                 <span class="tab-spacer"></span>
                 <button class="output-collapse-btn" id="outputCollapseBtn" aria-label="Collapse output panel">Hide</button>
               </div>
               <pre class="console" id="workspaceConsole">&gt; Ready. Run to see output, or Submit to check your solution.</pre>
               <div class="tests-panel" id="workspaceTests" hidden></div>
               <div class="hints-panel" id="workspaceHints" hidden></div>
+              <div class="lab-terminal" id="labTerminal" hidden aria-label="Ansible lab terminal"></div>
             </div>
           </div>
         </div>
@@ -179,14 +181,15 @@
 <script src="js/course-drawer.js"></script>
 <script src="js/panel-resizer.js"></script>
 <script src="js/win98-window.js"></script>
-<script src="js/runner-client.js"></script>
-<script src="js/grading.js"></script>
+<script src="js/lab-terminal.js"></script>
+<script src="js/runner-client.js?v=6"></script>
+<script src="js/grading.js?v=6"></script>
 <script src="js/paperclip/state.js"></script>
 <script src="js/paperclip/context.js"></script>
 <script src="js/paperclip/api.js"></script>
 <script src="js/paperclip/ui.js"></script>
 <script src="js/paperclip/client.js"></script>
-<script src="js/lesson-loader.js"></script>
+<script src="js/lesson-loader.js?v=8"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,34 @@
+services:
+  controller:
+    image: codeforge-ansible-controller:local
+    container_name: codeforge-ansible-controller
+    hostname: controller
+    working_dir: /workspace
+    command: ["sleep", "infinity"]
+    volumes:
+      - ./workspace:/workspace
+    networks: [forge]
+    depends_on: [web01, web02, db01]
+
+  web01:
+    build: ./target
+    image: codeforge-ansible-target:local
+    container_name: codeforge-ansible-web01
+    hostname: web01
+    networks: [forge]
+  web02:
+    build: ./target
+    image: codeforge-ansible-target:local
+    container_name: codeforge-ansible-web02
+    hostname: web02
+    networks: [forge]
+  db01:
+    build: ./target
+    image: codeforge-ansible-target:local
+    container_name: codeforge-ansible-db01
+    hostname: db01
+    networks: [forge]
+
+networks:
+  forge:
+    internal: true

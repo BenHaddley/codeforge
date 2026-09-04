@@ -1,0 +1,79 @@
+{
+  "id": "ans-ch09-ha-logging",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch09",
+  "number": "9.2",
+  "title": "Highly Available Systems and Central Logging",
+  "xp": 75,
+  "objective": "Compose load-balanced application tiers and observable log pipelines.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "9",
+    "chapterTitle": "Ansible Cookbooks"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "High availability removes single points of failure across load balancers, applications, data, and storage. Inventory groups and tier roles make redundancy visible.",
+      "Central logging collects, parses, indexes, and searches events from every node. Automation configures both the central stack and forwarding agents, then verifies end-to-end arrival."
+    ],
+    "rule": "Operational rule: Compose load-balanced application tiers and observable log pipelines."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "architecture:\n  load_balancers: redundant\n  application_nodes: redundant\n  logging: centralized\n  verification: end_to_end",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "ans-ch09-ha-logging-check",
+      "question": "Which statement best matches “Highly Available Systems and Central Logging”?",
+      "options": [
+        "Compose load-balanced application tiers and observable log pipelines.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Highly Available Systems and Central Logging",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "architecture:\n",
+    "solutionCode": "architecture:\n  load_balancers: redundant\n  application_nodes: redundant\n  logging: centralized\n  verification: end_to_end\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "verification\\s*:\\s*end_to_end",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch09-storage-workstations"
+}

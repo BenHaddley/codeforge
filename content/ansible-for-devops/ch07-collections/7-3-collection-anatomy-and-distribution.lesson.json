@@ -1,0 +1,79 @@
+{
+  "id": "ans-ch07-collection-anatomy",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch07",
+  "number": "7.3",
+  "title": "Collection Anatomy and Distribution",
+  "xp": 75,
+  "objective": "Package plugins, modules, roles, docs, and metadata under an FQCN.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "7",
+    "chapterTitle": "Plugins and Content Collections"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "A collection uses namespace.name identity and a galaxy.yml manifest. Its plugins and roles live in conventional paths, and documentation and tests travel with the implementation.",
+      "Build artifacts can be published to Galaxy or Automation Hub. Consumers use FQCNs and bounded version constraints, while configured collection paths determine installation discovery."
+    ],
+    "rule": "Operational rule: Package plugins, modules, roles, docs, and metadata under an FQCN."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "collection:\n  namespace: codeforge\n  name: training\n  manifest: galaxy.yml\n  fqcn: codeforge.training.example\n  versioned: true",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "ans-ch07-collection-anatomy-check",
+      "question": "Which statement best matches “Collection Anatomy and Distribution”?",
+      "options": [
+        "Package plugins, modules, roles, docs, and metadata under an FQCN.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Collection Anatomy and Distribution",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "collection:\n",
+    "solutionCode": "collection:\n  namespace: codeforge\n  name: training\n  manifest: galaxy.yml\n  fqcn: codeforge.training.example\n  versioned: true\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "fqcn\\s*:\\s*codeforge\\.training\\.example",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch08-inventories"
+}

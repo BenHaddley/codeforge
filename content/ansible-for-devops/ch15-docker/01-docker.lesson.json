@@ -1,0 +1,89 @@
+{
+  "id": "ans-ch15-docker",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch15",
+  "number": "15.1",
+  "title": "Build and Manage Containers",
+  "xp": 125,
+  "objective": "Use Ansible to build images, manage multi-container applications, and configure containers as inventory targets.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "15",
+    "chapterTitle": "Docker and Ansible",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original synthesis of the chapter's Flask, data, MySQL, and Hubot container examples."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Containers package processes and dependencies into images, then run them with isolated filesystems and networking. Persistent data belongs in managed volumes rather than the writable container layer.",
+      "Ansible can build images and manage networks, volumes, and containers through collection modules. A multi-container application separates concerns—for example, application and database services—while variables define images, ports, and credentials.",
+      "With ansible_connection set to docker, a running container can become a managed inventory target. This is useful for image construction experiments, though modern image pipelines should minimize mutable post-build configuration."
+    ],
+    "rule": "Treat images as immutable releases and keep persistent state outside disposable containers."
+  },
+  "examples": [
+    {
+      "title": "Container Intent",
+      "code": "container:\n  name: web\n  image: example/flask:1.0\n  state: started\n  restart_policy: unless-stopped",
+      "note": "Pin an image release rather than relying on latest."
+    }
+  ],
+  "checks": [
+    {
+      "id": "volume",
+      "question": "Where should persistent database data live?",
+      "options": [
+        "A managed volume",
+        "Only in the container writable layer",
+        "Inside the inventory file",
+        "In the image tag"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Containers are disposable; persistent data needs external storage."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Define a Stable Web Container",
+    "brief": "Describe a started web container using example/flask:1.0 with unless-stopped restart policy.",
+    "requirements": [
+      "Set name, pinned image, state, and restart policy."
+    ],
+    "starterCode": "container:\n  name: web\n",
+    "solutionCode": "container:\n  name: web\n  image: example/flask:1.0\n  state: started\n  restart_policy: unless-stopped\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "image",
+        "label": "Pins image version 1.0",
+        "pattern": "image\\s*:\\s*example/flask:1\\.0",
+        "mustMatch": true
+      },
+      {
+        "id": "state",
+        "label": "Starts the container",
+        "pattern": "state\\s*:\\s*started",
+        "mustMatch": true
+      },
+      {
+        "id": "restart",
+        "label": "Sets restart policy",
+        "pattern": "restart_policy\\s*:\\s*unless-stopped",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Container plan uses valid course-style YAML"
+  },
+  "hints": [
+    "Keep the image tag after the colon.",
+    "Use unless-stopped exactly."
+  ],
+  "nextLessonId": "ans-ch15-multicontainer-app"
+}

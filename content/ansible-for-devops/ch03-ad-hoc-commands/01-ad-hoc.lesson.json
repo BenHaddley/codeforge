@@ -1,0 +1,181 @@
+{
+  "id": "ans-ch03-ad-hoc",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch03",
+  "number": "3.1",
+  "title": "Operate Fleets with Ad-Hoc Modules",
+  "xp": 75,
+  "objective": "Choose safe modules and target groups for one-off fleet operations.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "3",
+    "chapterTitle": "Ad-Hoc Commands",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Ad-hoc commands are ideal for discovery, diagnosis, and isolated changes that do not yet deserve a playbook. A host pattern selects inventory members and a module performs one focused operation in parallel.",
+      "Facts reveal the remote environment. Purpose-built modules manage packages, users, files, services, cron entries, source checkouts, and asynchronous jobs more safely than shell commands because they understand state.",
+      "Target narrowly, use check mode when supported, and convert recurring commands into version-controlled playbooks. OpenSSH connection reuse and pipelining can reduce overhead on large fleets."
+    ],
+    "rule": "Use a module for state changes; reserve shell or command for work with no suitable module."
+  },
+  "examples": [
+    {
+      "title": "Module Choices",
+      "code": "operations:\n  inspect: ansible.builtin.setup\n  package: ansible.builtin.package\n  file: ansible.builtin.file\n  schedule: ansible.builtin.cron",
+      "note": "This planning map records intent before any host is contacted."
+    }
+  ],
+  "checks": [
+    {
+      "id": "adhoc",
+      "question": "When should an ad-hoc command become a playbook?",
+      "options": [
+        "When the operation must be repeated or reviewed",
+        "Whenever only one host is targeted",
+        "Only after it fails",
+        "Never"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Repeatable operations belong in version control as playbooks."
+      }
+    },
+    {
+      "id": "ping-is-not-icmp",
+      "question": "The ansible.builtin.ping module reports UNREACHABLE for web01. What should you investigate first?",
+      "options": [
+        "SSH connectivity and inventory connection variables",
+        "The remote ICMP firewall rule only",
+        "Whether nginx is installed",
+        "YAML handlers"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the module logs in over Ansible’s connection transport and executes Python; it is not an ICMP echo.",
+        "incorrect": "Ansible ping is a connection-and-module test. Check inventory, credentials, SSH, and remote Python."
+      }
+    },
+    {
+      "id": "ping-is-not-icmp",
+      "question": "The ansible.builtin.ping module reports UNREACHABLE for web01. What should you investigate first?",
+      "options": [
+        "SSH connectivity and inventory connection variables",
+        "The remote ICMP firewall rule only",
+        "Whether nginx is installed",
+        "YAML handlers"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the module logs in over Ansible’s connection transport and executes Python; it is not an ICMP echo.",
+        "incorrect": "Ansible ping is a connection-and-module test. Check inventory, credentials, SSH, and remote Python."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Plan Fleet Operations",
+    "brief": "Map inspection, package, file, and scheduling work to purpose-built modules.",
+    "requirements": [
+      "Use setup, package, file, and cron FQCNs."
+    ],
+    "starterCode": "operations:\n  inspect:\n  package:\n  file:\n  schedule:\n",
+    "solutionCode": "operations:\n  inspect: ansible.builtin.setup\n  package: ansible.builtin.package\n  file: ansible.builtin.file\n  schedule: ansible.builtin.cron\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "setup",
+        "label": "Uses setup for facts",
+        "pattern": "inspect\\s*:\\s*ansible\\.builtin\\.setup",
+        "mustMatch": true
+      },
+      {
+        "id": "package",
+        "label": "Uses package management",
+        "pattern": "package\\s*:\\s*ansible\\.builtin\\.package",
+        "mustMatch": true
+      },
+      {
+        "id": "file",
+        "label": "Uses file management",
+        "pattern": "file\\s*:\\s*ansible\\.builtin\\.file",
+        "mustMatch": true
+      },
+      {
+        "id": "cron",
+        "label": "Uses cron management",
+        "pattern": "schedule\\s*:\\s*ansible\\.builtin\\.cron",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Plan uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Use fully qualified collection names.",
+    "Each value begins ansible.builtin."
+  ],
+  "nextLessonId": "ans-ch03-facts-patterns",
+  "videoAlignment": {
+    "playlist": "Getting started with Ansible",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PLT98CRl2KxKEUHie1m24-wkyHpEsa4Y70",
+    "basis": "English captions reviewed for topic and demonstration alignment."
+  },
+  "videos": [
+    {
+      "provider": "youtube",
+      "videoId": "4REljLsOnXk",
+      "creator": "LearnLinuxTV",
+      "title": "Getting started with Ansible 04 - Running ad-hoc Commands",
+      "startSeconds": 45,
+      "endSeconds": 1085,
+      "required": false,
+      "embedUrl": "https://www.youtube-nocookie.com/embed/4REljLsOnXk?start=45&end=1085&rel=0",
+      "checkpoints": [
+        {
+          "id": "install",
+          "title": "Install Ansible",
+          "seconds": 80
+        },
+        {
+          "id": "inventory",
+          "title": "Create the inventory",
+          "seconds": 128
+        },
+        {
+          "id": "ping",
+          "title": "Run the ping module",
+          "seconds": 350
+        },
+        {
+          "id": "config",
+          "title": "Simplify with ansible.cfg",
+          "seconds": 664
+        },
+        {
+          "id": "facts",
+          "title": "Gather host facts",
+          "seconds": 820
+        }
+      ]
+    }
+  ],
+  "lab": {
+    "checkId": "inventory-connectivity",
+    "title": "Mission: inspect the disposable fleet",
+    "setup": "Start the lab with npm run lab:up, open the Terminal tab, and work from /workspace.",
+    "steps": [
+      "Run ansible all -m ansible.builtin.ping and predict how many hosts should return pong.",
+      "Run ansible webservers -m ansible.builtin.setup -a \"filter=ansible_distribution*\".",
+      "Repeat with --limit web01 and explain why only one host appears."
+    ],
+    "verify": "ansible all --list-hosts && ansible webservers -m ansible.builtin.ping",
+    "success": "The inventory lists web01, web02, and db01; both webservers return SUCCESS."
+  }
+}

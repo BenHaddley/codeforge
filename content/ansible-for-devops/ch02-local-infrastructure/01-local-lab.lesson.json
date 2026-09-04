@@ -1,0 +1,98 @@
+{
+  "id": "ans-ch02-local-lab",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch02",
+  "number": "2.1",
+  "title": "Build a Reproducible Local Lab",
+  "xp": 75,
+  "objective": "Connect Vagrant-managed test machines to an Ansible playbook lifecycle.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "chapter": "2",
+    "chapterTitle": "Local Infrastructure Development: Ansible and Vagrant",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original companion material."
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Disposable local machines let you test infrastructure code without risking production. Vagrant describes the machine lifecycle, while Ansible describes the configuration inside it.",
+      "A provisioner connects the tools: Vagrant creates and destroys the VM, then invokes Ansible with the generated connection details. Keeping creation separate from configuration makes the playbook portable.",
+      "A first playbook names its target, states whether privilege escalation is needed, and lists tasks. Cleanup matters too: destroy disposable machines when testing is complete so stale state cannot hide defects."
+    ],
+    "rule": "Make the test environment disposable and the configuration repeatable."
+  },
+  "examples": [
+    {
+      "title": "First Local Play",
+      "code": "- name: Configure lab\n  hosts: lab\n  become: true\n  tasks:\n    - name: Install curl\n      ansible.builtin.package:\n        name: curl\n        state: present",
+      "note": "The package module expresses desired state across supported operating systems."
+    }
+  ],
+  "checks": [
+    {
+      "id": "tool-boundary",
+      "question": "Which responsibility belongs to Ansible in a Vagrant lab?",
+      "options": [
+        "Configuring the guest system",
+        "Emulating the CPU",
+        "Allocating physical RAM",
+        "Replacing the hypervisor"
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct.",
+        "incorrect": "Vagrant manages machine lifecycle; Ansible configures the guest."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Describe the Lab Play",
+    "brief": "Create a privileged play for the lab group with a task that installs curl.",
+    "requirements": [
+      "Target lab.",
+      "Enable become.",
+      "Use ansible.builtin.package with curl present."
+    ],
+    "starterCode": "- name: Configure lab\n  hosts: lab\n",
+    "solutionCode": "- name: Configure lab\n  hosts: lab\n  become: true\n  tasks:\n    - name: Install curl\n      ansible.builtin.package:\n        name: curl\n        state: present\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "hosts",
+        "label": "Targets lab",
+        "pattern": "hosts\\s*:\\s*lab",
+        "mustMatch": true
+      },
+      {
+        "id": "become",
+        "label": "Enables privilege escalation",
+        "pattern": "become\\s*:\\s*true",
+        "mustMatch": true
+      },
+      {
+        "id": "package",
+        "label": "Uses the package module",
+        "pattern": "ansible\\.builtin\\.package\\s*:",
+        "mustMatch": true
+      },
+      {
+        "id": "curl",
+        "label": "Installs curl",
+        "pattern": "name\\s*:\\s*curl[\\s\\S]*state\\s*:\\s*present",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Playbook uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Place become beside hosts.",
+    "Tasks is a list.",
+    "Nest name and state under the package module."
+  ],
+  "nextLessonId": "ans-ch02-vagrant-lifecycle"
+}

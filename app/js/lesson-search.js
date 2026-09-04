@@ -6,6 +6,8 @@ const LessonSearch = (() => {
   const TRACKS = [
     { id: 'python-fundamentals', contentBase: 'content/python-fundamentals/' },
     { id: 'javascript-fundamentals', contentBase: 'content/javascript-fundamentals/' },
+    { id: 'ansible-for-devops', contentBase: 'content/ansible-for-devops/' },
+    { id: 'ansible-guided', contentBase: 'content/ansible-guided/' },
   ];
   const MAX_RESULTS = 15;
   let indexPromise = null;

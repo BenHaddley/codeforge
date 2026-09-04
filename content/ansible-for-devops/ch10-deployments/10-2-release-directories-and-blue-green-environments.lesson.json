@@ -1,0 +1,79 @@
+{
+  "id": "ans-ch10-release-patterns",
+  "trackId": "ansible-for-devops",
+  "chapterId": "ch10",
+  "number": "10.2",
+  "title": "Release Directories and Blue-Green Environments",
+  "xp": 75,
+  "objective": "Compare atomic-release and environment-switching deployment patterns.",
+  "sourceAlignment": {
+    "type": "book-companion",
+    "title": "Ansible for DevOps, 2nd Edition",
+    "author": "Jeff Geerling",
+    "url": "https://www.ansiblefordevops.com/",
+    "note": "Original Code Forge companion material; no book prose is reproduced.",
+    "chapter": "10",
+    "chapterTitle": "Deployments with Ansible"
+  },
+  "explanation": {
+    "tts": true,
+    "paragraphs": [
+      "Capistrano-style deployment creates immutable release directories, prepares dependencies, then atomically moves a current symlink. Retained releases give rollback targets.",
+      "Blue-green deployment prepares a complete inactive environment, verifies it, switches traffic, and retains the old environment for rollback. Database compatibility must span the switch."
+    ],
+    "rule": "Operational rule: Compare atomic-release and environment-switching deployment patterns."
+  },
+  "examples": [
+    {
+      "title": "Working design artifact",
+      "code": "strategy:\n  release_artifacts: immutable\n  traffic_switch: atomic\n  health_gate: required\n  rollback_target: retained",
+      "note": "Use this as a reasoning model before applying changes to the disposable lab."
+    }
+  ],
+  "videos": [],
+  "checks": [
+    {
+      "id": "ans-ch10-release-patterns-check",
+      "question": "Which statement best matches “Release Directories and Blue-Green Environments”?",
+      "options": [
+        "Compare atomic-release and environment-switching deployment patterns.",
+        "Make every change with an unreviewed shell command.",
+        "Store all secrets in plaintext inventory.",
+        "Skip verification to save time."
+      ],
+      "correctIndex": 0,
+      "feedback": {
+        "correct": "Correct—the workflow keeps intent and verification explicit.",
+        "incorrect": "Review the lesson objective and operational rule."
+      }
+    }
+  ],
+  "assignment": {
+    "title": "Complete: Release Directories and Blue-Green Environments",
+    "brief": "Recreate the demonstrated design artifact so its key safety or behavior requirement is present.",
+    "requirements": [
+      "Use valid two-space YAML.",
+      "Include the key behavior highlighted in the example."
+    ],
+    "starterCode": "strategy:\n",
+    "solutionCode": "strategy:\n  release_artifacts: immutable\n  traffic_switch: atomic\n  health_gate: required\n  rollback_target: retained\n",
+    "timeoutMs": 1000,
+    "requirementChecks": [
+      {
+        "id": "key-behavior",
+        "label": "Includes the key behavior",
+        "pattern": "rollback_target\\s*:\\s*retained",
+        "mustMatch": true
+      }
+    ],
+    "testHarness": "\n# __CF_VALIDATE_YAML__",
+    "expectedOutput": "valid",
+    "outputCheckLabel": "Artifact uses valid course-style YAML structure"
+  },
+  "hints": [
+    "Start from the complete example above.",
+    "Preserve the mapping hierarchy and two-space indentation.",
+    "The final requirement is the value emphasized by the lesson objective."
+  ],
+  "nextLessonId": "ans-ch10-rolling-load-balancer"
+}
